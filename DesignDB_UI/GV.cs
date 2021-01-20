@@ -1,0 +1,34 @@
+﻿using DesignDB_Library.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+ 
+
+namespace DesignDB_UI
+{
+    public class GV
+    {
+        public static frmRequests REQFORM { get; set; }
+        public static DesignersReviewersModel USERNAME { get; set; }
+        public static Form LOGIN { get; set; }
+        public static Form MAINMENU { get; set; }
+        public static Mode MODE
+        {
+            get
+            {
+                return mode;
+            }
+            set
+            { 
+                PreviousMode = mode;
+                mode = value;
+            }
+        }
+        public static Mode PreviousMode { get; set; }
+
+        private static Mode mode = Mode.None;
+    }
+}
