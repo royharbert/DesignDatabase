@@ -75,6 +75,7 @@ namespace DesignDB_UI
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.dgvReport);
             this.Name = "frmReportSalesPriiority";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Requests by Salesperson/Priority";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmReportSalesPriiority_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgvReport)).EndInit();

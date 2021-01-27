@@ -17,14 +17,17 @@ namespace DesignDB_UI
     public partial class frmMainMenu : Form
     {
         frmInput frmInput = new frmInput();
-        frmDateMSO_Picker frmDateMSO_Picker = new frmDateMSO_Picker();
+        frmDateMSO_Picker frmDateMSO_Picker = GV.PickerForm;
 
         public frmMainMenu()
         {
+            //frmDateMSO_Picker = FC.DisplayPicker();
             frmInput.InputDataReady += FrmInput_InputDataReady;
             InitializeComponent();
             AddVersionNumber();
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             CheckForUpdates();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
 
         private void AddVersionNumber()
@@ -156,8 +159,7 @@ namespace DesignDB_UI
             }
 
             if (rm.Count == 1)
-            {
-                GV.MODE = Mode.Search;
+            {                
                 FC.DisplayRequestForm(rm[0]);
             }
             else
@@ -253,23 +255,6 @@ namespace DesignDB_UI
 
             FC.DisplayRequestForm();
             GV.REQFORM.resetForm();
-        }
-
-        private frmDateMSO_Picker ShowDateMSO_Picker()
-        {
-            frmDateMSO_Picker returnForm = null;
-            foreach (Form form in Application.OpenForms)
-            {
-                if (form.Name == "frmDateMSO_Picker")
-                {
-                    returnForm = (frmDateMSO_Picker)form;
-                }
-            }
-            if (returnForm == null)
-            {
-                returnForm = new frmDateMSO_Picker();
-            }
-            return returnForm;
         }
 
         private void btnSnapshot_Click(object sender, EventArgs e)
@@ -412,6 +397,7 @@ namespace DesignDB_UI
             GV.MODE = Mode.Report_ByPriority;
             frmReportSalesPriiority frmReportSalesPriiority = new frmReportSalesPriiority();
             frmReportSalesPriiority.Show();
+            frmReportSalesPriiority.frmDateMSO_Picker.BringToFront();
         }
 
         private void btnSearch_Click(object sender, EventArgs e)

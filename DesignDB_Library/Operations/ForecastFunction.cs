@@ -46,13 +46,17 @@ namespace DesignDB_Library.Operations
             List<BOM_Model> products = new List<BOM_Model>();
             foreach (RequestModel request in requests)
             {
+                int row = 0;
                 string fileName = getBOM(request);
                 if (fileName != null)
                 {
                     products = processBOM(fileName, request.ProjectID, products);
                     pb.PerformStep();
-                    dgv.Rows[pb.Value - 1].Selected = false;
-                    dgv.Rows[pb.Value].Selected = true;
+                    dgv.Rows[row].Selected = true;
+                    if (recordsProcessed > 0)
+                    {
+                        dgv.Rows[recordsProcessed - 1].Selected = false;
+                    }                    
                     
                     recordsProcessed++;
                     pBox.Text = recordsProcessed.ToString();

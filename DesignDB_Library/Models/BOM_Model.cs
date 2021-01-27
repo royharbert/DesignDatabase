@@ -11,6 +11,7 @@ namespace DesignDB_Library.Models
     /// </summary>
     public class BOM_Model
     {
+        public int ID { get; set; }
         public int Quantity { get; set; }
         public string ModelNumber { get; set; }
         public string Description { get; set; }

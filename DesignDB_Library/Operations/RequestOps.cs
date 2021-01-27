@@ -83,7 +83,7 @@ namespace DesignDB_Library.Operations
             DataTable dt = MakeRequestDataTable(requestModelList);
             using (SqlConnection con = new SqlConnection(db))
             {
-                SqlCommand cmd = new SqlCommand("spRequestDelete", con);
+                SqlCommand cmd = new SqlCommand("spRequest_Delete", con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 SqlParameter param = new SqlParameter();
@@ -152,7 +152,7 @@ namespace DesignDB_Library.Operations
             DataTable dt = MakeRequestDataTable(requestModelList);
             using (SqlConnection con = new SqlConnection(db))
             {
-                SqlCommand cmd = new SqlCommand("spRequestUnDelete", con);
+                SqlCommand cmd = new SqlCommand("spRequest_UnDelete", con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 SqlParameter param = new SqlParameter();
@@ -176,7 +176,7 @@ namespace DesignDB_Library.Operations
             string db = GetConnectionString();
             using (SqlConnection con = new SqlConnection(db))
             {
-                SqlCommand cmd = new SqlCommand("spRequestInsert_TableTypeParam", con);
+                SqlCommand cmd = new SqlCommand("spRequest_Insert_TableTypeParam]", con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 SqlParameter param = new SqlParameter();

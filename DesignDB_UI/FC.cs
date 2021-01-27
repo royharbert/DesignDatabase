@@ -41,6 +41,21 @@ namespace DesignDB_UI
             }
         }
 
+        public static frmDateMSO_Picker SetDTP_MSO_Picker()
+        {            
+            frmDateMSO_Picker returnForm = null;
+            if (GV.PickerForm == null)
+            {
+                returnForm = new frmDateMSO_Picker();                
+                GV.PickerForm = returnForm;                
+            }
+            else
+            {                
+                returnForm = GV.PickerForm;
+            }           
+            return returnForm;
+        }
+
         public static frmRequests DisplayRequestForm(RequestModel request = null)
         {
             if (GV.REQFORM == null)

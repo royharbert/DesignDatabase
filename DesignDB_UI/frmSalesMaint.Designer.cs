@@ -174,6 +174,7 @@ namespace DesignDB_UI
             this.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "frmSalesMaint";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Salesperson Maintenance";
             this.ResumeLayout(false);
             this.PerformLayout();

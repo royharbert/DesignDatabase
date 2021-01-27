@@ -198,6 +198,7 @@
             this.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "frmUserMaintenance";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "User Maintenance";
             this.ResumeLayout(false);
             this.PerformLayout();

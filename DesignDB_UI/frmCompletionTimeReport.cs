@@ -15,13 +15,18 @@ namespace DesignDB_UI
 {
     public partial class frmCompletionTimeReport : Form
     {
-        frmDateMSO_Picker frmDateMSO_Picker = new frmDateMSO_Picker();
+        frmDateMSO_Picker frmDateMSO_Picker = new frmDateMSO_Picker(false);
         public frmCompletionTimeReport()
         {
             InitializeComponent();
             frmDateMSO_Picker.DataReadyEvent += FrmDateMSO_Picker_DataReadyEvent;
             frmDateMSO_Picker.PickerCanceled += FrmDateMSO_Picker_PickerCanceled;
             frmDateMSO_Picker.ShowDialog();
+        }
+
+        private void FrmDateMSO_Picker_PickerCanceled(object sender, frmDateMSO_Picker.CancelEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void FrmDateMSO_Picker_PickerCanceled(object sender, CancelEventArgs e)

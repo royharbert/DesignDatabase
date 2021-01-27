@@ -8,6 +8,7 @@ namespace DesignDB_Library.Models
 {
     public class StringHolidaysModel
     {
+        public int ID { get; set; }
         public string Holiday { get; set; }
         public string HolidayDate { get; set; }
     }

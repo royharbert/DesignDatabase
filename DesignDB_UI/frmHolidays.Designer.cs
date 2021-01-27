@@ -121,6 +121,7 @@
             this.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "frmHolidays";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Save Changes";
             ((System.ComponentModel.ISupportInitialize)(this.dgvHolidays)).EndInit();
             this.ResumeLayout(false);

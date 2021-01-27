@@ -14,19 +14,22 @@ namespace DesignDB_UI
 {
     public partial class frmReportSalesPriiority : Form
     {
-        frmDateMSO_Picker frmDateMSO_Picker = new frmDateMSO_Picker();
+        public frmDateMSO_Picker frmDateMSO_Picker = null;
 
-        public object ooperations { get; private set; }
+        public object operations { get; private set; }
 
         public frmReportSalesPriiority()
         {
             InitializeComponent();
+           
+            frmDateMSO_Picker = FC.SetDTP_MSO_Picker();           
             frmDateMSO_Picker.DataReadyEvent += FrmDateMSO_Picker_DataReadyEvent;
             frmDateMSO_Picker.PickerCanceled += FrmDateMSO_Picker_PickerCanceled;
-            frmDateMSO_Picker.Show();
+            GV.PickerForm.Visible = true;
+            //GV.PickerForm.ShowDialog();
         }
 
-        private void FrmDateMSO_Picker_PickerCanceled(object sender, CancelEventArgs e)
+        private void FrmDateMSO_Picker_PickerCanceled(object sender, frmDateMSO_Picker.CancelEventArgs e)
         {
             this.Close();
         }

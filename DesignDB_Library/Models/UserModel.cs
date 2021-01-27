@@ -9,7 +9,7 @@ namespace DesignDB_Library.Models
 {
     public class UserModel
     {
-        public int Id { get; set; }
+        public int ID { get; set; }
         public string UserName { get; set; }
         public string PW { get; set; }
         public int Priviledge { get; set; }

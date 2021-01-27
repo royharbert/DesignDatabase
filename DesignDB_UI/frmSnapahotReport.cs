@@ -21,7 +21,8 @@ namespace DesignDB_UI
         public frmSnapahotReport()
         {
             InitializeComponent();
-            frmDateMSO_Picker = ShowDateMSO_Picker();
+            //frmDateMSO_Picker = ShowDateMSO_Picker();
+            frmDateMSO_Picker = FC.SetDTP_MSO_Picker();
             frmDateMSO_Picker.DataReadyEvent += FrmDateMSO_Picker_DataReadyEvent;
             frmDateMSO_Picker.ShowDialog();
         }
@@ -46,7 +47,7 @@ namespace DesignDB_UI
             }
             if (returnForm==null)
             {
-                returnForm = new frmDateMSO_Picker();
+                returnForm = new frmDateMSO_Picker(true);
             }
             return returnForm;
         }

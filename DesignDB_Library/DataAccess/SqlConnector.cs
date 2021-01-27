@@ -292,7 +292,7 @@ namespace DesignDB_Library.DataAccess
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
             {
-                List<SequenceModel> output = connection.Query<SequenceModel>("dbo.spGetSequence", commandType: CommandType.StoredProcedure).ToList();
+                List<SequenceModel> output = connection.Query<SequenceModel>("dbo.spSequence_Get", commandType: CommandType.StoredProcedure).ToList();
                 return output[0].Sequence;
             }
         }
@@ -303,7 +303,7 @@ namespace DesignDB_Library.DataAccess
             {
                 var p = new DynamicParameters();
                 p.Add("@Seq", seq, DbType.Int32);
-                connection.Execute("dbo.spUpdateSequence", p, commandType: CommandType.StoredProcedure);
+                connection.Execute("dbo.spSequence_Update", p, commandType: CommandType.StoredProcedure);
             }
         }
 
@@ -451,7 +451,7 @@ namespace DesignDB_Library.DataAccess
 
                     p.Add("Designer", designer, DbType.String, ParameterDirection.Input);
                     List<DesignerLoadModel> output = connection.
-                        Query<DesignerLoadModel>("spDesignerLoad", p, commandType: CommandType.StoredProcedure).ToList();
+                        Query<DesignerLoadModel>("spDesigner_LoadReport", p, commandType: CommandType.StoredProcedure).ToList();
 
                     //add to loadList
                     foreach (DesignerLoadModel project in output)
@@ -477,17 +477,17 @@ namespace DesignDB_Library.DataAccess
                 switch (SearchTerm)
                 {
                     case "DateAssigned":
-                    output = connection.Query<RequestModel>("spDateRangeSearch_Unfiltered_DateAssigned", 
+                    output = connection.Query<RequestModel>("spRequests_DateRangeSearch_Unfiltered_DateAssigned", 
                         p, commandType: CommandType.StoredProcedure).ToList();
                         break;
 
                     case "DateDue":
-                        output = connection.Query<RequestModel>("spDateRangeSearch_Unfiltered_DateDue",
+                        output = connection.Query<RequestModel>("spRequests_DateRangeSearch_Unfiltered_DateDue",
                             p, commandType: CommandType.StoredProcedure).ToList();
                         break;
 
                     case "DateCompleted":
-                        output = connection.Query<RequestModel>("spDateRangeSearch_Unfiltered_DateCompleted",
+                        output = connection.Query<RequestModel>("spRequests_DateRangeSearch_Unfiltered_DateCompleted",
                             p, commandType: CommandType.StoredProcedure).ToList();
                         break;
 
@@ -512,17 +512,17 @@ namespace DesignDB_Library.DataAccess
                 switch (SearchTerm)
                 {
                     case "DateAssigned":
-                        output = connection.Query<RequestModel>("spDateRangeSearch_MSOFiltered_DateAssigned",
+                        output = connection.Query<RequestModel>("spRequests_DateRangeSearch_MSOFiltered_DateAssigned",
                             p, commandType: CommandType.StoredProcedure).ToList();
                         break;
 
                     case "DateDue":
-                        output = connection.Query<RequestModel>("spDateRangeSearch_MSOFiltered_DateDue",
+                        output = connection.Query<RequestModel>("spRequests_DateRangeSearch_MSOFiltered_DateDue",
                             p, commandType: CommandType.StoredProcedure).ToList();
                         break;
 
                     case "DateCompleted":
-                        output = connection.Query<RequestModel>("spDateRangeSearch_MSOFiltered_DateCompleted",
+                        output = connection.Query<RequestModel>("spRequests_DateRangeSearch_MSOFiltered_DateCompleted",
                             p, commandType: CommandType.StoredProcedure).ToList();
                         break;
 
@@ -541,7 +541,7 @@ namespace DesignDB_Library.DataAccess
 
                 p.Add("@Designer", designerName, DbType.String, ParameterDirection.Input);
                 
-                List<DesignersReviewersModel>  output = connection.Query<DesignersReviewersModel>("spDesignersGetByName",
+                List<DesignersReviewersModel>  output = connection.Query<DesignersReviewersModel>("spDesigner_GetByName",
                     p, commandType: CommandType.StoredProcedure).ToList();
                 return output;
             }
@@ -557,7 +557,7 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@MSO", MSO, DbType.String, ParameterDirection.Input);
                 p.Add("@StartDate", start, DbType.DateTime, ParameterDirection.Input);
                 p.Add("@EndDate", end, DbType.DateTime, ParameterDirection.Input);
-                List<RequestModel> output = connection.Query<RequestModel>("spDateRangeSearch_MSOFiltered_DateAssigned",
+                List<RequestModel> output = connection.Query<RequestModel>("spRequests_DateRangeSearch_MSOFiltered_DateAssigned",
                     p, commandType: CommandType.StoredProcedure).ToList();
                 return output;
             }
@@ -571,7 +571,7 @@ namespace DesignDB_Library.DataAccess
 
                 //Project ID
                 p.Add("@MSO", mso, DbType.String);               
-                connection.Execute("spInsertIntoSnapshotMSO_S", p, commandType: CommandType.StoredProcedure);
+                connection.Execute("spSnapshotMSO_S_InsertInto", p, commandType: CommandType.StoredProcedure);
             }
         }
 
@@ -579,7 +579,7 @@ namespace DesignDB_Library.DataAccess
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
             {  
-                List<string> output = connection.Query<string>("spGetAllSnapshotMSO_S",
+                List<string> output = connection.Query<string>("spSnapshotMSO_S_GetAll",
                     commandType: CommandType.StoredProcedure).ToList();
                 return output;
             }
@@ -593,7 +593,7 @@ namespace DesignDB_Library.DataAccess
 
                 //Project ID
                 p.Add("@TableName", tableName, DbType.String);
-                connection.Execute("spDeleteAllRecordsFromTable", p, commandType: CommandType.StoredProcedure);
+                connection.Execute("spRecords_DeleteAllFromTable", p, commandType: CommandType.StoredProcedure);
             }
         }
 
@@ -606,7 +606,8 @@ namespace DesignDB_Library.DataAccess
                 var p = new DynamicParameters();
 
                 p.Add("@PID", PID, DbType.String, ParameterDirection.Input);
-                List<RequestModel> output = connection.Query<RequestModel>("dbo.spDeletedRequest_GetByPID", p, commandType: CommandType.StoredProcedure).ToList();
+                List<RequestModel> output = 
+                    connection.Query<RequestModel>("dbo.spDeletedRecords_GetByPID", p, commandType: CommandType.StoredProcedure).ToList();
 
                 return output;
             }
@@ -616,7 +617,7 @@ namespace DesignDB_Library.DataAccess
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
             {
-                List<RequestModel> output = connection.Query<RequestModel>("dbo.spRequestsGetOpen", commandType: CommandType.StoredProcedure).ToList();
+                List<RequestModel> output = connection.Query<RequestModel>("dbo.[spRequests_GetOpen]", commandType: CommandType.StoredProcedure).ToList();
 
                 return output;
             }
@@ -629,7 +630,7 @@ namespace DesignDB_Library.DataAccess
                 var p = new DynamicParameters();
 
                 p.Add("@DueDate", dueDate, DbType.DateTime, ParameterDirection.Input);
-                List<RequestModel> output = connection.Query<RequestModel>("dbo.spRequestsOverdue", p, commandType: CommandType.StoredProcedure).ToList();
+                List<RequestModel> output = connection.Query<RequestModel>("dbo.spRequests_Overdue", p, commandType: CommandType.StoredProcedure).ToList();
 
                 return output;
             }
@@ -643,7 +644,7 @@ namespace DesignDB_Library.DataAccess
 
                 //Project ID
                 p.Add("@WhereClause", whereClause, DbType.String);
-                List<RequestModel> output = connection.Query<RequestModel>("dbo.dspSearch_VariableFields", p, commandType: CommandType.StoredProcedure).ToList();
+                List<RequestModel> output = connection.Query<RequestModel>("dbo.spRequests_SearchVariableFields", p, commandType: CommandType.StoredProcedure).ToList();
                 return output;
             }
         }
@@ -691,7 +692,7 @@ namespace DesignDB_Library.DataAccess
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
             {
 
-                List<SalespersonModel> output = connection.Query<SalespersonModel>("dbo.spSalespersonsGetAll", commandType: CommandType.StoredProcedure).ToList();
+                List<SalespersonModel> output = connection.Query<SalespersonModel>("dbo.spSalespersons_GetAll", commandType: CommandType.StoredProcedure).ToList();
                 return output;
             }
         }

@@ -16,10 +16,11 @@ namespace DesignDB_UI
     {
         public event EventHandler<DataReadyEventArgs> DataReadyEvent;
         public event EventHandler<CancelEventArgs> PickerCanceled;
-        public frmDateMSO_Picker()
+        public frmDateMSO_Picker(bool rollupVisible = false)
         {
             InitializeComponent();
-            this.TopMost = true;
+            GV.PickerForm = this;
+            //this.BringToFront();
             if (GV.MODE == Mode.Report_ByPriority)
             {
                 this.Height = 236;
@@ -53,18 +54,25 @@ namespace DesignDB_UI
             CancelEventArgs args = new CancelEventArgs();
             args.PickerCanceled = true;
             PickerCanceled?.Invoke(this, args);
-            this.Close();
+            this.Hide();
         }
 
         private void btnGo_Click(object sender, EventArgs e)
         {
-            DataReadyEventArgs args = new DataReadyEventArgs();
-            GlobalConfig.Connection.ClearTable("tblSnapshotMSO_S");
             List<MSO_Model> msoList = new List<MSO_Model>();
-            foreach (MSO_Model model in lbMSO.SelectedItems)
+            DataReadyEventArgs args = new DataReadyEventArgs();
+            if (!ckAll.Checked)
             {
-                msoList.Add(model);
-                GlobalConfig.Connection.UpdateSnapshotMSO_s(model.MSO);
+                GlobalConfig.Connection.ClearTable("tblSnapshotMSO_S");
+                foreach (MSO_Model model in lbMSO.SelectedItems)
+                {
+                    msoList.Add(model);
+                    GlobalConfig.Connection.UpdateSnapshotMSO_s(model.MSO);
+                }
+            }
+            else
+            {
+                msoList = GlobalConfig.Connection.GetAllMSO();
             }
             args.MSO_s = msoList;
             args.StartDate = dtpStart.Value;
@@ -72,17 +80,38 @@ namespace DesignDB_UI
             DataReadyEvent?.Invoke(this, args);
             this.Close();
         }
-    }
 
-    public class CancelEventArgs : EventArgs
-    {
-        public bool PickerCanceled { get; set; }
+        private void ckAll_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ckAll.Checked)
+            {
+                for (int i = 0; i < lbMSO.Items.Count; i++)
+                {
+                    lbMSO.SetSelected(i, true);
+                }
+            }
+            else
+            {
+                lbMSO.Items.Clear();
+            }
+        }
+
+        public class CancelEventArgs : EventArgs
+        {
+            public bool PickerCanceled { get; set; }
+        }
+
+        private void dtpStart_ValueChanged(object sender, EventArgs e)
+        {
+            dtpStop.Value = dtpStart.Value.AddDays(7);
+        }
     }
 
     public class DataReadyEventArgs : EventArgs
-    {
-        public List<MSO_Model> MSO_s { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-    }
+        {
+            public List<MSO_Model> MSO_s { get; set; }
+            public DateTime StartDate { get; set; }
+            public DateTime EndDate { get; set; }
+        }
 }
+

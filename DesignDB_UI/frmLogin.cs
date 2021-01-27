@@ -40,7 +40,7 @@ namespace DesignDB_UI
             {
                 user = designers[idx];
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show("Invalid login. Please retry");               
             }

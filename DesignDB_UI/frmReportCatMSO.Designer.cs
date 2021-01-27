@@ -76,6 +76,7 @@ namespace DesignDB_UI
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.dgvReport);
             this.Name = "frmReportCatMSO";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmReportCatMSO";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmReportCatMSO_FormClosing);

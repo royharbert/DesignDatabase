@@ -8,6 +8,7 @@ namespace DesignDB_Library.Models
 {
     public class CityModel
     {
+        public int ID { get; set; }
         public string city { get; set; }
     }
 }

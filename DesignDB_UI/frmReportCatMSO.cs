@@ -27,7 +27,7 @@ namespace DesignDB_UI
             
         }
 
-        private void FrmDateMSO_Picker_PickerCanceled(object sender, CancelEventArgs e)
+        private void FrmDateMSO_Picker_PickerCanceled(object sender, frmDateMSO_Picker.CancelEventArgs e)
         {
             this.Close();
         }

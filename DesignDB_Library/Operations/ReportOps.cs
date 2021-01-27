@@ -20,69 +20,72 @@ namespace DesignDB_Library.Operations
             {
                 List<RequestModel> requestList =
                     GlobalConfig.Connection.DateRangeSearch_MSOFiltered(startDate, endDate, "DateAssigned", mso.MSO);
-                CompletionTimeModel model = new CompletionTimeModel();
-                model.MSO = mso.MSO;
-                List<RequestModel> completedList = requestList.Where
-                    (x => x.DateCompleted != DateTime.MinValue).ToList();
-                List<RequestModel> openList = requestList.Where
-                    (x => x.DateCompleted == DateTime.MinValue).ToList();
-                int totalOpenDays = 0;
-                float averageOpenDays = 0;
-                float averageDaysToComplete = 0;
-                int invalidCompletedRequests = 0;
-
-                //Accumulate days open
-                int totalDaysToComplete = 0;
-
-                //sort completed designs               
-                foreach (RequestModel completedRequest in completedList)
+                if (requestList.Count > 0)
                 {
-                    //do completed designs
-                    int designDays = (completedRequest.DateCompleted - completedRequest.DateAssigned).Days;
-                    if (designDays < 0)
+                    CompletionTimeModel model = new CompletionTimeModel();
+                    model.MSO = mso.MSO;
+                    List<RequestModel> completedList = requestList.Where
+                        (x => x.DateCompleted != DateTime.MinValue).ToList();
+                    List<RequestModel> openList = requestList.Where
+                        (x => x.DateCompleted == DateTime.MinValue).ToList();
+                    int totalOpenDays = 0;
+                    float averageOpenDays = 0;
+                    float averageDaysToComplete = 0;
+                    int invalidCompletedRequests = 0;
+
+                    //Accumulate days open
+                    int totalDaysToComplete = 0;
+
+                    //sort completed designs               
+                    foreach (RequestModel completedRequest in completedList)
                     {
-                        invalidCompletedRequests++;
+                        //do completed designs
+                        int designDays = (completedRequest.DateCompleted - completedRequest.DateAssigned).Days;
+                        if (designDays < 0)
+                        {
+                            invalidCompletedRequests++;
+                        }
+                        else
+                        {
+                            totalDaysToComplete = totalDaysToComplete + designDays;
+                        }
                     }
-                    else
+                    if (completedList.Count > 0)
                     {
-                        totalDaysToComplete = totalDaysToComplete + designDays;
+                        averageDaysToComplete = totalDaysToComplete / completedList.Count;
                     }
+                    model.CompletedDesigns = completedList.Count;
+                    model.TotalDaysToComplete = totalDaysToComplete;
+                    model.AvgDaysToComplete = (averageDaysToComplete - invalidCompletedRequests).ToString("0.00");
+
+                    //sort open designs
+                    foreach (RequestModel openRequest in openList)
+                    {
+                        int openDays = (DateTime.Now - openRequest.DateAssigned).Days;
+                        totalOpenDays = totalOpenDays + openDays;
+                    }
+                    if (openList.Count > 0)
+                    {
+                        averageOpenDays = totalOpenDays / openList.Count;
+                    }
+
+                    model.CompletedDesigns = completedList.Count;
+                    model.TotalDaysToComplete = totalDaysToComplete;
+                    model.AvgDaysToComplete = averageDaysToComplete.ToString("0.00");
+
+                    model.OpenDesigns = openList.Count;
+                    model.OpenDays = totalOpenDays;
+                    model.AverageOpenDays = averageOpenDays.ToString("#0.00");
+
+                    model.OpenDesigns = openList.Count;
+                    model.OpenDays = totalOpenDays;
+                    model.AverageOpenDays = averageOpenDays.ToString("#0.00");
+                    List<RequestModel> canceledDesigns = requestList.Where(x => x.AwardStatus == "Canceled").ToList();
+                    model.CanceledDesigns = canceledDesigns.Count;
+
+                    report.Add(model);
+                    model = null;
                 }
-                if (completedList.Count > 0)
-                {
-                    averageDaysToComplete = totalDaysToComplete / completedList.Count;
-                }
-                model.CompletedDesigns = completedList.Count;
-                model.TotalDaysToComplete = totalDaysToComplete;
-                model.AvgDaysToComplete = (averageDaysToComplete - invalidCompletedRequests).ToString("0.00");
-
-                //sort open designs
-                foreach (RequestModel openRequest in openList)
-                {
-                    int openDays = (DateTime.Now - openRequest.DateAssigned).Days;
-                    totalOpenDays = totalOpenDays + openDays;
-                }
-                if (openList.Count > 0)
-                {
-                    averageOpenDays = totalOpenDays / openList.Count;
-                }
-
-                model.CompletedDesigns = completedList.Count;
-                model.TotalDaysToComplete = totalDaysToComplete;
-                model.AvgDaysToComplete = averageDaysToComplete.ToString("0.00");
-
-                model.OpenDesigns = openList.Count;
-                model.OpenDays = totalOpenDays;
-                model.AverageOpenDays = averageOpenDays.ToString("#0.00");
-
-                model.OpenDesigns = openList.Count;
-                model.OpenDays = totalOpenDays;
-                model.AverageOpenDays = averageOpenDays.ToString("#0.00");
-                List<RequestModel> canceledDesigns = requestList.Where(x => x.AwardStatus == "Canceled").ToList();
-                model.CanceledDesigns = canceledDesigns.Count;
-
-                report.Add(model);
-                model = null;
 
             }
             return report;
@@ -157,7 +160,10 @@ namespace DesignDB_Library.Operations
             {
                 SnapshotModel snapshotModel = DesignDB_Library.Operations.ReportOps.SnapshotLine
                     (mso.MSO, startDate, endDate);
-                snapshots.Add(snapshotModel);
+                if (snapshotModel != null)
+                {
+                    snapshots.Add(snapshotModel);
+                }
             }
             return snapshots;
         }
@@ -165,46 +171,53 @@ namespace DesignDB_Library.Operations
         private static SnapshotModel SnapshotLine(string mso, DateTime startDate, DateTime endDate)
         {
             SnapshotModel snap = new SnapshotModel();
-            int year = DateTime.Now.Year;
-            int month = DateTime.Now.Month;
-
-            List<RequestModel> snapshot = GlobalConfig.Connection.GetSnapshotData(mso, startDate, endDate);
+            int year = startDate.Year;
+            int month = startDate.Month;
+            DateTime yearStart = DateTime.Parse("1/1/" + year.ToString());
+            DateTime yearEnd = DateTime.Parse("12/31/" + year.ToString());
+            List<RequestModel> snapshot = GlobalConfig.Connection.GetSnapshotData(mso, yearStart, endDate);
             snap.MSO = mso;
 
             snap.RequestsThisYear = snapshot.Count;
-            List<RequestModel> CompletedDesignList = snapshot.Where(x => x.DateCompleted != DateTime.Parse("1/1/0001")).ToList();
-            snap.TotalCompletedDesigns = CompletedDesignList.Count;
-
-            //loop thru completed design list and sum the days to complete
-            int totalDaysToComplete = 0;
-            int requestDaysToComplete = 0;
-            foreach (RequestModel request in CompletedDesignList)
+            if (snap.RequestsThisYear > 0)
             {
-                if (request.DateCompleted > DateTime.Parse("1/1/2000") && request.AwardStatus == "Pending")
+                List<RequestModel> CompletedDesignList = snapshot.Where(x => x.DateCompleted != DateTime.Parse("1/1/0001")).ToList();
+                snap.TotalCompletedDesigns = CompletedDesignList.Count;
+
+                //loop thru completed design list and sum the days to complete
+                int totalDaysToComplete = 0;
+                int requestDaysToComplete = 0;
+                foreach (RequestModel request in CompletedDesignList)
                 {
-                    TimeSpan timeSpan = request.DateCompleted - request.DateAssigned;
-                    requestDaysToComplete = timeSpan.Days;
-                    totalDaysToComplete += requestDaysToComplete;
+                    if (request.DateCompleted > DateTime.Parse("1/1/2000") && request.AwardStatus == "Pending")
+                    {
+                        TimeSpan timeSpan = request.DateCompleted - request.DateAssigned;
+                        requestDaysToComplete = timeSpan.Days;
+                        totalDaysToComplete += requestDaysToComplete;
+                    }
                 }
-            }
-            snap.TotalDaysToComplete = totalDaysToComplete;
+                snap.TotalDaysToComplete = totalDaysToComplete;
 
-            if (snap.TotalCompletedDesigns > 0)
-            {
-                snap.AverageCompletionTime = (totalDaysToComplete / snap.TotalCompletedDesigns).ToString("#.#");
+                if (snap.TotalCompletedDesigns > 0)
+                {
+                    snap.AverageCompletionTime = (totalDaysToComplete / snap.TotalCompletedDesigns).ToString("#.#");
+                }
+                else
+                {
+                    snap.AverageCompletionTime = "";
+                }
+                List<RequestModel> snapList = snapshot.Where(x => x.DateCompleted <= DateTime.Parse("1/1/2000")).ToList();
+                snap.TotalOpenRequests = snapList.Where(x => x.AwardStatus == "Pending").ToList().Count;
+                snap.TotalCanceledDesigns = snapshot.Where(x => x.AwardStatus == "Canceled").ToList().Count;
+
+                snap.RequestsThisMonth = snapshot.Where(x => month == x.DateAssigned.Month).ToList().Count;
+                snap.RequestsThisWeek = snapshot.Where(x => x.DateAssigned >= startDate && x.DateAssigned <= endDate).ToList().Count;
+                snap.TotalValue = snapshot.Sum(x => x.BOM_Value);
             }
             else
             {
-                snap.AverageCompletionTime = "";
+                snap = null;
             }
-            List<RequestModel> snapList = snapshot.Where(x => x.DateCompleted <= DateTime.Parse("1/1/2000")).ToList();
-            snap.TotalOpenRequests = snapList.Where(x => x.AwardStatus == "Pending").ToList().Count;
-            snap.TotalCanceledDesigns = snapshot.Where(x => x.AwardStatus == "Canceled").ToList().Count;
-
-            snap.RequestsThisMonth = snapshot.Where(x => month == x.DateAssigned.Month).ToList().Count;
-            snap.RequestsThisWeek = snapshot.Where(x => x.DateAssigned >= startDate && x.DateAssigned <= endDate).ToList().Count;
-            snap.TotalValue = snapshot.Sum(x => x.BOM_Value);
-
             return snap;
         }
 
@@ -264,55 +277,65 @@ namespace DesignDB_Library.Operations
             {
                 List<RequestModel> requests = GlobalConfig.Connection.DateRangeSearch_MSOFiltered(startDate, endDate,
                     "DateAssigned", mso.MSO).ToList();
-                reportLine = new ReportCategoryMSOModel();
-                reportLine.TotalRequests = requests.Count;
-                foreach (RequestModel request in requests)
+
+                if (requests.Count > 0)
                 {
-                    reportLine.MSO = request.MSO;
-                    switch (request.Category)
+
+
+                    reportLine = new ReportCategoryMSOModel();
+                    reportLine.TotalRequests = requests.Count;
+                    foreach (RequestModel request in requests)
                     {
-                        case "HFC":
-                            reportLine.HFC++;
-                            reportLine.HFCDollars = reportLine.HFCDollars + request.BOM_Value;
-                            break;
-                        case "RFoG":
-                            reportLine.RFoG++;
-                            reportLine.RFoGDollars = reportLine.RFoGDollars + request.BOM_Value;
-                            break;
-                        case "PON":
-                            reportLine.PON++;
-                            reportLine.PON_Dollars = reportLine.PON_Dollars + request.BOM_Value;
-                            break;
-                        case "Fiber Deep":
-                            reportLine.FiberDeep++;
-                            reportLine.FiberDeepDollars = reportLine.FiberDeepDollars + request.BOM_Value;
-                            break;
-                        case "Data Transport":
-                            reportLine.DataTrans++;
-                            reportLine.DataTransportDollars = reportLine.DataTransportDollars + request.BOM_Value;
-                            break;
-                        case "PEG":
-                            reportLine.PEG++;
-                            reportLine.PEG_Dollars = reportLine.PEG_Dollars + request.BOM_Value;
-                            break;
-                        case "Commercial":
-                            reportLine.Commercial++;
-                            reportLine.CommercialDollars = reportLine.CommercialDollars + request.BOM_Value;
-                            break;
-                        case "Other":
-                            reportLine.Other++;
-                            reportLine.OtherDollars = reportLine.OtherDollars + request.BOM_Value;
-                            break;
-                        default:
-                            break;
+                        reportLine.MSO = request.MSO;
+                        switch (request.Category)
+                        {
+                            case "HFC":
+                                reportLine.HFC++;
+                                reportLine.HFCDollars = reportLine.HFCDollars + request.BOM_Value;
+                                break;
+                            case "RFoG":
+                                reportLine.RFoG++;
+                                reportLine.RFoGDollars = reportLine.RFoGDollars + request.BOM_Value;
+                                break;
+                            case "PON":
+                                reportLine.PON++;
+                                reportLine.PON_Dollars = reportLine.PON_Dollars + request.BOM_Value;
+                                break;
+                            case "Fiber Deep":
+                                reportLine.FiberDeep++;
+                                reportLine.FiberDeepDollars = reportLine.FiberDeepDollars + request.BOM_Value;
+                                break;
+                            case "Data Transport":
+                                reportLine.DataTrans++;
+                                reportLine.DataTransportDollars = reportLine.DataTransportDollars + request.BOM_Value;
+                                break;
+                            case "PEG":
+                                reportLine.PEG++;
+                                reportLine.PEG_Dollars = reportLine.PEG_Dollars + request.BOM_Value;
+                                break;
+                            case "Commercial":
+                                reportLine.Commercial++;
+                                reportLine.CommercialDollars = reportLine.CommercialDollars + request.BOM_Value;
+                                break;
+                            case "Other":
+                                reportLine.Other++;
+                                reportLine.OtherDollars = reportLine.OtherDollars + request.BOM_Value;
+                                break;
+                            default:
+                                break;
+                        }
+                        reportLine.TotalDollars = reportLine.TotalDollars + request.BOM_Value;
                     }
-                    reportLine.TotalDollars = reportLine.TotalDollars + request.BOM_Value;
+                    if (reportLine.TotalRequests > 0)
+                    {
+                        reportLine.AverageDollarsPerRequest = reportLine.TotalDollars / reportLine.TotalRequests;
+                    }
+                    reportList.Add(reportLine);
                 }
-                if (reportLine.TotalRequests > 0)
+                else
                 {
-                    reportLine.AverageDollarsPerRequest = reportLine.TotalDollars / reportLine.TotalRequests;
+                    reportLine = null;
                 }
-                reportList.Add(reportLine);
             }
 
             return reportList;

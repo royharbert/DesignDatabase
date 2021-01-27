@@ -20,7 +20,7 @@ namespace DesignDB_UI
 
     public partial class frmRequests : Form
     {
-        public event EventHandler ContentChanged;
+        //public event EventHandler ContentChanged;
 
         RequestModel Rm = new RequestModel();
 
@@ -46,7 +46,7 @@ namespace DesignDB_UI
             set
             {                
                 Rm = value;                
-                setRequestModel(Rm);
+                SetRequestModel(Rm);
             }
 }
         public frmRequests(List<RequestModel> rm = null)
@@ -55,15 +55,15 @@ namespace DesignDB_UI
             makeLists();
             if (rm != null)
             {
-                setRequestModel(rm[0]);
+                SetRequestModel(rm[0]);
             }
             else
             {
-                setRequestModel();
+                SetRequestModel();
             }
         }
 
-        public void setRequestModel(RequestModel rm = null)
+        public void SetRequestModel(RequestModel rm = null)
         {
             formLoading = true; //Used to prevent PID generator firing
             SetButtonVisibility(GV.USERNAME);

@@ -15,7 +15,7 @@ namespace DesignDB_Library.Models
         /// <summary>
         /// Unique identifier
         /// </summary>
-        public int Id { get; set; }
+        public int ID { get; set; }
 
         /// <summary>
         /// Holiday name

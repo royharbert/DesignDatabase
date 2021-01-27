@@ -48,7 +48,7 @@ namespace DesignDB_Utilities
 
         private void btnForecast_Click(object sender, EventArgs e)
         {
-            ForecastFunction.DoForecast(DateTime.Parse("Nov 1, 2020"), DateTime.Parse("Nov 3, 2020"), "Comcast", "DateAssigned");
+            //ForecastFunction.DoForecast(DateTime.Parse("Nov 1, 2020"), DateTime.Parse("Nov 3, 2020"), "Comcast", "DateAssigned");
         }
     }
 }
