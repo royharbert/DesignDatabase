@@ -113,7 +113,6 @@ namespace DesignDB_UI
             this.btnRestore = new System.Windows.Forms.Button();
             this.tlpSearch = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.commonBEDataSet = new DesignDB_UI.CommonBEDataSet();
             this.commonBEDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachments)).BeginInit();
             this.tlpLeft.SuspendLayout();
@@ -123,7 +122,6 @@ namespace DesignDB_UI
             this.tlpBottom.SuspendLayout();
             this.tlpSearch.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.commonBEDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.commonBEDataSetBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -1307,16 +1305,7 @@ namespace DesignDB_UI
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(665, 50);
             this.tableLayoutPanel1.TabIndex = 75;
-            // 
-            // commonBEDataSet
-            // 
-            this.commonBEDataSet.DataSetName = "CommonBEDataSet";
-            this.commonBEDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // commonBEDataSetBindingSource
-            // 
-            this.commonBEDataSetBindingSource.DataSource = this.commonBEDataSet;
-            this.commonBEDataSetBindingSource.Position = 0;
+     
             // 
             // frmRequests
             // 
@@ -1354,8 +1343,6 @@ namespace DesignDB_UI
             this.tlpSearch.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.commonBEDataSet)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.commonBEDataSetBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1366,7 +1353,6 @@ namespace DesignDB_UI
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cboMSO;
         private System.Windows.Forms.Label label2;
-        private CommonBEDataSet commonBEDataSet;
         private System.Windows.Forms.BindingSource commonBEDataSetBindingSource;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cboCities;

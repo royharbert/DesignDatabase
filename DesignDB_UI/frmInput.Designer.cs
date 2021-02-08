@@ -29,21 +29,12 @@ namespace DesignDB_UI
         /// </summary>
         private void InitializeComponent()
         {
-            this.tblRequestsTableAdapter1 = new DesignDB_UI.CommonBEDataSetTableAdapters.tblRequestsTableAdapter();
-            this.tblRequestsTableAdapter2 = new DesignDB_UI.CommonBEDataSetTableAdapters.tblRequestsTableAdapter();
+
             this.txtInput = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnGo = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // tblRequestsTableAdapter1
-            // 
-            this.tblRequestsTableAdapter1.ClearBeforeFill = true;
-            // 
-            // tblRequestsTableAdapter2
-            // 
-            this.tblRequestsTableAdapter2.ClearBeforeFill = true;
             // 
             // txtInput
             // 
@@ -102,8 +93,7 @@ namespace DesignDB_UI
 
         #endregion
 
-        private CommonBEDataSetTableAdapters.tblRequestsTableAdapter tblRequestsTableAdapter1;
-        private CommonBEDataSetTableAdapters.tblRequestsTableAdapter tblRequestsTableAdapter2;
+
         private System.Windows.Forms.TextBox txtInput;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnGo;

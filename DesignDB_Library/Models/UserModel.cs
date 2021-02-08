@@ -20,7 +20,7 @@ namespace DesignDB_Library.Models
 
         }
 
-        public UserModel (string userName, string pW, string priviledge, string activeDesigner, string ID)
+        public UserModel (string userName, string pW, string priviledge, string activeDesigner, int ID)
         {
             UserName = userName;
             PW = pW;
@@ -33,9 +33,8 @@ namespace DesignDB_Library.Models
             bool.TryParse(activeDesigner, out pActive);
             ActiveDesigner = pActive;
 
-            int IDval = 0;
-            int.TryParse(ID, out IDval);
-            Id = IDval;
+            int IDval = 0;            
+            ID = IDval;
         }
     }
 

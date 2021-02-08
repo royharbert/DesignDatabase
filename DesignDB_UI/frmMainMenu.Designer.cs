@@ -56,7 +56,10 @@ namespace DesignDB_UI
             this.btnNewReq = new System.Windows.Forms.Button();
             this.btnDeleteRecord = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.rdoSandbox = new System.Windows.Forms.RadioButton();
+            this.rdoLive = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.txtMode = new System.Windows.Forms.TextBox();
             this.tlpMain.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -456,6 +459,8 @@ namespace DesignDB_UI
             this.tlpMain.Controls.Add(this.btnForecast, 3, 5);
             this.tlpMain.Controls.Add(this.btnExit, 5, 8);
             this.tlpMain.Controls.Add(this.button1, 5, 3);
+            this.tlpMain.Controls.Add(this.rdoSandbox, 0, 8);
+            this.tlpMain.Controls.Add(this.rdoLive, 0, 7);
             this.tlpMain.Location = new System.Drawing.Point(12, 150);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 10;
@@ -521,6 +526,33 @@ namespace DesignDB_UI
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // rdoSandbox
+            // 
+            this.rdoSandbox.AutoSize = true;
+            this.rdoSandbox.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.rdoSandbox.Location = new System.Drawing.Point(3, 411);
+            this.rdoSandbox.Name = "rdoSandbox";
+            this.rdoSandbox.Size = new System.Drawing.Size(104, 28);
+            this.rdoSandbox.TabIndex = 32;
+            this.rdoSandbox.TabStop = true;
+            this.rdoSandbox.Tag = "4";
+            this.rdoSandbox.Text = "Sandbox";
+            this.rdoSandbox.UseVisualStyleBackColor = true;
+            // 
+            // rdoLive
+            // 
+            this.rdoLive.AutoSize = true;
+            this.rdoLive.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.rdoLive.Location = new System.Drawing.Point(3, 360);
+            this.rdoLive.Name = "rdoLive";
+            this.rdoLive.Size = new System.Drawing.Size(62, 28);
+            this.rdoLive.TabIndex = 33;
+            this.rdoLive.TabStop = true;
+            this.rdoLive.Tag = "4";
+            this.rdoLive.Text = "Live";
+            this.rdoLive.UseVisualStyleBackColor = true;
+            this.rdoLive.CheckedChanged += new System.EventHandler(this.rdoLive_CheckedChanged);
+            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -541,6 +573,14 @@ namespace DesignDB_UI
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1037, 43);
             this.tableLayoutPanel2.TabIndex = 32;
             // 
+            // txtMode
+            // 
+            this.txtMode.Location = new System.Drawing.Point(19, 12);
+            this.txtMode.Name = "txtMode";
+            this.txtMode.Size = new System.Drawing.Size(273, 29);
+            this.txtMode.TabIndex = 33;
+            this.txtMode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // frmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
@@ -549,6 +589,7 @@ namespace DesignDB_UI
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(1064, 676);
+            this.Controls.Add(this.txtMode);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.tlpMain);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -560,9 +601,11 @@ namespace DesignDB_UI
             this.Activated += new System.EventHandler(this.frmMainMenu_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMainMenu_FormClosing);
             this.tlpMain.ResumeLayout(false);
+            this.tlpMain.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -595,5 +638,8 @@ namespace DesignDB_UI
         private System.Windows.Forms.Button btnDeleteRecord;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox txtMode;
+        private System.Windows.Forms.RadioButton rdoSandbox;
+        private System.Windows.Forms.RadioButton rdoLive;
     }
 }

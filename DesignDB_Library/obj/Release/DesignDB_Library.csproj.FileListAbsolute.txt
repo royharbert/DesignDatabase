@@ -11,7 +11,6 @@ C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_Library\b
 C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_Library\bin\Release\DesignDB_Library.pdb
 C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_Library\bin\Release\Dapper.dll
 C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_Library\bin\Release\Dapper.xml
-C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_Library\obj\Release\DesignDB_Library.csprojAssemblyReference.cache
 C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_Library\obj\Release\DesignDB_Library.csproj.ResolveComReference.cache
 C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_Library\obj\Release\DesignDB_Library.csproj.CoreCompileInputs.cache
 C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_Library\obj\Release\DesignDB_Library.csproj.CopyComplete

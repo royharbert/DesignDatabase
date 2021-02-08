@@ -23,17 +23,6 @@ namespace DesignDB_UI.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=S011DDB0003;Initial Catalog=CommonBE;Persist Security Info=True;User " +
-            "ID=support_eng;Password=AccessB#")]
-        public string CommonBEConnectionString {
-            get {
-                return ((string)(this["CommonBEConnectionString"]));
-            }
-        }
-        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("-1")]
@@ -43,6 +32,18 @@ namespace DesignDB_UI.Properties {
             }
             set {
                 this["UserIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DatabaseLive {
+            get {
+                return ((bool)(this["DatabaseLive"]));
+            }
+            set {
+                this["DatabaseLive"] = value;
             }
         }
     }

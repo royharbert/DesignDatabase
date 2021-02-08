@@ -41,7 +41,9 @@ namespace DesignDB_UI
 
         private void btnAddUser_Click(object sender, EventArgs e)
         {
-            UserModel newUser = new UserModel(cboUser.Text, txtPassword.Text, txtPriviledge.Text, cboActive.Text,txtID.Text);
+            int id = 0;
+            int.TryParse(txtID.Text, out id);
+            UserModel newUser = new UserModel(cboUser.Text, txtPassword.Text, txtPriviledge.Text, cboActive.Text, id);
 
             GlobalConfig.Connection.AddUser(newUser);
 
@@ -51,7 +53,9 @@ namespace DesignDB_UI
 
         private void btnUpdateUser_Click(object sender, EventArgs e)
         {
-            UserModel User = new UserModel(cboUser.Text, txtPassword.Text, txtPriviledge.Text, cboActive.Text, txtID.Text);
+            int id = 0;
+            int.TryParse(txtID.Text, out id);
+            UserModel User = new UserModel(cboUser.Text, txtPassword.Text, txtPriviledge.Text, cboActive.Text, id);
 
             GlobalConfig.Connection.UpdateUser(User);
             refreshUserList();
@@ -90,13 +94,15 @@ namespace DesignDB_UI
                 txtPassword.Text = User.PW;
                 txtPriviledge.Text = User.Priviledge.ToString();
                 cboActive.Text = User.ActiveDesigner.ToString();
-                txtID.Text = User.Id.ToString();
+                txtID.Text = User.ID.ToString();
             }
 
         }
         private UserModel createUserModel()
         {
-            UserModel User = new UserModel(cboUser.Text, txtPassword.Text, txtPriviledge.Text, cboActive.Text, txtID.Text);
+            int id = 0;
+            int.TryParse(txtID.Text, out id);
+            UserModel User = new UserModel(cboUser.Text, txtPassword.Text, txtPriviledge.Text, cboActive.Text, id);
             return User;
         }
 

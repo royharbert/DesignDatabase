@@ -19,13 +19,14 @@ namespace DesignDB_UI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-#if (Live)
-            DesignDB_Library.GlobalConfig.InitializeConnection(DesignDB_Library.DatabaseType.Live);
-            GlobalConfig.AttachmentPath =  "\\" + "\\USCA5PDBATDGS01\\Databases\\AttachmentsDesign";
-#else
-            DesignDB_Library.GlobalConfig.InitializeConnection(DesignDB_Library.DatabaseType.Sandbox);
-            GlobalConfig.AttachmentPath = "\\" + "\\USCA5PDBATDGS01\\Databases\\Sandbox\\AttachmentsDesign";
-#endif 
+            if (Properties.Settings.Default.DatabaseLive)
+            {
+                GlobalConfig.SetDatabaseMode(DatabaseType.Live);
+            }
+            else
+            {
+                GlobalConfig.SetDatabaseMode(DatabaseType.Sandbox);
+            }
             Application.Run(new frmLogin());                      
         }
     }

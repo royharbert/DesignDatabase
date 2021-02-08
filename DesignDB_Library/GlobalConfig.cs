@@ -14,6 +14,7 @@ namespace DesignDB_Library
         public static IDataConnection Connection { get; private set; }
 
         public static string AttachmentPath = "";
+        public static DatabaseType DatabaseMode = DatabaseType.Sandbox;
         public static void InitializeConnection(DatabaseType db)
         { 
             if (db == DatabaseType.Live)
@@ -27,6 +28,22 @@ namespace DesignDB_Library
                 SqlConnector.db = "Sandbox";
                 SqlConnector SandboxConnection = new SqlConnector();
                 Connection = SandboxConnection;
+            }
+        }
+
+        public static void SetDatabaseMode(DatabaseType mode)
+        {
+            if (mode == DatabaseType.Live)
+            {
+                DesignDB_Library.GlobalConfig.InitializeConnection(DesignDB_Library.DatabaseType.Live);
+                GlobalConfig.AttachmentPath = "\\" + "\\USCA5PDBATDGS01\\Databases\\AttachmentsDesign";
+                DatabaseMode = DatabaseType.Live;
+            }
+            else
+            { 
+                GlobalConfig.InitializeConnection(DesignDB_Library.DatabaseType.Sandbox);
+                GlobalConfig.AttachmentPath = "\\" + "\\USCA5PDBATDGS01\\Databases\\Sandbox\\AttachmentsDesign";
+                DatabaseMode = DatabaseType.Sandbox;
             }
         }
 

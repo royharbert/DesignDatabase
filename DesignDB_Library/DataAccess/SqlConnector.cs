@@ -56,7 +56,7 @@ namespace DesignDB_Library.DataAccess
                     p.Add("@PW", User.PW);
                     p.Add("@Priviledge", User.Priviledge);
                     p.Add("@ActiveDesigner", User.ActiveDesigner);
-                    p.Add("@ID", User.Id);
+                    p.Add("@ID", User.ID,DbType.Int32);
 
                 }
             }
@@ -76,7 +76,7 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@PWord", ThisUser.PW);
                 p.Add("@Priv", ThisUser.Priviledge);
                 p.Add("@Active", ThisUser.ActiveDesigner);
-                p.Add("@Ident", ThisUser.Id);
+                p.Add("@Ident", ThisUser.ID);
 
 
                 connection.Execute("dbo.spUser_Update", p, commandType: CommandType.StoredProcedure);
@@ -87,7 +87,7 @@ namespace DesignDB_Library.DataAccess
         public UserModel GetUser(string userName)
         {
 
-            UserModel myUser = new UserModel(userName, "", "", "", "");
+            UserModel myUser = new UserModel(userName, "", "", "", 0);
 
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
             {
@@ -111,7 +111,7 @@ namespace DesignDB_Library.DataAccess
         public UserModel GetUser(int userID)
         {
 
-            UserModel myUser = new UserModel("", "", "", "", "");
+            UserModel myUser = new UserModel("", "", "", "", 0);
 
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
             {

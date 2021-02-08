@@ -77,6 +77,7 @@ namespace DesignDB_UI
             cboUser.DataSource = designers;
             cboUser.DisplayMember = "Designer";
             cboUser.SelectedIndex = Properties.Settings.Default.UserIndex;
+            txtPwd.Clear();
             txtPwd.Focus();
         }
     }

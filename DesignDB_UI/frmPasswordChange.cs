@@ -16,7 +16,7 @@ namespace DesignDB_UI
         public frmPasswordChange()
         {
             InitializeComponent();
-            txtDesigner.Text = GV.USERNAME.Designer;
+            txtDesigner.Text = GV.USERNAME.Designer;            
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -29,7 +29,14 @@ namespace DesignDB_UI
             if (txtConfirm.Text == txtPW.Text)
             {
                 DesignDB_Library.Operations.DesignerUpdate.ChangePassword(txtDesigner.Text, txtCurrentPW.Text, txtPW.Text);
+                this.Close();
             }
+        }
+
+        private void frmPasswordChange_Activated(object sender, EventArgs e)
+        {
+            txtCurrentPW.Clear();
+            txtCurrentPW.Focus();
         }
     }
 }

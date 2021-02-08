@@ -202,6 +202,7 @@ namespace DesignDB_UI
             this.Name = "frmPasswordChange";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Change Password";
+            this.Activated += new System.EventHandler(this.frmPasswordChange_Activated);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);

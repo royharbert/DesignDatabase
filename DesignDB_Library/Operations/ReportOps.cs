@@ -211,7 +211,7 @@ namespace DesignDB_Library.Operations
                 snap.TotalCanceledDesigns = snapshot.Where(x => x.AwardStatus == "Canceled").ToList().Count;
 
                 snap.RequestsThisMonth = snapshot.Where(x => month == x.DateAssigned.Month).ToList().Count;
-                snap.RequestsThisWeek = snapshot.Where(x => x.DateAssigned >= startDate && x.DateAssigned <= endDate).ToList().Count;
+                snap.RequestsThisWeek = snapshot.Where(x => x.DateAssigned >= startDate && x.DateAssigned <= startDate.AddDays(6)).ToList().Count;
                 snap.TotalValue = snapshot.Sum(x => x.BOM_Value);
             }
             else
@@ -293,9 +293,13 @@ namespace DesignDB_Library.Operations
                                 reportLine.HFC++;
                                 reportLine.HFCDollars = reportLine.HFCDollars + request.BOM_Value;
                                 break;
-                            case "RFoG":
+                            case "RFOG":
                                 reportLine.RFoG++;
                                 reportLine.RFoGDollars = reportLine.RFoGDollars + request.BOM_Value;
+                                break;
+                            case "RFOG PON":
+                                reportLine.RFoGPON++;
+                                reportLine.RFoGDollars += request.BOM_Value;
                                 break;
                             case "PON":
                                 reportLine.PON++;
@@ -322,6 +326,8 @@ namespace DesignDB_Library.Operations
                                 reportLine.OtherDollars = reportLine.OtherDollars + request.BOM_Value;
                                 break;
                             default:
+                                reportLine.Unassigned++;
+                                reportLine.UnassignedDollars = reportLine.UnassignedDollars + request.BOM_Value;
                                 break;
                         }
                         reportLine.TotalDollars = reportLine.TotalDollars + request.BOM_Value;

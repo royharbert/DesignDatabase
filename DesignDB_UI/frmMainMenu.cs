@@ -18,23 +18,66 @@ namespace DesignDB_UI
     {
         frmInput frmInput = new frmInput();
         frmDateMSO_Picker frmDateMSO_Picker = GV.PickerForm;
+        private bool formLoading = false;
 
         public frmMainMenu()
         {
             //frmDateMSO_Picker = FC.DisplayPicker();
+            formLoading = true;
             frmInput.InputDataReady += FrmInput_InputDataReady;
             InitializeComponent();
-            AddVersionNumber();
+
+            if (GlobalConfig.DatabaseMode == DatabaseType.Live)
+            {
+                rdoLive.Checked = true;
+            }
+            else
+            {
+                rdoSandbox.Checked = true;
+            }
+
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             CheckForUpdates();
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+
+            if (GlobalConfig.DatabaseMode == DatabaseType.Live)
+            {
+                DesignDB_Library.GlobalConfig.InitializeConnection(DesignDB_Library.DatabaseType.Live);
+                GlobalConfig.AttachmentPath = "\\" + "\\USCA5PDBATDGS01\\Databases\\AttachmentsDesign";
+                setModeTextBox(true);
+            }
+            else
+            {
+                DesignDB_Library.GlobalConfig.InitializeConnection(DesignDB_Library.DatabaseType.Sandbox);
+                GlobalConfig.AttachmentPath = "\\" + "\\USCA5PDBATDGS01\\Databases\\Sandbox\\AttachmentsDesign";
+                setModeTextBox(false);
+            }
+
+            formLoading = false;
+        }
+
+        private void setModeTextBox(bool live)
+        {
+            if (live)
+            {
+                txtMode.BackColor = Color.Green;
+                txtMode.ForeColor = Color.White;
+                txtMode.Text = "Live";
+            }
+            else
+            {
+                txtMode.BackColor = Color.LightYellow;
+                txtMode.ForeColor = Color.Black;
+                txtMode.Text = "Sandbox";
+            }
+            AddVersionNumber();
         }
 
         private void AddVersionNumber()
         {
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-            this.Text += $" v.{ versionInfo.FileVersion }";
+            txtMode.Text += $"     v.{ versionInfo.FileVersion }";
         }
 
         private async Task CheckForUpdates()
@@ -71,7 +114,7 @@ namespace DesignDB_UI
             //loop thru controls and compare button.tag to priviledge
             foreach (Control control in tlpMain.Controls)
             {
-                if (control is Button)
+                if (control is Button || control is RadioButton)
                 {
                     int tag = int.Parse((string)(control.Tag));
                     if (priviledge >= tag)
@@ -412,6 +455,26 @@ namespace DesignDB_UI
         {
             frmSalesMaint frmSalesMaint = new frmSalesMaint();
             frmSalesMaint.Show();
+        }
+
+        private void rdoLive_CheckedChanged(object sender, EventArgs e)
+        {
+            if (! formLoading)
+            {
+                if (rdoLive.Checked)
+                {
+                    GlobalConfig.SetDatabaseMode(DatabaseType.Live);
+                    Properties.Settings.Default.DatabaseLive = true;
+                    setModeTextBox(true);
+                }
+                else
+                {
+                    GlobalConfig.SetDatabaseMode(DatabaseType.Sandbox);
+                    Properties.Settings.Default.DatabaseLive = false;
+                    setModeTextBox(false);
+                }
+                Properties.Settings.Default.Save();
+            }
         }
     }
 }

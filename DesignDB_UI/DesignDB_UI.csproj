@@ -164,11 +164,6 @@
     <Compile Include="aTest.Designer.cs">
       <DependentUpon>aTest.cs</DependentUpon>
     </Compile>
-    <Compile Include="CommonBEDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CommonBEDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="frmCompletionTimeReport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -358,17 +353,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="CommonBEDataSet.xsc">
-      <DependentUpon>CommonBEDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="CommonBEDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>CommonBEDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="CommonBEDataSet.xss">
-      <DependentUpon>CommonBEDataSet.xsd</DependentUpon>
-    </None>
     <None Include="DesignDB_UI_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
