@@ -69,8 +69,8 @@ namespace DesignDB_UI
             this.btnHoliday.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnHoliday.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnHoliday.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnHoliday.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnHoliday.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnHoliday.Location = new System.Drawing.Point(803, 3);
             this.btnHoliday.Name = "btnHoliday";
             this.btnHoliday.Size = new System.Drawing.Size(234, 45);
@@ -99,8 +99,8 @@ namespace DesignDB_UI
             this.btnCountryMaint.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCountryMaint.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnCountryMaint.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnCountryMaint.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnCountryMaint.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnCountryMaint.Location = new System.Drawing.Point(803, 54);
             this.btnCountryMaint.Name = "btnCountryMaint";
             this.btnCountryMaint.Size = new System.Drawing.Size(234, 45);
@@ -115,8 +115,8 @@ namespace DesignDB_UI
             this.btnDesignerMaint.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDesignerMaint.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnDesignerMaint.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnDesignerMaint.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnDesignerMaint.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnDesignerMaint.Location = new System.Drawing.Point(803, 105);
             this.btnDesignerMaint.Name = "btnDesignerMaint";
             this.btnDesignerMaint.Size = new System.Drawing.Size(234, 45);
@@ -131,8 +131,8 @@ namespace DesignDB_UI
             this.btnFind.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFind.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnFind.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnFind.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnFind.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnFind.Location = new System.Drawing.Point(3, 156);
             this.btnFind.Name = "btnFind";
             this.btnFind.Size = new System.Drawing.Size(234, 45);
@@ -174,8 +174,8 @@ namespace DesignDB_UI
             this.btnUndelete.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnUndelete.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnUndelete.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnUndelete.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnUndelete.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnUndelete.Location = new System.Drawing.Point(283, 105);
             this.btnUndelete.Name = "btnUndelete";
             this.btnUndelete.Size = new System.Drawing.Size(234, 45);
@@ -190,8 +190,8 @@ namespace DesignDB_UI
             this.btnLogin.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLogin.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnLogin.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnLogin.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnLogin.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnLogin.Location = new System.Drawing.Point(3, 3);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(234, 45);
@@ -206,8 +206,8 @@ namespace DesignDB_UI
             this.btnLogout.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLogout.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnLogout.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnLogout.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnLogout.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnLogout.Location = new System.Drawing.Point(3, 54);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Size = new System.Drawing.Size(234, 45);
@@ -222,8 +222,8 @@ namespace DesignDB_UI
             this.btnMyUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMyUpdates.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnMyUpdates.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnMyUpdates.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnMyUpdates.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnMyUpdates.Location = new System.Drawing.Point(3, 207);
             this.btnMyUpdates.Name = "btnMyUpdates";
             this.btnMyUpdates.Size = new System.Drawing.Size(234, 45);
@@ -238,8 +238,8 @@ namespace DesignDB_UI
             this.btnPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPassword.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnPassword.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnPassword.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnPassword.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnPassword.Location = new System.Drawing.Point(3, 105);
             this.btnPassword.Name = "btnPassword";
             this.btnPassword.Size = new System.Drawing.Size(234, 45);
@@ -254,8 +254,8 @@ namespace DesignDB_UI
             this.btnCatMSO.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCatMSO.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnCatMSO.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnCatMSO.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnCatMSO.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnCatMSO.Location = new System.Drawing.Point(283, 207);
             this.btnCatMSO.Name = "btnCatMSO";
             this.btnCatMSO.Size = new System.Drawing.Size(234, 45);
@@ -270,8 +270,8 @@ namespace DesignDB_UI
             this.btnSnapshot.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSnapshot.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnSnapshot.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnSnapshot.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnSnapshot.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnSnapshot.Location = new System.Drawing.Point(283, 156);
             this.btnSnapshot.Name = "btnSnapshot";
             this.btnSnapshot.Size = new System.Drawing.Size(234, 45);
@@ -286,8 +286,8 @@ namespace DesignDB_UI
             this.btnReqPriority.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReqPriority.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnReqPriority.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnReqPriority.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnReqPriority.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnReqPriority.Location = new System.Drawing.Point(523, 3);
             this.btnReqPriority.Name = "btnReqPriority";
             this.btnReqPriority.Size = new System.Drawing.Size(234, 45);
@@ -302,8 +302,8 @@ namespace DesignDB_UI
             this.btnAvgComp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAvgComp.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnAvgComp.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnAvgComp.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnAvgComp.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnAvgComp.Location = new System.Drawing.Point(283, 309);
             this.btnAvgComp.Name = "btnAvgComp";
             this.btnAvgComp.Size = new System.Drawing.Size(234, 45);
@@ -318,8 +318,8 @@ namespace DesignDB_UI
             this.btnOpenReq.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenReq.BackColor = System.Drawing.Color.LightGreen;
-            this.btnOpenReq.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnOpenReq.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnOpenReq.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnOpenReq.Location = new System.Drawing.Point(283, 258);
             this.btnOpenReq.Name = "btnOpenReq";
             this.btnOpenReq.Size = new System.Drawing.Size(234, 45);
@@ -334,8 +334,8 @@ namespace DesignDB_UI
             this.btnOverdue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOverdue.BackColor = System.Drawing.Color.LightGreen;
-            this.btnOverdue.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnOverdue.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnOverdue.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnOverdue.Location = new System.Drawing.Point(523, 105);
             this.btnOverdue.Name = "btnOverdue";
             this.btnOverdue.Size = new System.Drawing.Size(234, 45);
@@ -350,8 +350,8 @@ namespace DesignDB_UI
             this.btnLoadRpt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLoadRpt.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnLoadRpt.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnLoadRpt.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnLoadRpt.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnLoadRpt.Location = new System.Drawing.Point(523, 54);
             this.btnLoadRpt.Name = "btnLoadRpt";
             this.btnLoadRpt.Size = new System.Drawing.Size(234, 45);
@@ -366,9 +366,9 @@ namespace DesignDB_UI
             this.btnForecast.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnForecast.BackColor = System.Drawing.Color.LightGreen;
-            this.btnForecast.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnForecast.Location = new System.Drawing.Point(523, 258);
+            this.btnForecast.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnForecast.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnForecast.Location = new System.Drawing.Point(523, 156);
             this.btnForecast.Name = "btnForecast";
             this.btnForecast.Size = new System.Drawing.Size(234, 45);
             this.btnForecast.TabIndex = 29;
@@ -382,13 +382,13 @@ namespace DesignDB_UI
             this.btnDateRange.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDateRange.BackColor = System.Drawing.Color.LightGreen;
-            this.btnDateRange.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnDateRange.Location = new System.Drawing.Point(523, 207);
+            this.btnDateRange.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnDateRange.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnDateRange.Location = new System.Drawing.Point(3, 309);
             this.btnDateRange.Name = "btnDateRange";
             this.btnDateRange.Size = new System.Drawing.Size(234, 45);
             this.btnDateRange.TabIndex = 28;
-            this.btnDateRange.Tag = "2";
+            this.btnDateRange.Tag = "1";
             this.btnDateRange.Text = "Search Date Range";
             this.btnDateRange.UseVisualStyleBackColor = false;
             this.btnDateRange.Click += new System.EventHandler(this.btnDateRange_Click);
@@ -398,13 +398,13 @@ namespace DesignDB_UI
             this.btnSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSearch.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnSearch.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnSearch.Location = new System.Drawing.Point(523, 156);
+            this.btnSearch.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnSearch.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnSearch.Location = new System.Drawing.Point(3, 258);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(234, 45);
             this.btnSearch.TabIndex = 27;
-            this.btnSearch.Tag = "2";
+            this.btnSearch.Tag = "1";
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = false;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
@@ -414,7 +414,7 @@ namespace DesignDB_UI
             this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExit.BackColor = System.Drawing.Color.Red;
+            this.btnExit.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnExit.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnExit.Location = new System.Drawing.Point(803, 411);
             this.btnExit.Name = "btnExit";
@@ -444,7 +444,6 @@ namespace DesignDB_UI
             this.tlpMain.Controls.Add(this.btnReqPriority, 3, 0);
             this.tlpMain.Controls.Add(this.btnFind, 0, 3);
             this.tlpMain.Controls.Add(this.btnLogout, 0, 1);
-            this.tlpMain.Controls.Add(this.btnLogin, 0, 0);
             this.tlpMain.Controls.Add(this.btnNewReq, 2, 0);
             this.tlpMain.Controls.Add(this.btnDeleteRecord, 2, 1);
             this.tlpMain.Controls.Add(this.btnUndelete, 2, 2);
@@ -452,15 +451,17 @@ namespace DesignDB_UI
             this.tlpMain.Controls.Add(this.btnCatMSO, 2, 4);
             this.tlpMain.Controls.Add(this.btnOpenReq, 2, 5);
             this.tlpMain.Controls.Add(this.btnAvgComp, 2, 6);
-            this.tlpMain.Controls.Add(this.btnLoadRpt, 3, 1);
             this.tlpMain.Controls.Add(this.btnOverdue, 3, 2);
-            this.tlpMain.Controls.Add(this.btnSearch, 3, 3);
-            this.tlpMain.Controls.Add(this.btnDateRange, 3, 4);
-            this.tlpMain.Controls.Add(this.btnForecast, 3, 5);
             this.tlpMain.Controls.Add(this.btnExit, 5, 8);
             this.tlpMain.Controls.Add(this.button1, 5, 3);
-            this.tlpMain.Controls.Add(this.rdoSandbox, 0, 8);
-            this.tlpMain.Controls.Add(this.rdoLive, 0, 7);
+            this.tlpMain.Controls.Add(this.btnSearch, 0, 5);
+            this.tlpMain.Controls.Add(this.btnDateRange, 0, 6);
+            this.tlpMain.Controls.Add(this.btnForecast, 3, 3);
+            this.tlpMain.Controls.Add(this.rdoSandbox, 2, 8);
+            this.tlpMain.Controls.Add(this.rdoLive, 0, 8);
+            this.tlpMain.Controls.Add(this.btnLoadRpt, 3, 1);
+            this.tlpMain.Controls.Add(this.btnLogin, 0, 0);
+            this.tlpMain.Controls.Add(this.txtMode, 0, 9);
             this.tlpMain.Location = new System.Drawing.Point(12, 150);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 10;
@@ -482,8 +483,8 @@ namespace DesignDB_UI
             this.btnNewReq.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnNewReq.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnNewReq.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnNewReq.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnNewReq.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnNewReq.Location = new System.Drawing.Point(283, 3);
             this.btnNewReq.Name = "btnNewReq";
             this.btnNewReq.Size = new System.Drawing.Size(234, 45);
@@ -498,8 +499,8 @@ namespace DesignDB_UI
             this.btnDeleteRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDeleteRecord.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnDeleteRecord.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnDeleteRecord.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnDeleteRecord.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnDeleteRecord.Location = new System.Drawing.Point(283, 54);
             this.btnDeleteRecord.Name = "btnDeleteRecord";
             this.btnDeleteRecord.Size = new System.Drawing.Size(234, 45);
@@ -514,9 +515,9 @@ namespace DesignDB_UI
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.BackColor = System.Drawing.Color.PaleGreen;
+            this.button1.BackColor = System.Drawing.Color.RoyalBlue;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.button1.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.button1.Location = new System.Drawing.Point(803, 156);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(234, 45);
@@ -530,7 +531,7 @@ namespace DesignDB_UI
             // 
             this.rdoSandbox.AutoSize = true;
             this.rdoSandbox.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.rdoSandbox.Location = new System.Drawing.Point(3, 411);
+            this.rdoSandbox.Location = new System.Drawing.Point(283, 411);
             this.rdoSandbox.Name = "rdoSandbox";
             this.rdoSandbox.Size = new System.Drawing.Size(104, 28);
             this.rdoSandbox.TabIndex = 32;
@@ -543,7 +544,7 @@ namespace DesignDB_UI
             // 
             this.rdoLive.AutoSize = true;
             this.rdoLive.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.rdoLive.Location = new System.Drawing.Point(3, 360);
+            this.rdoLive.Location = new System.Drawing.Point(3, 411);
             this.rdoLive.Name = "rdoLive";
             this.rdoLive.Size = new System.Drawing.Size(62, 28);
             this.rdoLive.TabIndex = 33;
@@ -575,11 +576,12 @@ namespace DesignDB_UI
             // 
             // txtMode
             // 
-            this.txtMode.Location = new System.Drawing.Point(19, 12);
+            this.txtMode.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMode.Location = new System.Drawing.Point(3, 462);
             this.txtMode.Name = "txtMode";
-            this.txtMode.Size = new System.Drawing.Size(273, 29);
+            this.txtMode.Size = new System.Drawing.Size(234, 15);
             this.txtMode.TabIndex = 33;
-            this.txtMode.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // frmMainMenu
             // 
@@ -589,7 +591,6 @@ namespace DesignDB_UI
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(1064, 676);
-            this.Controls.Add(this.txtMode);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.tlpMain);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -605,7 +606,6 @@ namespace DesignDB_UI
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

@@ -14,19 +14,22 @@ namespace DesignDB_UI
 {
     public partial class frmReportSalesPriiority : Form
     {
-        public frmDateMSO_Picker frmDateMSO_Picker = null;
+        private List<ReportSalesPriorityModel> _report = null;
+        public List<ReportSalesPriorityModel> Report 
+        {
+            set
+            {
+                _report = value;
+                dgvReport.DataSource = _report;
+                ReportOps.formatPriorityDGV(dgvReport);
+            } 
+        }
 
         public object operations { get; private set; }
 
         public frmReportSalesPriiority()
         {
-            InitializeComponent();
-           
-            frmDateMSO_Picker = FC.SetDTP_MSO_Picker();           
-            frmDateMSO_Picker.DataReadyEvent += FrmDateMSO_Picker_DataReadyEvent;
-            frmDateMSO_Picker.PickerCanceled += FrmDateMSO_Picker_PickerCanceled;
-            GV.PickerForm.Visible = true;
-            //GV.PickerForm.ShowDialog();
+            InitializeComponent();       
         }
 
         private void FrmDateMSO_Picker_PickerCanceled(object sender, frmDateMSO_Picker.CancelEventArgs e)
@@ -34,31 +37,9 @@ namespace DesignDB_UI
             this.Close();
         }
 
-        private void FrmDateMSO_Picker_DataReadyEvent(object sender, DataReadyEventArgs e)
-        {
-            DateTime startDate = e.StartDate;
-            DateTime endDate = e.EndDate;
-            List<ReportSalesPriorityModel> report = DesignDB_Library.Operations.ReportOps.GenerateSalesSummary(startDate, endDate);
-            dgvReport.DataSource = report;
-            DesignDB_Library.Operations.ReportOps.formatPriorityDGV(dgvReport);
-        }
-
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void frmReportSalesPriiority_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            try
-            {
-                frmDateMSO_Picker.DataReadyEvent -= FrmDateMSO_Picker_DataReadyEvent;
-            }
-            catch (Exception)
-            {
-
-                
-            }
         }
 
         private void btnExport_Click(object sender, EventArgs e)

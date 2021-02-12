@@ -1305,7 +1305,6 @@ namespace DesignDB_UI
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(665, 50);
             this.tableLayoutPanel1.TabIndex = 75;
-     
             // 
             // frmRequests
             // 
@@ -1343,6 +1342,7 @@ namespace DesignDB_UI
             this.tlpSearch.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.commonBEDataSetBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }

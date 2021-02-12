@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,14 @@ namespace DesignDB_UI
         public frmLogin()
         {
             InitializeComponent();
+            AddVersionNumber();
+        }
+
+        private void AddVersionNumber()
+        {
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+            this.Text += $"     v.{ versionInfo.FileVersion }";
         }
 
         private List<DesignersReviewersModel> getDesigners()
@@ -63,7 +72,7 @@ namespace DesignDB_UI
                     GV.MAINMENU.Visible = true;
                 }
                 GV.LOGIN = this;
-                this.Visible = false;
+                this.Hide();
             }
             else
             {

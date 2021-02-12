@@ -199,7 +199,7 @@ namespace DesignDB_Library.Operations
             DataTable dt = MakeRequestDataTable(requests);
             using (SqlConnection con = new SqlConnection(db))
             {
-                SqlCommand cmd = new SqlCommand("spRequestInsert_TableTypeParam", con);
+                SqlCommand cmd = new SqlCommand("spRequest_Insert_TableTypeParam", con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 SqlParameter param = new SqlParameter();

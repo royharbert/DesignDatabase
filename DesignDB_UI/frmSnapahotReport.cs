@@ -21,8 +21,7 @@ namespace DesignDB_UI
         public frmSnapahotReport()
         {
             InitializeComponent();
-            //frmDateMSO_Picker = ShowDateMSO_Picker();
-            frmDateMSO_Picker = FC.SetDTP_MSO_Picker();
+            frmDateMSO_Picker = GV.PickerForm;
             frmDateMSO_Picker.DataReadyEvent += FrmDateMSO_Picker_DataReadyEvent;
             frmDateMSO_Picker.ShowDialog();
         }

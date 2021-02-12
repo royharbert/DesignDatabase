@@ -1,5 +1,6 @@
 ﻿using DesignDB_Library;
 using DesignDB_Library.Models;
+using DesignDB_Library.Operations;
 using Squirrel;
 using System;
 using System.Collections.Generic;
@@ -17,12 +18,17 @@ namespace DesignDB_UI
     public partial class frmMainMenu : Form
     {
         frmInput frmInput = new frmInput();
-        frmDateMSO_Picker frmDateMSO_Picker = GV.PickerForm;
+        frmDateMSO_Picker frmDateMSO_Picker = new frmDateMSO_Picker();        
+
         private bool formLoading = false;
+        private bool operationCanceled = false;     //flag to indicate cancel of operation
 
         public frmMainMenu()
         {
-            //frmDateMSO_Picker = FC.DisplayPicker();
+            GV.PickerForm = frmDateMSO_Picker;
+            frmDateMSO_Picker.Hide();
+            frmDateMSO_Picker.PickerCanceled += FrmDateMSO_Picker_PickerCanceled;
+            frmDateMSO_Picker.DataReadyEvent += FrmDateMSO_Picker_DataReadyEvent;
             formLoading = true;
             frmInput.InputDataReady += FrmInput_InputDataReady;
             InitializeComponent();
@@ -56,17 +62,73 @@ namespace DesignDB_UI
             formLoading = false;
         }
 
+
+        private void FrmDateMSO_Picker_PickerCanceled(object sender, frmDateMSO_Picker.CancelEventArgs e)
+        {
+            switch (GV.MODE)
+            {
+                case Mode.New:
+                    break;
+                case Mode.Edit:
+                    break;
+                case Mode.Revision:
+                    break;
+                case Mode.Clone:
+                    break;
+                case Mode.Delete:
+                    break;
+                case Mode.Export:
+                    break;
+                case Mode.Restore:
+                    break;
+                case Mode.DateRangeSearch:
+                    break;
+                case Mode.Forecast:
+                    break;
+                case Mode.Report_OpenRequests:
+                    break;
+                case Mode.Report_CatMSO:
+                    frmDateMSO_Picker.Hide();
+                    operationCanceled = true;
+                    break;
+                case Mode.Report_Snapshot:
+                    frmDateMSO_Picker.Hide();
+                    operationCanceled = true;
+                    break;
+                case Mode.Report_AvgCompletion:
+                    frmDateMSO_Picker.Hide();
+                    operationCanceled = true;
+                    break;
+                case Mode.Report_ByPriority:
+                    frmDateMSO_Picker.Hide();
+                    operationCanceled = true;
+                    break;
+                case Mode.Report_DesignerLoadReport:
+                    break;
+                case Mode.Report_Overdue:
+                    break;
+                case Mode.Search:
+                    break;
+                case Mode.Undo:
+                    break;
+                case Mode.None:
+                    break;
+                default:
+                    break;
+            }
+        }
+
         private void setModeTextBox(bool live)
         {
             if (live)
             {
-                txtMode.BackColor = Color.Green;
-                txtMode.ForeColor = Color.White;
+                txtMode.BackColor = txtMode.Parent.BackColor;
+                txtMode.ForeColor = Color.Black;
                 txtMode.Text = "Live";
             }
             else
             {
-                txtMode.BackColor = Color.LightYellow;
+                txtMode.BackColor = Color.IndianRed;
                 txtMode.ForeColor = Color.Black;
                 txtMode.Text = "Sandbox";
             }
@@ -245,7 +307,7 @@ namespace DesignDB_UI
                 frmLogin.Show();
 
                 //put in global variable so it can be made visible later
-                GV.LOGIN = this;
+                GV.LOGIN = frmLogin;
             }
         }
 
@@ -304,7 +366,15 @@ namespace DesignDB_UI
         {
             GV.MODE = Mode.Report_Snapshot;
             frmSnapahotReport frmSnapahot = new frmSnapahotReport();
-            frmSnapahot.Show();
+            if (! operationCanceled)
+            {
+                frmSnapahot.Show();
+            }
+            else
+            {
+                operationCanceled = false;
+                frmSnapahot = null;
+            }
         }
 
         private void FrmDateMSO_Picker_DataReadyEvent(object sender, DataReadyEventArgs e)
@@ -330,14 +400,29 @@ namespace DesignDB_UI
                 case Mode.Report_OpenRequests:
                     break;
                 case Mode.Report_CatMSO:
+                    List<ReportCategoryMSOModel> categoryReport = ReportOps.
+                        reportCategoryMSOs(e.MSO_s, e.StartDate, e.EndDate);
+                    frmReportCatMSO frmReportCatMSO = new frmReportCatMSO();
+                    frmReportCatMSO.Report = categoryReport;
+                    frmReportCatMSO.Show();                    
                     break;
                 case Mode.Report_Snapshot:
-                    List<SnapshotModel> report = DesignDB_Library.Operations.ReportOps.GenerateSnapshotReport
+                    List<SnapshotModel> report = ReportOps.GenerateSnapshotReport
                         (e.MSO_s, e.StartDate, e.EndDate);
                     break;
                 case Mode.Report_AvgCompletion:
+                    List<CompletionTimeModel> completionReport = ReportOps.GenerateCompletionTimeSummary
+                        (e.StartDate, e.EndDate, e.MSO_s);
                     break;
                 case Mode.Report_ByPriority:
+                    DateTime startDate = e.StartDate;
+                    DateTime endDate = e.EndDate;
+                    List<ReportSalesPriorityModel> PriorityReport = ReportOps.GenerateSalesSummary(startDate, endDate);
+                    frmReportSalesPriiority frmReportSalesPriiority = new frmReportSalesPriiority();
+                    frmReportSalesPriiority.Report = PriorityReport;
+                    frmReportSalesPriiority.Visible = true;
+                    frmReportSalesPriiority.Show();
+                    frmReportSalesPriiority.TopMost = true;
                     break;
                 case Mode.Report_DesignerLoadReport:
                     break;
@@ -395,7 +480,7 @@ namespace DesignDB_UI
             GV.MODE = Mode.Report_OpenRequests;
             List<RequestModel> openRequests = GlobalConfig.Connection.GetOpenRequests();
             frmMultiResult frmMultiResult = new frmMultiResult(openRequests);
-            frmMultiResult.Show();
+            frmMultiResult.Show();    
         }
 
         private void btnOverdue_Click(object sender, EventArgs e)
@@ -410,37 +495,45 @@ namespace DesignDB_UI
         {
             GV.MODE = Mode.Report_AvgCompletion;
             frmCompletionTimeReport frmCompletionTimeReport = new frmCompletionTimeReport();
-            try
+            GV.PickerForm.ShowDialog();
+
+            if (! operationCanceled)
             {
-                frmCompletionTimeReport.Show();
+                try
+                {
+                    frmCompletionTimeReport.Show();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Report canceled");
+                }
             }
-            catch (Exception)
+            else
             {
-                MessageBox.Show("Report canceled");
+                operationCanceled = false;      //reset flag
             }
         }
 
         private void btnCatMSO_Click(object sender, EventArgs e)
         {
             GV.MODE = Mode.Report_CatMSO;
-            frmReportCatMSO frmReportCatMSO = new frmReportCatMSO();
-            try
-            {
-                frmReportCatMSO.Show();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Report canceled.");
-            }
+            ShowPicker();
+        }
 
+        private void ShowPicker()
+        {
+            frmDateMSO_Picker = GV.PickerForm;
+            frmDateMSO_Picker.ShowDialog();
+            if (operationCanceled)
+            {
+                operationCanceled = false;
+            }
         }
 
         private void btnReqPriority_Click(object sender, EventArgs e)
         {
             GV.MODE = Mode.Report_ByPriority;
-            frmReportSalesPriiority frmReportSalesPriiority = new frmReportSalesPriiority();
-            frmReportSalesPriiority.Show();
-            frmReportSalesPriiority.frmDateMSO_Picker.BringToFront();
+            ShowPicker();
         }
 
         private void btnSearch_Click(object sender, EventArgs e)

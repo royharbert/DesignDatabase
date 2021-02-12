@@ -15,24 +15,16 @@ namespace DesignDB_UI
 {
     public partial class frmCompletionTimeReport : Form
     {
-        frmDateMSO_Picker frmDateMSO_Picker = new frmDateMSO_Picker(false);
+        frmDateMSO_Picker frmDateMSO_Picker = GV.PickerForm;
+
         public frmCompletionTimeReport()
         {
             InitializeComponent();
-            frmDateMSO_Picker.DataReadyEvent += FrmDateMSO_Picker_DataReadyEvent;
-            frmDateMSO_Picker.PickerCanceled += FrmDateMSO_Picker_PickerCanceled;
-            frmDateMSO_Picker.ShowDialog();
+            
+            frmDateMSO_Picker.DataReadyEvent += FrmDateMSO_Picker_DataReadyEvent;        
         }
 
-        private void FrmDateMSO_Picker_PickerCanceled(object sender, frmDateMSO_Picker.CancelEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void FrmDateMSO_Picker_PickerCanceled(object sender, CancelEventArgs e)
-        {
-            this.Close();
-        }
+ 
 
         private void FrmDateMSO_Picker_DataReadyEvent(object sender, DataReadyEventArgs e)
         {
@@ -56,8 +48,8 @@ namespace DesignDB_UI
 
         private void frmCompletionTimeReport_FormClosing(object sender, FormClosingEventArgs e)
         {
-            frmDateMSO_Picker.DataReadyEvent -= FrmDateMSO_Picker_DataReadyEvent;
-            frmDateMSO_Picker.PickerCanceled -= FrmDateMSO_Picker_PickerCanceled;
+            //frmDateMSO_Picker.DataReadyEvent -= FrmDateMSO_Picker_DataReadyEvent;
+            //frmDateMSO_Picker.PickerCanceled -= FrmDateMSO_Picker_PickerCanceled;
         }
     }
 }

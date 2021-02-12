@@ -16,45 +16,43 @@ namespace DesignDB_UI
 {
     public partial class frmReportCatMSO : Form
     {
-        List<ReportCategoryMSOModel> report = null;
-        frmDateMSO_Picker frmDateMSO_Picker = new frmDateMSO_Picker();
+        private List<ReportCategoryMSOModel> _report = null;
+
+        public List<ReportCategoryMSOModel> Report 
+        {
+            set
+            {
+                _report = value;
+                dgvReport.DataSource = _report;
+                ReportOps.FormatCatMSO_DGV(dgvReport);
+            }
+        }
         public frmReportCatMSO()
         {
             InitializeComponent();
-            frmDateMSO_Picker.DataReadyEvent += FrmDateMSO_Picker_DataReadyEvent;
-            frmDateMSO_Picker.PickerCanceled += FrmDateMSO_Picker_PickerCanceled;
-            frmDateMSO_Picker.ShowDialog();
-            
         }
 
-        private void FrmDateMSO_Picker_PickerCanceled(object sender, frmDateMSO_Picker.CancelEventArgs e)
-        {
-            this.Close();
-        }
+        //private void FrmDateMSO_Picker_PickerCanceled(object sender, frmDateMSO_Picker.CancelEventArgs e)
+        //{
+        //    this.Close();
+        //}
 
-        private void FrmDateMSO_Picker_DataReadyEvent(object sender, DataReadyEventArgs e)
-        {
-            report = DesignDB_Library.Operations.ReportOps.reportCategoryMSOs(e.MSO_s, e.StartDate, e.EndDate);
-            dgvReport.DataSource = report;
-            ReportOps.FormatCatMSO_DGV(dgvReport);
-        }
+        //private void FrmDateMSO_Picker_DataReadyEvent(object sender, DataReadyEventArgs e)
+        //{
+        //    report = DesignDB_Library.Operations.ReportOps.reportCategoryMSOs(e.MSO_s, e.StartDate, e.EndDate);
+        
+        //}
 
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void frmReportCatMSO_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            frmDateMSO_Picker.DataReadyEvent -= FrmDateMSO_Picker_DataReadyEvent;
-            frmDateMSO_Picker.PickerCanceled -= FrmDateMSO_Picker_PickerCanceled;
-        }
-
         private void btnExport_Click(object sender, EventArgs e)
         {
-            DesignDB_Library.Operations.ListLooper.ExcelExporter<ReportCategoryMSOModel> exporter =
-                new DesignDB_Library.Operations.ListLooper.ExcelExporter<ReportCategoryMSOModel>();
-            exporter.List = report;
+            ListLooper.ExcelExporter<ReportCategoryMSOModel> exporter =
+                new ListLooper.ExcelExporter<ReportCategoryMSOModel>();
+            exporter.List = _report;
             Excel.Worksheet wks = exporter.Wksheet;
             ReportOps.FormatCatMSO_Export(wks);
         }

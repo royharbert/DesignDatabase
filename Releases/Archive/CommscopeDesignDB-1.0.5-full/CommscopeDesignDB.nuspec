@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>CommscopeDesignDB</id>
+    <version>1.0.5</version>
+    <title>Commscope Design Database</title>
+    <authors>Roy Harbert</authors>
+    <owners>
+    </owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>SQL Design Database</description>
+  </metadata>
+</package>

@@ -78,7 +78,7 @@ namespace DesignDB_UI
             args.StartDate = dtpStart.Value;
             args.EndDate = dtpStop.Value;
             DataReadyEvent?.Invoke(this, args);
-            this.Close();
+            this.Hide();
         }
 
         private void ckAll_CheckedChanged(object sender, EventArgs e)
