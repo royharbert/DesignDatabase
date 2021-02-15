@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using DesignDB_Library;
 using Excel = Microsoft.Office.Interop.Excel;
+using System.Windows.Forms;
 
 namespace DesignDB_Library.Operations
 {
@@ -42,7 +43,7 @@ namespace DesignDB_Library.Operations
             return modelList;
         }
 
-        public static void ImportAttachmentsFromExcel(Excel.Application xlApp)
+        public static void ImportAttachmentsFromExcel(Excel.Application xlApp, TextBox txtBox)
         {
             AttachmentModel model = new AttachmentModel();
             Excel.Worksheet sheet = (Excel.Worksheet)xlApp.ActiveSheet;
@@ -62,6 +63,7 @@ namespace DesignDB_Library.Operations
                 if (sheet.Cells[row, 2].Value != null)
                 {
                     indexCell = sheet.Cells[row, 2].Value.ToString();
+                    txtBox.Text = row.ToString();
                 }
             }
             

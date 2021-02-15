@@ -9,6 +9,8 @@ namespace DesignDB_Library.DataAccess
 {
     public interface IDataConnection
     {
+        List<DesignersReviewersModel> Reviewers_GetActive();
+        List<DesignersReviewersModel> Reviewers_GetAll();
         List<SalespersonModel> SalespersonsGetAll();
         void SalespersonAdd(SalespersonModel model);
         void SalespersonDelete(SalespersonModel model);

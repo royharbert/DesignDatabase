@@ -36,7 +36,7 @@ namespace DesignDB_Utilities
                 xlWorkSheet = (Excel.Worksheet)xlApp.ActiveSheet;
 
                 //Move items to table
-                AttachmentOps.ImportAttachmentsFromExcel(xlApp);
+                AttachmentOps.ImportAttachmentsFromExcel(xlApp, txtRow);
                   
                 ExcelOps.releaseObject(xlWorkSheet);
                 ExcelOps.releaseObject(xlWorkBook);

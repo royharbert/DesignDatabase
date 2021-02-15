@@ -139,14 +139,24 @@ namespace DesignDB_UI
         {
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-            txtMode.Text += $"     v.{ versionInfo.FileVersion }";
+            txtMode.Text += $"     V.{ versionInfo.FileVersion }";
         }
 
         private async Task CheckForUpdates()
         {
-            using (var manager = new UpdateManager(@"\\sccacve1\Databases\DesignDB\Beta"))
-            {                
-                await manager.UpdateApp();
+            if (GlobalConfig.DatabaseMode == DatabaseType.Live)
+            {
+                using (var manager = new UpdateManager(@"\\sccacve1\Databases\DesignDB\Beta"))
+                {
+                    await manager.UpdateApp();
+                }
+            }
+            else
+            {
+                using (var manager = new UpdateManager(@"C:\Users\rharbert\OneDrive - CommScope\SQLDB\Squirrel"))
+                {
+                    await manager.UpdateApp();
+                }
             }
         }
 
@@ -558,15 +568,16 @@ namespace DesignDB_UI
                 {
                     GlobalConfig.SetDatabaseMode(DatabaseType.Live);
                     Properties.Settings.Default.DatabaseLive = true;
+                    Properties.Settings.Default.Save();
                     setModeTextBox(true);
                 }
                 else
                 {
                     GlobalConfig.SetDatabaseMode(DatabaseType.Sandbox);
                     Properties.Settings.Default.DatabaseLive = false;
+                    Properties.Settings.Default.Save();
                     setModeTextBox(false);
                 }
-                Properties.Settings.Default.Save();
             }
         }
     }

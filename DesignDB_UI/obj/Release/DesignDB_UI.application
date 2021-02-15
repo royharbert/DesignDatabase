@@ -7,14 +7,14 @@
     <framework targetVersion="4.7.2" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="DesignDB_UI.exe.manifest" size="17227">
+    <dependentAssembly dependencyType="install" codebase="DesignDB_UI.exe.manifest" size="17705">
       <assemblyIdentity name="DesignDB_UI.exe" version="1.0.0.4" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>2U724aQ5m3TFZvSl6rkg3Xo43RvYxuvekKaJpmr3O/Q=</dsig:DigestValue>
+        <dsig:DigestValue>DlxKxBVZlWL4AZqYZaL6W+gSawREFHy4jkqyPA7whJM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

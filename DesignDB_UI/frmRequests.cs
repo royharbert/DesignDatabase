@@ -14,6 +14,7 @@ using System.IO;
 using System.Diagnostics;
 using DesignDB_Library;
 using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace DesignDB_UI
 {
@@ -231,12 +232,12 @@ namespace DesignDB_UI
             cboReviewedBy.Text = rm.ReviewedBy;
             txtBOM_Val.Text = rm.BOM_Value.ToString("C2");
             txtPctCovered.Text = rm.PercentageProjectCovered.ToString();
-            txtTotalVal.Text = calcTotVal().ToString();
             cboAwardStatus.Text = rm.AwardStatus;
             txtTotalHours.Text = rm.TotalHours.ToString();
             txtLastUpdate.Text = isDateFailDate(rm.DateLastUpdate, txtLastUpdate);
             rtbArchDetails.Text = rm.ArchitectureDetails;
             rtbComments.Text = rm.Comments;
+            txtTotalVal.Text = calcTotVal().ToString("C2");
 
             //set modelMSO since it does not come from DB
             Rm.msoModel = (MSO_Model)cboMSO.SelectedItem;
@@ -403,7 +404,8 @@ namespace DesignDB_UI
             {
                 txtPctCovered.Text = "0";
             }
-            bool BOMSuccess = decimal.TryParse(txtBOM_Val.Text, out BOMVal);
+            //string unformattedVal = txtBOM_Val.Text.ToString();
+            bool BOMSuccess = decimal.TryParse(txtBOM_Val.Text, NumberStyles.Currency, CultureInfo.CurrentCulture.NumberFormat, out BOMVal);
             bool pctSuccess = decimal.TryParse(txtPctCovered.Text, out pct);
 
             //TODO -- Routine to catch parse errors
@@ -543,7 +545,7 @@ namespace DesignDB_UI
             cboAssisted.DisplayMember = "Designer";
             cboAssisted.SelectedIndex = -1;
 
-            List<DesignersReviewersModel> reviewerList = cloneList(activeDesignerList);
+            List<DesignersReviewersModel> reviewerList = GlobalConfig.Connection.Reviewers_GetActive();
             cboReviewedBy.DataSource = reviewerList;
             cboReviewedBy.DisplayMember = "Designer";
             cboReviewedBy.SelectedIndex = -1;
@@ -611,7 +613,7 @@ namespace DesignDB_UI
                 checkForSave();
             }
 
-            resetForm();
+            resetForm();            
             GV.REQFORM.Visible = false;
             GV.MODE = Mode.None;
         }

@@ -234,6 +234,24 @@ namespace DesignDB_Library.DataAccess
             }
         }
 
+        public List<DesignersReviewersModel> Reviewers_GetActive()
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                List<DesignersReviewersModel> output = connection.Query<DesignersReviewersModel>("dbo.spReviewers_GetAll", commandType: CommandType.StoredProcedure).ToList();
+                return output;
+            }
+        }
+
+        public List<DesignersReviewersModel> Reviewers_GetAll()
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                List<DesignersReviewersModel> output = connection.Query<DesignersReviewersModel>("dbo.spReviewers_GetActive", commandType: CommandType.StoredProcedure).ToList();
+                return output;
+            }
+        }
+
         public List<MSO_Model> GetAllMSO()
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))

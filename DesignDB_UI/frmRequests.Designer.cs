@@ -721,11 +721,12 @@ namespace DesignDB_UI
             this.txtTotalVal.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTotalVal.Enabled = false;
             this.txtTotalVal.Location = new System.Drawing.Point(147, 143);
             this.txtTotalVal.Name = "txtTotalVal";
             this.txtTotalVal.Size = new System.Drawing.Size(234, 22);
             this.txtTotalVal.TabIndex = 22;
-            this.txtTotalVal.Tag = "L";
+            this.txtTotalVal.Tag = "";
             // 
             // label25
             // 

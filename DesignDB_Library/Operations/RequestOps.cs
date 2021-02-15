@@ -18,15 +18,22 @@ namespace DesignDB_Library.Operations
             //increment rev letter 
             request.ProjectID = request.ProjectID.ToUpper();
             int loc = request.ProjectID.IndexOf("REV_");
-            char c = request.ProjectID[loc + 4];
-            int asc = (int)c;
-            char rev = (char)(asc + 1);
-            char[] requestAsChars = request.ProjectID.ToCharArray();
-            requestAsChars[loc + 4] = rev;
-            request.ProjectID = new string(requestAsChars);
-            if (request.ProjectID.Length > loc + 5)
+            if (loc > -1)
             {
-                request.ProjectID = request.ProjectID.Remove(request.ProjectID.Length - 1, 1);
+                char c = request.ProjectID[loc + 4];
+                int asc = (int)c;
+                char rev = (char)(asc + 1);
+                char[] requestAsChars = request.ProjectID.ToCharArray();
+                requestAsChars[loc + 4] = rev;
+                request.ProjectID = new string(requestAsChars);
+                if (request.ProjectID.Length > loc + 5)
+                {
+                    request.ProjectID = request.ProjectID.Remove(request.ProjectID.Length - 1, 1);
+                }
+            }
+            else
+            {
+                request.ProjectID += "_REV_B";
             }
 
             //Clear appropriate cells
@@ -191,6 +198,8 @@ namespace DesignDB_Library.Operations
 
         }
 
+
+
         public static void InsertNewRequest(RequestModel request)
         {
             string db = GetConnectionString();
@@ -215,11 +224,15 @@ namespace DesignDB_Library.Operations
 
         private static string GetConnectionString()
         {
-#if (ACTIVE)
-            string db = ConfigurationManager.ConnectionStrings["Live"].ConnectionString;
-#else
-            string db = ConfigurationManager.ConnectionStrings["Sandbox"].ConnectionString;
-#endif
+            string db = "";
+            if (GlobalConfig.DatabaseMode == DatabaseType.Live)
+            {
+                db = ConfigurationManager.ConnectionStrings["Live"].ConnectionString;
+            }
+            else
+            {
+                db = ConfigurationManager.ConnectionStrings["Sandbox"].ConnectionString;
+            }
             return db;
         }
     }

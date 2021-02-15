@@ -31,6 +31,7 @@ namespace DesignDB_Utilities
         {
             this.btnImportAtt = new System.Windows.Forms.Button();
             this.btnForecast = new System.Windows.Forms.Button();
+            this.txtRow = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btnImportAtt
@@ -53,12 +54,20 @@ namespace DesignDB_Utilities
             this.btnForecast.UseVisualStyleBackColor = true;
             this.btnForecast.Click += new System.EventHandler(this.btnForecast_Click);
             // 
+            // txtRow
+            // 
+            this.txtRow.Location = new System.Drawing.Point(316, 91);
+            this.txtRow.Name = "txtRow";
+            this.txtRow.Size = new System.Drawing.Size(166, 26);
+            this.txtRow.TabIndex = 2;
+            // 
             // frmUtilityMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Tan;
             this.ClientSize = new System.Drawing.Size(1200, 692);
+            this.Controls.Add(this.txtRow);
             this.Controls.Add(this.btnForecast);
             this.Controls.Add(this.btnImportAtt);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -66,6 +75,7 @@ namespace DesignDB_Utilities
             this.Name = "frmUtilityMenu";
             this.Text = "Utilities";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -73,6 +83,7 @@ namespace DesignDB_Utilities
 
         private System.Windows.Forms.Button btnImportAtt;
         private System.Windows.Forms.Button btnForecast;
+        private System.Windows.Forms.TextBox txtRow;
     }
 }
 

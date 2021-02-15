@@ -15,11 +15,16 @@ namespace DesignDB_Library
     {
         public static void UpdateHolidays(DataTable dt)
         {
-#if (ACTIVE)
-            string db = ConfigurationManager.ConnectionStrings["Live"].ConnectionString;
-#else
-            string db = ConfigurationManager.ConnectionStrings["Sandbox"].ConnectionString;
-#endif
+            string db;
+            if (GlobalConfig.DatabaseMode == DatabaseType.Live)
+            {
+                db = ConfigurationManager.ConnectionStrings["Live"].ConnectionString;
+            }
+            else
+            {
+                db = ConfigurationManager.ConnectionStrings["Sandbox"].ConnectionString;
+            }
+
             using (SqlConnection con = new SqlConnection(db))
             {
                 SqlCommand cmd = new SqlCommand("spHolidays_Update", con);
