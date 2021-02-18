@@ -59,6 +59,7 @@ namespace DesignDB_UI
                 {
                     insertData(Rm);
                 }
+                getAttachments(txtPID.Text);
                 formLoading = false;
                 formDirty = false;
                 addHandlers();
@@ -378,7 +379,7 @@ namespace DesignDB_UI
         {
             if (dtp.Value <= failDate)
             {
-                dtp.Value = txtDateCompleted.MinDate;
+                dtp.Value = new DateTime(1900,1,1);
             }
             return dtp.Value;
         }
@@ -474,6 +475,7 @@ namespace DesignDB_UI
                 case Mode.Forecast:
                     break;
                 case Mode.None:
+                    GV.MODE = GV.PreviousMode;
                     break;
                 default:
                     break;
