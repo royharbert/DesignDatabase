@@ -24,12 +24,9 @@ namespace DesignDB_UI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            List<RequestModel> requests = GlobalConfig.Connection.GetOpenRequests();
-            DateTime compDate = requests[0].DateCompleted;
-            if (compDate == DateTime.MinValue)
-            {
-                MessageBox.Show("MinDate");
-            }
+            dtp.CustomFormat = " ";
+            dtp.Format = DateTimePickerFormat.Custom;
+            dtp.Value = dtp.MinDate;
         }
     }
 }

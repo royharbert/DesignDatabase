@@ -1,6 +1,8 @@
-﻿using DesignDB_Library.Models;
+﻿using DesignDB_Library;
+using DesignDB_Library.Models;
 using System;
 using System.Collections;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +11,26 @@ using System.Windows.Forms;
 namespace DesignDB_UI
 {
     public class FC
-    {      
+    {
+        public static void setDBMode(Form callingForm, bool isLive)
+        {
+            if (isLive)
+            {
+                GlobalConfig.SetDatabaseMode(DatabaseType.Live);
+                GlobalConfig.AttachmentPath = "\\" + "\\USCA5PDBATDGS01\\Databases\\AttachmentsDesign";
+                Properties.Settings.Default.DatabaseLive = true;
+                Properties.Settings.Default.Save();
+                callingForm.BackColor = Color.Silver;                
+            }
+            else
+            {
+                GlobalConfig.SetDatabaseMode(DatabaseType.Sandbox);
+                GlobalConfig.AttachmentPath = "\\" + "\\USCA5PDBATDGS01\\Databases\\Sandbox\\AttachmentsDesign";
+                Properties.Settings.Default.DatabaseLive = false;
+                Properties.Settings.Default.Save();
+                callingForm.BackColor = Color.IndianRed;                
+            }
+        }
         public static bool isFormOpen(string formName)
         {
             FormCollection fc = Application.OpenForms;
@@ -41,44 +62,13 @@ namespace DesignDB_UI
             }
         }
 
-        //public static frmDateMSO_Picker SetDTP_MSO_Picker()
-        //{            
-        //    frmDateMSO_Picker returnForm = null;
-        //    if (GV.PickerForm == null)
-        //    {
-        //        returnForm = new frmDateMSO_Picker();                
-        //        GV.PickerForm = returnForm;                
-        //    }
-        //    else
-        //    {                
-        //        returnForm = GV.PickerForm;
-        //    }           
-        //    return returnForm;
-        //}
-
         public static frmRequests DisplayRequestForm(RequestModel request = null)
         {
-            if (GV.REQFORM == null)
-            {
-                frmRequests frmRequests = new frmRequests();
-                frmRequests.Show();                
-                GV.REQFORM = frmRequests;
-                if (request != null)
-                {
-                    GV.REQFORM.Request = request;
-                }
-            }
-            else
-            {
-                GV.REQFORM.Visible = true;
-                if (request != null)
-                {
-                    GV.REQFORM.Request = request;
-                }
-            }
-
+            Cursor.Current = Cursors.WaitCursor;
+            GV.REQFORM.Request = request;
+            GV.REQFORM.Show();
             GV.REQFORM.BringToFront();
-
+            Cursor.Current = Cursors.Default;
             return GV.REQFORM;
         }
     }

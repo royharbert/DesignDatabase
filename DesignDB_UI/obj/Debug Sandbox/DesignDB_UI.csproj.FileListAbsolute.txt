@@ -66,3 +66,5 @@ C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\bin\De
 C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\bin\Debug Sandbox\Mono.Cecil.Rocks.pdb
 C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\bin\Debug Sandbox\NuGet.Squirrel.pdb
 C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\bin\Debug Sandbox\Squirrel.pdb
+C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\obj\Debug Sandbox\DesignDB_UI.frmCopyFromSandboxList.resources
+C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\obj\Debug Sandbox\DesignDB_UI.frmUtility.resources

@@ -26,6 +26,7 @@ namespace DesignDB_UI
         public frmMainMenu()
         {
             GV.PickerForm = frmDateMSO_Picker;
+            GV.REQFORM = new frmRequests();
             frmDateMSO_Picker.Hide();
             frmDateMSO_Picker.PickerCanceled += FrmDateMSO_Picker_PickerCanceled;
             frmDateMSO_Picker.DataReadyEvent += FrmDateMSO_Picker_DataReadyEvent;
@@ -33,14 +34,7 @@ namespace DesignDB_UI
             frmInput.InputDataReady += FrmInput_InputDataReady;
             InitializeComponent();
 
-            if (GlobalConfig.DatabaseMode == DatabaseType.Live)
-            {
-                rdoLive.Checked = true;
-            }
-            else
-            {
-                rdoSandbox.Checked = true;
-            }
+
 
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             CheckForUpdates();
@@ -48,15 +42,15 @@ namespace DesignDB_UI
 
             if (GlobalConfig.DatabaseMode == DatabaseType.Live)
             {
-                DesignDB_Library.GlobalConfig.InitializeConnection(DesignDB_Library.DatabaseType.Live);
-                GlobalConfig.AttachmentPath = "\\" + "\\USCA5PDBATDGS01\\Databases\\AttachmentsDesign";
+                FC.setDBMode(this, true);
                 setModeTextBox(true);
+                rdoLive.Checked = true;
             }
             else
             {
-                DesignDB_Library.GlobalConfig.InitializeConnection(DesignDB_Library.DatabaseType.Sandbox);
-                GlobalConfig.AttachmentPath = "\\" + "\\USCA5PDBATDGS01\\Databases\\Sandbox\\AttachmentsDesign";
+                FC.setDBMode(this, false);
                 setModeTextBox(false);
+                rdoSandbox.Checked = true;
             }
 
             formLoading = false;
@@ -554,11 +548,7 @@ namespace DesignDB_UI
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            frmSalesMaint frmSalesMaint = new frmSalesMaint();
-            frmSalesMaint.Show();
-        }
+
 
         private void rdoLive_CheckedChanged(object sender, EventArgs e)
         {
@@ -566,19 +556,27 @@ namespace DesignDB_UI
             {
                 if (rdoLive.Checked)
                 {
-                    GlobalConfig.SetDatabaseMode(DatabaseType.Live);
-                    Properties.Settings.Default.DatabaseLive = true;
-                    Properties.Settings.Default.Save();
+                    FC.setDBMode(this, true);
                     setModeTextBox(true);
                 }
                 else
                 {
-                    GlobalConfig.SetDatabaseMode(DatabaseType.Sandbox);
-                    Properties.Settings.Default.DatabaseLive = false;
-                    Properties.Settings.Default.Save();
+                    FC.setDBMode(this,false);
                     setModeTextBox(false);
                 }
             }
+        }
+
+        private void btnUtility_Click(object sender, EventArgs e)
+        {
+            frmUtility frmUtility = new frmUtility();
+            frmUtility.Show();            
+        }
+
+        private void btnSalespersonMaint_Click(object sender, EventArgs e)
+        {
+            frmSalesMaint frmSalesMaint = new frmSalesMaint();
+            frmSalesMaint.Show();
         }
     }
 }

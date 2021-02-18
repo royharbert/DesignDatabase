@@ -66,3 +66,5 @@ C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\obj\De
 C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\obj\Debug\DesignDB_UI.frmSnapahotReport.resources
 C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\obj\Debug\DesignDB_UI.exe.manifest
 C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\obj\Debug\DesignDB_UI.application
+C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\obj\Debug\DesignDB_UI.frmCopyFromSandboxList.resources
+C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\obj\Debug\DesignDB_UI.frmUtility.resources

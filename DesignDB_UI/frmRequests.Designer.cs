@@ -241,6 +241,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboAssisted.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboAssisted.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboAssisted.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboAssisted.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboAssisted.FormattingEnabled = true;
             this.cboAssisted.Location = new System.Drawing.Point(161, 354);
@@ -267,6 +268,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboDesigner.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboDesigner.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboDesigner.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboDesigner.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboDesigner.FormattingEnabled = true;
             this.cboDesigner.Location = new System.Drawing.Point(161, 319);
@@ -293,6 +295,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboPriority.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboPriority.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboPriority.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboPriority.FormattingEnabled = true;
             this.cboPriority.Items.AddRange(new object[] {
@@ -324,6 +327,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboQuoteType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboQuoteType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboQuoteType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboQuoteType.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboQuoteType.FormattingEnabled = true;
             this.cboQuoteType.Items.AddRange(new object[] {
@@ -383,6 +387,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboRegion.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboRegion.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboRegion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboRegion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboRegion.FormattingEnabled = true;
             this.cboRegion.Location = new System.Drawing.Point(161, 179);
@@ -456,9 +461,6 @@ namespace DesignDB_UI
             // 
             // txtProjName
             // 
-            this.txtProjName.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtProjName.Location = new System.Drawing.Point(161, 388);
             this.txtProjName.Name = "txtProjName";
             this.txtProjName.Size = new System.Drawing.Size(258, 22);
@@ -482,6 +484,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboArchType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboArchType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboArchType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboArchType.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboArchType.FormattingEnabled = true;
             this.cboArchType.Items.AddRange(new object[] {
@@ -529,6 +532,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboCategory.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboCategory.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCategory.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboCategory.FormattingEnabled = true;
             this.cboCategory.Items.AddRange(new object[] {
@@ -620,6 +624,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboReviewedBy.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboReviewedBy.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboReviewedBy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboReviewedBy.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboReviewedBy.FormattingEnabled = true;
             this.cboReviewedBy.Location = new System.Drawing.Point(147, 39);
@@ -646,6 +651,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboAwardStatus.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboAwardStatus.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboAwardStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboAwardStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboAwardStatus.FormattingEnabled = true;
             this.cboAwardStatus.Items.AddRange(new object[] {
@@ -1328,7 +1334,6 @@ namespace DesignDB_UI
             this.Name = "frmRequests";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Design Request";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmRequests_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachments)).EndInit();
             this.tlpLeft.ResumeLayout(false);

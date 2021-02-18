@@ -20,6 +20,7 @@ namespace DesignDB_Library.Operations
             int loc = request.ProjectID.IndexOf("REV_");
             if (loc > -1)
             {
+                request.OriginalQuote = request.ProjectID;
                 char c = request.ProjectID[loc + 4];
                 int asc = (int)c;
                 char rev = (char)(asc + 1);
@@ -56,7 +57,7 @@ namespace DesignDB_Library.Operations
 
         public static RequestModel Clone(RequestModel model)
         {
-            //generate new PID
+            //generate new PID            
             model.ProjectID = PID_Generator.MakePID(model.msoModel);
 
             //set model properties
@@ -90,7 +91,7 @@ namespace DesignDB_Library.Operations
             DataTable dt = MakeRequestDataTable(requestModelList);
             using (SqlConnection con = new SqlConnection(db))
             {
-                SqlCommand cmd = new SqlCommand("spRequest_Delete", con);
+                SqlCommand cmd = new SqlCommand("spRequest_DeleteByID", con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 SqlParameter param = new SqlParameter();
@@ -99,8 +100,8 @@ namespace DesignDB_Library.Operations
                 cmd.Parameters.Add(param);
                 
                 param = new SqlParameter();
-                param.ParameterName = "@PID";
-                param.Value = requestModel.ProjectID;
+                param.ParameterName = "@ID";
+                param.Value = requestModel.ID;
                 cmd.Parameters.Add(param);
 
                 con.Open();
@@ -114,7 +115,7 @@ namespace DesignDB_Library.Operations
         /// </summary>
         /// <param name="requests"></param>
         /// <returns></returns>
-        public static DataTable MakeRequestDataTable(List<RequestModel> requests)
+        public static DataTable MakeRequestDataTable(List<RequestModel> requests, bool includeID = false)
         {
             //Make table for update
             DataTable dt = new DataTable();
@@ -146,37 +147,45 @@ namespace DesignDB_Library.Operations
                 }
                 dt.Rows.Add(row);                
             }
-            dt.Columns.Remove("ID");
+            if (!includeID)
+            {
+                dt.Columns.Remove("ID");
+            }
             dt.Columns.Remove("msoModel");
             return dt;
         }
 
-        public static void RestoreRequest(RequestModel requestModel)
-        {
+        public static void RestoreRequest(RequestModel request)
+        {  
             string db = GetConnectionString();
-            List<RequestModel> requestModelList = new List<RequestModel>();
-            requestModelList.Add(requestModel);
-            DataTable dt = MakeRequestDataTable(requestModelList);
+            List<RequestModel> requests = new List<RequestModel>();
+            requests.Add(request);
+            DataTable dt = MakeRequestDataTable(requests);
+         
             using (SqlConnection con = new SqlConnection(db))
             {
-                SqlCommand cmd = new SqlCommand("spRequest_UnDelete", con);
+                //InsertNewRequest(requestModel);
+                SqlCommand cmd = new SqlCommand("spRequest_UnDeleteByID", con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 SqlParameter param = new SqlParameter();
-                param.ParameterName = "@RequestModel";
+                param.ParameterName = "@RequestTableType";
                 param.Value = dt;
                 cmd.Parameters.Add(param);
 
                 param = new SqlParameter();
-                param.ParameterName = "@PID";
-                param.Value = requestModel.ProjectID;
+                param.ParameterName = "@ID";
+                param.Value = request.ID    ;
                 cmd.Parameters.Add(param);
 
                 con.Open();
                 cmd.ExecuteNonQuery();
                 con.Close();
-                System.Windows.Forms.MessageBox.Show("Request " + requestModel.ProjectID + " has been restored.");
             }
+
+
+            System.Windows.Forms.MessageBox.Show("Request " + request.ProjectID + " has been restored.");
+            
         }
         public static void UpdateRequest(DataTable dt)
         {
@@ -221,6 +230,26 @@ namespace DesignDB_Library.Operations
                 con.Close();
             }
         }
+
+        //public static void InsertNewRequest(List<RequestModel> requests)
+        //{
+        //    string db = GetConnectionString();
+        //    DataTable dt = MakeRequestDataTable(requests);
+        //    using (SqlConnection con = new SqlConnection(db))
+        //    {
+        //        SqlCommand cmd = new SqlCommand("spRequest_Insert_TableTypeParam", con);
+        //        cmd.CommandType = CommandType.StoredProcedure;
+
+        //        SqlParameter param = new SqlParameter();
+        //        param.ParameterName = "@RequestTableType";
+        //        param.Value = dt;
+        //        cmd.Parameters.Add(param);
+
+        //        con.Open();
+        //        cmd.ExecuteNonQuery();
+        //        con.Close();
+        //    }
+        //}
 
         private static string GetConnectionString()
         {

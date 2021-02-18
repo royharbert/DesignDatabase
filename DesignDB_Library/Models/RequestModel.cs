@@ -75,7 +75,10 @@ namespace DesignDB_Library.Models
         {
             //initialize all date fields to valid date string that will not be
             //displayed in frmRequest
-    
+            this.DateCompleted = new DateTime(1900, 1, 1);
+            this.DateAllInfoReceived = new DateTime(1900, 1, 1);
+            this.DateDue = new DateTime(1900, 1, 1);
+            this.DateLastUpdate = new DateTime(1900, 1, 1);
         }
 
         public RequestModel(string PID, string mso, string EndCust, string city, string state, 

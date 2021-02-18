@@ -134,3 +134,5 @@ C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\obj\Re
 C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\obj\Release\DesignDB_UI.csproj.CopyComplete
 C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\obj\Release\DesignDB_UI.exe
 C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\obj\Release\DesignDB_UI.pdb
+C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\obj\Release\DesignDB_UI.frmCopyFromSandboxList.resources
+C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\obj\Release\DesignDB_UI.frmUtility.resources

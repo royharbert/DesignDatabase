@@ -20,14 +20,20 @@ namespace DesignDB_UI
 {
 
     public partial class frmRequests : Form
-    {
-        //public event EventHandler ContentChanged;
-
+    {        
         RequestModel Rm = new RequestModel();
 
         //Class scope variables to hold button name strings
-        string Level1ButtonNames = "";
-        string Level2ButtonNames = "";
+        
+        static string Level1ButtonNames = "btnUndo,btnSave,btnSearch,btnAddAtt,btnRemoveAtt,btnDone,btnLoadRpt";
+        static string Level2ButtonNames = Level1ButtonNames + ",btnDelete,btnRestore,btnClone,btnNew,btnRev";
+        static string RequestNewButtons = "btnUndo,btnSave,btnAddAtt,btnRemoveAtt,btnDone,btnClone,btnNew,btnRev";
+        static string RequestEditButtons = "btnUndo,btnSave,btnAddAtt,btnRemoveAtt,btnDone,btnClone,btnNew,btnRev";
+        static string RequestCloneButtons = "btnUndo,btnSave,btnAddAtt,btnRemoveAtt,btnDone,btnClone,btnNew,btnRev";
+        static string RequestRevisionButtons = "btnUndo,btnSave,btnAddAtt,btnRemoveAtt,btnDone,btnClone,btnNew,btnRev";
+        static string RequestDeleteButtons = "btnDelete";
+        static string RequestRestoreButtons = "btnRestore";
+        static string RequestSearchButtons = "btnSearchFields";
 
         bool formLoading;
         bool formDirty;        
@@ -45,65 +51,63 @@ namespace DesignDB_UI
                 return Rm;
             }
             set
-            {                
-                Rm = value;                
-                SetRequestModel(Rm);
+            {
+                formLoading = true;
+                Rm = value;
+                prepFormForTask();
+                if (Rm != null)
+                {
+                    insertData(Rm);
+                }
+                formLoading = false;
+                formDirty = false;
+                addHandlers();
             }
 }
         public frmRequests(List<RequestModel> rm = null)
-        {         
+        {
+            formLoading = true;
+            Cursor.Current = Cursors.WaitCursor;
+            Application.DoEvents();
             InitializeComponent();
-            makeLists();
-            if (rm != null)
-            {
-                SetRequestModel(rm[0]);
-            }
-            else
-            {
-                SetRequestModel();
-            }
+            makeLists();    
         }
 
-        public void SetRequestModel(RequestModel rm = null)
+        private void prepFormForTask()
         {
-            formLoading = true; //Used to prevent PID generator firing
-            SetButtonVisibility(GV.USERNAME);
-
-            //set the class level scope model Rm equal to constructor scoped rm
-            if (rm != null)
-            {
-                Rm = rm;
-            }            
-
             switch (GV.MODE)
-            {
-                case Mode.New:
-                    resetForm();
+            { 
+                case Mode.New:                   
+                    setButtonDisplay(RequestNewButtons);
+                    break;
+
+                case Mode.Restore:
+                    setButtonDisplay(RequestRestoreButtons);
+                    break;
+
+                case Mode.Delete:
+                    setButtonDisplay(RequestDeleteButtons);
                     break;
 
                 case Mode.Edit:
-                case Mode.Restore:
                 case Mode.Report_Overdue:
-                case Mode.Delete:                    
-                    unlockTLP(true);
-                    if (rm != null)
-                    {
-                        Rm = rm;
-                        insertData(rm);
-                    }
+                    setButtonDisplay(RequestEditButtons);
                     break;
 
                 case Mode.Revision:
+                    setButtonDisplay(RequestRevisionButtons);
                     break;
 
                 case Mode.Clone:
+                    setButtonDisplay(RequestCloneButtons);
                     break;
+
                 case Mode.Search:
-                    unlockTLP(true);
-                    btnSearchFields.Visible = true;
+                    setButtonDisplay(RequestSearchButtons);
                     break;
 
                 case Mode.None:
+                    Rm = null;
                     break;
 
                 case Mode.Forecast:
@@ -111,13 +115,40 @@ namespace DesignDB_UI
                     break;
 
                 default:
+                    Rm = null;
                     break;
+            }            
+        }
+  
+        /// <summary>
+        /// sets visibility of buttons on form
+        /// </summary>
+        /// <param name="displayString"></param>
+        private void setButtonDisplay(string displayString)
+        {
+            //hide all buttons
+            foreach (Control ctl in tlpBottom.Controls)
+            {
+                if (ctl is Button)
+                {
+                    ctl.Visible = false;
+                }
             }
 
-            formLoading = false;
-            formDirty = false;
-            addHandlers();
+            string[] visibleButtons = displayString.Split(',');
+            foreach (Control ctl in tlpBottom.Controls)
+            {
+                string name = ctl.Name;
+                int idx = Array.IndexOf(visibleButtons, name);
+                if (idx != -1)
+                {
+                    ctl.Visible = true;                            
+                }
+            }
+            btnDone.Visible = true;
+            
         }
+
         private void checkForSave()
         {
             DialogResult result = MessageBox.Show("Save Changes?", caption: "Save", buttons:  MessageBoxButtons.YesNo);
@@ -129,9 +160,6 @@ namespace DesignDB_UI
 
         private void SetButtonVisibility(DesignersReviewersModel designer)
         {
-            Level1ButtonNames = "btnUndo,btnSave,btnSearch,btnAddAtt,btnRemoveAtt,btnDone,btnLoadRpt";
-            Level2ButtonNames = Level1ButtonNames + ",btnDelete,btnRestore,btnClone,btnNew,btnRev";
-
             string[] p1Array = Level1ButtonNames.Split(',');
             string[] p2Array = Level2ButtonNames.Split(',');
 
@@ -225,16 +253,21 @@ namespace DesignDB_UI
             cboOrigQuote.Text = rm.OriginalQuote;
             cboCategory.Text = rm.Category;
             cboArchType.Text = rm.ArchitectureType;
-            txtDateAssigned.Text = isDateFailDate(rm.DateAssigned, txtDateAssigned);
-            txtDateAllInfo.Text = isDateFailDate(rm.DateAllInfoReceived, txtDateAllInfo);
-            txtDateDue.Text = isDateFailDate(rm.DateDue, txtDateDue);
-            txtDateCompleted.Text = isDateFailDate(rm.DateCompleted, txtDateCompleted);
+            
+            dtpLoadFromModel(txtDateAssigned, rm.DateAssigned);
+            
+            dtpLoadFromModel(txtDateAllInfo, rm.DateAllInfoReceived);
+            
+            dtpLoadFromModel(txtDateDue, rm.DateDue);
+            
+            dtpLoadFromModel(txtDateCompleted, rm.DateCompleted);
             cboReviewedBy.Text = rm.ReviewedBy;
             txtBOM_Val.Text = rm.BOM_Value.ToString("C2");
             txtPctCovered.Text = rm.PercentageProjectCovered.ToString();
             cboAwardStatus.Text = rm.AwardStatus;
             txtTotalHours.Text = rm.TotalHours.ToString();
-            txtLastUpdate.Text = isDateFailDate(rm.DateLastUpdate, txtLastUpdate);
+           
+            dtpLoadFromModel(txtLastUpdate, rm.DateLastUpdate);
             rtbArchDetails.Text = rm.ArchitectureDetails;
             rtbComments.Text = rm.Comments;
             txtTotalVal.Text = calcTotVal().ToString("C2");
@@ -244,21 +277,42 @@ namespace DesignDB_UI
             initialRequest = CommonOps.CloneRequestList(Rm);            
         }
 
+        private void dtpLoadFromModel(DateTimePicker dtp, DateTime modelDate)
+        {
+            if (modelDate <= failDate)
+            {
+                dtp.Value = dtp.MinDate;                
+                dtp.CustomFormat = " ";
+                dtp.Format = DateTimePickerFormat.Custom;
+            }
+            else
+            {
+                dtp.Format = DateTimePickerFormat.Short;
+                dtp.Value = modelDate;
+            }
+        }
+
         private void setDTP_CustomFormat(DateTimePicker picker)
         {
             picker.CustomFormat = " ";
-            picker.Format = DateTimePickerFormat.Custom;
+            picker.Format = DateTimePickerFormat.Custom;            
+            picker.Value = picker.MinDate;
         }
 
         private string isDateFailDate(DateTime ckDate, DateTimePicker picker)
         {
+            //if undoing set date to faildate
             if (GV.MODE == Mode.Undo)
             {
                 ckDate = failDate;
             }
+
+            //if date <= faildate or =01/01/0001 (min date in SQL) set picker format to custom and return empty string
+            //else return date in short format
             if (ckDate <= failDate || ckDate.ToShortDateString() == "1/1/0001")
             {
-                setDTP_CustomFormat(picker);   
+                //setDTP_CustomFormat(picker);          
+                picker.Value = picker.MinDate;
                 return "";
             }
             else
@@ -271,9 +325,6 @@ namespace DesignDB_UI
 
         private void loadModel()
         {
-            bool isDate;
-            DateTime goodDate = new DateTime();
-
             Rm.ProjectID = txtPID.Text;
             Rm.msoModel = (MSO_Model)cboMSO.SelectedItem;
             Rm.MSO = Rm.msoModel.MSO;
@@ -297,51 +348,11 @@ namespace DesignDB_UI
                 MessageBox.Show("Date Assigned is a required parameter. Please enter a valid date.");
                 return;
             }
-            else
-            {
 
-                isDate = parseDate(txtDateAssigned.Text, ref goodDate);
-                if (isDate)
-                {
-                    Rm.DateAssigned = goodDate;
-                }
-                else
-                {
-                    Rm.DateAssigned = failDate;
-                }
-            }
-
-            isDate = parseDate(txtDateAllInfo.Text, ref goodDate);
-
-            if (isDate)
-            {
-                Rm.DateAllInfoReceived = goodDate;
-            }
-            else
-            {
-                Rm.DateAllInfoReceived = failDate;
-            }
-
-
-            isDate = parseDate(txtDateDue.Text, ref goodDate);
-            if (isDate)
-            {
-                Rm.DateDue = goodDate;
-            }
-            else
-            {
-                Rm.DateDue = failDate;
-            }
-
-            isDate = parseDate(txtDateCompleted.Text, ref goodDate);
-            if (isDate)
-            {
-                Rm.DateCompleted = goodDate;
-            }
-            else
-            {
-                Rm.DateCompleted = failDate;
-            }
+            Rm.DateAllInfoReceived = dtpReset(txtDateAllInfo);
+            Rm.DateCompleted = dtpReset(txtDateCompleted);
+            Rm.DateDue = dtpReset(txtDateDue);
+            Rm.DateLastUpdate = dtpReset(txtLastUpdate);            
 
             Rm.ReviewedBy = cboReviewedBy.Text;
 
@@ -358,36 +369,18 @@ namespace DesignDB_UI
             int hrs = 0;
             int.TryParse(txtTotalHours.Text, out hrs);
             Rm.TotalHours = hrs;
-
-            isDate = parseDate(txtLastUpdate.Text, ref goodDate);
-            if (isDate)
-            {
-                Rm.DateLastUpdate = goodDate;
-            }
-            else
-            {
-                Rm.DateLastUpdate = failDate;
-            }
-
             Rm.ArchitectureDetails = rtbArchDetails.Text;
             Rm.Comments = rtbComments.Text;
 
         }
 
-        private bool parseDate(string myDate, ref DateTime rtnDate)
+        private DateTime dtpReset(DateTimePicker dtp)
         {
-            bool success = false;
-            //DateTime conDate = DateTime.Parse(txtDateAllInfo.Text);
-            bool parsed = DateTime.TryParse(myDate, out rtnDate);
-            if (rtnDate > minDate && parsed)
+            if (dtp.Value <= failDate)
             {
-                success = true;
+                dtp.Value = txtDateCompleted.MinDate;
             }
-            else
-            {
-                success = false;
-            }
-            return success;
+            return dtp.Value;
         }
 
         private decimal calcTotVal()
@@ -424,21 +417,22 @@ namespace DesignDB_UI
         {
             formLoading = true;
             unlockTLP(false);
+            Rm = null;
             Rm = new RequestModel();
             //clear combos and texts
             FC.clearTextinControl(this.Controls, typeof(TextBox));
             FC.clearTextinControl(this.Controls, typeof(ComboBox));
             FC.clearTextinControl(this.Controls, typeof(RichTextBox));
-            Rm.DateAssigned = DateTime.Now;
+            Rm.DateAssigned = DateTime.Today;
             Rm.AwardStatus = "Pending";
             Rm.PercentageProjectCovered = 100;
-            insertData(Rm);
-            resetDTPs(false);
+            resetDTPs(false);            
             unlockTLP(false);
             cboMSO.Enabled = true;
             cboMSO.SelectedIndex = -1;
             cboMSO.Focus();
             dgvAttachments.DataSource = "";
+            this.Request = Rm;
             formLoading = false;
             formDirty = false;
         }
@@ -455,21 +449,17 @@ namespace DesignDB_UI
                     generalReset();
                     break;
                 case Mode.Search:
-                    generalReset();
-                    resetDTPs(true);
-                    txtBOM_Val.Text = "";
-                    txtPctCovered.Text = "";
-                    txtTotalVal.Text = "";
-                    cboAwardStatus.Text = "";
-                    txtTotalHours.Text = "";
-                    unlockTLP(true);
-                    btnSearchFields.Visible = true;
-                    formDirty = false;
+                    Rm = new RequestModel();
+                    insertData(Rm);
+                    txtBOM_Val.Clear();
+                    txtPctCovered.Clear();
+                    txtTotalVal.Clear();
+                    txtTotalHours.Clear();
                     break;
                 case Mode.Edit:
+                    resetDTPs(false);
                     break;
                 case Mode.Revision:
-                    insertData(Rm);
                     resetDTPs(false);
                     txtPID.Text = Rm.ProjectID;
                     getAttachments(Rm.ProjectID);
@@ -584,6 +574,7 @@ namespace DesignDB_UI
 
         private void cboMSO_SelectedIndexChanged(object sender, EventArgs e)
         {  
+            //Rm.msoModel = (MSO_Model)cboMSO.SelectedItem;        
             if (!formLoading)
             {
                 if (cboMSO.SelectedIndex > -1 && GV.MODE == Mode.New)
@@ -594,7 +585,6 @@ namespace DesignDB_UI
                     unlockTLP(true);                      
                 }
             }
-            Rm.msoModel = (MSO_Model)cboMSO.SelectedItem;        
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -613,9 +603,9 @@ namespace DesignDB_UI
                 checkForSave();
             }
 
-            resetForm();            
-            GV.REQFORM.Visible = false;
             GV.MODE = Mode.None;
+            resetForm();            
+            GV.REQFORM.Hide();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -668,6 +658,10 @@ namespace DesignDB_UI
 
         private void btnNew_Click(object sender, EventArgs e)
         {
+            if (formDirty)
+            {
+                checkForSave();
+            }
             GV.MODE = Mode.New;
             cboMSO.Enabled = true;
             Rm = new RequestModel();             
@@ -698,9 +692,9 @@ namespace DesignDB_UI
 
             if (result == DialogResult.Yes)
             {
-                Rm = DesignDB_Library.Operations.RequestOps.CreateRevision(Rm);
-                txtPID.Text = Rm.ProjectID;
-                resetForm();
+                this.Request  = RequestOps.CreateRevision(Rm);
+                //txtPID.Text = Rm.ProjectID;
+                //resetForm();
             }
         }
 
@@ -850,6 +844,7 @@ namespace DesignDB_UI
             {
                 dtp.Format = DateTimePickerFormat.Short;
             }
+            formDirty = true;
         }
 
         private void cboPriority_SelectedIndexChanged(object sender, EventArgs e)
@@ -859,6 +854,7 @@ namespace DesignDB_UI
                 setdtpFormat(txtDateDue);
                 txtDateDue.Value = CommonOps.CalculateDateDue(txtDateAssigned.Value, cboPriority.Text);                
             }
+            formDirty = true;
         }
 
         private void btnLoadRpt_Click(object sender, EventArgs e)
@@ -955,14 +951,13 @@ namespace DesignDB_UI
 
         private void btnRestore_Click(object sender, EventArgs e)
         {
-            if (GV.MODE==Mode.Restore)
-            {
-                DialogResult result = confirmAction();
-                if (result == DialogResult.Yes)
-                    {
-                        RequestOps.RestoreRequest(Rm);
-                    }
-            }
+            GV.MODE = Mode.Restore;
+            DialogResult result = confirmAction();
+            if (result == DialogResult.Yes)
+                {
+                    RequestOps.RestoreRequest(Rm);
+                }
+            
             resetForm();
             this.Visible = false;
         }
@@ -978,7 +973,7 @@ namespace DesignDB_UI
             collectSearchTerms(ref searchList, tlpList);
             List<RequestModel> requests = DesignDB_Library.Operations.SearchOps.FieldSearch(searchList, true);
             frmMultiResult frmMultiResult = new frmMultiResult(requests);
-            frmMultiResult.Show();
+            frmMultiResult.Show();formDirty = false;
         }
 
         private DialogResult confirmAction()
@@ -1065,5 +1060,6 @@ namespace DesignDB_UI
                 }
             }
         }
+
     } 
 }

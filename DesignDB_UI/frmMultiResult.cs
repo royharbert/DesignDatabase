@@ -87,7 +87,7 @@ namespace DesignDB_UI
 
         private void dgvResults_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            GV.MODE = Mode.Edit;
+            GV.MODE = GV.MODE;
             int selRow = dgvResults.CurrentRow.Index;
             List<RequestModel> myRequest = new List<RequestModel>();
             myRequest.Add(Requests[selRow]);
