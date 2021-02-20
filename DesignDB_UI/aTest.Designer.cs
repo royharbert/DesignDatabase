@@ -33,6 +33,7 @@ namespace DesignDB_UI
             this.button1 = new System.Windows.Forms.Button();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.dtp = new System.Windows.Forms.DateTimePicker();
+            this.btnExcel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtBox
@@ -69,12 +70,24 @@ namespace DesignDB_UI
             this.dtp.Name = "dtp";
             this.dtp.Size = new System.Drawing.Size(200, 20);
             this.dtp.TabIndex = 3;
+            this.dtp.ValueChanged += new System.EventHandler(this.dtp_ValueChanged);
+            // 
+            // btnExcel
+            // 
+            this.btnExcel.Location = new System.Drawing.Point(315, 389);
+            this.btnExcel.Name = "btnExcel";
+            this.btnExcel.Size = new System.Drawing.Size(88, 27);
+            this.btnExcel.TabIndex = 4;
+            this.btnExcel.Text = "Excel";
+            this.btnExcel.UseVisualStyleBackColor = true;
+            this.btnExcel.Click += new System.EventHandler(this.btnExcel_Click);
             // 
             // aTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnExcel);
             this.Controls.Add(this.dtp);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.button1);
@@ -92,5 +105,6 @@ namespace DesignDB_UI
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.DateTimePicker dtp;
+        private System.Windows.Forms.Button btnExcel;
     }
 }

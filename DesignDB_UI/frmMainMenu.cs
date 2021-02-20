@@ -26,6 +26,7 @@ namespace DesignDB_UI
         public frmMainMenu()
         {
             GV.PickerForm = frmDateMSO_Picker;
+            GV.InputForm = frmInput;
             GV.REQFORM = new frmRequests();
             frmDateMSO_Picker.Hide();
             frmDateMSO_Picker.PickerCanceled += FrmDateMSO_Picker_PickerCanceled;
@@ -61,55 +62,25 @@ namespace DesignDB_UI
         {
             switch (GV.MODE)
             {
-                case Mode.New:
-                    break;
-                case Mode.Edit:
-                    break;
-                case Mode.Revision:
-                    break;
-                case Mode.Clone:
-                    break;
-                case Mode.Delete:
-                    break;
-                case Mode.Export:
-                    break;
-                case Mode.Restore:
-                    break;
-                case Mode.DateRangeSearch:
-                    break;
-                case Mode.Forecast:
-                    break;
-                case Mode.Report_OpenRequests:
-                    break;
                 case Mode.Report_CatMSO:
-                    frmDateMSO_Picker.Hide();
-                    operationCanceled = true;
+                    cancelOperation();
                     break;
                 case Mode.Report_Snapshot:
-                    frmDateMSO_Picker.Hide();
-                    operationCanceled = true;
+                    cancelOperation();
                     break;
                 case Mode.Report_AvgCompletion:
-                    frmDateMSO_Picker.Hide();
-                    operationCanceled = true;
+                    cancelOperation();
                     break;
                 case Mode.Report_ByPriority:
-                    frmDateMSO_Picker.Hide();
-                    operationCanceled = true;
-                    break;
-                case Mode.Report_DesignerLoadReport:
-                    break;
-                case Mode.Report_Overdue:
-                    break;
-                case Mode.Search:
-                    break;
-                case Mode.Undo:
-                    break;
-                case Mode.None:
-                    break;
-                default:
+                    cancelOperation();
                     break;
             }
+        }
+
+        private void cancelOperation()
+        {
+            frmDateMSO_Picker.Hide();
+            operationCanceled = true;
         }
 
         private void setModeTextBox(bool live)
@@ -222,9 +193,8 @@ namespace DesignDB_UI
         private void btnFind_Click(object sender, EventArgs e)
         {
             GV.MODE = Mode.Edit;
-            frmInput = DisplayInputForm();
-            frmInput.InputDataReady += FrmInput_InputDataReady;
-            frmInput.Show();
+            frmInput = GV.InputForm;
+            frmInput.ShowDialog();
         }
 
         private void FrmInput_InputDataReady(object sender, InputDataReadyEventArgs e)
@@ -281,8 +251,8 @@ namespace DesignDB_UI
 
 
         private void btnExit_Click(object sender, EventArgs e)
-        {
-            this.Close();
+        {            
+            Application.Exit();
         }
 
         private void frmMainMenu_FormClosing(object sender, FormClosingEventArgs e)
@@ -290,6 +260,8 @@ namespace DesignDB_UI
             try
             {
                 frmInput.InputDataReady -= FrmInput_InputDataReady;
+                frmDateMSO_Picker.DataReadyEvent -= FrmDateMSO_Picker_DataReadyEvent;
+                frmDateMSO_Picker.PickerCanceled -= FrmDateMSO_Picker_PickerCanceled;
             }
             catch (Exception)
             {
@@ -449,33 +421,30 @@ namespace DesignDB_UI
         private void btnDeleteRecord_Click(object sender, EventArgs e)
         {
             GV.MODE = Mode.Delete;
-            frmInput = DisplayInputForm();
-            frmInput.InputDataReady += FrmInput_InputDataReady;
-
             frmInput.ShowDialog();
         }
-        private frmInput DisplayInputForm()
-        {
-            frmInput returnForm = null;
-            foreach (Form form in Application.OpenForms)
-            {
-                if (form.Name == "frmInput")
-                {
-                    returnForm = (frmInput)form;
-                }
-            }
-            if (returnForm == null)
-            {
-                returnForm = new frmInput();
-            }
-            return returnForm;
-        }
+        //private frmInput DisplayInputForm()
+        //{
+        //    frmInput returnForm = null;
+        //    foreach (Form form in Application.OpenForms)
+        //    {
+        //        if (form.Name == "frmInput")
+        //        {
+        //            returnForm = (frmInput)form;
+        //        }
+        //    }
+        //    if (returnForm == null)
+        //    {
+        //        returnForm = new frmInput();
+        //    }
+        //    return returnForm;
+        //}
 
         private void btnUndelete_Click(object sender, EventArgs e)
         {
             GV.MODE = Mode.Restore;
-            frmInput = DisplayInputForm();
-            frmInput.InputDataReady += FrmInput_InputDataReady;
+            frmInput = GV.InputForm;
+            //frmInput.InputDataReady += FrmInput_InputDataReady;
             frmInput.ShowDialog();
         }
 

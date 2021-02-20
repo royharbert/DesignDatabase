@@ -10,7 +10,9 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Reflection;
 using DesignDB_Library.Models;
-using DesignDB_Library;
+using DesignDB_Library.Operations;
+using Excel = Microsoft.Office.Interop.Excel;
+
 
 namespace DesignDB_UI
 {
@@ -24,9 +26,55 @@ namespace DesignDB_UI
 
         private void button1_Click(object sender, EventArgs e)
         {
+            dtp.Value = new DateTime(1900, 1, 1);
+            Application.DoEvents();
             dtp.CustomFormat = " ";
             dtp.Format = DateTimePickerFormat.Custom;
-            dtp.Value = dtp.MinDate;
+            txtBox.Text = dtp.Value.ToShortDateString();
+            //dtp.Value = dtp.MinDate;
+            //Screens.GetScreenInfo(); 
+        }
+
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            Excel.Application xlApp = ExcelOps.makeExcelApp();
+            xlApp.Workbooks.Add();
+            xlApp.Visible = true;
+            string[] columnNames = new string[] { "Project ID", "File Name", "Quote Type", "Original Quote", "Priority",
+                "Award Status", "Design Requestor", "BOM Value", "% Project Covered", "Project Value","MSO", "Region",
+                "City", "Date Assigned", "Date All Info Received", "Date Due", "Date Completed", "Date Last Update",
+                "Designer", "Assisted By", "Reviewed By", "Revision", "Category", "Architecture Details", "Comments",
+                "Total Hours" };
+            makeReportSheet(xlApp, columnNames);
+        }
+
+        private Excel.Worksheet makeReportSheet(Excel.Application xlApp, string[] headers)
+        {
+            Excel.Worksheet wks = xlApp.ActiveSheet;
+            for (int i = 0; i < headers.Length; i++)
+            {
+                wks.Cells[1, i + 1].Value = headers[i];
+            }
+            formatHeaderRow(wks);
+
+            ExcelOps.releaseObject(wks);
+            ExcelOps.releaseObject(xlApp);
+            return wks;
+        }
+
+        private void formatHeaderRow(Excel.Worksheet wks)
+        {
+            Excel.Range header;
+            header = wks.get_Range("1:1");
+            header.Font.Bold = true;
+            header.WrapText = true;
+            header.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Aqua);
+        }
+
+        private void dtp_ValueChanged(object sender, EventArgs e)
+        {
+            dtp.Format = DateTimePickerFormat.Short;
+            txtBox.Text = dtp.Value.ToShortDateString();
         }
     }
 }

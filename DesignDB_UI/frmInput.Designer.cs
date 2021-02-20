@@ -86,6 +86,7 @@ namespace DesignDB_UI
             this.Name = "frmInput";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Input Form";
+            this.Activated += new System.EventHandler(this.frmInput_Activated);
             this.ResumeLayout(false);
             this.PerformLayout();
 

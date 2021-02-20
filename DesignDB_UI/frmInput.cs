@@ -34,6 +34,10 @@ namespace DesignDB_UI
             this.Close();
         }
 
+        private void frmInput_Activated(object sender, EventArgs e)
+        {
+            txtInput.Clear();
+        }
     }
 
     public class InputDataReadyEventArgs : EventArgs

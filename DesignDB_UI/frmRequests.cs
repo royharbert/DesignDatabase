@@ -40,7 +40,7 @@ namespace DesignDB_UI
 
         frmAttType frm = null;       
         DateTime failDate = new DateTime(1900, 1, 1);
-        DateTime minDate = new DateTime(2000, 1, 1);
+        //DateTime minDate = new DateTime(2000, 1, 1);
 
         RequestModel initialRequest = null;
 
@@ -282,9 +282,7 @@ namespace DesignDB_UI
         {
             if (modelDate <= failDate)
             {
-                dtp.Value = dtp.MinDate;                
-                dtp.CustomFormat = " ";
-                dtp.Format = DateTimePickerFormat.Custom;
+                dtpResetForced(dtp);
             }
             else
             {
@@ -295,33 +293,7 @@ namespace DesignDB_UI
 
         private void setDTP_CustomFormat(DateTimePicker picker)
         {
-            picker.CustomFormat = " ";
-            picker.Format = DateTimePickerFormat.Custom;            
-            picker.Value = picker.MinDate;
-        }
-
-        private string isDateFailDate(DateTime ckDate, DateTimePicker picker)
-        {
-            //if undoing set date to faildate
-            if (GV.MODE == Mode.Undo)
-            {
-                ckDate = failDate;
-            }
-
-            //if date <= faildate or =01/01/0001 (min date in SQL) set picker format to custom and return empty string
-            //else return date in short format
-            if (ckDate <= failDate || ckDate.ToShortDateString() == "1/1/0001")
-            {
-                //setDTP_CustomFormat(picker);          
-                picker.Value = picker.MinDate;
-                return "";
-            }
-            else
-            {
-                picker.Format = DateTimePickerFormat.Short;
-                return ckDate.ToShortDateString();
-            }
-                      
+            dtpResetForced(picker);       
         }
 
         private void loadModel()
@@ -375,11 +347,22 @@ namespace DesignDB_UI
 
         }
 
+        private void dtpResetForced(DateTimePicker dtp)
+        {
+            dtp.Value = new DateTime(1900, 1, 1);
+            Application.DoEvents();
+            dtp.CustomFormat = " ";
+            dtp.Format = DateTimePickerFormat.Custom;
+        }
+
         private DateTime dtpReset(DateTimePicker dtp)
         {
             if (dtp.Value <= failDate)
             {
                 dtp.Value = new DateTime(1900,1,1);
+                Application.DoEvents();
+                dtp.CustomFormat = " ";
+                dtp.Format = DateTimePickerFormat.Custom;
             }
             return dtp.Value;
         }
@@ -694,10 +677,24 @@ namespace DesignDB_UI
 
             if (result == DialogResult.Yes)
             {
-                this.Request  = RequestOps.CreateRevision(Rm);
-                //txtPID.Text = Rm.ProjectID;
-                //resetForm();
+                this.Request  = RequestOps.CreateRevision(Rm);         
             }
+
+            //set combo boxes to ""
+            resetCombo(cboReviewedBy);
+            resetCombo(cboPriority);
+            resetCombo(cboArchType);
+            resetCombo(cboCategory);
+            resetCombo(cboAssisted);
+            resetCombo(cboDesigner);
+            dtpResetForced(txtDateDue);
+            dtpResetForced(txtDateAllInfo);            
+            dtpResetForced(txtLastUpdate);
+        }
+
+        private void resetCombo(ComboBox cbo)
+        {
+            cbo.SelectedIndex = -1;
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -777,13 +774,20 @@ namespace DesignDB_UI
         {
             //use class to accomplish
             //make attachment model and pass to class
-            int sel = dgvAttachments.CurrentRow.Index;
-            List<AttachmentModel> aList = (List<AttachmentModel>)dgvAttachments.DataSource;
-            AttachmentModel model = aList[sel];
-            List<AttachmentModel> newList = DesignDB_Library.Operations.AttachmentOps.DeleteAttachment(model);
-            dgvAttachments.DataSource = null;
-            dgvAttachments.DataSource = newList;
-            formatAttGrid();
+            if (dgvAttachments.CurrentRow != null)
+            {
+                int sel = dgvAttachments.CurrentRow.Index;
+                List<AttachmentModel> aList = (List<AttachmentModel>)dgvAttachments.DataSource;
+                AttachmentModel model = aList[sel];
+                List<AttachmentModel> newList = DesignDB_Library.Operations.AttachmentOps.DeleteAttachment(model);
+                dgvAttachments.DataSource = null;
+                dgvAttachments.DataSource = newList;
+                formatAttGrid();
+            }
+            else
+            {
+                MessageBox.Show("No row selected for deletion. \nPlease click left margin of desired row");
+            }
         }
 
         private void txtPctCovered_TextChanged(object sender, EventArgs e)
@@ -1063,5 +1067,21 @@ namespace DesignDB_UI
             }
         }
 
+        private void tlpCenterTop_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void clearValueToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ComboBox cbo = (ComboBox)ddContextMenu.SourceControl;
+            cbo.SelectedIndex = -1;
+        }
+
+        private void clearDateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DateTimePicker dtp = (DateTimePicker)dtpContextMenu.SourceControl;
+            dtpResetForced(dtp);
+        } 
     } 
 }

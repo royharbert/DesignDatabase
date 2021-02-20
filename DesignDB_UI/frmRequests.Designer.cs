@@ -38,6 +38,8 @@ namespace DesignDB_UI
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.cboCities = new System.Windows.Forms.ComboBox();
+            this.ddContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.clearValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txtCust = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -100,6 +102,8 @@ namespace DesignDB_UI
             this.btnNew = new System.Windows.Forms.Button();
             this.dgvAttachments = new System.Windows.Forms.DataGridView();
             this.txtDateAllInfo = new System.Windows.Forms.DateTimePicker();
+            this.dtpContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.clearDateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txtDateAssigned = new System.Windows.Forms.DateTimePicker();
             this.txtDateDue = new System.Windows.Forms.DateTimePicker();
             this.txtDateCompleted = new System.Windows.Forms.DateTimePicker();
@@ -114,7 +118,9 @@ namespace DesignDB_UI
             this.tlpSearch = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.commonBEDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.ddContextMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachments)).BeginInit();
+            this.dtpContextMenu.SuspendLayout();
             this.tlpLeft.SuspendLayout();
             this.tlpCenterTop.SuspendLayout();
             this.tlpRight.SuspendLayout();
@@ -194,6 +200,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboCities.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboCities.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboCities.ContextMenuStrip = this.ddContextMenu;
             this.cboCities.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboCities.FormattingEnabled = true;
             this.cboCities.Location = new System.Drawing.Point(161, 74);
@@ -202,6 +209,20 @@ namespace DesignDB_UI
             this.cboCities.Size = new System.Drawing.Size(258, 28);
             this.cboCities.TabIndex = 2;
             this.cboCities.Tag = "L|City";
+            // 
+            // ddContextMenu
+            // 
+            this.ddContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clearValueToolStripMenuItem});
+            this.ddContextMenu.Name = "ddContextMenu";
+            this.ddContextMenu.Size = new System.Drawing.Size(133, 26);
+            // 
+            // clearValueToolStripMenuItem
+            // 
+            this.clearValueToolStripMenuItem.Name = "clearValueToolStripMenuItem";
+            this.clearValueToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.clearValueToolStripMenuItem.Text = "Clear Value";
+            this.clearValueToolStripMenuItem.Click += new System.EventHandler(this.clearValueToolStripMenuItem_Click);
             // 
             // txtCust
             // 
@@ -241,6 +262,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboAssisted.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboAssisted.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboAssisted.ContextMenuStrip = this.ddContextMenu;
             this.cboAssisted.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboAssisted.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboAssisted.FormattingEnabled = true;
@@ -268,6 +290,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboDesigner.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboDesigner.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboDesigner.ContextMenuStrip = this.ddContextMenu;
             this.cboDesigner.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboDesigner.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboDesigner.FormattingEnabled = true;
@@ -295,6 +318,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboPriority.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboPriority.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboPriority.ContextMenuStrip = this.ddContextMenu;
             this.cboPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboPriority.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboPriority.FormattingEnabled = true;
@@ -327,6 +351,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboQuoteType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboQuoteType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboQuoteType.ContextMenuStrip = this.ddContextMenu;
             this.cboQuoteType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboQuoteType.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboQuoteType.FormattingEnabled = true;
@@ -361,6 +386,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboRequestor.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboRequestor.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboRequestor.ContextMenuStrip = this.ddContextMenu;
             this.cboRequestor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboRequestor.FormattingEnabled = true;
             this.cboRequestor.Location = new System.Drawing.Point(161, 214);
@@ -387,6 +413,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboRegion.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboRegion.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboRegion.ContextMenuStrip = this.ddContextMenu;
             this.cboRegion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboRegion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboRegion.FormattingEnabled = true;
@@ -414,6 +441,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboCountry.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboCountry.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboCountry.ContextMenuStrip = this.ddContextMenu;
             this.cboCountry.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboCountry.FormattingEnabled = true;
             this.cboCountry.Location = new System.Drawing.Point(161, 144);
@@ -440,6 +468,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboState.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboState.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboState.ContextMenuStrip = this.ddContextMenu;
             this.cboState.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboState.FormattingEnabled = true;
             this.cboState.Location = new System.Drawing.Point(161, 109);
@@ -484,6 +513,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboArchType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboArchType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboArchType.ContextMenuStrip = this.ddContextMenu;
             this.cboArchType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboArchType.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboArchType.FormattingEnabled = true;
@@ -532,6 +562,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboCategory.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboCategory.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboCategory.ContextMenuStrip = this.ddContextMenu;
             this.cboCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCategory.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboCategory.FormattingEnabled = true;
@@ -568,6 +599,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboOrigQuote.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboOrigQuote.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboOrigQuote.ContextMenuStrip = this.ddContextMenu;
             this.cboOrigQuote.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboOrigQuote.FormattingEnabled = true;
             this.cboOrigQuote.Location = new System.Drawing.Point(161, 424);
@@ -624,6 +656,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboReviewedBy.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboReviewedBy.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboReviewedBy.ContextMenuStrip = this.ddContextMenu;
             this.cboReviewedBy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboReviewedBy.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboReviewedBy.FormattingEnabled = true;
@@ -651,6 +684,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboAwardStatus.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboAwardStatus.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboAwardStatus.ContextMenuStrip = this.ddContextMenu;
             this.cboAwardStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboAwardStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboAwardStatus.FormattingEnabled = true;
@@ -1015,6 +1049,7 @@ namespace DesignDB_UI
             this.txtDateAllInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDateAllInfo.ContextMenuStrip = this.dtpContextMenu;
             this.txtDateAllInfo.CustomFormat = "\" \"";
             this.txtDateAllInfo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.txtDateAllInfo.Location = new System.Drawing.Point(161, 563);
@@ -1024,11 +1059,26 @@ namespace DesignDB_UI
             this.txtDateAllInfo.Tag = "L|DateAllInfoReceived";
             this.txtDateAllInfo.ValueChanged += new System.EventHandler(this.txtDateAllInfo_ValueChanged);
             // 
+            // dtpContextMenu
+            // 
+            this.dtpContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clearDateToolStripMenuItem});
+            this.dtpContextMenu.Name = "dtpContextMenu";
+            this.dtpContextMenu.Size = new System.Drawing.Size(129, 26);
+            // 
+            // clearDateToolStripMenuItem
+            // 
+            this.clearDateToolStripMenuItem.Name = "clearDateToolStripMenuItem";
+            this.clearDateToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.clearDateToolStripMenuItem.Text = "Clear Date";
+            this.clearDateToolStripMenuItem.Click += new System.EventHandler(this.clearDateToolStripMenuItem_Click);
+            // 
             // txtDateAssigned
             // 
             this.txtDateAssigned.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDateAssigned.ContextMenuStrip = this.dtpContextMenu;
             this.txtDateAssigned.CustomFormat = "\" \"";
             this.txtDateAssigned.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.txtDateAssigned.Location = new System.Drawing.Point(161, 528);
@@ -1043,6 +1093,7 @@ namespace DesignDB_UI
             this.txtDateDue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDateDue.ContextMenuStrip = this.dtpContextMenu;
             this.txtDateDue.CustomFormat = "\" \"";
             this.txtDateDue.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.txtDateDue.Location = new System.Drawing.Point(161, 598);
@@ -1057,6 +1108,7 @@ namespace DesignDB_UI
             this.txtDateCompleted.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDateCompleted.ContextMenuStrip = this.dtpContextMenu;
             this.txtDateCompleted.CustomFormat = "\" \"";
             this.txtDateCompleted.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.txtDateCompleted.Location = new System.Drawing.Point(147, 3);
@@ -1071,6 +1123,7 @@ namespace DesignDB_UI
             this.txtLastUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtLastUpdate.ContextMenuStrip = this.dtpContextMenu;
             this.txtLastUpdate.CustomFormat = "\" \"";
             this.txtLastUpdate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.txtLastUpdate.Location = new System.Drawing.Point(147, 248);
@@ -1182,6 +1235,7 @@ namespace DesignDB_UI
             this.tlpCenterTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.tlpCenterTop.Size = new System.Drawing.Size(384, 283);
             this.tlpCenterTop.TabIndex = 70;
+            this.tlpCenterTop.Paint += new System.Windows.Forms.PaintEventHandler(this.tlpCenterTop_Paint);
             // 
             // tlpRight
             // 
@@ -1335,7 +1389,9 @@ namespace DesignDB_UI
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Design Request";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmRequests_FormClosing);
+            this.ddContextMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachments)).EndInit();
+            this.dtpContextMenu.ResumeLayout(false);
             this.tlpLeft.ResumeLayout(false);
             this.tlpLeft.PerformLayout();
             this.tlpCenterTop.ResumeLayout(false);
@@ -1437,5 +1493,9 @@ namespace DesignDB_UI
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button btnRestore;
         private System.Windows.Forms.Button btnSearchFields;
+        private System.Windows.Forms.ContextMenuStrip ddContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem clearValueToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip dtpContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem clearDateToolStripMenuItem;
     }
 }

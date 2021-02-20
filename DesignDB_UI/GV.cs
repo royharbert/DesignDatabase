@@ -11,7 +11,9 @@ namespace DesignDB_UI
 {
     public class GV
     {
+        public static List<ScreenModel> ScreenList { get; set; }
         public static frmDateMSO_Picker PickerForm { get; set; }
+        public static frmInput InputForm { get; set; }
         public static frmRequests REQFORM { get; set; }
         public static DesignersReviewersModel USERNAME { get; set; }
         public static Form LOGIN { get; set; }

@@ -15,6 +15,10 @@ namespace DesignDB_Library.Operations
     { 
         public static RequestModel CreateRevision(RequestModel request)
         {
+            //save original with has revision status
+            request.AwardStatus = "Has Revision";
+            GlobalConfig.Connection.RequestUpdate(request);
+
             //increment rev letter 
             request.ProjectID = request.ProjectID.ToUpper();
             int loc = request.ProjectID.IndexOf("REV_");
@@ -34,14 +38,15 @@ namespace DesignDB_Library.Operations
             }
             else
             {
+                //if original had no _REV then default to REV_B
                 request.ProjectID += "_REV_B";
             }
 
             //Clear appropriate cells
             request.DateAssigned = DateTime.Now;
-            request.DateAllInfoReceived = DateTime.Parse("1/1/0001");
-            request.DateCompleted = DateTime.Parse("1/1/0001");
-            request.DateDue = DateTime.Parse("1/1/0001");
+            request.DateAllInfoReceived = DateTime.Parse("1/1/1900");
+            request.DateCompleted = DateTime.Parse("1/1/1900");
+            request.DateDue = DateTime.Parse("1/1/1900");
             request.BOM_Value = 0;
             request.PercentageProjectCovered = 100;
             request.ReviewedBy = "";
@@ -49,7 +54,9 @@ namespace DesignDB_Library.Operations
             request.ArchitectureType = "";
             request.Category = "";
             request.AssistedBy = "";
+            request.AwardStatus = "Pending";
             request.TotalHours = 0;
+            request.Designer = "";
             //Save record
             InsertNewRequest(request);
             return request;

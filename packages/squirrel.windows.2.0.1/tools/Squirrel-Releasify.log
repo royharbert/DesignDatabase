@@ -715,3 +715,162 @@ File name: 'ConnscopeDesignDB.2.1.7.nupkg'
 [18/02/21 15:58:50] info: DeltaPackageBuilder: \lib\net472\app.publish\DesignDB_UI.exe hasn't changed, writing dummy file
 [18/02/21 15:58:50] info: Program: Building embedded zip file for Setup.exe
 [18/02/21 15:59:10] info: Program: Finished Squirrel Updater
+[18/02/21 17:43:26] info: Program: Starting Squirrel Updater: --releasify CommscopeDesignDB.2.1.9.nupkg
+[18/02/21 17:43:26] info: Program: Bootstrapper EXE found at:C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\packages\squirrel.windows.2.0.1\tools\Setup.exe
+[18/02/21 17:43:26] info: Program: Creating release package: C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\Releases\CommscopeDesignDB.2.1.9.nupkg
+[18/02/21 17:43:26] info: ReleasePackage: Creating release package: C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\Releases\CommscopeDesignDB.2.1.9.nupkg => C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\Releases\CommscopeDesignDB-2.1.9-full.nupkg
+[18/02/21 17:43:27] info: ReleasePackage: Extracting dependent packages: []
+[18/02/21 17:43:27] info: ReleasePackage: Removing unnecessary data
+[18/02/21 17:43:27] info: ReleasePackage: No release notes found in C:\Users\rharbert\AppData\Local\SquirrelTemp\tempa\CommscopeDesignDB.nuspec
+[18/02/21 17:43:29] info: DeltaPackageBuilder: Extracting .\Releases\CommscopeDesignDB-2.1.8-full.nupkg and C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\Releases\CommscopeDesignDB-2.1.9-full.nupkg into C:\Users\rharbert\AppData\Local\SquirrelTemp\tempb
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\CommonServiceLocator.dll hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\Dapper.dll hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\DeltaCompressionDotNet.dll hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\DeltaCompressionDotNet.MsDelta.dll hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\DeltaCompressionDotNet.PatchApi.dll hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\DesignDB_Library.dll hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\DesignDB_Library.pdb hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: Delta patching C:\Users\rharbert\AppData\Local\SquirrelTemp\tempa\lib\net472\DesignDB_UI.application => C:\Users\rharbert\AppData\Local\SquirrelTemp\tempb\lib\net472\DesignDB_UI.application
+[18/02/21 17:43:30] warn: DeltaPackageBuilder: We really couldn't create a delta for DesignDB_UI.application: System.DivideByZeroException: Attempted to divide by zero.
+   at Squirrel.Bsdiff.BinaryPatchUtility.Create(Byte[] oldData, Byte[] newData, Stream output)
+   at Squirrel.DeltaPackageBuilder.createDeltaForSingleFile(FileInfo targetFile, DirectoryInfo workingDirectory, Dictionary`2 baseFileListing)
+[18/02/21 17:43:30] info: DeltaPackageBuilder: Delta patching C:\Users\rharbert\AppData\Local\SquirrelTemp\tempa\lib\net472\DesignDB_UI.exe => C:\Users\rharbert\AppData\Local\SquirrelTemp\tempb\lib\net472\DesignDB_UI.exe
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\DesignDB_UI.exe.config hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: Delta patching C:\Users\rharbert\AppData\Local\SquirrelTemp\tempa\lib\net472\DesignDB_UI.exe.manifest => C:\Users\rharbert\AppData\Local\SquirrelTemp\tempb\lib\net472\DesignDB_UI.exe.manifest
+[18/02/21 17:43:30] warn: DeltaPackageBuilder: We really couldn't create a delta for DesignDB_UI.exe.manifest: System.DivideByZeroException: Attempted to divide by zero.
+   at Squirrel.Bsdiff.BinaryPatchUtility.Create(Byte[] oldData, Byte[] newData, Stream output)
+   at Squirrel.DeltaPackageBuilder.createDeltaForSingleFile(FileInfo targetFile, DirectoryInfo workingDirectory, Dictionary`2 baseFileListing)
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\DesignDB_UI.pdb hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: Delta patching C:\Users\rharbert\AppData\Local\SquirrelTemp\tempa\lib\net472\DesignDB_UI_ExecutionStub.exe => C:\Users\rharbert\AppData\Local\SquirrelTemp\tempb\lib\net472\DesignDB_UI_ExecutionStub.exe
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\GalaSoft.MvvmLight.dll hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\GalaSoft.MvvmLight.Extras.dll hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\GalaSoft.MvvmLight.Extras.pdb hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\GalaSoft.MvvmLight.pdb hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\GalaSoft.MvvmLight.Platform.dll hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\GalaSoft.MvvmLight.Platform.pdb hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\Microsoft.ReportViewer.Common.dll hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\Microsoft.ReportViewer.ProcessingObjectModel.DLL hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\Microsoft.ReportViewer.WebForms.DLL hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.dll hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.Mdb.dll hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.Mdb.pdb hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.pdb hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.Pdb.dll hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.Pdb.pdb hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.pdb.shasum not found in base package, marking as new
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.Rocks.dll hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.Rocks.pdb hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\NuGet.Squirrel.dll hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\NuGet.Squirrel.pdb hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\SharpCompress.dll hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\Squirrel.dll hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\Squirrel.pdb hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\System.Windows.Interactivity.dll hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: DeltaPackageBuilder: \lib\net472\app.publish\DesignDB_UI.exe hasn't changed, writing dummy file
+[18/02/21 17:43:30] info: Program: Building embedded zip file for Setup.exe
+[18/02/21 17:43:38] info: Program: Finished Squirrel Updater
+[19/02/21 14:03:16] info: Program: Starting Squirrel Updater: --releasify CommscopeDesignDB.2.1.10.nupkg
+[19/02/21 14:03:16] info: Program: Bootstrapper EXE found at:C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\packages\squirrel.windows.2.0.1\tools\Setup.exe
+[19/02/21 14:03:16] info: Program: Creating release package: C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\Releases\CommscopeDesignDB.2.1.10.nupkg
+[19/02/21 14:03:16] info: ReleasePackage: Creating release package: C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\Releases\CommscopeDesignDB.2.1.10.nupkg => C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\Releases\CommscopeDesignDB-2.1.10-full.nupkg
+[19/02/21 14:03:17] info: ReleasePackage: Extracting dependent packages: []
+[19/02/21 14:03:17] info: ReleasePackage: Removing unnecessary data
+[19/02/21 14:03:17] info: ReleasePackage: No release notes found in C:\Users\rharbert\AppData\Local\SquirrelTemp\tempa\CommscopeDesignDB.nuspec
+[19/02/21 14:03:19] info: DeltaPackageBuilder: Extracting .\Releases\CommscopeDesignDB-2.1.9-full.nupkg and C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\Releases\CommscopeDesignDB-2.1.10-full.nupkg into C:\Users\rharbert\AppData\Local\SquirrelTemp\tempb
+[19/02/21 14:03:19] info: DeltaPackageBuilder: \lib\net472\CommonServiceLocator.dll hasn't changed, writing dummy file
+[19/02/21 14:03:19] info: DeltaPackageBuilder: \lib\net472\Dapper.dll hasn't changed, writing dummy file
+[19/02/21 14:03:19] info: DeltaPackageBuilder: \lib\net472\DeltaCompressionDotNet.dll hasn't changed, writing dummy file
+[19/02/21 14:03:19] info: DeltaPackageBuilder: \lib\net472\DeltaCompressionDotNet.MsDelta.dll hasn't changed, writing dummy file
+[19/02/21 14:03:19] info: DeltaPackageBuilder: \lib\net472\DeltaCompressionDotNet.PatchApi.dll hasn't changed, writing dummy file
+[19/02/21 14:03:19] info: DeltaPackageBuilder: Delta patching C:\Users\rharbert\AppData\Local\SquirrelTemp\tempa\lib\net472\DesignDB_Library.dll => C:\Users\rharbert\AppData\Local\SquirrelTemp\tempb\lib\net472\DesignDB_Library.dll
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\DesignDB_Library.pdb hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: Delta patching C:\Users\rharbert\AppData\Local\SquirrelTemp\tempa\lib\net472\DesignDB_UI.application => C:\Users\rharbert\AppData\Local\SquirrelTemp\tempb\lib\net472\DesignDB_UI.application
+[19/02/21 14:03:20] warn: DeltaPackageBuilder: We really couldn't create a delta for DesignDB_UI.application: System.DivideByZeroException: Attempted to divide by zero.
+   at Squirrel.Bsdiff.BinaryPatchUtility.Create(Byte[] oldData, Byte[] newData, Stream output)
+   at Squirrel.DeltaPackageBuilder.createDeltaForSingleFile(FileInfo targetFile, DirectoryInfo workingDirectory, Dictionary`2 baseFileListing)
+[19/02/21 14:03:20] info: DeltaPackageBuilder: Delta patching C:\Users\rharbert\AppData\Local\SquirrelTemp\tempa\lib\net472\DesignDB_UI.exe => C:\Users\rharbert\AppData\Local\SquirrelTemp\tempb\lib\net472\DesignDB_UI.exe
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\DesignDB_UI.exe.config hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: Delta patching C:\Users\rharbert\AppData\Local\SquirrelTemp\tempa\lib\net472\DesignDB_UI.exe.manifest => C:\Users\rharbert\AppData\Local\SquirrelTemp\tempb\lib\net472\DesignDB_UI.exe.manifest
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\DesignDB_UI.pdb hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: Delta patching C:\Users\rharbert\AppData\Local\SquirrelTemp\tempa\lib\net472\DesignDB_UI_ExecutionStub.exe => C:\Users\rharbert\AppData\Local\SquirrelTemp\tempb\lib\net472\DesignDB_UI_ExecutionStub.exe
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\GalaSoft.MvvmLight.dll hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\GalaSoft.MvvmLight.Extras.dll hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\GalaSoft.MvvmLight.Extras.pdb hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\GalaSoft.MvvmLight.pdb hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\GalaSoft.MvvmLight.Platform.dll hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\GalaSoft.MvvmLight.Platform.pdb hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\Microsoft.ReportViewer.Common.dll hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\Microsoft.ReportViewer.ProcessingObjectModel.DLL hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\Microsoft.ReportViewer.WebForms.DLL hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.dll hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.Mdb.dll hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.Mdb.pdb hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.pdb hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.Pdb.dll hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.Pdb.pdb hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.pdb.shasum not found in base package, marking as new
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.Rocks.dll hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.Rocks.pdb hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\NuGet.Squirrel.dll hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\NuGet.Squirrel.pdb hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\SharpCompress.dll hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\Squirrel.dll hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\Squirrel.pdb hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\System.Windows.Interactivity.dll hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: DeltaPackageBuilder: \lib\net472\app.publish\DesignDB_UI.exe hasn't changed, writing dummy file
+[19/02/21 14:03:20] info: Program: Building embedded zip file for Setup.exe
+[19/02/21 14:03:28] info: Program: Finished Squirrel Updater
+[20/02/21 09:21:31] info: Program: Starting Squirrel Updater: --releasify CommscopeDesignDB.2.1.11.nupkg
+[20/02/21 09:21:31] info: Program: Bootstrapper EXE found at:C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\packages\squirrel.windows.2.0.1\tools\Setup.exe
+[20/02/21 09:21:32] info: Program: Creating release package: C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\Releases\CommscopeDesignDB.2.1.11.nupkg
+[20/02/21 09:21:32] info: ReleasePackage: Creating release package: C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\Releases\CommscopeDesignDB.2.1.11.nupkg => C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\Releases\CommscopeDesignDB-2.1.11-full.nupkg
+[20/02/21 09:21:32] info: ReleasePackage: Extracting dependent packages: []
+[20/02/21 09:21:32] info: ReleasePackage: Removing unnecessary data
+[20/02/21 09:21:32] info: ReleasePackage: No release notes found in C:\Users\rharbert\AppData\Local\SquirrelTemp\tempa\CommscopeDesignDB.nuspec
+[20/02/21 09:21:34] info: DeltaPackageBuilder: Extracting .\Releases\CommscopeDesignDB-2.1.10-full.nupkg and C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\Releases\CommscopeDesignDB-2.1.11-full.nupkg into C:\Users\rharbert\AppData\Local\SquirrelTemp\tempb
+[20/02/21 09:21:35] info: DeltaPackageBuilder: \lib\net472\CommonServiceLocator.dll hasn't changed, writing dummy file
+[20/02/21 09:21:35] info: DeltaPackageBuilder: \lib\net472\Dapper.dll hasn't changed, writing dummy file
+[20/02/21 09:21:35] info: DeltaPackageBuilder: \lib\net472\DeltaCompressionDotNet.dll hasn't changed, writing dummy file
+[20/02/21 09:21:35] info: DeltaPackageBuilder: \lib\net472\DeltaCompressionDotNet.MsDelta.dll hasn't changed, writing dummy file
+[20/02/21 09:21:35] info: DeltaPackageBuilder: \lib\net472\DeltaCompressionDotNet.PatchApi.dll hasn't changed, writing dummy file
+[20/02/21 09:21:35] info: DeltaPackageBuilder: Delta patching C:\Users\rharbert\AppData\Local\SquirrelTemp\tempa\lib\net472\DesignDB_Library.dll => C:\Users\rharbert\AppData\Local\SquirrelTemp\tempb\lib\net472\DesignDB_Library.dll
+[20/02/21 09:21:35] info: DeltaPackageBuilder: \lib\net472\DesignDB_Library.pdb hasn't changed, writing dummy file
+[20/02/21 09:21:35] info: DeltaPackageBuilder: Delta patching C:\Users\rharbert\AppData\Local\SquirrelTemp\tempa\lib\net472\DesignDB_UI.application => C:\Users\rharbert\AppData\Local\SquirrelTemp\tempb\lib\net472\DesignDB_UI.application
+[20/02/21 09:21:35] warn: DeltaPackageBuilder: We really couldn't create a delta for DesignDB_UI.application: System.DivideByZeroException: Attempted to divide by zero.
+   at Squirrel.Bsdiff.BinaryPatchUtility.Create(Byte[] oldData, Byte[] newData, Stream output)
+   at Squirrel.DeltaPackageBuilder.createDeltaForSingleFile(FileInfo targetFile, DirectoryInfo workingDirectory, Dictionary`2 baseFileListing)
+[20/02/21 09:21:35] info: DeltaPackageBuilder: Delta patching C:\Users\rharbert\AppData\Local\SquirrelTemp\tempa\lib\net472\DesignDB_UI.exe => C:\Users\rharbert\AppData\Local\SquirrelTemp\tempb\lib\net472\DesignDB_UI.exe
+[20/02/21 09:21:35] info: DeltaPackageBuilder: \lib\net472\DesignDB_UI.exe.config hasn't changed, writing dummy file
+[20/02/21 09:21:35] info: DeltaPackageBuilder: Delta patching C:\Users\rharbert\AppData\Local\SquirrelTemp\tempa\lib\net472\DesignDB_UI.exe.manifest => C:\Users\rharbert\AppData\Local\SquirrelTemp\tempb\lib\net472\DesignDB_UI.exe.manifest
+[20/02/21 09:21:35] warn: DeltaPackageBuilder: We really couldn't create a delta for DesignDB_UI.exe.manifest: System.DivideByZeroException: Attempted to divide by zero.
+   at Squirrel.Bsdiff.BinaryPatchUtility.Create(Byte[] oldData, Byte[] newData, Stream output)
+   at Squirrel.DeltaPackageBuilder.createDeltaForSingleFile(FileInfo targetFile, DirectoryInfo workingDirectory, Dictionary`2 baseFileListing)
+[20/02/21 09:21:35] info: DeltaPackageBuilder: \lib\net472\DesignDB_UI.pdb hasn't changed, writing dummy file
+[20/02/21 09:21:35] info: DeltaPackageBuilder: Delta patching C:\Users\rharbert\AppData\Local\SquirrelTemp\tempa\lib\net472\DesignDB_UI_ExecutionStub.exe => C:\Users\rharbert\AppData\Local\SquirrelTemp\tempb\lib\net472\DesignDB_UI_ExecutionStub.exe
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\GalaSoft.MvvmLight.dll hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\GalaSoft.MvvmLight.Extras.dll hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\GalaSoft.MvvmLight.Extras.pdb hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\GalaSoft.MvvmLight.pdb hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\GalaSoft.MvvmLight.Platform.dll hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\GalaSoft.MvvmLight.Platform.pdb hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\Microsoft.ReportViewer.Common.dll hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\Microsoft.ReportViewer.ProcessingObjectModel.DLL hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\Microsoft.ReportViewer.WebForms.DLL hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.dll hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.Mdb.dll hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.Mdb.pdb hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.pdb hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.Pdb.dll hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.Pdb.pdb hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.pdb.shasum not found in base package, marking as new
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.Rocks.dll hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\Mono.Cecil.Rocks.pdb hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\NuGet.Squirrel.dll hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\NuGet.Squirrel.pdb hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\SharpCompress.dll hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\Squirrel.dll hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\Squirrel.pdb hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\System.Windows.Interactivity.dll hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: DeltaPackageBuilder: \lib\net472\app.publish\DesignDB_UI.exe hasn't changed, writing dummy file
+[20/02/21 09:21:36] info: Program: Building embedded zip file for Setup.exe
+[20/02/21 09:21:43] info: Program: Finished Squirrel Updater
