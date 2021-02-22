@@ -276,6 +276,12 @@
     <Compile Include="frmSalesMaint.designer.cs">
       <DependentUpon>frmSalesMaint.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmScreens.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmScreens.Designer.cs">
+      <DependentUpon>frmScreens.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmSnapahotReport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -355,6 +361,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmSalesMaint.resx">
       <DependentUpon>frmSalesMaint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmScreens.resx">
+      <DependentUpon>frmScreens.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSnapahotReport.resx">
       <DependentUpon>frmSnapahotReport.cs</DependentUpon>

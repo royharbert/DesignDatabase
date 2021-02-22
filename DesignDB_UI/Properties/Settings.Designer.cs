@@ -46,5 +46,17 @@ namespace DesignDB_UI.Properties {
                 this["DatabaseLive"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int ActiveScreen {
+            get {
+                return ((int)(this["ActiveScreen"]));
+            }
+            set {
+                this["ActiveScreen"] = value;
+            }
+        }
     }
 }

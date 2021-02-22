@@ -18,8 +18,11 @@ namespace DesignDB_UI
         List<DesignersReviewersModel> designers = null;
         public frmLogin()
         {
+            GV.ActiveScreen = Properties.Settings.Default.ActiveScreen;
             InitializeComponent();
             AddVersionNumber();
+            
+            FC.SetFormPosition(this);
         }
 
         private void AddVersionNumber()

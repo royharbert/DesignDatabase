@@ -12,6 +12,20 @@ namespace DesignDB_UI
 {
     public class FC
     {
+        public static void SetFormPosition(Form frm)
+        {
+            GV.ScreenList = DesignDB_Library.Operations.Screens.GetScreenInfo();
+            int Monitor = GV.ActiveScreen;
+            int numScreens = GV.ScreenList.Count;
+            if (Monitor > numScreens)
+            {
+                Monitor = 1;
+                GV.ActiveScreen = 1;
+            }
+            ScreenModel model = GV.ScreenList[Monitor - 1];
+            frm.StartPosition = FormStartPosition.Manual;
+            frm.Location = new Point(model.Xpos, model.Ypos);
+        }
         public static void setDBMode(Form callingForm, bool isLive)
         {
             if (isLive)

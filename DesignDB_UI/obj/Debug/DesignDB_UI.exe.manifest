@@ -4,7 +4,7 @@
   <description asmv2:iconFile="AppIcon.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="DesignDB_UI" version="2.1.10.0" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="DesignDB_UI" version="2.1.12.0" language="neutral" processorArchitecture="msil" />
     <commandLine file="DesignDB_UI.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -115,14 +115,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_UI.exe" size="147376">
-      <assemblyIdentity name="DesignDB_UI" version="2.1.10.0" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_UI.exe" size="150960">
+      <assemblyIdentity name="DesignDB_UI" version="2.1.12.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>whO5K0JsTRFq+QEDI2wsjfZMXzuQz7R8151XHXGHH4s=</dsig:DigestValue>
+        <dsig:DigestValue>J6h55orqcrlfAomrxz/87znwQJzGMtbLNlYNOThvWRA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -303,13 +303,13 @@
       <dsig:DigestValue>5D92aDcjas7YFk2Dj3cvsw58XkGH1x0Q9mjFgTHf/7g=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="DesignDB_UI.exe.config" size="1833">
+  <file name="DesignDB_UI.exe.config" size="1935">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>rwEVpbG12Vgl6iGRXRZirzcPz7vdQpp9TH2ZhbAD8w0=</dsig:DigestValue>
+      <dsig:DigestValue>ds3PZXTq2R9EtFKlKO8iN7L3rU/PTkxL5VMEMJ+eUqQ=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>

@@ -34,7 +34,7 @@ namespace DesignDB_UI
             formLoading = true;
             frmInput.InputDataReady += FrmInput_InputDataReady;
             InitializeComponent();
-
+            FC.SetFormPosition(this);
 
 
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
@@ -195,6 +195,7 @@ namespace DesignDB_UI
             GV.MODE = Mode.Edit;
             frmInput = GV.InputForm;
             frmInput.ShowDialog();
+            this.SendToBack();
         }
 
         private void FrmInput_InputDataReady(object sender, InputDataReadyEventArgs e)
@@ -245,6 +246,7 @@ namespace DesignDB_UI
             {
                 Form frmMultiResult = new frmMultiResult(rm);
                 frmMultiResult.Show();
+                frmMultiResult.BringToFront();
             }
         }
 
@@ -416,6 +418,7 @@ namespace DesignDB_UI
         private void frmMainMenu_Activated(object sender, EventArgs e)
         {
             SetButtonVisibility(GV.USERNAME);
+            FC.SetFormPosition(this);
         }
 
         private void btnDeleteRecord_Click(object sender, EventArgs e)
@@ -423,22 +426,6 @@ namespace DesignDB_UI
             GV.MODE = Mode.Delete;
             frmInput.ShowDialog();
         }
-        //private frmInput DisplayInputForm()
-        //{
-        //    frmInput returnForm = null;
-        //    foreach (Form form in Application.OpenForms)
-        //    {
-        //        if (form.Name == "frmInput")
-        //        {
-        //            returnForm = (frmInput)form;
-        //        }
-        //    }
-        //    if (returnForm == null)
-        //    {
-        //        returnForm = new frmInput();
-        //    }
-        //    return returnForm;
-        //}
 
         private void btnUndelete_Click(object sender, EventArgs e)
         {
@@ -546,6 +533,12 @@ namespace DesignDB_UI
         {
             frmSalesMaint frmSalesMaint = new frmSalesMaint();
             frmSalesMaint.Show();
+        }
+
+        private void btnScreens_Click(object sender, EventArgs e)
+        {
+            Form ScreenForm = new frmScreens();
+            ScreenForm.Show();
         }
     }
 }

@@ -71,7 +71,9 @@ namespace DesignDB_UI
             Cursor.Current = Cursors.WaitCursor;
             Application.DoEvents();
             InitializeComponent();
-            makeLists();    
+            makeLists();            
+            FC.SetFormPosition(this);
+            this.BringToFront();
         }
 
         private void prepFormForTask()
@@ -1082,6 +1084,11 @@ namespace DesignDB_UI
         {
             DateTimePicker dtp = (DateTimePicker)dtpContextMenu.SourceControl;
             dtpResetForced(dtp);
-        } 
+        }
+
+        private void frmRequests_Activated(object sender, EventArgs e)
+        {
+            FC.SetFormPosition(this);
+        }
     } 
 }

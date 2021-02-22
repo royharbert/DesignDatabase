@@ -48,6 +48,8 @@ namespace DesignDB_UI
                 dgvResults.DataSource = requests;
                 txtRecordsReturned.Text = Requests.Count.ToString();
             }
+            FC.SetFormPosition(this);
+            this.BringToFront();
         }
 
         private void FrmDateRangeSearch_DateRangeSet(object sender, frmDateRangeSearch.DateRangeEventArgs e)
@@ -79,7 +81,10 @@ namespace DesignDB_UI
                     dgvResults.DataSource = Requests;
                     dgvResults.ClearSelection();                        
                     ReportOps.FormatMultiResultDGV(dgvResults);
-                    break;                
+                    break;
+                case Mode.DateRangeSearch:
+                    ReportOps.FormatMultiResultDGV(dgvResults);
+                    break;
                 default:
                     break;
             }
@@ -108,6 +113,11 @@ namespace DesignDB_UI
             ListLooper.ExcelExporter<RequestModel> exporter = new ListLooper.ExcelExporter<RequestModel>();
             exporter.List = (List<RequestModel>)dgvResults.DataSource;
             ReportOps.FormatMultiResultExport(exporter.Wksheet);
+        }
+
+        private void frmMultiResult_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            GV.MAINMENU.BringToFront();
         }
     }
 }

@@ -60,6 +60,7 @@ namespace DesignDB_UI
             this.txtMode = new System.Windows.Forms.TextBox();
             this.btnUtility = new System.Windows.Forms.Button();
             this.btnSalespersonMaint = new System.Windows.Forms.Button();
+            this.btnScreens = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tlpMain.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -465,6 +466,7 @@ namespace DesignDB_UI
             this.tlpMain.Controls.Add(this.txtMode, 0, 9);
             this.tlpMain.Controls.Add(this.btnUtility, 5, 4);
             this.tlpMain.Controls.Add(this.btnSalespersonMaint, 5, 3);
+            this.tlpMain.Controls.Add(this.btnScreens, 0, 7);
             this.tlpMain.Location = new System.Drawing.Point(12, 150);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 10;
@@ -583,6 +585,22 @@ namespace DesignDB_UI
             this.btnSalespersonMaint.UseVisualStyleBackColor = false;
             this.btnSalespersonMaint.Click += new System.EventHandler(this.btnSalespersonMaint_Click);
             // 
+            // btnScreens
+            // 
+            this.btnScreens.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnScreens.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnScreens.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnScreens.Location = new System.Drawing.Point(3, 360);
+            this.btnScreens.Name = "btnScreens";
+            this.btnScreens.Size = new System.Drawing.Size(234, 45);
+            this.btnScreens.TabIndex = 35;
+            this.btnScreens.Tag = "1";
+            this.btnScreens.Text = "Configure Screens";
+            this.btnScreens.UseVisualStyleBackColor = false;
+            this.btnScreens.Click += new System.EventHandler(this.btnScreens_Click);
+            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -662,5 +680,6 @@ namespace DesignDB_UI
         private System.Windows.Forms.RadioButton rdoSandbox;
         private System.Windows.Forms.RadioButton rdoLive;
         private System.Windows.Forms.Button btnUtility;
+        private System.Windows.Forms.Button btnScreens;
     }
 }
