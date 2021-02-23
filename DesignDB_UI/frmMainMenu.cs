@@ -433,6 +433,7 @@ namespace DesignDB_UI
             frmInput = GV.InputForm;
             //frmInput.InputDataReady += FrmInput_InputDataReady;
             frmInput.ShowDialog();
+            this.SendToBack();
         }
 
         private void btnOpenReq_Click(object sender, EventArgs e)

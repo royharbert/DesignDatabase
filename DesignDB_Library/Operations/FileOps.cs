@@ -20,7 +20,8 @@ namespace DesignDB_Library.Operations
             }
             string fullFileName = fullSavePath + "\\" + model.DisplayText;
             File.Copy(model.FileToSave, fullFileName, true);
-            System.Windows.Forms.MessageBox.Show("1 file copied");
+            //MessageBox.Show("1 file copied");
+            
         }
     }
 }

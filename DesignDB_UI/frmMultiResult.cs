@@ -119,6 +119,11 @@ namespace DesignDB_UI
         {
             GV.MAINMENU.BringToFront();
         }
+
+        private void frmMultiResult_Activated(object sender, EventArgs e)
+        {
+            this.BringToFront();
+        }
     }
 }
 

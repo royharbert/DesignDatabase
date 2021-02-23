@@ -332,7 +332,7 @@ namespace DesignDB_UI
             Rm.ReviewedBy = cboReviewedBy.Text;
 
             decimal BOM = 0;
-            decimal.TryParse(txtBOM_Val.Text, out BOM);
+            decimal.TryParse(txtBOM_Val.Text, NumberStyles.Currency, CultureInfo.CurrentCulture.NumberFormat, out BOM);
             Rm.BOM_Value = BOM;
 
             int pct = 0;

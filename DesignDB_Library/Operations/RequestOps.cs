@@ -163,7 +163,8 @@ namespace DesignDB_Library.Operations
         }
 
         public static void RestoreRequest(RequestModel request)
-        {  
+        {
+            bool saveSuccessful = true;
             string db = GetConnectionString();
             List<RequestModel> requests = new List<RequestModel>();
             requests.Add(request);
@@ -185,13 +186,23 @@ namespace DesignDB_Library.Operations
                 param.Value = request.ID    ;
                 cmd.Parameters.Add(param);
 
-                con.Open();
-                cmd.ExecuteNonQuery();
-                con.Close();
+                try
+                {
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.Forms.MessageBox.Show(ex.Message);
+                    saveSuccessful = false;
+                }
             }
 
-
-            System.Windows.Forms.MessageBox.Show("Request " + request.ProjectID + " has been restored.");
+            if (saveSuccessful)
+            {
+                System.Windows.Forms.MessageBox.Show("Request " + request.ProjectID + " has been restored.");
+            }
             
         }
         public static void UpdateRequest(DataTable dt)

@@ -144,6 +144,7 @@ namespace DesignDB_UI
             this.Name = "frmMultiResult";
             this.Text = "Search Results";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Activated += new System.EventHandler(this.frmMultiResult_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMultiResult_FormClosing);
             this.Load += new System.EventHandler(this.frmMultiResult_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvResults)).EndInit();
