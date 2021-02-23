@@ -22,6 +22,8 @@ namespace DesignDB_UI
         {
             model = aModel;
             InitializeComponent();
+            FC.SetFormPosition(this);
+            this.BringToFront();
         }
 
         private void btnOK_Click(object sender, EventArgs e)
