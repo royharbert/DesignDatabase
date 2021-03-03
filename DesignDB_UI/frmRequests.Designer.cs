@@ -136,7 +136,6 @@ namespace DesignDB_UI
             this.txtPID.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPID.Enabled = false;
             this.txtPID.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPID.Location = new System.Drawing.Point(252, 4);
             this.txtPID.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -1059,6 +1058,7 @@ namespace DesignDB_UI
             this.txtDateAllInfo.TabIndex = 16;
             this.txtDateAllInfo.Tag = "L|DateAllInfoReceived";
             this.txtDateAllInfo.ValueChanged += new System.EventHandler(this.txtDateAllInfo_ValueChanged);
+            this.txtDateAllInfo.DropDown += new System.EventHandler(this.txtDateAllInfo_DropDown);
             // 
             // dtpContextMenu
             // 
@@ -1118,6 +1118,7 @@ namespace DesignDB_UI
             this.txtDateCompleted.TabIndex = 18;
             this.txtDateCompleted.Tag = "L|DateCompleted";
             this.txtDateCompleted.ValueChanged += new System.EventHandler(this.txtDateCompleted_ValueChanged);
+            this.txtDateCompleted.DropDown += new System.EventHandler(this.txtDateCompleted_DropDown);
             // 
             // txtLastUpdate
             // 
@@ -1391,6 +1392,7 @@ namespace DesignDB_UI
             this.Text = "Design Request";
             this.Activated += new System.EventHandler(this.frmRequests_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmRequests_FormClosing);
+            this.Move += new System.EventHandler(this.frmRequests_Move);
             this.ddContextMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachments)).EndInit();
             this.dtpContextMenu.ResumeLayout(false);

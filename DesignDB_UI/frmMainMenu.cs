@@ -28,6 +28,7 @@ namespace DesignDB_UI
             GV.PickerForm = frmDateMSO_Picker;
             GV.InputForm = frmInput;
             GV.REQFORM = new frmRequests();
+            GV.MultiResult = new frmMultiResult(null);
             frmDateMSO_Picker.Hide();
             frmDateMSO_Picker.PickerCanceled += FrmDateMSO_Picker_PickerCanceled;
             frmDateMSO_Picker.DataReadyEvent += FrmDateMSO_Picker_DataReadyEvent;
@@ -244,9 +245,11 @@ namespace DesignDB_UI
             }
             else
             {
-                Form frmMultiResult = new frmMultiResult(rm);
-                frmMultiResult.Show();
-                frmMultiResult.BringToFront();
+                //Form frmMultiResult = new frmMultiResult(rm);
+                GV.MultiResult.dataList = rm;
+                FC.SetFormPosition(GV.MultiResult);
+                GV.MultiResult.Show();
+                GV.MultiResult.BringToFront();
             }
         }
 
@@ -302,8 +305,10 @@ namespace DesignDB_UI
         {
             GV.MODE = Mode.Edit;
             List<RequestModel> requests = GlobalConfig.Connection.GetRequestsForDesignerUpdate(GV.USERNAME.Designer);
-            Form frmMultiResult = new frmMultiResult(requests);
-            frmMultiResult.Show();
+            //Form frmMultiResult = new frmMultiResult(requests);
+            FC.SetFormPosition(GV.MultiResult);
+            GV.MultiResult.BringToFront();
+            GV.MultiResult.Show();
         }
 
         private void btnDateRange_Click(object sender, EventArgs e)
@@ -316,7 +321,8 @@ namespace DesignDB_UI
         private void btnForecast_Click(object sender, EventArgs e)
         {
             GV.MODE = Mode.Forecast;
-            frmMultiResult frmMultiResult = new frmMultiResult(null);
+            GV.MultiResult.DoForecast();
+            //frmMultiResult frmMultiResult = new frmMultiResult(null);
         }
 
         private void btnLoadRpt_Click(object sender, EventArgs e)
@@ -440,16 +446,18 @@ namespace DesignDB_UI
         {
             GV.MODE = Mode.Report_OpenRequests;
             List<RequestModel> openRequests = GlobalConfig.Connection.GetOpenRequests();
-            frmMultiResult frmMultiResult = new frmMultiResult(openRequests);
-            frmMultiResult.Show();    
+            //frmMultiResult frmMultiResult = new frmMultiResult(openRequests);
+            GV.MultiResult.dataList = openRequests;
+            GV.MultiResult.Show();    
         }
 
         private void btnOverdue_Click(object sender, EventArgs e)
         {
             GV.MODE = Mode.Report_Overdue;
             List<RequestModel> overdueRequests = GlobalConfig.Connection.GetOverdueRequests(DateTime.Now);
-            frmMultiResult frmMultiResult = new frmMultiResult(overdueRequests);
-            frmMultiResult.Show();
+            //frmMultiResult frmMultiResult = new frmMultiResult(overdueRequests);
+            GV.MultiResult.dataList = overdueRequests;
+            GV.MultiResult.Show();
         }
 
         private void btnAvgComp_Click(object sender, EventArgs e)

@@ -28,7 +28,7 @@ namespace DesignDB_UI
 
         private void FrmDateMSO_Picker_DataReadyEvent(object sender, DataReadyEventArgs e)
         {
-            report = DesignDB_Library.Operations.ReportOps.GenerateSnapshotReport
+            report = ReportOps.GenerateSnapshotReport
                 (e.MSO_s, e.StartDate, e.EndDate);
             dgvSnapshots.DataSource = report;
             formatDGV();

@@ -30,6 +30,7 @@ namespace DesignDB_UI
         private void InitializeComponent()
         {
             this.btnCopyRequests = new System.Windows.Forms.Button();
+            this.btnAttachmentFix = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCopyRequests
@@ -42,12 +43,23 @@ namespace DesignDB_UI
             this.btnCopyRequests.UseVisualStyleBackColor = true;
             this.btnCopyRequests.Click += new System.EventHandler(this.btnCopyRequests_Click);
             // 
+            // btnAttachmentFix
+            // 
+            this.btnAttachmentFix.Location = new System.Drawing.Point(91, 148);
+            this.btnAttachmentFix.Name = "btnAttachmentFix";
+            this.btnAttachmentFix.Size = new System.Drawing.Size(144, 57);
+            this.btnAttachmentFix.TabIndex = 1;
+            this.btnAttachmentFix.Text = "Import Attachments";
+            this.btnAttachmentFix.UseVisualStyleBackColor = true;
+            this.btnAttachmentFix.Click += new System.EventHandler(this.btnAttachmentFix_Click);
+            // 
             // frmUtility
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(1200, 692);
+            this.Controls.Add(this.btnAttachmentFix);
             this.Controls.Add(this.btnCopyRequests);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -61,5 +73,6 @@ namespace DesignDB_UI
         #endregion
 
         private System.Windows.Forms.Button btnCopyRequests;
+        private System.Windows.Forms.Button btnAttachmentFix;
     }
 }

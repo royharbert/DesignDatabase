@@ -56,7 +56,8 @@ namespace DesignDB_Library.Operations
             request.AssistedBy = "";
             request.AwardStatus = "Pending";
             request.TotalHours = 0;
-            request.Designer = "";
+            request.Comments = "";
+            //request.Designer = "";
             //Save record
             InsertNewRequest(request);
             return request;

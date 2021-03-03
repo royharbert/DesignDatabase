@@ -30,11 +30,16 @@ namespace DesignDB_UI
             if (GV.MODE == Mode.DateRangeSearch)
             {
                 btnForecast.Visible = false;
+                btnSearch.Visible = true;
             }
             else
             {
+                btnSearch.Visible = false;
                 btnForecast.Visible = true;
             }
+
+            FC.SetFormPosition(this);
+            this.BringToFront();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -92,8 +97,9 @@ namespace DesignDB_UI
                         break;
 
                     default:
-                        frmMultiResult frmMultiResult = new frmMultiResult(requestList);
-                        frmMultiResult.Show();
+                        //frmMultiResult frmMultiResult = new frmMultiResult(requestList);
+                        GV.MultiResult.dataList = requestList;
+                        GV.MultiResult.Show();
                         break;
                 }
             }
@@ -114,11 +120,13 @@ namespace DesignDB_UI
                         break;
 
                     default:
-                        frmMultiResult frmMultiResult = new frmMultiResult(requestList);
-                        frmMultiResult.Show();
+                        //frmMultiResult frmMultiResult = new frmMultiResult(requestList);
+                        GV.MultiResult.dataList = requestList;
+                        GV.MultiResult.Show();
                         break;
                 }
             }
+            this.Close();
         }
 
         private void btnForecast_Click(object sender, EventArgs e)

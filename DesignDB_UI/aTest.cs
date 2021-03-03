@@ -31,8 +31,6 @@ namespace DesignDB_UI
             dtp.CustomFormat = " ";
             dtp.Format = DateTimePickerFormat.Custom;
             txtBox.Text = dtp.Value.ToShortDateString();
-            //dtp.Value = dtp.MinDate;
-            //Screens.GetScreenInfo(); 
         }
 
         private void btnExcel_Click(object sender, EventArgs e)

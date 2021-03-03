@@ -77,7 +77,7 @@ namespace DesignDB_UI
             this.Controls.Add(this.dgvReport);
             this.Name = "frmReportCatMSO";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "frmReportCatMSO";
+            this.Text = "Categories by MSO";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.dgvReport)).EndInit();
             this.ResumeLayout(false);

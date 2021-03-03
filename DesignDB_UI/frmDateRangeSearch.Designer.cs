@@ -166,9 +166,9 @@ namespace DesignDB_UI
             // 
             // btnForecast
             // 
-            this.btnForecast.Location = new System.Drawing.Point(435, 281);
+            this.btnForecast.Location = new System.Drawing.Point(435, 227);
             this.btnForecast.Name = "btnForecast";
-            this.btnForecast.Size = new System.Drawing.Size(309, 38);
+            this.btnForecast.Size = new System.Drawing.Size(135, 38);
             this.btnForecast.TabIndex = 9;
             this.btnForecast.Text = "Forecast";
             this.btnForecast.UseVisualStyleBackColor = true;

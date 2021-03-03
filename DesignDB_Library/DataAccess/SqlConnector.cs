@@ -490,28 +490,12 @@ namespace DesignDB_Library.DataAccess
 
                 p.Add("@StartDate", StartDate, DbType.DateTime, ParameterDirection.Input);
                 p.Add("@EndDate", EndDate, DbType.DateTime, ParameterDirection.Input);
+                p.Add("@SearchField", SearchTerm, DbType.String, ParameterDirection.Input);
                 List<RequestModel> output = null;
 
-                switch (SearchTerm)
-                {
-                    case "DateAssigned":
-                    output = connection.Query<RequestModel>("spRequests_DateRangeSearch_Unfiltered_DateAssigned", 
-                        p, commandType: CommandType.StoredProcedure).ToList();
-                        break;
 
-                    case "DateDue":
-                        output = connection.Query<RequestModel>("spRequests_DateRangeSearch_Unfiltered_DateDue",
-                            p, commandType: CommandType.StoredProcedure).ToList();
-                        break;
-
-                    case "DateCompleted":
-                        output = connection.Query<RequestModel>("spRequests_DateRangeSearch_Unfiltered_DateCompleted",
-                            p, commandType: CommandType.StoredProcedure).ToList();
-                        break;
-
-                    default:
-                        break;
-                }
+                output = connection.Query<RequestModel>("spRequests_DateRangeSearch_Unfiltered_DateAssigned_PendingOnly", 
+                    p, commandType: CommandType.StoredProcedure).ToList();
                 return output;
             }
         }

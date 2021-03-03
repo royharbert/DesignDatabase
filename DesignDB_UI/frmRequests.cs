@@ -36,13 +36,29 @@ namespace DesignDB_UI
         static string RequestSearchButtons = "btnSearchFields";
 
         bool formLoading;
-        bool formDirty;        
+        bool formDirty;
 
+        Point _formLocation = new Point(-1, -1);
+        bool _useDefaultLocation = true;
         frmAttType frm = null;       
         DateTime failDate = new DateTime(1900, 1, 1);
-        //DateTime minDate = new DateTime(2000, 1, 1);
-
         RequestModel initialRequest = null;
+
+        public bool UseDefaultLocation
+        {
+            get
+            {
+                return _useDefaultLocation;
+            }
+        }
+
+        public Point FormLocation 
+        {
+            get 
+            {
+                return _formLocation;
+            }
+        }
 
         public RequestModel Request
         {
@@ -53,6 +69,7 @@ namespace DesignDB_UI
             set
             {
                 formLoading = true;
+                Application.DoEvents();
                 Rm = value;
                 prepFormForTask();
                 if (Rm != null)
@@ -72,7 +89,8 @@ namespace DesignDB_UI
             Application.DoEvents();
             InitializeComponent();
             makeLists();            
-            FC.SetFormPosition(this);
+            _formLocation = this.Location;
+            FC.SetFormPosition(this, _formLocation.X, _formLocation.Y, UseDefaultLocation);
             this.BringToFront();
         }
 
@@ -246,16 +264,16 @@ namespace DesignDB_UI
             cboCities.Text = rm.City;
             cboState.Text = rm.ST;
             cboCountry.Text = rm.Country;
-            cboRegion.Text = rm.Region;
+            cboRegion.Text = setCombo(cboRegion, rm.Region);
             cboRequestor.Text = rm.DesignRequestor;
-            cboQuoteType.Text = rm.QuoteType;
-            cboPriority.Text = rm.Pty;
-            cboDesigner.Text = rm.Designer; 
-            cboAssisted.Text = rm.AssistedBy;
+            cboQuoteType.Text = setCombo(cboQuoteType, rm.QuoteType);
+            cboPriority.Text = setCombo(cboPriority, rm.Pty);
+            cboDesigner.Text = setCombo(cboDesigner, rm.Designer); 
+            cboAssisted.Text = setCombo(cboAssisted, rm.AssistedBy);
             txtProjName.Text = rm.ProjectName;
             cboOrigQuote.Text = rm.OriginalQuote;
-            cboCategory.Text = rm.Category;
-            cboArchType.Text = rm.ArchitectureType;
+            cboCategory.Text = setCombo(cboCategory, rm.Category);
+            cboArchType.Text = setCombo(cboArchType, rm.ArchitectureType);
             
             dtpLoadFromModel(txtDateAssigned, rm.DateAssigned);
             
@@ -264,10 +282,10 @@ namespace DesignDB_UI
             dtpLoadFromModel(txtDateDue, rm.DateDue);
             
             dtpLoadFromModel(txtDateCompleted, rm.DateCompleted);
-            cboReviewedBy.Text = rm.ReviewedBy;
+            cboReviewedBy.Text = setCombo(cboReviewedBy, rm.ReviewedBy);
             txtBOM_Val.Text = rm.BOM_Value.ToString("C2");
             txtPctCovered.Text = rm.PercentageProjectCovered.ToString();
-            cboAwardStatus.Text = rm.AwardStatus;
+            cboAwardStatus.Text = setCombo(cboAwardStatus, rm.AwardStatus);
             txtTotalHours.Text = rm.TotalHours.ToString();
            
             dtpLoadFromModel(txtLastUpdate, rm.DateLastUpdate);
@@ -278,6 +296,20 @@ namespace DesignDB_UI
             //set modelMSO since it does not come from DB
             Rm.msoModel = (MSO_Model)cboMSO.SelectedItem;
             initialRequest = CommonOps.CloneRequestList(Rm);            
+        }
+
+        private string setCombo(ComboBox cbo, string val)
+        {
+            string rtn = "";
+            if (val == "")
+            {
+                cbo.SelectedIndex = -1;
+            }
+            else
+            {
+                rtn = val;
+            }
+            return rtn;
         }
 
         private void dtpLoadFromModel(DateTimePicker dtp, DateTime modelDate)
@@ -507,22 +539,25 @@ namespace DesignDB_UI
                 newList.Add(model);
             }
             return newList;
-        }       
+        }   
         
         private void makeLists()
         {
             List<DesignersReviewersModel> activeDesignerList = GlobalConfig.Connection.DesignersGetActive();
+            activeDesignerList.Insert(0, new DesignersReviewersModel());
             cboDesigner.DataSource = activeDesignerList;
             cboDesigner.DisplayMember = "Designer";
             cboDesigner.SelectedIndex = -1;
 
 
             List<DesignersReviewersModel> assistedList = cloneList(activeDesignerList);
+            //assistedList.Insert(0, new DesignersReviewersModel());
             cboAssisted.DataSource = assistedList;
             cboAssisted.DisplayMember = "Designer";
             cboAssisted.SelectedIndex = -1;
 
             List<DesignersReviewersModel> reviewerList = GlobalConfig.Connection.Reviewers_GetActive();
+            reviewerList.Insert(0, new DesignersReviewersModel());
             cboReviewedBy.DataSource = reviewerList;
             cboReviewedBy.DisplayMember = "Designer";
             cboReviewedBy.SelectedIndex = -1;
@@ -539,21 +574,25 @@ namespace DesignDB_UI
             cboCities.SelectedIndex = -1;
 
             List<StateModel> stateList = GlobalConfig.Connection.GetAllStates();
+            stateList.Insert(0, new StateModel());
             cboState.DataSource = stateList;
             cboState.DisplayMember = "State";
             cboState.SelectedIndex = -1;
 
             List<CountriesModel> countryList = GlobalConfig.Connection.GetAllCountries();
+            countryList.Insert(0, new CountriesModel());
             cboCountry.DataSource = countryList;
             cboCountry.DisplayMember = "Country";
             cboCountry.SelectedIndex = -1;
 
             List<RegionsModel> regionList = GlobalConfig.Connection.GetAllRegions();
+            regionList.Insert(0, new RegionsModel());
             cboRegion.DataSource = regionList;
             cboRegion.DisplayMember = "Region";
             cboRegion.SelectedIndex = -1;
 
             List<SalespersonModel> salesList = GlobalConfig.Connection.SalesGetActive();
+            salesList.Insert(0, new SalespersonModel());
             cboRequestor.DataSource = salesList;
             cboRequestor.DisplayMember = "SalesPerson";
             cboRequestor.SelectedIndex = -1;
@@ -603,6 +642,7 @@ namespace DesignDB_UI
         private void saveChanges()
         {
             loadModel();
+            Rm.DateLastUpdate = DateTime.Today;
             switch (GV.MODE)
             {
                 case Mode.New:
@@ -688,7 +728,7 @@ namespace DesignDB_UI
             resetCombo(cboArchType);
             resetCombo(cboCategory);
             resetCombo(cboAssisted);
-            resetCombo(cboDesigner);
+            //resetCombo(cboDesigner);
             dtpResetForced(txtDateDue);
             dtpResetForced(txtDateAllInfo);            
             dtpResetForced(txtLastUpdate);
@@ -733,7 +773,9 @@ namespace DesignDB_UI
                 string fileName = Path.GetFileName(fullFileName);
                 model.FileToSave = fullFileName;
                 model.DisplayText = fileName;
-                frm.ShowDialog();                
+                FC.SetFormPosition(frm);
+                this.BringToFront();
+                frm.ShowDialog();
             }
 
             frm.TypeReadyEvent -= Frm_TypeReadyEvent;
@@ -765,11 +807,18 @@ namespace DesignDB_UI
             List<AttachmentModel> aList = (List<AttachmentModel>)dgvAttachments.DataSource;
             int selRow = dgvAttachments.CurrentRow.Index;
             AttachmentModel model = aList[selRow];
-            
+
             string fileName = dgvAttachments.CurrentRow.Cells[2].Value.ToString();
             fileName = GlobalConfig.AttachmentPath + "\\" + model.PID + "\\" + fileName;
             ProcessStartInfo sinfo = new ProcessStartInfo(fileName);
-            Process.Start(sinfo);
+            try
+            {
+                Process.Start(sinfo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n" + fileName);
+            }
         }
 
         private void btnRemoveAtt_Click(object sender, EventArgs e)
@@ -851,8 +900,8 @@ namespace DesignDB_UI
             if (!formLoading  && GV.MODE != Mode.Undo)
             {
                 dtp.Format = DateTimePickerFormat.Short;
+                formDirty = true;
             }
-            formDirty = true;
         }
 
         private void cboPriority_SelectedIndexChanged(object sender, EventArgs e)
@@ -980,8 +1029,10 @@ namespace DesignDB_UI
             List<FieldSearchModel> searchList = new List<FieldSearchModel>();
             collectSearchTerms(ref searchList, tlpList);
             List<RequestModel> requests = DesignDB_Library.Operations.SearchOps.FieldSearch(searchList, true);
-            frmMultiResult frmMultiResult = new frmMultiResult(requests);
-            frmMultiResult.Show();formDirty = false;
+            //frmMultiResult frmMultiResult = new frmMultiResult(requests);
+            GV.MultiResult.dataList = requests;
+            GV.MultiResult.Show();
+            formDirty = false;
         }
 
         private DialogResult confirmAction()
@@ -1088,7 +1139,32 @@ namespace DesignDB_UI
 
         private void frmRequests_Activated(object sender, EventArgs e)
         {
-            FC.SetFormPosition(this);
+            FC.SetFormPosition(this, _formLocation.X, _formLocation.Y, _useDefaultLocation);
+        }
+
+        private void txtDateCompleted_DropDown(object sender, EventArgs e)
+        {
+            dtpForceDate(txtDateCompleted);
+        }
+
+        private void dtpForceDate(DateTimePicker dtp)
+        {
+            dtp.Value = DateTime.Today;
+        }
+
+        private void txtDateAllInfo_DropDown(object sender, EventArgs e)
+        {
+            dtpForceDate(txtDateAllInfo);
+        }
+
+        private void frmRequests_Move(object sender, EventArgs e)
+        {
+            _formLocation = this.Location;
+            if (!formLoading)
+            {
+                _useDefaultLocation = false;
+            }
+            Application.DoEvents();
         }
     } 
 }

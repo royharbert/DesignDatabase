@@ -147,6 +147,7 @@ namespace DesignDB_UI
             this.Activated += new System.EventHandler(this.frmMultiResult_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMultiResult_FormClosing);
             this.Load += new System.EventHandler(this.frmMultiResult_Load);
+            this.Move += new System.EventHandler(this.frmMultiResult_Move_1);
             ((System.ComponentModel.ISupportInitialize)(this.dgvResults)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

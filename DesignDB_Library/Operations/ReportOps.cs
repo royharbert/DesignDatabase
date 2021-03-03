@@ -158,7 +158,7 @@ namespace DesignDB_Library.Operations
             List<SnapshotModel> snapshots = new List<SnapshotModel>();
             foreach (MSO_Model mso in msoList)
             {
-                SnapshotModel snapshotModel = DesignDB_Library.Operations.ReportOps.SnapshotLine
+                SnapshotModel snapshotModel = ReportOps.SnapshotLine
                     (mso.MSO, startDate, endDate);
                 if (snapshotModel != null)
                 {
@@ -280,8 +280,6 @@ namespace DesignDB_Library.Operations
 
                 if (requests.Count > 0)
                 {
-
-
                     reportLine = new ReportCategoryMSOModel();
                     reportLine.TotalRequests = requests.Count;
                     foreach (RequestModel request in requests)
@@ -522,7 +520,7 @@ namespace DesignDB_Library.Operations
             "RFoG/ Pon Dollars","Fiber Deep Dollars", "Data Trans. Dollars","Other Dollars", "PEG Dollars","Commercial Dollars",
             "Unassigned Dollars" };
 
-            int[] widths = { 150, 100, 100, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 160,
+            int[] widths = { 150, 100, 100, 60, 60, 60, 60, 60, 60, 60, 60, 60, 75, 75, 160,
              160,160,160,160,160,160,160,160,160};
 
             SetDGV_ColumnWidths(dgv, widths);

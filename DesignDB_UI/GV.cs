@@ -19,6 +19,7 @@ namespace DesignDB_UI
         public static DesignersReviewersModel USERNAME { get; set; }
         public static Form LOGIN { get; set; }
         public static Form MAINMENU { get; set; }
+        public static frmMultiResult MultiResult { get; set; }
         public static Mode MODE
         {
             get

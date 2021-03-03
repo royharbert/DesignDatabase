@@ -12,20 +12,30 @@ namespace DesignDB_UI
 {
     public class FC
     {
-        public static void SetFormPosition(Form frm)
+        public static void SetFormPosition(Form frm, int altLocationX = -1, int altLocationY = -1, 
+            bool useDefaultLocation = true)
         {
-            GV.ScreenList = DesignDB_Library.Operations.Screens.GetScreenInfo();
-            int Monitor = GV.ActiveScreen;
-            int numScreens = GV.ScreenList.Count;
-            if (Monitor > numScreens)
-            {
-                Monitor = 1;
-                GV.ActiveScreen = 1;
-            }
-            ScreenModel model = GV.ScreenList[Monitor - 1];
+            Point adjustedPoint = new Point(altLocationX, altLocationY);
             frm.StartPosition = FormStartPosition.Manual;
-            frm.Location = new Point(model.Xpos, model.Ypos);
+            if (useDefaultLocation)
+            {
+                GV.ScreenList = DesignDB_Library.Operations.Screens.GetScreenInfo();
+                int Monitor = GV.ActiveScreen;
+                int numScreens = GV.ScreenList.Count;
+                if (Monitor > numScreens)
+                {
+                    Monitor = 1;
+                    GV.ActiveScreen = 1;
+                }
+                ScreenModel model = GV.ScreenList[Monitor - 1];
+                frm.Location = new Point(model.Xpos, model.Ypos);
+            }
+            else
+            {
+                frm.Location = new Point(altLocationX, altLocationY);
+            }
         }
+
         public static void setDBMode(Form callingForm, bool isLive)
         {
             if (isLive)
@@ -81,6 +91,8 @@ namespace DesignDB_UI
             Cursor.Current = Cursors.WaitCursor;
             GV.REQFORM.Request = request;
             GV.REQFORM.Show();
+            Point altLocation = GV.REQFORM.FormLocation;
+            FC.SetFormPosition(GV.REQFORM, altLocation.X, altLocation.Y, GV.REQFORM.UseDefaultLocation);
             GV.REQFORM.BringToFront();
             Cursor.Current = Cursors.Default;
             return GV.REQFORM;

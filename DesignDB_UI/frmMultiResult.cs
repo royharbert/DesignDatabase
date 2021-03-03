@@ -16,7 +16,25 @@ using System.Windows.Forms;
 namespace DesignDB_UI
 {
     public partial class frmMultiResult : Form
-    {  
+    {
+        private bool _useDefaultLocation = true;
+        private Point _formLocation;
+        private bool formLoading;
+        public bool UseDefaultLocation
+        {
+            get
+            {
+                return _useDefaultLocation;
+            }
+        }
+
+        public Point FormLocation
+        {
+            get
+            {
+                return _formLocation;
+            }
+        }
         List<RequestModel> Requests;
         public List<RequestModel> dataList
         {
@@ -26,17 +44,36 @@ namespace DesignDB_UI
             }
             set 
             {
-                dgvResults.DataSource = value;
+                Requests = value;
+                txtRecordsReturned.Text = Requests.Count.ToString();
+                dgvResults.DataSource = null;
+                dgvResults.DataSource = Requests;
             }
         }
+
+        public void DoForecast()
+        {
+            FC.SetFormPosition(this);
+            this.BringToFront();
+            this.Show();
+            frmDateRangeSearch frmDateRangeSearch = new frmDateRangeSearch();
+            frmDateRangeSearch.DateRangeSet += FrmDateRangeSearch_DateRangeSet;
+            frmDateRangeSearch.ShowDialog();
+        }
+
         DateTime startDate = new DateTime(1900, 1, 1);
         DateTime endDate = new DateTime(1900, 1, 1);
         string MSO = "";
         public frmMultiResult(List<RequestModel> requests)
-        {            
+        {
+            formLoading = true;
+            _useDefaultLocation = true;
+            GV.MultiResult = this;
             InitializeComponent();
             if (GV.MODE == Mode.Forecast)
             {
+                FC.SetFormPosition(this);
+                this.BringToFront();
                 this.Show();
                 frmDateRangeSearch frmDateRangeSearch = new frmDateRangeSearch();
                 frmDateRangeSearch.DateRangeSet += FrmDateRangeSearch_DateRangeSet;
@@ -44,12 +81,14 @@ namespace DesignDB_UI
             }
             else
             {
-                Requests = requests;
-                dgvResults.DataSource = requests;
-                txtRecordsReturned.Text = Requests.Count.ToString();
+                if (requests != null)
+                {
+                    Requests = requests;
+                    dgvResults.DataSource = requests;
+                    txtRecordsReturned.Text = Requests?.Count.ToString();
+                }
             }
-            FC.SetFormPosition(this);
-            this.BringToFront();
+            formLoading = false;
         }
 
         private void FrmDateRangeSearch_DateRangeSet(object sender, frmDateRangeSearch.DateRangeEventArgs e)
@@ -83,6 +122,7 @@ namespace DesignDB_UI
                     ReportOps.FormatMultiResultDGV(dgvResults);
                     break;
                 case Mode.DateRangeSearch:
+                case Mode.Report_OpenRequests:
                     ReportOps.FormatMultiResultDGV(dgvResults);
                     break;
                 default:
@@ -105,7 +145,8 @@ namespace DesignDB_UI
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.Hide();
+            GV.MAINMENU.BringToFront();
         }
 
         private void btnExport_Click(object sender, EventArgs e)
@@ -122,7 +163,17 @@ namespace DesignDB_UI
 
         private void frmMultiResult_Activated(object sender, EventArgs e)
         {
+            FC.SetFormPosition(this, _formLocation.X, _formLocation.Y, false);
             this.BringToFront();
+        }
+
+        private void frmMultiResult_Move_1(object sender, EventArgs e)
+        {
+            _formLocation = this.Location;
+            if (!formLoading)
+            {
+                _useDefaultLocation = false;
+            }
         }
     }
 }
