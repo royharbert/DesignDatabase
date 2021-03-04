@@ -232,6 +232,18 @@ namespace DesignDB_Library.Operations
             SetDGV_ColumnWidths(dgv, widths);
         }
 
+        public static void FormatLogViewDGV(DataGridView dgv)
+        {
+            string[] headers = { "Time Stamp", "User", "Action", "Affected Fields", "Request ID" };
+            setDGV_HeaderText(dgv, headers);
+
+
+            int[] widths = { 140, 140, 140, 140, 200 };
+            SetDGV_ColumnWidths(dgv, widths);
+
+            dgv.Columns[3].Visible = false;
+        }
+
         public static void FormatDesignerLoadDGV(DataGridView dgv)
         {
             string[] headers = { "Designer", "Priority", "Date Due", "Project ID", "Award Status" };
@@ -404,21 +416,28 @@ namespace DesignDB_Library.Operations
         public static void FormatMultiResultExport(Excel.Worksheet wks)
         {
             string[] headers = new string[]
+            {
+                 "Project ID", "Quote Type", "Original Quote", "Priority", "Award Status", "Design Requestor",
+                "BOM Value", "% Project Covered", "MSO", "Region", "City", "Date Assigned", "Date All Info Received", "Date Due",
+                "Date Completed", "Date Last Update", "Designer", "Assisted By", "Reviewed By", "Category",
+                "Architecture Details", "Total Hours", "Architecture Type", "End Customer", "State","Country", "Project Name"
+            };
         {
-                "Project ID", "MSO", "End Customer", "City", "State","Country", "Region", "Design Requestor", "Quote Type",
-                "Priority", "Designer", "Project Name", "Original Quote", "Assisted By", "Category", "Architecture Type",
-                "Date Assigned", "Date All Info Received", "Date Due", "Award Status", "Date Last Update", "Reviewed By",
-                "Date Completed", "Total Hours", "BOM Value", "% Project Covered", "Architecture Details", "Comments"
+                //"Project ID", "MSO", "End Customer", "City", "State","Country", "Region", "Design Requestor", "Quote Type",
+                //"Priority", "Designer", "Project Name", "Original Quote", "Assisted By", "Category", "Architecture Type",
+                //"Date Assigned", "Date All Info Received", "Date Due", "Award Status", "Date Last Update", "Reviewed By",
+                //"Date Completed", "Total Hours", "BOM Value", "% Project Covered", "Architecture Details", "Comments"
         };
             placeHeaderTextInExport(wks, headers);
             formatExcelHeaderRow(wks);
 
             int[] widths = new int[]
             {
-                26, 26, 26, 26, 20,26, 26,20,15, 10,15,26,26,15,10,20,15,15,15,15,15,15,15,15,15,15,50,26
+            //  A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z  AA AB  
+                26,15,26,15,17,26,17,12,22,15,25,15,15,15,15,15,22,22,22,12,22,15,22,15,20,20,50,26
             };
 
-            string[] currencyCols = { "Y" };
+            string[] currencyCols = { "G" };
             FormatExcelColumnsAsCurrency(wks,currencyCols);
             setExcelExportColumnWidths(wks, widths);
             wks.get_Range("R:R").WrapText = true;
@@ -474,12 +493,19 @@ namespace DesignDB_Library.Operations
         public static void FormatMultiResultDGV(DataGridView dgv)
         {
             string[] headers = new string[]
+            //{
+            //    "ID","Project ID", "MSO", "End Customer", "City", "State","Country", "Region", "Design Requestor", "Quote Type",
+            //    "Priority", "Designer", "Project Name", "Original Quote", "Assisted By", "Category", "Architecture Type",
+            //    "Date Assigned", "Date All Info Received", "Date Due", "Award Status", "Date Last Update", "Reviewed By",
+            //    "Date Completed", "Total Hours", "BOM Value", "% Project Covered", "Architecture Details", "Comments"
+            //};
             {
-                "ID","Project ID", "MSO", "End Customer", "City", "State","Country", "Region", "Design Requestor", "Quote Type",
-                "Priority", "Designer", "Project Name", "Original Quote", "Assisted By", "Category", "Architecture Type",
-                "Date Assigned", "Date All Info Received", "Date Due", "Award Status", "Date Last Update", "Reviewed By",
-                "Date Completed", "Total Hours", "BOM Value", "% Project Covered", "Architecture Details", "Comments"
+                "ID", "Project ID", "Quote Type", "Original Quote", "Priority", "Award Status", "Design Requestor",
+                "BOM Value", "% Project Covered", "MSO", "Region", "City", "Date Assigned", "Date All Info Received", "Date Due",
+                "Date Completed", "Date Last Update", "Designer", "Assisted By", "Reviewed By", "Category", 
+                "Architecture Details", "Comments", "Total Hours", "Architecture Type", "End Customer", "State","Country", "Project Name"
             };
+            
             setDGV_HeaderText(dgv, headers);
 
             int[] widths = { 10,220,140,140,130,130,130,100,150,90,70,140,180,200,

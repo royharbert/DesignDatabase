@@ -27,6 +27,10 @@ namespace DesignDB_UI
         Report_Overdue,
         Search,
         Undo,
+        Log_Search,
+        Log_View,
+        Add_Attachment,
+        Delete_Attachment,
         None
     }
     

@@ -59,7 +59,7 @@ namespace DesignDB_Library.Operations
             request.Comments = "";
             //request.Designer = "";
             //Save record
-            InsertNewRequest(request);
+            //InsertNewRequest(request);
             return request;
         }
 
@@ -228,8 +228,9 @@ namespace DesignDB_Library.Operations
 
 
 
-        public static void InsertNewRequest(RequestModel request)
+        public static int InsertNewRequest(RequestModel request)
         {
+            int saveSuccess = 0;
             string db = GetConnectionString();
             List<RequestModel> requests = new List<RequestModel>();
             requests.Add(request);
@@ -246,8 +247,10 @@ namespace DesignDB_Library.Operations
 
                 con.Open();
                 cmd.ExecuteNonQuery();
+                saveSuccess = 1;
                 con.Close();
             }
+            return saveSuccess;
         }
 
         //public static void InsertNewRequest(List<RequestModel> requests)

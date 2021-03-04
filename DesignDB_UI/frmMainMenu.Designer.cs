@@ -62,6 +62,7 @@ namespace DesignDB_UI
             this.btnSalespersonMaint = new System.Windows.Forms.Button();
             this.btnScreens = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnLogSearch = new System.Windows.Forms.Button();
             this.tlpMain.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -467,6 +468,7 @@ namespace DesignDB_UI
             this.tlpMain.Controls.Add(this.btnUtility, 5, 4);
             this.tlpMain.Controls.Add(this.btnSalespersonMaint, 5, 3);
             this.tlpMain.Controls.Add(this.btnScreens, 0, 7);
+            this.tlpMain.Controls.Add(this.btnLogSearch, 3, 4);
             this.tlpMain.Location = new System.Drawing.Point(12, 150);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 10;
@@ -621,6 +623,22 @@ namespace DesignDB_UI
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1037, 33);
             this.tableLayoutPanel2.TabIndex = 32;
             // 
+            // btnLogSearch
+            // 
+            this.btnLogSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLogSearch.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnLogSearch.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnLogSearch.Location = new System.Drawing.Point(523, 207);
+            this.btnLogSearch.Name = "btnLogSearch";
+            this.btnLogSearch.Size = new System.Drawing.Size(234, 45);
+            this.btnLogSearch.TabIndex = 36;
+            this.btnLogSearch.Tag = "2";
+            this.btnLogSearch.Text = "Log Search";
+            this.btnLogSearch.UseVisualStyleBackColor = false;
+            this.btnLogSearch.Click += new System.EventHandler(this.btnLogSearch_Click);
+            // 
             // frmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
@@ -681,5 +699,6 @@ namespace DesignDB_UI
         private System.Windows.Forms.RadioButton rdoLive;
         private System.Windows.Forms.Button btnUtility;
         private System.Windows.Forms.Button btnScreens;
+        private System.Windows.Forms.Button btnLogSearch;
     }
 }

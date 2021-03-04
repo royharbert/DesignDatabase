@@ -340,21 +340,38 @@ namespace DesignDB_Library.DataAccess
             }
         }  
 
-        public void RequestUpdate(RequestModel model)
+        public int RequestUpdate(RequestModel model)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
             {               
                 DynamicParameters p = makParams(model);
-                connection.Execute("[dbo].[spRequest_UpdateByPID]", p, commandType: CommandType.StoredProcedure);
+                try
+                {
+                    connection.Execute("[dbo].[spRequest_UpdateByPID]", p, commandType: CommandType.StoredProcedure);
+                    return 1;
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
             }
         }
 
-        public void RequestInsert(RequestModel model)
+        public int RequestInsert(RequestModel model)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
             {
                 DynamicParameters p = makParams(model);
-                connection.Execute("[dbo].[spRequest_Insert]", p, commandType: CommandType.StoredProcedure);
+                try
+                {
+                    connection.Execute("[dbo].[spRequest_Insert]", p, commandType: CommandType.StoredProcedure);
+                    return 1;
+                }
+                catch (Exception)
+                {
+                    System.Windows.Forms.MessageBox.Show("Record not saved.\nPossible duplicate Project ID");
+                    return 0;
+                }
             }
         }
 
@@ -693,8 +710,37 @@ namespace DesignDB_Library.DataAccess
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
             {
-
                 List<SalespersonModel> output = connection.Query<SalespersonModel>("dbo.spSalespersons_GetAll", commandType: CommandType.StoredProcedure).ToList();
+                return output;
+            }
+        }
+
+        public void LogEntry_Add(string User, string Action, string AffectedFields, string RequestID)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            {
+
+                var p = new DynamicParameters();
+                p.Add("@User", User);
+                p.Add("@Action", Action);
+                p.Add("@AffectedFields", AffectedFields);
+                p.Add("@RequestID", RequestID);
+
+                connection.Execute("dbo.spActivityLog_Add", p, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public List<LogModel> LogList(string searchTerm, string searchValue)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+
+                p.Add("@Searchterm", searchTerm, DbType.String, ParameterDirection.Input);
+                p.Add("@SearchValue", searchValue, DbType.String, ParameterDirection.Input);
+                List<LogModel> output =
+                    connection.Query<LogModel>("dbo.spActivityLog_Search", p, commandType: CommandType.StoredProcedure).ToList();
+
                 return output;
             }
         }

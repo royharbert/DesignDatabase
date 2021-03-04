@@ -48,6 +48,7 @@ namespace DesignDB_UI
                 txtRecordsReturned.Text = Requests.Count.ToString();
                 dgvResults.DataSource = null;
                 dgvResults.DataSource = Requests;
+                ReportOps.FormatMultiResultDGV(dgvResults);
             }
         }
 
@@ -59,6 +60,7 @@ namespace DesignDB_UI
             frmDateRangeSearch frmDateRangeSearch = new frmDateRangeSearch();
             frmDateRangeSearch.DateRangeSet += FrmDateRangeSearch_DateRangeSet;
             frmDateRangeSearch.ShowDialog();
+
         }
 
         DateTime startDate = new DateTime(1900, 1, 1);
@@ -136,7 +138,7 @@ namespace DesignDB_UI
             {
                 GV.MODE = Mode.Edit;
             }
-            //GV.MODE = Mode.Edit;
+            
             int selRow = dgvResults.CurrentRow.Index;
             List<RequestModel> myRequest = new List<RequestModel>();
             myRequest.Add(Requests[selRow]);

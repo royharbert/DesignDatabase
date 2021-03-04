@@ -74,6 +74,7 @@
     <Compile Include="Attributes\ExcelExportProperty.cs" />
     <Compile Include="DataAccess\IDataConnection.cs" />
     <Compile Include="DataAccess\SqlConnector.cs" />
+    <Compile Include="Models\LogModel.cs" />
     <Compile Include="Models\ReportSalesPriorityModel.cs" />
     <Compile Include="Models\ScreenModel.cs" />
     <Compile Include="Operations\DesignerUpdate.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Operations\FileOps.cs" />
     <Compile Include="Operations\ForecastFunction.cs" />
     <Compile Include="Operations\ListLooper.cs" />
+    <Compile Include="Operations\Logger.cs" />
     <Compile Include="Operations\PID_Generator.cs" />
     <Compile Include="Operations\ReportOps.cs" />
     <Compile Include="Operations\RequestOps.cs" />
@@ -114,6 +116,7 @@
     <Compile Include="GlobalConfig.cs" />
     <Compile Include="Operations\Screens.cs" />
     <Compile Include="Operations\SearchOps.cs" />
+    <Compile Include="Operations\Serialization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Holiday_Update.cs" />
   </ItemGroup>

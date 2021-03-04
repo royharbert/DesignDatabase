@@ -25,6 +25,7 @@ namespace DesignDB_UI
 
         public frmMainMenu()
         {
+            GV.LogViewer = new frmLogView();
             GV.PickerForm = frmDateMSO_Picker;
             GV.InputForm = frmInput;
             GV.REQFORM = new frmRequests();
@@ -306,6 +307,7 @@ namespace DesignDB_UI
             GV.MODE = Mode.Edit;
             List<RequestModel> requests = GlobalConfig.Connection.GetRequestsForDesignerUpdate(GV.USERNAME.Designer);
             //Form frmMultiResult = new frmMultiResult(requests);
+            GV.MultiResult.dataList = requests;
             FC.SetFormPosition(GV.MultiResult);
             GV.MultiResult.BringToFront();
             GV.MultiResult.Show();
@@ -548,6 +550,13 @@ namespace DesignDB_UI
         {
             Form ScreenForm = new frmScreens();
             ScreenForm.Show();
+        }
+
+        private void btnLogSearch_Click(object sender, EventArgs e)
+        {
+            GV.MODE = Mode.Log_Search;            
+            FC.SetFormPosition(GV.LogViewer);
+            GV.LogViewer.Show();
         }
     }
 }

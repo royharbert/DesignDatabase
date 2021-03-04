@@ -137,3 +137,5 @@ C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\obj\Re
 C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\obj\Release\DesignDB_UI.frmCopyFromSandboxList.resources
 C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\obj\Release\DesignDB_UI.frmUtility.resources
 C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\obj\Release\DesignDB_UI.frmScreens.resources
+C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\obj\Release\DesignDB_UI.frmLogMultiResult.resources
+C:\Users\rharbert\OneDrive - CommScope\SQLDB\DesignDB_Library\DesignDB_UI\obj\Release\DesignDB_UI.frmLogView.resources

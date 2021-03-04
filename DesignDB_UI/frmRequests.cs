@@ -37,12 +37,13 @@ namespace DesignDB_UI
 
         bool formLoading;
         bool formDirty;
+        bool _useDefaultLocation = true;
 
         Point _formLocation = new Point(-1, -1);
-        bool _useDefaultLocation = true;
         frmAttType frm = null;       
         DateTime failDate = new DateTime(1900, 1, 1);
         RequestModel initialRequest = null;
+        private List<string> logFieldList = new List<string>();
 
         public bool UseDefaultLocation
         {
@@ -77,6 +78,10 @@ namespace DesignDB_UI
                     insertData(Rm);
                 }
                 getAttachments(txtPID.Text);
+                if (GV.MODE == Mode.New)
+                {
+                    cboCountry.SelectedIndex = 1;
+                }
                 formLoading = false;
                 formDirty = false;
                 addHandlers();
@@ -99,7 +104,7 @@ namespace DesignDB_UI
             switch (GV.MODE)
             { 
                 case Mode.New:                   
-                    setButtonDisplay(RequestNewButtons);
+                    setButtonDisplay(RequestNewButtons);                    
                     break;
 
                 case Mode.Restore:
@@ -468,11 +473,17 @@ namespace DesignDB_UI
                     break;
                 case Mode.Search:
                     Rm = new RequestModel();
-                    insertData(Rm);
+                    //insertData(Rm);
+                    generalReset();
                     txtBOM_Val.Clear();
                     txtPctCovered.Clear();
                     txtTotalVal.Clear();
                     txtTotalHours.Clear();
+                    cboCountry.SelectedIndex = -1;
+                    cboAwardStatus.SelectedIndex = -1;
+                    dtpResetForced(txtDateAssigned);
+                    unlockTLP(true);
+                    formDirty = false;
                     break;
                 case Mode.Edit:
                     resetDTPs(false);
@@ -551,7 +562,6 @@ namespace DesignDB_UI
 
 
             List<DesignersReviewersModel> assistedList = cloneList(activeDesignerList);
-            //assistedList.Insert(0, new DesignersReviewersModel());
             cboAssisted.DataSource = assistedList;
             cboAssisted.DisplayMember = "Designer";
             cboAssisted.SelectedIndex = -1;
@@ -598,9 +608,17 @@ namespace DesignDB_UI
             cboRequestor.SelectedIndex = -1;
         }
 
+        private void addToLogAffectedFields(string fieldName)
+        {
+            if (! logFieldList.Contains(fieldName) & ! formLoading)
+            {
+                logFieldList.Add(fieldName);
+            }
+        }
+
         private void cboMSO_SelectedIndexChanged(object sender, EventArgs e)
         {  
-            //Rm.msoModel = (MSO_Model)cboMSO.SelectedItem;        
+                   
             if (!formLoading)
             {
                 if (cboMSO.SelectedIndex > -1 && GV.MODE == Mode.New)
@@ -608,7 +626,8 @@ namespace DesignDB_UI
                     MSO_Model mso = (MSO_Model)cboMSO.SelectedItem;
                     string PID = PID_Generator.MakePID(mso);
                     txtPID.Text = PID;
-                    unlockTLP(true);                      
+                    unlockTLP(true);
+                    addToLogAffectedFields("MSO");
                 }
             }
         }
@@ -620,6 +639,7 @@ namespace DesignDB_UI
             List<RequestModel> rm = GlobalConfig.Connection.GetRequestByPID(search).ToList();
             frmMainMenu.ManageSearchResults(rm);
             insertData(rm[0]);
+            formDirty = false;
         }
 
         private void btnDone_Click(object sender, EventArgs e)
@@ -628,33 +648,48 @@ namespace DesignDB_UI
             {
                 checkForSave();
             }
-
+            
             GV.MODE = Mode.None;
-            resetForm();            
+            resetForm();
+            logFieldList.Clear();
             GV.REQFORM.Hide();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             saveChanges();
+            
+        }
+
+        private void logSuccessfulSave(int saveSuccessful)
+        {
+            if (saveSuccessful == 1)
+            {
+                makeLogEntry(logFieldList);
+            }
         }
 
         private void saveChanges()
         {
+            int saved = 0;
             loadModel();
+            
             Rm.DateLastUpdate = DateTime.Today;
             switch (GV.MODE)
             {
                 case Mode.New:
-                    GlobalConfig.Connection.RequestInsert(Rm);
+                case Mode.Revision:
+                    saved = GlobalConfig.Connection.RequestInsert(Rm);
+                    logSuccessfulSave(saved);
+                    GV.MODE = Mode.Edit;
                     break;
                 case Mode.Edit:
-                    GlobalConfig.Connection.RequestUpdate(Rm);
-                    break;
-                case Mode.Revision:                    
+                    saved = GlobalConfig.Connection.RequestUpdate(Rm);
+                    logSuccessfulSave(saved);
                     break;
                 case Mode.Clone:
-                    RequestOps.InsertNewRequest(Rm);
+                    saved = RequestOps.InsertNewRequest(Rm);
+                    logSuccessfulSave(saved);
                     GV.MODE = Mode.Edit;
                     break;
                 case Mode.Delete:
@@ -663,9 +698,12 @@ namespace DesignDB_UI
                     break;
                 default:
                     break;
-            }
+            } 
 
-            MessageBox.Show("Record " + Rm.ProjectID + " Saved.");
+            if (saved == 1)
+            {
+                MessageBox.Show("Record " + Rm.ProjectID + " Saved.");
+            }
 
             formDirty = false;
         }
@@ -728,10 +766,10 @@ namespace DesignDB_UI
             resetCombo(cboArchType);
             resetCombo(cboCategory);
             resetCombo(cboAssisted);
-            //resetCombo(cboDesigner);
             dtpResetForced(txtDateDue);
             dtpResetForced(txtDateAllInfo);            
             dtpResetForced(txtLastUpdate);
+            loadModel();
         }
 
         private void resetCombo(ComboBox cbo)
@@ -746,6 +784,7 @@ namespace DesignDB_UI
             if (result == DialogResult.Yes)
             {
                 RequestOps.DeleteRequest(Rm);
+                prepForButtonLogEntry(Rm.ProjectID);
             }
             resetForm();
             this.Visible = false;
@@ -753,6 +792,7 @@ namespace DesignDB_UI
 
         private void btnAddAtt_Click(object sender, EventArgs e)
         {
+            GV.MODE = Mode.Add_Attachment;
             AttachmentModel model = new AttachmentModel();
             frm = new frmAttType(model);
             frm.TypeReadyEvent += Frm_TypeReadyEvent;
@@ -779,7 +819,28 @@ namespace DesignDB_UI
             }
 
             frm.TypeReadyEvent -= Frm_TypeReadyEvent;
+            prepForButtonLogEntry(model.DisplayText);
+        }
 
+        private void prepForButtonLogEntry(string attachment)
+        {
+            List<string> logFields = new List<string>();
+            logFields.Add(attachment);            
+            makeLogEntry(logFields);
+            //logFieldList = logFields;
+            GV.MODE = GV.PreviousMode;
+        }
+
+        private void makeLogEntry(List<string> fields)
+        {
+            LogModel logModel = new LogModel();
+            logModel.TimeStamp = DateTime.Now;
+            logModel.User = GV.USERNAME.Designer.Trim();
+            logModel.Action = GV.MODE.ToString();
+            string xmlFields = Serialization.SerializeToXml<List<string>>(fields);
+            logModel.AffectedFields = xmlFields;
+            logModel.RequestID = txtPID.Text;
+            Logger.WriteToLog(logModel);
         }
 
         private void Frm_TypeReadyEvent(object sender, AttachmentModel e)
@@ -825,15 +886,17 @@ namespace DesignDB_UI
         {
             //use class to accomplish
             //make attachment model and pass to class
+            GV.MODE = Mode.Delete_Attachment;
             if (dgvAttachments.CurrentRow != null)
             {
                 int sel = dgvAttachments.CurrentRow.Index;
                 List<AttachmentModel> aList = (List<AttachmentModel>)dgvAttachments.DataSource;
                 AttachmentModel model = aList[sel];
-                List<AttachmentModel> newList = DesignDB_Library.Operations.AttachmentOps.DeleteAttachment(model);
+                List<AttachmentModel> newList = AttachmentOps.DeleteAttachment(model);
                 dgvAttachments.DataSource = null;
                 dgvAttachments.DataSource = newList;
                 formatAttGrid();
+                prepForButtonLogEntry(model.DisplayText);
             }
             else
             {
@@ -1013,6 +1076,7 @@ namespace DesignDB_UI
             if (result == DialogResult.Yes)
                 {
                     RequestOps.RestoreRequest(Rm);
+                    prepForButtonLogEntry(Rm.ProjectID);
                 }
             
             resetForm();
@@ -1165,6 +1229,141 @@ namespace DesignDB_UI
                 _useDefaultLocation = false;
             }
             Application.DoEvents();
+        }
+
+        private void txtCust_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("End Customer");
+        }
+
+        private void cboCities_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("City");
+        }
+
+        private void cboState_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("State");
+        }
+
+        private void cboCountry_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Country");
+        }
+
+        private void cboRegion_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Region");
+        }
+
+        private void cboRequestor_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Design Requestor");
+        }
+
+        private void cboQuoteType_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Quote Type");
+        }
+
+        private void cboPriority_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Priority");
+        }
+
+        private void cboDesigner_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Designer");
+        }
+
+        private void cboAssisted_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Assisted By");
+        }
+
+        private void txtProjName_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Project Name");
+        }
+
+        private void cboOrigQuote_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Original Quote");
+        }
+
+        private void cboCategory_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Category");
+        }
+
+        private void cboArchType_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Architecture Type");
+        }
+
+        private void txtDateAssigned_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Date Assigned");
+        }
+
+        private void txtDateAllInfo_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Date All Info Received");
+        }
+
+        private void txtDateDue_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Date Due");
+        }
+
+        private void txtDateCompleted_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Date Completed");
+        }
+
+        private void cboReviewedBy_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Reviewed By");
+        }
+
+        private void txtBOM_Val_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("BOM Value");
+        }
+
+        private void txtPctCovered_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Percent Covered");
+        }
+
+        private void cboAwardStatus_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Award Status");
+        }
+
+        private void txtTotalHours_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Total Hours");
+        }
+
+        private void txtLastUpdate_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Date Last Updated");
+        }
+
+        private void rtbArchDetails_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Architecture Details");
+        }
+
+        private void rtbComments_Leave(object sender, EventArgs e)
+        {
+            addToLogAffectedFields("Comments");
+        }
+
+        private void txtCust_Enter(object sender, EventArgs e)
+        {
+
         }
     } 
 }

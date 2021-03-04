@@ -9,6 +9,8 @@ namespace DesignDB_Library.DataAccess
 {
     public interface IDataConnection
     {
+        List<LogModel> LogList(string searchTerm, string searchValue);
+        void LogEntry_Add(string User, string Action, string AffectedFields, string RequestID);
         List<DesignersReviewersModel> Reviewers_GetActive();
         List<DesignersReviewersModel> Reviewers_GetAll();
         List<SalespersonModel> SalespersonsGetAll();
@@ -33,8 +35,8 @@ namespace DesignDB_Library.DataAccess
         List<RequestModel> GetRequestsForDesignerUpdate(string designer);
         int GetSequence();
         List<RequestModel> GetRequestByPID(string PID);
-        void RequestUpdate(RequestModel model);
-        void RequestInsert(RequestModel model);
+        int RequestUpdate(RequestModel model);
+        int RequestInsert(RequestModel model);
         void SetSequence(int seq);
         List<DesignersReviewersModel> DesignersGetActive();
         List<SalespersonModel> SalesGetActive();

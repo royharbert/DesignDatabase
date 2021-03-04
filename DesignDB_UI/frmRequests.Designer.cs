@@ -209,6 +209,7 @@ namespace DesignDB_UI
             this.cboCities.Size = new System.Drawing.Size(258, 28);
             this.cboCities.TabIndex = 2;
             this.cboCities.Tag = "L|City";
+            this.cboCities.Leave += new System.EventHandler(this.cboCities_Leave);
             // 
             // ddContextMenu
             // 
@@ -234,6 +235,8 @@ namespace DesignDB_UI
             this.txtCust.Size = new System.Drawing.Size(258, 22);
             this.txtCust.TabIndex = 1;
             this.txtCust.Tag = "L|Cust";
+            this.txtCust.Enter += new System.EventHandler(this.txtCust_Enter);
+            this.txtCust.Leave += new System.EventHandler(this.txtCust_Leave);
             // 
             // label4
             // 
@@ -272,6 +275,7 @@ namespace DesignDB_UI
             this.cboAssisted.Size = new System.Drawing.Size(258, 28);
             this.cboAssisted.TabIndex = 10;
             this.cboAssisted.Tag = "L|AssistedBy";
+            this.cboAssisted.Leave += new System.EventHandler(this.cboAssisted_Leave);
             // 
             // label6
             // 
@@ -300,6 +304,7 @@ namespace DesignDB_UI
             this.cboDesigner.Size = new System.Drawing.Size(258, 28);
             this.cboDesigner.TabIndex = 9;
             this.cboDesigner.Tag = "L|Designer";
+            this.cboDesigner.Leave += new System.EventHandler(this.cboDesigner_Leave);
             // 
             // label7
             // 
@@ -333,6 +338,7 @@ namespace DesignDB_UI
             this.cboPriority.TabIndex = 8;
             this.cboPriority.Tag = "L|Pty";
             this.cboPriority.SelectedIndexChanged += new System.EventHandler(this.cboPriority_SelectedIndexChanged);
+            this.cboPriority.Leave += new System.EventHandler(this.cboPriority_Leave);
             // 
             // label8
             // 
@@ -368,6 +374,7 @@ namespace DesignDB_UI
             this.cboQuoteType.Size = new System.Drawing.Size(258, 28);
             this.cboQuoteType.TabIndex = 7;
             this.cboQuoteType.Tag = "L|QuoteType";
+            this.cboQuoteType.Leave += new System.EventHandler(this.cboQuoteType_Leave);
             // 
             // label9
             // 
@@ -395,6 +402,7 @@ namespace DesignDB_UI
             this.cboRequestor.Size = new System.Drawing.Size(258, 28);
             this.cboRequestor.TabIndex = 6;
             this.cboRequestor.Tag = "L|DesignRequestor";
+            this.cboRequestor.Leave += new System.EventHandler(this.cboRequestor_Leave);
             // 
             // label10
             // 
@@ -423,6 +431,7 @@ namespace DesignDB_UI
             this.cboRegion.Size = new System.Drawing.Size(258, 28);
             this.cboRegion.TabIndex = 5;
             this.cboRegion.Tag = "L|Region";
+            this.cboRegion.Leave += new System.EventHandler(this.cboRegion_Leave);
             // 
             // label11
             // 
@@ -450,6 +459,7 @@ namespace DesignDB_UI
             this.cboCountry.Size = new System.Drawing.Size(258, 28);
             this.cboCountry.TabIndex = 4;
             this.cboCountry.Tag = "L|Country";
+            this.cboCountry.Leave += new System.EventHandler(this.cboCountry_Leave);
             // 
             // label12
             // 
@@ -477,6 +487,7 @@ namespace DesignDB_UI
             this.cboState.Size = new System.Drawing.Size(258, 28);
             this.cboState.TabIndex = 3;
             this.cboState.Tag = "L|ST";
+            this.cboState.Leave += new System.EventHandler(this.cboState_Leave);
             // 
             // label13
             // 
@@ -495,6 +506,7 @@ namespace DesignDB_UI
             this.txtProjName.Size = new System.Drawing.Size(258, 22);
             this.txtProjName.TabIndex = 11;
             this.txtProjName.Tag = "L|ProjectName";
+            this.txtProjName.Leave += new System.EventHandler(this.txtProjName_Leave);
             // 
             // label14
             // 
@@ -532,6 +544,7 @@ namespace DesignDB_UI
             "Harmonic",
             "LcWDM",
             "NC Addition",
+            "Node + N Hybrid Fiber Coax",
             "Other",
             "Redundant Route",
             "Transport 1550 BC Distribution",
@@ -544,6 +557,7 @@ namespace DesignDB_UI
             this.cboArchType.Size = new System.Drawing.Size(258, 28);
             this.cboArchType.TabIndex = 14;
             this.cboArchType.Tag = "L|ArchitectureType";
+            this.cboArchType.Leave += new System.EventHandler(this.cboArchType_Leave);
             // 
             // label15
             // 
@@ -581,6 +595,7 @@ namespace DesignDB_UI
             this.cboCategory.Size = new System.Drawing.Size(258, 28);
             this.cboCategory.TabIndex = 13;
             this.cboCategory.Tag = "L|Category";
+            this.cboCategory.Leave += new System.EventHandler(this.cboCategory_Leave);
             // 
             // label17
             // 
@@ -608,6 +623,7 @@ namespace DesignDB_UI
             this.cboOrigQuote.Size = new System.Drawing.Size(258, 28);
             this.cboOrigQuote.TabIndex = 12;
             this.cboOrigQuote.Tag = "L|OriginalQuote";
+            this.cboOrigQuote.Leave += new System.EventHandler(this.cboOrigQuote_Leave);
             // 
             // label18
             // 
@@ -666,6 +682,7 @@ namespace DesignDB_UI
             this.cboReviewedBy.Size = new System.Drawing.Size(234, 28);
             this.cboReviewedBy.TabIndex = 19;
             this.cboReviewedBy.Tag = "L|ReviewedBy";
+            this.cboReviewedBy.Leave += new System.EventHandler(this.cboReviewedBy_Leave);
             // 
             // label21
             // 
@@ -701,6 +718,7 @@ namespace DesignDB_UI
             this.cboAwardStatus.Size = new System.Drawing.Size(234, 28);
             this.cboAwardStatus.TabIndex = 23;
             this.cboAwardStatus.Tag = "L|AwardStatus";
+            this.cboAwardStatus.Leave += new System.EventHandler(this.cboAwardStatus_Leave);
             // 
             // label22
             // 
@@ -723,6 +741,7 @@ namespace DesignDB_UI
             this.txtBOM_Val.TabIndex = 20;
             this.txtBOM_Val.Tag = "L|BOM_Value";
             this.txtBOM_Val.TextChanged += new System.EventHandler(this.txtBOM_Val_TextChanged);
+            this.txtBOM_Val.Leave += new System.EventHandler(this.txtBOM_Val_Leave);
             // 
             // label23
             // 
@@ -745,6 +764,7 @@ namespace DesignDB_UI
             this.txtPctCovered.TabIndex = 21;
             this.txtPctCovered.Tag = "L|PercentageProjectCovered";
             this.txtPctCovered.TextChanged += new System.EventHandler(this.txtPctCovered_TextChanged);
+            this.txtPctCovered.Leave += new System.EventHandler(this.txtPctCovered_Leave);
             // 
             // label24
             // 
@@ -795,6 +815,7 @@ namespace DesignDB_UI
             this.txtTotalHours.Size = new System.Drawing.Size(234, 22);
             this.txtTotalHours.TabIndex = 24;
             this.txtTotalHours.Tag = "L|TotalHours";
+            this.txtTotalHours.Leave += new System.EventHandler(this.txtTotalHours_Leave);
             // 
             // label27
             // 
@@ -814,6 +835,7 @@ namespace DesignDB_UI
             this.rtbArchDetails.TabIndex = 26;
             this.rtbArchDetails.Tag = "L|ArchitectureDetails";
             this.rtbArchDetails.Text = "";
+            this.rtbArchDetails.Leave += new System.EventHandler(this.rtbArchDetails_Leave);
             // 
             // label28
             // 
@@ -841,6 +863,7 @@ namespace DesignDB_UI
             this.rtbComments.TabIndex = 27;
             this.rtbComments.Tag = "L|Comments";
             this.rtbComments.Text = "";
+            this.rtbComments.Leave += new System.EventHandler(this.rtbComments_Leave);
             // 
             // txtSearch
             // 
@@ -1059,6 +1082,7 @@ namespace DesignDB_UI
             this.txtDateAllInfo.Tag = "L|DateAllInfoReceived";
             this.txtDateAllInfo.ValueChanged += new System.EventHandler(this.txtDateAllInfo_ValueChanged);
             this.txtDateAllInfo.DropDown += new System.EventHandler(this.txtDateAllInfo_DropDown);
+            this.txtDateAllInfo.Leave += new System.EventHandler(this.txtDateAllInfo_Leave);
             // 
             // dtpContextMenu
             // 
@@ -1088,6 +1112,7 @@ namespace DesignDB_UI
             this.txtDateAssigned.TabIndex = 15;
             this.txtDateAssigned.Tag = "L|DateAssigned";
             this.txtDateAssigned.ValueChanged += new System.EventHandler(this.txtDateAssigned_ValueChanged);
+            this.txtDateAssigned.Leave += new System.EventHandler(this.txtDateAssigned_Leave);
             // 
             // txtDateDue
             // 
@@ -1103,6 +1128,7 @@ namespace DesignDB_UI
             this.txtDateDue.TabIndex = 17;
             this.txtDateDue.Tag = "L|DateDue";
             this.txtDateDue.ValueChanged += new System.EventHandler(this.txtDateDue_ValueChanged);
+            this.txtDateDue.Leave += new System.EventHandler(this.txtDateDue_Leave);
             // 
             // txtDateCompleted
             // 
@@ -1119,6 +1145,7 @@ namespace DesignDB_UI
             this.txtDateCompleted.Tag = "L|DateCompleted";
             this.txtDateCompleted.ValueChanged += new System.EventHandler(this.txtDateCompleted_ValueChanged);
             this.txtDateCompleted.DropDown += new System.EventHandler(this.txtDateCompleted_DropDown);
+            this.txtDateCompleted.Leave += new System.EventHandler(this.txtDateCompleted_Leave);
             // 
             // txtLastUpdate
             // 
@@ -1135,6 +1162,7 @@ namespace DesignDB_UI
             this.txtLastUpdate.Tag = "L|DateLastUpdate";
             this.txtLastUpdate.Value = new System.DateTime(2020, 12, 4, 17, 11, 57, 0);
             this.txtLastUpdate.ValueChanged += new System.EventHandler(this.txtLastUpdate_ValueChanged);
+            this.txtLastUpdate.Leave += new System.EventHandler(this.txtLastUpdate_Leave);
             // 
             // tlpLeft
             // 
