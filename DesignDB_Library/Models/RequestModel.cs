@@ -16,25 +16,35 @@ namespace DesignDB_Library.Models
         [ExcelExportPropertyAttribute]
         public string ProjectID { get; set; }
         [ExcelExportPropertyAttribute]
-        public string QuoteType { get; set; }
-        [ExcelExportPropertyAttribute]
-        public string OriginalQuote { get; set; }
-        [ExcelExportPropertyAttribute]
-        public string Pty { get; set; }
-        [ExcelExportPropertyAttribute]
-        public string AwardStatus { get; set; }
-        [ExcelExportPropertyAttribute]
-        public string DesignRequestor { get; set; }
-        [ExcelExportPropertyAttribute]
-        public decimal BOM_Value { get; set; }
-        [ExcelExportPropertyAttribute]
-        public int PercentageProjectCovered { get; set; }
-        [ExcelExportPropertyAttribute]
         public string MSO { get; set; }
+        [ExcelExportPropertyAttribute]
+        public string Cust { get; set; }
+        [ExcelExportPropertyAttribute]
+        public string City { get; set; }
+        [ExcelExportPropertyAttribute]
+        public string ST { get; set; }
+        [ExcelExportPropertyAttribute]
+        public string Country { get; set; }
         [ExcelExportPropertyAttribute]
         public string Region { get; set; }
         [ExcelExportPropertyAttribute]
-        public string City { get; set; }
+        public string DesignRequestor { get; set; }
+        [ExcelExportPropertyAttribute]
+        public string QuoteType { get; set; }
+        [ExcelExportPropertyAttribute]
+        public string Pty { get; set; }
+        [ExcelExportPropertyAttribute]
+        public string Designer { get; set; }
+        [ExcelExportPropertyAttribute]
+        public string ProjectName { get; set; }
+        [ExcelExportPropertyAttribute]
+        public string OriginalQuote { get; set; }
+        [ExcelExportPropertyAttribute]
+        public string AssistedBy { get; set; }
+        [ExcelExportPropertyAttribute]
+        public string Category { get; set; }
+        [ExcelExportPropertyAttribute]
+        public string ArchitectureType { get; set; }
         [ExcelExportPropertyAttribute]
         public DateTime DateAssigned { get; set; }
         [ExcelExportPropertyAttribute]
@@ -42,34 +52,23 @@ namespace DesignDB_Library.Models
         [ExcelExportPropertyAttribute]
         public DateTime DateDue { get; set; }
         [ExcelExportPropertyAttribute]
-        public DateTime DateCompleted { get; set; }
+        public string AwardStatus { get; set; }
         [ExcelExportPropertyAttribute]
         public DateTime DateLastUpdate { get; set; }
         [ExcelExportPropertyAttribute]
-        public string Designer { get; set; }
-        [ExcelExportPropertyAttribute]
-        public string AssistedBy { get; set; }
-        [ExcelExportPropertyAttribute]
         public string ReviewedBy { get; set; }
         [ExcelExportPropertyAttribute]
-        public string Category { get; set; }
+        public DateTime DateCompleted { get; set; }
+        [ExcelExportPropertyAttribute]
+        public int TotalHours { get; set; }
+        [ExcelExportPropertyAttribute]
+        public decimal BOM_Value { get; set; }
+        [ExcelExportPropertyAttribute]
+        public int PercentageProjectCovered { get; set; }
         [ExcelExportPropertyAttribute]
         public string ArchitectureDetails { get; set; }
         //[ExcelExportPropertyAttribute]
         public string Comments { get; set; }
-        [ExcelExportPropertyAttribute]
-        public int TotalHours { get; set; }
-        [ExcelExportPropertyAttribute]
-        public string ArchitectureType { get; set; }
-
-        [ExcelExportPropertyAttribute]
-        public string Cust { get; set; }
-        [ExcelExportPropertyAttribute]
-        public string ST { get; set; }
-        [ExcelExportPropertyAttribute]
-        public string Country { get; set; }
-        [ExcelExportPropertyAttribute]
-        public string ProjectName { get; set; }
         public MSO_Model msoModel { get; set; }
 
         public RequestModel()

@@ -18,6 +18,7 @@ namespace DesignDB_UI
     public partial class frmMultiResult : Form
     {
         private bool _useDefaultLocation = true;
+        List<RequestModelReport> reportModel;
         private Point _formLocation;
         private bool formLoading;
         public bool UseDefaultLocation
@@ -35,20 +36,37 @@ namespace DesignDB_UI
                 return _formLocation;
             }
         }
+
         List<RequestModel> Requests;
         public List<RequestModel> dataList
         {
-            get 
+            get
             {
                 return dataList;
             }
-            set 
+            set
             {
                 Requests = value;
                 txtRecordsReturned.Text = Requests.Count.ToString();
                 dgvResults.DataSource = null;
                 dgvResults.DataSource = Requests;
                 ReportOps.FormatMultiResultDGV(dgvResults);
+            }
+        }
+
+        public List<RequestModelReport> ReportDataList            
+        {
+            get
+            {
+                return reportModel; ;
+            }
+            set
+            {
+                reportModel = value;
+                txtRecordsReturned.Text = reportModel.Count.ToString();
+                dgvResults.DataSource = null;
+                dgvResults.DataSource = reportModel;
+                ReportOps.ReportFormatMultiResultDGV(dgvResults);
             }
         }
 
@@ -155,7 +173,14 @@ namespace DesignDB_UI
         {            
             ListLooper.ExcelExporter<RequestModel> exporter = new ListLooper.ExcelExporter<RequestModel>();
             exporter.List = (List<RequestModel>)dgvResults.DataSource;
-            ReportOps.FormatMultiResultExport(exporter.Wksheet);
+            if (GV.MODE == Mode.DateRangeSearch)
+            {
+                ReportOps.ReportFormatMultiResultExport(exporter.Wksheet);
+            }
+            else
+            {
+                ReportOps.FormatMultiResultExport(exporter.Wksheet);
+            }
         }
 
         private void frmMultiResult_FormClosing(object sender, FormClosingEventArgs e)

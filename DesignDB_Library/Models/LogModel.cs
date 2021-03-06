@@ -13,5 +13,7 @@ namespace DesignDB_Library.Models
         public string Action { get; set; }
         public string AffectedFields { get; set; }
         public string RequestID { get; set; }
+        public string OriginalValue { get; set; }
+        public string NewValue { get; set; }
     }
 }

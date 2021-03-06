@@ -38,12 +38,13 @@ namespace DesignDB_UI
         bool formLoading;
         bool formDirty;
         bool _useDefaultLocation = true;
+        string activeControlOriginalValue;        
 
         Point _formLocation = new Point(-1, -1);
         frmAttType frm = null;       
         DateTime failDate = new DateTime(1900, 1, 1);
         RequestModel initialRequest = null;
-        private List<string> logFieldList = new List<string>();
+        private List<LogFieldModel> logFieldList = new List<LogFieldModel>();
 
         public bool UseDefaultLocation
         {
@@ -86,7 +87,9 @@ namespace DesignDB_UI
                 formDirty = false;
                 addHandlers();
             }
-}
+        }
+
+
         public frmRequests(List<RequestModel> rm = null)
         {
             formLoading = true;
@@ -473,7 +476,6 @@ namespace DesignDB_UI
                     break;
                 case Mode.Search:
                     Rm = new RequestModel();
-                    //insertData(Rm);
                     generalReset();
                     txtBOM_Val.Clear();
                     txtPctCovered.Clear();
@@ -608,14 +610,6 @@ namespace DesignDB_UI
             cboRequestor.SelectedIndex = -1;
         }
 
-        private void addToLogAffectedFields(string fieldName)
-        {
-            if (! logFieldList.Contains(fieldName) & ! formLoading)
-            {
-                logFieldList.Add(fieldName);
-            }
-        }
-
         private void cboMSO_SelectedIndexChanged(object sender, EventArgs e)
         {  
                    
@@ -627,7 +621,7 @@ namespace DesignDB_UI
                     string PID = PID_Generator.MakePID(mso);
                     txtPID.Text = PID;
                     unlockTLP(true);
-                    addToLogAffectedFields("MSO");
+                    addToLogAffectedFields("MSO", cboMSO.Text);
                 }
             }
         }
@@ -824,24 +818,16 @@ namespace DesignDB_UI
 
         private void prepForButtonLogEntry(string attachment)
         {
-            List<string> logFields = new List<string>();
-            logFields.Add(attachment);            
+            List<LogFieldModel> logFields = new List<LogFieldModel>();
+            LogFieldModel logModel = new LogFieldModel();
+            logModel.FieldName = attachment;
+            logFields.Add(logModel);            
             makeLogEntry(logFields);
             //logFieldList = logFields;
             GV.MODE = GV.PreviousMode;
         }
 
-        private void makeLogEntry(List<string> fields)
-        {
-            LogModel logModel = new LogModel();
-            logModel.TimeStamp = DateTime.Now;
-            logModel.User = GV.USERNAME.Designer.Trim();
-            logModel.Action = GV.MODE.ToString();
-            string xmlFields = Serialization.SerializeToXml<List<string>>(fields);
-            logModel.AffectedFields = xmlFields;
-            logModel.RequestID = txtPID.Text;
-            Logger.WriteToLog(logModel);
-        }
+
 
         private void Frm_TypeReadyEvent(object sender, AttachmentModel e)
         {
@@ -1184,11 +1170,6 @@ namespace DesignDB_UI
             }
         }
 
-        private void tlpCenterTop_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void clearValueToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ComboBox cbo = (ComboBox)ddContextMenu.SourceControl;
@@ -1230,140 +1211,292 @@ namespace DesignDB_UI
             }
             Application.DoEvents();
         }
-
+        #region Log processes
+        private void makeLogEntry(List<LogFieldModel> fields)
+        {
+            LogModel logModel = new LogModel();
+            logModel.TimeStamp = DateTime.Now;
+            logModel.User = GV.USERNAME.Designer.Trim();
+            logModel.Action = GV.MODE.ToString();
+            string xmlFields = Serialization.SerializeToXml<List<LogFieldModel>>(fields);
+            logModel.AffectedFields = xmlFields;
+            logModel.RequestID = txtPID.Text;
+            Logger.WriteToLog(logModel);
+            logModel = null;
+        }
+        private void addToLogAffectedFields(string fieldName, string fieldValue)
+        {
+            if (fieldValue != activeControlOriginalValue)
+            {
+                LogFieldModel fieldModel = new LogFieldModel();
+                fieldModel.FieldName = fieldName;
+                fieldModel.OriginalValue = activeControlOriginalValue;
+                fieldModel.NewValue = fieldValue;
+                logFieldList.Add(fieldModel);
+            }
+        }
+        #region Make LogFieldData
         private void txtCust_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("End Customer");
+            addToLogAffectedFields("End Customer", txtCust.Text);
         }
 
         private void cboCities_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("City");
+            addToLogAffectedFields("City",cboCities.Text);
         }
 
         private void cboState_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("State");
+            addToLogAffectedFields("State", cboState.Text);
         }
 
         private void cboCountry_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Country");
+            addToLogAffectedFields("Country", cboCountry.Text);
         }
 
         private void cboRegion_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Region");
+            addToLogAffectedFields("Region", cboRegion.Text);
         }
 
         private void cboRequestor_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Design Requestor");
+            addToLogAffectedFields("Design Requestor", cboRequestor.Text);
         }
 
         private void cboQuoteType_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Quote Type");
+            addToLogAffectedFields("Quote Type", cboQuoteType.Text);
         }
 
         private void cboPriority_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Priority");
+            addToLogAffectedFields("Priority", cboPriority.Text);
         }
 
         private void cboDesigner_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Designer");
+            addToLogAffectedFields("Designer", cboDesigner.Text);
         }
 
         private void cboAssisted_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Assisted By");
+            addToLogAffectedFields("Assisted By", cboAssisted.Text);
         }
 
         private void txtProjName_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Project Name");
+            addToLogAffectedFields("Project Name", txtProjName.Text);
         }
 
         private void cboOrigQuote_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Original Quote");
+            addToLogAffectedFields("Original Quote", cboOrigQuote.Text);
         }
 
         private void cboCategory_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Category");
+            addToLogAffectedFields("Category", cboCategory.Text);
         }
 
         private void cboArchType_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Architecture Type");
+            addToLogAffectedFields("Architecture Type", cboArchType.Text);
         }
 
         private void txtDateAssigned_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Date Assigned");
+            addToLogAffectedFields("Date Assigned", txtDateAssigned.Text);
         }
 
         private void txtDateAllInfo_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Date All Info Received");
+            addToLogAffectedFields("Date All Info Received", txtDateAllInfo.Text);
         }
 
         private void txtDateDue_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Date Due");
+            addToLogAffectedFields("Date Due", txtDateDue.Text);
         }
 
         private void txtDateCompleted_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Date Completed");
+            addToLogAffectedFields("Date Completed", txtDateCompleted.Text);
         }
 
         private void cboReviewedBy_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Reviewed By");
+            addToLogAffectedFields("Reviewed By", cboReviewedBy.Text);
         }
 
         private void txtBOM_Val_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("BOM Value");
+            addToLogAffectedFields("BOM Value", txtBOM_Val.Text);
         }
 
         private void txtPctCovered_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Percent Covered");
+            addToLogAffectedFields("Percent Covered", txtPctCovered.Text);
         }
 
         private void cboAwardStatus_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Award Status");
+            addToLogAffectedFields("Award Status", cboAwardStatus.Text);
         }
 
         private void txtTotalHours_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Total Hours");
+            addToLogAffectedFields("Total Hours", txtTotalHours.Text);
         }
 
         private void txtLastUpdate_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Date Last Updated");
+            addToLogAffectedFields("Date Last Updated", txtLastUpdate.Text);
         }
 
         private void rtbArchDetails_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Architecture Details");
+            addToLogAffectedFields("Architecture Details", rtbArchDetails.Text);
         }
 
         private void rtbComments_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("Comments");
+            addToLogAffectedFields("Comments", rtbComments.Text);
         }
-
+#endregion
+        #region Initial Values
         private void txtCust_Enter(object sender, EventArgs e)
         {
-
+            activeControlOriginalValue = txtCust.Text;
         }
-    } 
+
+        private void cboCities_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = cboCities.Text;
+        }
+
+        private void cboState_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = cboState.Text;
+        }
+
+        private void cboCountry_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = cboCountry.Text;
+        }
+
+        private void cboRegion_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = cboRegion.Text;
+        }
+
+        private void cboRequestor_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = cboRequestor.Text;
+        }
+
+        private void cboQuoteType_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = cboQuoteType.Text;
+        }
+
+        private void cboPriority_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = cboPriority.Text;
+        }
+
+        private void cboDesigner_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = cboDesigner.Text;
+        }
+
+        private void cboAssisted_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = cboAssisted.Text;
+        }
+
+        private void txtProjName_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = txtProjName.Text;
+        }
+
+        private void cboOrigQuote_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = cboOrigQuote.Text;
+        }
+
+        private void cboCategory_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = cboCategory.Text;
+        }
+
+        private void cboArchType_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = cboArchType.Text;
+        }
+
+        private void txtDateAssigned_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = txtDateAssigned.Text;
+        }
+
+        private void txtDateAllInfo_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = txtDateAllInfo.Text;
+        }
+
+        private void txtDateDue_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = txtDateDue.Text;
+        }
+
+        private void txtDateCompleted_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = txtDateCompleted.Text;
+        }
+
+        private void cboReviewedBy_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = cboReviewedBy.Text;
+        }
+
+        private void txtBOM_Val_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = txtBOM_Val.Text;
+        }
+
+        private void txtPctCovered_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = txtPctCovered.Text;
+        }
+
+        private void cboAwardStatus_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = cboAwardStatus.Text;
+        }
+
+        private void txtTotalHours_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = txtTotalHours.Text;
+        }
+
+        private void txtLastUpdate_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = txtLastUpdate.Text;
+        }
+
+        private void rtbArchDetails_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = rtbArchDetails.Text;
+        }
+
+        private void rtbComments_Enter(object sender, EventArgs e)
+        {
+            activeControlOriginalValue = rtbComments.Text;
+        }
+        #endregion
+        #endregion
+    }
 }

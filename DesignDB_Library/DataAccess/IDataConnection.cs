@@ -9,6 +9,7 @@ namespace DesignDB_Library.DataAccess
 {
     public interface IDataConnection
     {
+        List<LogModel> ActivityLog_GetAll();
         List<LogModel> LogList(string searchTerm, string searchValue);
         void LogEntry_Add(string User, string Action, string AffectedFields, string RequestID);
         List<DesignersReviewersModel> Reviewers_GetActive();
@@ -24,10 +25,12 @@ namespace DesignDB_Library.DataAccess
         void ClearTable(string tableName);
         void UpdateSnapshotMSO_s(string mso);
         List<string> GetSnapshotMSO_s();
-        List<RequestModel> GetSnapshotData(string MSO, DateTime start, DateTime end);
+        List<RequestModelReport> GetSnapshotData(string MSO, DateTime start, DateTime end);
         List<DesignersReviewersModel> GetDesigner(string designerName);
         List<RequestModel> DateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, string SearchTerm, string mso);
         List<RequestModel> DateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, string SearchTerm);
+        List<RequestModelReport> ReportDateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, string SearchTerm, string mso);
+        List<RequestModelReport> ReportDateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, string SearchTerm);
         List<DesignerLoadModel> DoLoadReport();
         void DeleteAttachment(AttachmentModel model);
         List<AttachmentModel> GetAttachments(string PID);

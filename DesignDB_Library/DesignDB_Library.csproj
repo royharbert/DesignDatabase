@@ -74,8 +74,10 @@
     <Compile Include="Attributes\ExcelExportProperty.cs" />
     <Compile Include="DataAccess\IDataConnection.cs" />
     <Compile Include="DataAccess\SqlConnector.cs" />
+    <Compile Include="Models\LogFieldModel.cs" />
     <Compile Include="Models\LogModel.cs" />
     <Compile Include="Models\ReportSalesPriorityModel.cs" />
+    <Compile Include="Models\RequestModel.cs" />
     <Compile Include="Models\ScreenModel.cs" />
     <Compile Include="Operations\DesignerUpdate.cs" />
     <Compile Include="Operations\FilePicker.cs" />
@@ -105,7 +107,7 @@
     <Compile Include="Models\PriorityModel.cs" />
     <Compile Include="Models\RegionsModel.cs" />
     <Compile Include="Models\ReportCategoryMSOModel.cs" />
-    <Compile Include="Models\RequestModel.cs" />
+    <Compile Include="Models\RequestModelReport.cs" />
     <Compile Include="Models\SalespersonModel.cs" />
     <Compile Include="Models\SequenceModel.cs" />
     <Compile Include="Models\SnapshotModel.cs" />

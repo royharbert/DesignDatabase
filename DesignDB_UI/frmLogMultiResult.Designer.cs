@@ -39,7 +39,7 @@ namespace DesignDB_UI
             this.dgvLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvLog.Location = new System.Drawing.Point(0, 0);
             this.dgvLog.Name = "dgvLog";
-            this.dgvLog.Size = new System.Drawing.Size(800, 450);
+            this.dgvLog.Size = new System.Drawing.Size(474, 450);
             this.dgvLog.TabIndex = 0;
             this.dgvLog.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvLog_RowHeaderMouseClick);
             // 
@@ -47,7 +47,7 @@ namespace DesignDB_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(474, 450);
             this.Controls.Add(this.dgvLog);
             this.Name = "frmLogMultiResult";
             this.Text = "Log Search Results";

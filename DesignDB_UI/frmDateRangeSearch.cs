@@ -17,7 +17,7 @@ namespace DesignDB_UI
     public partial class frmDateRangeSearch : Form
     {
         public event EventHandler<DateRangeEventArgs> DateRangeSet;
-        List<RequestModel> requestList = new List<RequestModel>();
+        List<RequestModelReport> requestList = new List<RequestModelReport>();
         string term = "";
         public frmDateRangeSearch()
         {
@@ -81,7 +81,7 @@ namespace DesignDB_UI
         {
             if (cboMSO.Text == "")
             {
-                requestList = GlobalConfig.Connection.DateRangeSearch_Unfiltered
+                requestList = GlobalConfig.Connection.ReportDateRangeSearch_Unfiltered
                     (dtpStartDate.Value, dtpEndDate.Value, term);
                 int records = requestList.Count;
 
@@ -91,21 +91,21 @@ namespace DesignDB_UI
                         MessageBox.Show("No records found");
                         break;
 
-                    case 1:
-                        GV.MODE = Mode.Search;
-                        FC.DisplayRequestForm(requestList[0]);            
-                        break;
+                    //case 1:
+                    //    GV.MODE = Mode.Search;
+                    //    FC.DisplayRequestForm(requestList[0]);            
+                    //    break;
 
                     default:
                         //frmMultiResult frmMultiResult = new frmMultiResult(requestList);
-                        GV.MultiResult.dataList = requestList;
+                        GV.MultiResult.ReportDataList = requestList;
                         GV.MultiResult.Show();
                         break;
                 }
             }
             else
             {
-                requestList = GlobalConfig.Connection.DateRangeSearch_MSOFiltered
+                requestList = GlobalConfig.Connection.ReportDateRangeSearch_MSOFiltered
                 (dtpStartDate.Value, dtpEndDate.Value, term, cboMSO.Text);
                 int records = requestList.Count;
 
@@ -115,13 +115,13 @@ namespace DesignDB_UI
                         MessageBox.Show("No records found");
                         break;
 
-                    case 1:
-                        FC.DisplayRequestForm(requestList[0]);       
-                        break;
+                    //case 1:
+                    //    FC.DisplayRequestForm(requestList[0]);       
+                    //    break;
 
                     default:
                         //frmMultiResult frmMultiResult = new frmMultiResult(requestList);
-                        GV.MultiResult.dataList = requestList;
+                        GV.MultiResult.ReportDataList = requestList;
                         GV.MultiResult.Show();
                         break;
                 }

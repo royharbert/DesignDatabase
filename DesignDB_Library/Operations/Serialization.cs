@@ -19,7 +19,8 @@ namespace DesignDB_Library.Operations
         }
 
         public static T DeserializeToList<T>(string xml)
-        {  
+        {
+            T list = default(T);
             // Create an instance of the XmlSerializer.
             XmlSerializer serializer = new XmlSerializer(typeof(T));
 
@@ -27,8 +28,15 @@ namespace DesignDB_Library.Operations
             //T output;
 
             StringReader reader = new StringReader(xml);
-            //var list = (List<T>)serializer.Deserialize(reader);
-            T list = (T)serializer.Deserialize(reader);
+
+            try
+            {
+                list = (T)serializer.Deserialize(reader);
+            }
+            catch (Exception)
+            {
+                System.Windows.Forms.MessageBox.Show("Incompatible format - details cannot be displayed");
+            }
             return list;
         }
     }

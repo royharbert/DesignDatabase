@@ -175,19 +175,19 @@ namespace DesignDB_Library.Operations
             int month = startDate.Month;
             DateTime yearStart = DateTime.Parse("1/1/" + year.ToString());
             DateTime yearEnd = DateTime.Parse("12/31/" + year.ToString());
-            List<RequestModel> snapshot = GlobalConfig.Connection.GetSnapshotData(mso, yearStart, endDate);
+            List<RequestModelReport> snapshot = GlobalConfig.Connection.GetSnapshotData(mso, yearStart, endDate);
             snap.MSO = mso;
 
             snap.RequestsThisYear = snapshot.Count;
             if (snap.RequestsThisYear > 0)
             {
-                List<RequestModel> CompletedDesignList = snapshot.Where(x => x.DateCompleted != DateTime.Parse("1/1/0001")).ToList();
+                List<RequestModelReport> CompletedDesignList = snapshot.Where(x => x.DateCompleted != DateTime.Parse("1/1/0001")).ToList();
                 snap.TotalCompletedDesigns = CompletedDesignList.Count;
 
                 //loop thru completed design list and sum the days to complete
                 int totalDaysToComplete = 0;
                 int requestDaysToComplete = 0;
-                foreach (RequestModel request in CompletedDesignList)
+                foreach (RequestModelReport request in CompletedDesignList)
                 {
                     if (request.DateCompleted > DateTime.Parse("1/1/2000") && request.AwardStatus == "Pending")
                     {
@@ -206,7 +206,7 @@ namespace DesignDB_Library.Operations
                 {
                     snap.AverageCompletionTime = "";
                 }
-                List<RequestModel> snapList = snapshot.Where(x => x.DateCompleted <= DateTime.Parse("1/1/2000")).ToList();
+                List<RequestModelReport> snapList = snapshot.Where(x => x.DateCompleted <= DateTime.Parse("1/1/2000")).ToList();
                 snap.TotalOpenRequests = snapList.Where(x => x.AwardStatus == "Pending").ToList().Count;
                 snap.TotalCanceledDesigns = snapshot.Where(x => x.AwardStatus == "Canceled").ToList().Count;
 
@@ -242,6 +242,9 @@ namespace DesignDB_Library.Operations
             SetDGV_ColumnWidths(dgv, widths);
 
             dgv.Columns[3].Visible = false;
+            dgv.Columns[4].Visible = false;
+            dgv.Columns[5].Visible = false;
+            dgv.Columns[6].Visible = false;
         }
 
         public static void FormatDesignerLoadDGV(DataGridView dgv)
@@ -413,7 +416,7 @@ namespace DesignDB_Library.Operations
             }
         }
 
-        public static void FormatMultiResultExport(Excel.Worksheet wks)
+        public static void ReportFormatMultiResultExport(Excel.Worksheet wks)
         {
             string[] headers = new string[]
             {
@@ -439,6 +442,41 @@ namespace DesignDB_Library.Operations
 
             string[] currencyCols = { "G" };
             FormatExcelColumnsAsCurrency(wks,currencyCols);
+            setExcelExportColumnWidths(wks, widths);
+            wks.get_Range("R:R").WrapText = true;
+            wks.get_Range("Z:Z").WrapText = true;
+            wks.get_Range("AA:AA").WrapText = false;
+            wks.get_Range("L:L").WrapText = true;
+
+            int[] cols = { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
+            CenterSpecificExcelColumns(wks, cols);
+        }
+
+        public static void FormatMultiResultExport(Excel.Worksheet wks)
+        {
+            string[] headers = new string[]
+            {
+                // "Project ID", "Quote Type", "Original Quote", "Priority", "Award Status", "Design Requestor",
+                //"BOM Value", "% Project Covered", "MSO", "Region", "City", "Date Assigned", "Date All Info Received", "Date Due",
+                //"Date Completed", "Date Last Update", "Designer", "Assisted By", "Reviewed By", "Category",
+                //"Architecture Details", "Total Hours", "Architecture Type", "End Customer", "State","Country", "Project Name"
+            
+                "Project ID", "MSO", "End Customer", "City", "State","Country", "Region", "Design Requestor", "Quote Type",
+                "Priority", "Designer", "Project Name", "Original Quote", "Assisted By", "Category", "Architecture Type",
+                "Date Assigned", "Date All Info Received", "Date Due", "Award Status", "Date Last Update", "Reviewed By",
+                "Date Completed", "Total Hours", "BOM Value", "% Project Covered", "Architecture Details", "Comments"
+            };
+            placeHeaderTextInExport(wks, headers);
+            formatExcelHeaderRow(wks);
+
+            int[] widths = new int[]
+            {
+            //  A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z  AA AB  
+                26,26,26,22,17,26,17,22,18,15,25,22,26,22,15,22,18,18,18,18,18,22,18,12,12,12,26,26
+            };
+
+            string[] currencyCols = { "Y" };
+            FormatExcelColumnsAsCurrency(wks, currencyCols);
             setExcelExportColumnWidths(wks, widths);
             wks.get_Range("R:R").WrapText = true;
             wks.get_Range("Z:Z").WrapText = true;
@@ -489,16 +527,32 @@ namespace DesignDB_Library.Operations
                 dgv.Columns[i].Width = widths[i];
             }
         }
-
         public static void FormatMultiResultDGV(DataGridView dgv)
         {
             string[] headers = new string[]
-            //{
-            //    "ID","Project ID", "MSO", "End Customer", "City", "State","Country", "Region", "Design Requestor", "Quote Type",
-            //    "Priority", "Designer", "Project Name", "Original Quote", "Assisted By", "Category", "Architecture Type",
-            //    "Date Assigned", "Date All Info Received", "Date Due", "Award Status", "Date Last Update", "Reviewed By",
-            //    "Date Completed", "Total Hours", "BOM Value", "% Project Covered", "Architecture Details", "Comments"
-            //};
+            {
+                "ID","Project ID", "MSO", "End Customer", "City", "State","Country", "Region", "Design Requestor", "Quote Type",
+                "Priority", "Designer", "Project Name", "Original Quote", "Assisted By", "Category", "Architecture Type",
+                "Date Assigned", "Date All Info Received", "Date Due", "Award Status", "Date Last Update", "Reviewed By",
+                "Date Completed", "Total Hours", "BOM Value", "% Project Covered", "Architecture Details", "Comments"            
+            };
+
+            setDGV_HeaderText(dgv, headers);
+
+            int[] widths = { 10,220,140,140,130,130,130,100,150,90,70,140,180,200,
+                140,140,100,120,100,100,120,100,100,140,100,100,150,100 };
+            SetDGV_ColumnWidths(dgv, widths);
+            dgv.Columns[0].Visible = false;
+            dgv.Columns[29].Visible = false;
+
+            string[] currencyCols = { "BOM_Value" };
+            setDGV_CellFormatToCurrency(dgv, currencyCols);
+        }
+
+        public static void ReportFormatMultiResultDGV(DataGridView dgv)
+        {
+            string[] headers = new string[]
+
             {
                 "ID", "Project ID", "Quote Type", "Original Quote", "Priority", "Award Status", "Design Requestor",
                 "BOM Value", "% Project Covered", "MSO", "Region", "City", "Date Assigned", "Date All Info Received", "Date Due",

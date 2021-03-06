@@ -21,15 +21,22 @@ namespace DesignDB_UI
             get { return logRecord; }
             set 
             {
-                clearForm();
-                logRecord = value;
-                txtActivity.Text = logRecord.Action;
-                txtPID.Text = logRecord.RequestID;
-                txtTimeStamp.Text = logRecord.TimeStamp.ToString();
-                txtUser.Text = logRecord.User;
-                List<string> fields = DesignDB_Library.Operations.
-                    Serialization.DeserializeToList<List<string>>(logRecord.AffectedFields);
-                lstFields.DataSource = fields;
+                
+                    clearForm();
+                    logRecord = value;
+                    txtActivity.Text = logRecord.Action;
+                    txtPID.Text = logRecord.RequestID;
+                    txtTimeStamp.Text = logRecord.TimeStamp.ToString();
+                    txtUser.Text = logRecord.User;
+                    List<LogFieldModel> fields = DesignDB_Library.Operations.
+                        Serialization.DeserializeToList<List<LogFieldModel>>(logRecord.AffectedFields);
+                    dgvLog.DataSource = fields;
+                if(fields != null)
+                { 
+                    dgvLog.Columns[0].Width = 175;
+                    dgvLog.Columns[1].Width = 200;
+                    dgvLog.Columns[2].Width = 200;
+                }
             }
         }
 
@@ -40,6 +47,7 @@ namespace DesignDB_UI
             txtUser.DataSource = designers;
             txtUser.DisplayMember = "Designer";
             txtUser.SelectedIndex = -1;
+            
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -81,7 +89,7 @@ namespace DesignDB_UI
             txtPID.Clear();
             txtTimeStamp.Clear();
             txtUser.SelectedIndex = -1;
-            lstFields.DataSource = null;
+            dgvLog.DataSource = null;
         }
 
         private void btnDone_Click(object sender, EventArgs e)
@@ -93,6 +101,25 @@ namespace DesignDB_UI
         private void frmLogView_FormClosing(object sender, FormClosingEventArgs e)
         {
             GV.MAINMENU.BringToFront();
+        }
+
+        private void btnViewAll_Click(object sender, EventArgs e)
+        {
+            List<LogModel> logList = GlobalConfig.Connection.ActivityLog_GetAll();
+            frmLogMultiResult Results = new frmLogMultiResult();
+            Results.LogResults = logList;
+            Results.Show();
+        }
+
+        private void btnGoTORecord_Click(object sender, EventArgs e)
+        {
+            if (true)
+            {
+                List<RequestModel> requests = GlobalConfig.Connection.GetRequestByPID(txtPID.Text);
+                GV.MODE = Mode.Edit;
+                GV.REQFORM.Request = requests[0];
+                GV.REQFORM.Show();
+            }
         }
     }
 }

@@ -30,7 +30,6 @@ namespace DesignDB_UI
         private void InitializeComponent()
         {
             this.txtTimeStamp = new System.Windows.Forms.TextBox();
-            this.lstFields = new System.Windows.Forms.ListBox();
             this.txtPID = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -41,6 +40,10 @@ namespace DesignDB_UI
             this.btnDone = new System.Windows.Forms.Button();
             this.txtActivity = new System.Windows.Forms.ComboBox();
             this.txtUser = new System.Windows.Forms.ComboBox();
+            this.dgvLog = new System.Windows.Forms.DataGridView();
+            this.btnViewAll = new System.Windows.Forms.Button();
+            this.btnGoTORecord = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvLog)).BeginInit();
             this.SuspendLayout();
             // 
             // txtTimeStamp
@@ -51,16 +54,6 @@ namespace DesignDB_UI
             this.txtTimeStamp.Size = new System.Drawing.Size(306, 26);
             this.txtTimeStamp.TabIndex = 1;
             this.txtTimeStamp.Tag = "TimeStamp";
-            // 
-            // lstFields
-            // 
-            this.lstFields.FormattingEnabled = true;
-            this.lstFields.ItemHeight = 20;
-            this.lstFields.Location = new System.Drawing.Point(688, 43);
-            this.lstFields.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.lstFields.Name = "lstFields";
-            this.lstFields.Size = new System.Drawing.Size(376, 624);
-            this.lstFields.TabIndex = 3;
             // 
             // txtPID
             // 
@@ -113,7 +106,7 @@ namespace DesignDB_UI
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(195, 404);
+            this.btnSearch.Location = new System.Drawing.Point(262, 401);
             this.btnSearch.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(112, 35);
@@ -124,7 +117,7 @@ namespace DesignDB_UI
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(315, 404);
+            this.btnClear.Location = new System.Drawing.Point(132, 401);
             this.btnClear.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(112, 35);
@@ -135,10 +128,10 @@ namespace DesignDB_UI
             // 
             // btnDone
             // 
-            this.btnDone.Location = new System.Drawing.Point(435, 404);
+            this.btnDone.Location = new System.Drawing.Point(251, 523);
             this.btnDone.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnDone.Name = "btnDone";
-            this.btnDone.Size = new System.Drawing.Size(112, 35);
+            this.btnDone.Size = new System.Drawing.Size(136, 35);
             this.btnDone.TabIndex = 6;
             this.btnDone.Text = "Exit";
             this.btnDone.UseVisualStyleBackColor = true;
@@ -180,12 +173,46 @@ namespace DesignDB_UI
             this.txtUser.TabIndex = 10;
             this.txtUser.Tag = "User";
             // 
+            // dgvLog
+            // 
+            this.dgvLog.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvLog.Location = new System.Drawing.Point(571, 11);
+            this.dgvLog.Name = "dgvLog";
+            this.dgvLog.Size = new System.Drawing.Size(621, 631);
+            this.dgvLog.TabIndex = 11;
+            // 
+            // btnViewAll
+            // 
+            this.btnViewAll.Location = new System.Drawing.Point(391, 401);
+            this.btnViewAll.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnViewAll.Name = "btnViewAll";
+            this.btnViewAll.Size = new System.Drawing.Size(112, 35);
+            this.btnViewAll.TabIndex = 12;
+            this.btnViewAll.Text = "View All";
+            this.btnViewAll.UseVisualStyleBackColor = true;
+            this.btnViewAll.Click += new System.EventHandler(this.btnViewAll_Click);
+            // 
+            // btnGoTORecord
+            // 
+            this.btnGoTORecord.Location = new System.Drawing.Point(251, 461);
+            this.btnGoTORecord.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnGoTORecord.Name = "btnGoTORecord";
+            this.btnGoTORecord.Size = new System.Drawing.Size(136, 35);
+            this.btnGoTORecord.TabIndex = 13;
+            this.btnGoTORecord.Text = "Go to Record";
+            this.btnGoTORecord.UseVisualStyleBackColor = true;
+            this.btnGoTORecord.Click += new System.EventHandler(this.btnGoTORecord_Click);
+            // 
             // frmLogView
             // 
             this.AcceptButton = this.btnSearch;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 692);
+            this.ControlBox = false;
+            this.Controls.Add(this.btnGoTORecord);
+            this.Controls.Add(this.btnViewAll);
+            this.Controls.Add(this.dgvLog);
             this.Controls.Add(this.txtUser);
             this.Controls.Add(this.txtActivity);
             this.Controls.Add(this.btnDone);
@@ -196,13 +223,13 @@ namespace DesignDB_UI
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtPID);
-            this.Controls.Add(this.lstFields);
             this.Controls.Add(this.txtTimeStamp);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "frmLogView";
             this.Text = "Log Viewer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmLogView_FormClosing);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvLog)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -211,7 +238,6 @@ namespace DesignDB_UI
         #endregion
 
         private System.Windows.Forms.TextBox txtTimeStamp;
-        private System.Windows.Forms.ListBox lstFields;
         private System.Windows.Forms.TextBox txtPID;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -222,5 +248,8 @@ namespace DesignDB_UI
         private System.Windows.Forms.Button btnDone;
         private System.Windows.Forms.ComboBox txtActivity;
         private System.Windows.Forms.ComboBox txtUser;
+        private System.Windows.Forms.DataGridView dgvLog;
+        private System.Windows.Forms.Button btnViewAll;
+        private System.Windows.Forms.Button btnGoTORecord;
     }
 }

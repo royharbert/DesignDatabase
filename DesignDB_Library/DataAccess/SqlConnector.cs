@@ -11,7 +11,7 @@ using System.Data.SqlClient;
 namespace DesignDB_Library.DataAccess
 {
     public class SqlConnector : IDataConnection
-    {        
+    {
         public static string db { get; set; }
 
         public void AddUser(UserModel NewUser)
@@ -56,7 +56,7 @@ namespace DesignDB_Library.DataAccess
                     p.Add("@PW", User.PW);
                     p.Add("@Priviledge", User.Priviledge);
                     p.Add("@ActiveDesigner", User.ActiveDesigner);
-                    p.Add("@ID", User.ID,DbType.Int32);
+                    p.Add("@ID", User.ID, DbType.Int32);
 
                 }
             }
@@ -338,12 +338,12 @@ namespace DesignDB_Library.DataAccess
 
                 return output;
             }
-        }  
+        }
 
         public int RequestUpdate(RequestModel model)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
-            {               
+            {
                 DynamicParameters p = makParams(model);
                 try
                 {
@@ -419,7 +419,7 @@ namespace DesignDB_Library.DataAccess
             p.Add("BOM_Value", request.BOM_Value, DbType.Decimal);
             p.Add("PercentageProjectCovered", request.PercentageProjectCovered, DbType.Int32);
             p.Add("ArchitectureDetails", request.ArchitectureDetails, DbType.String);
-            p.Add("Comments", request.Comments, DbType.String);     
+            p.Add("Comments", request.Comments, DbType.String);
 
             return p;
         }
@@ -437,7 +437,7 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@ItemType", model.ItemType, DbType.String);
                 //Project ID
                 p.Add("@PID", model.PID, DbType.String);
-                connection.Execute("spAttachment_Insert", p, commandType: CommandType.StoredProcedure);                
+                connection.Execute("spAttachment_Insert", p, commandType: CommandType.StoredProcedure);
             }
             //System.Windows.Forms.MessageBox.Show("Operation Complete");
         }
@@ -447,7 +447,7 @@ namespace DesignDB_Library.DataAccess
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
             {
                 DynamicParameters p = new DynamicParameters();
-      
+
                 //Project ID
                 p.Add("@PID", model.PID, DbType.String);
                 p.Add("@DisplayText", model.DisplayText, DbType.String);
@@ -511,7 +511,24 @@ namespace DesignDB_Library.DataAccess
                 List<RequestModel> output = null;
 
 
-                output = connection.Query<RequestModel>("spRequests_DateRangeSearch_Unfiltered_DateAssigned_PendingOnly", 
+                output = connection.Query<RequestModel>("spRequests_DateRangeSearch_Unfiltered_DateAssigned_PendingOnly",
+                    p, commandType: CommandType.StoredProcedure).ToList();
+                return output;
+            }
+        }
+        public List<RequestModelReport> ReportDateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, string SearchTerm)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+
+                p.Add("@StartDate", StartDate, DbType.DateTime, ParameterDirection.Input);
+                p.Add("@EndDate", EndDate, DbType.DateTime, ParameterDirection.Input);
+                p.Add("@SearchField", SearchTerm, DbType.String, ParameterDirection.Input);
+                List<RequestModelReport> output = null;
+
+
+                output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_Unfiltered_DateAssigned_PendingOnly",
                     p, commandType: CommandType.StoredProcedure).ToList();
                 return output;
             }
@@ -531,7 +548,7 @@ namespace DesignDB_Library.DataAccess
                 switch (SearchTerm)
                 {
                     case "DateAssigned":
-                        output = connection.Query<RequestModel>("spRequests_DateRangeSearch_MSOFiltered_DateAssigned",
+                        output = connection.Query<RequestModel>("spRequests_DateRangeSearch_MSOFiltered_DateAssigned" ,
                             p, commandType: CommandType.StoredProcedure).ToList();
                         break;
 
@@ -552,6 +569,42 @@ namespace DesignDB_Library.DataAccess
             }
         }
 
+
+        public List<RequestModelReport> ReportDateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, string SearchTerm, string mso)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+
+                p.Add("@StartDate", StartDate, DbType.DateTime, ParameterDirection.Input);
+                p.Add("@EndDate", EndDate, DbType.DateTime, ParameterDirection.Input);
+                p.Add("@MSO", mso, DbType.String, ParameterDirection.Input);
+                List<RequestModelReport> output = null;
+
+                switch (SearchTerm)
+                {
+                    case "DateAssigned":
+                        output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_MSOFiltered_DateAssigned",
+                            p, commandType: CommandType.StoredProcedure).ToList();
+                        break;
+
+                    case "DateDue":
+                        output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_MSOFiltered_DateDue",
+                            p, commandType: CommandType.StoredProcedure).ToList();
+                        break;
+
+                    case "DateCompleted":
+                        output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_MSOFiltered_DateCompleted",
+                            p, commandType: CommandType.StoredProcedure).ToList();
+                        break;
+
+                    default:
+                        break;
+                }
+                return output;
+            }
+        }
+
         List<DesignersReviewersModel> IDataConnection.GetDesigner(string designerName)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
@@ -559,24 +612,24 @@ namespace DesignDB_Library.DataAccess
                 var p = new DynamicParameters();
 
                 p.Add("@Designer", designerName, DbType.String, ParameterDirection.Input);
-                
-                List<DesignersReviewersModel>  output = connection.Query<DesignersReviewersModel>("spDesigner_GetByName",
+
+                List<DesignersReviewersModel> output = connection.Query<DesignersReviewersModel>("spDesigner_GetByName",
                     p, commandType: CommandType.StoredProcedure).ToList();
                 return output;
             }
         }
 
-        public List<RequestModel> GetSnapshotData(string MSO, DateTime start, DateTime end)
+        public List<RequestModelReport> GetSnapshotData(string MSO, DateTime start, DateTime end)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
             {
                 var p = new DynamicParameters();
 
-  
+
                 p.Add("@MSO", MSO, DbType.String, ParameterDirection.Input);
                 p.Add("@StartDate", start, DbType.DateTime, ParameterDirection.Input);
                 p.Add("@EndDate", end, DbType.DateTime, ParameterDirection.Input);
-                List<RequestModel> output = connection.Query<RequestModel>("spRequests_DateRangeSearch_MSOFiltered_DateAssigned",
+                List<RequestModelReport> output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_MSOFiltered_DateAssigned",
                     p, commandType: CommandType.StoredProcedure).ToList();
                 return output;
             }
@@ -584,12 +637,12 @@ namespace DesignDB_Library.DataAccess
 
         public void UpdateSnapshotMSO_s(string mso)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 DynamicParameters p = new DynamicParameters();
 
                 //Project ID
-                p.Add("@MSO", mso, DbType.String);               
+                p.Add("@MSO", mso, DbType.String);
                 connection.Execute("spSnapshotMSO_S_InsertInto", p, commandType: CommandType.StoredProcedure);
             }
         }
@@ -597,7 +650,7 @@ namespace DesignDB_Library.DataAccess
         public List<string> GetSnapshotMSO_s()
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
-            {  
+            {
                 List<string> output = connection.Query<string>("spSnapshotMSO_S_GetAll",
                     commandType: CommandType.StoredProcedure).ToList();
                 return output;
@@ -625,7 +678,7 @@ namespace DesignDB_Library.DataAccess
                 var p = new DynamicParameters();
 
                 p.Add("@PID", PID, DbType.String, ParameterDirection.Input);
-                List<RequestModel> output = 
+                List<RequestModel> output =
                     connection.Query<RequestModel>("dbo.spDeletedRecords_GetByPID", p, commandType: CommandType.StoredProcedure).ToList();
 
                 return output;
@@ -673,9 +726,9 @@ namespace DesignDB_Library.DataAccess
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
             {
                 var p = new DynamicParameters();
-                p.Add("@UserName", model.SalesPerson, DbType.String);      
+                p.Add("@UserName", model.SalesPerson, DbType.String);
                 p.Add("@ActiveDesigner", model.Active, DbType.Boolean);
-                p.Add("@ID", model.Id, DbType.Int32,ParameterDirection.Output);
+                p.Add("@ID", model.Id, DbType.Int32, ParameterDirection.Output);
                 connection.Execute("dbo.spSalesperson_Add", p, commandType: CommandType.StoredProcedure);
             };
         }
@@ -698,7 +751,7 @@ namespace DesignDB_Library.DataAccess
             {
 
                 var p = new DynamicParameters();
-                p.Add("@UName", model.SalesPerson);      
+                p.Add("@UName", model.SalesPerson);
                 p.Add("@Active", model.Active);
                 p.Add("@Ident", model.Id);
 
@@ -716,15 +769,17 @@ namespace DesignDB_Library.DataAccess
         }
 
         public void LogEntry_Add(string User, string Action, string AffectedFields, string RequestID)
+
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
             {
 
                 var p = new DynamicParameters();
-                p.Add("@User", User);
-                p.Add("@Action", Action);
-                p.Add("@AffectedFields", AffectedFields);
-                p.Add("@RequestID", RequestID);
+                p.Add("@User", User, DbType.String);
+                p.Add("@Action", Action, DbType.String);
+                p.Add("@AffectedFields", AffectedFields, DbType.String);
+                p.Add("@RequestID", RequestID, DbType.String);
+
 
                 connection.Execute("dbo.spActivityLog_Add", p, commandType: CommandType.StoredProcedure);
             }
@@ -740,6 +795,17 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@SearchValue", searchValue, DbType.String, ParameterDirection.Input);
                 List<LogModel> output =
                     connection.Query<LogModel>("dbo.spActivityLog_Search", p, commandType: CommandType.StoredProcedure).ToList();
+
+                return output;
+            }
+        }
+
+        public List<LogModel> ActivityLog_GetAll()
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                List<LogModel> output =
+                    connection.Query<LogModel>("dbo.spActivityLog_GetAll", commandType: CommandType.StoredProcedure).ToList();
 
                 return output;
             }
