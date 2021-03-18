@@ -4,7 +4,7 @@
   <description asmv2:iconFile="AppIcon.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="DesignDB_UI" version="2.1.27.0" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="DesignDB_UI" version="2.1.31.0" language="neutral" processorArchitecture="msil" />
     <commandLine file="DesignDB_UI.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -103,26 +103,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_Library.dll" size="118784">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_Library.dll" size="119296">
       <assemblyIdentity name="DesignDB_Library" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>VLTrT1Y0YZttbDunWdwCSvekoR0hEhm109L1UfxIK6s=</dsig:DigestValue>
+        <dsig:DigestValue>gY9K6oDWjFP0nO5eDNHpK3lG4MLxtCpszQYap9gxTc4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_UI.exe" size="167344">
-      <assemblyIdentity name="DesignDB_UI" version="2.1.27.0" language="neutral" processorArchitecture="msil" />
+      <assemblyIdentity name="DesignDB_UI" version="2.1.31.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>i9gkyHE2ixyqPyEZDSJC72+XeJbglwYrZkNq0u8/UR4=</dsig:DigestValue>
+        <dsig:DigestValue>uOmQRD/pjvTwRUAArSP8yjyhlG6jvl8a33SJ1DeLgUo=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

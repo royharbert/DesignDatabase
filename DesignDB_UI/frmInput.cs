@@ -29,7 +29,7 @@ namespace DesignDB_UI
         private void btnGo_Click(object sender, EventArgs e)        
         {
             InputDataReadyEventArgs args = new InputDataReadyEventArgs();
-            args.SearchString = "%" + txtInput.Text + "%";
+            args.SearchString = "%" + txtInput.Text.Trim() + "%";
             InputDataReady?.Invoke(this, args);
             this.Close();
         }

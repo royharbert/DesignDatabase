@@ -499,7 +499,8 @@ namespace DesignDB_Library.DataAccess
             return loadList;
         }
 
-        public List<RequestModel> DateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, string SearchTerm)
+        public List<RequestModel> DateRangeSearch_Unfiltered(DateTime StartDate, 
+            DateTime EndDate, string SearchTerm, bool pendingOnly, string mso)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
             {
@@ -507,28 +508,33 @@ namespace DesignDB_Library.DataAccess
 
                 p.Add("@StartDate", StartDate, DbType.DateTime, ParameterDirection.Input);
                 p.Add("@EndDate", EndDate, DbType.DateTime, ParameterDirection.Input);
-                p.Add("@SearchField", SearchTerm, DbType.String, ParameterDirection.Input);
+                p.Add("@SearchTerm", SearchTerm, DbType.String, ParameterDirection.Input);
+                p.Add("@PendingOnly", pendingOnly, DbType.Boolean, ParameterDirection.Input);
+                p.Add("@MSO", mso, DbType.String, ParameterDirection.Input);
                 List<RequestModel> output = null;
 
 
-                output = connection.Query<RequestModel>("spRequests_DateRangeSearch_Unfiltered_DateAssigned_PendingOnly",
+                output = connection.Query<RequestModel>("spRequests_DateRangeSearch_Unfiltered_Dynamic",
                     p, commandType: CommandType.StoredProcedure).ToList();
                 return output;
             }
         }
-        public List<RequestModelReport> ReportDateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, string SearchTerm)
+        public List<RequestModelReport> ReportDateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, 
+            string SearchTerm, bool pendingOnly, string mso)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 var p = new DynamicParameters();
 
                 p.Add("@StartDate", StartDate, DbType.DateTime, ParameterDirection.Input);
                 p.Add("@EndDate", EndDate, DbType.DateTime, ParameterDirection.Input);
-                p.Add("@SearchField", SearchTerm, DbType.String, ParameterDirection.Input);
+                p.Add("@SearchTerm", SearchTerm, DbType.String, ParameterDirection.Input);
+                p.Add("@PendingOnly", pendingOnly, DbType.Boolean, ParameterDirection.Input);
+                p.Add("@MSO", mso, DbType.String, ParameterDirection.Input);
                 List<RequestModelReport> output = null;
 
 
-                output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_Unfiltered_DateAssigned_PendingOnly",
+                output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_Unfiltered_Dynamic",
                     p, commandType: CommandType.StoredProcedure).ToList();
                 return output;
             }

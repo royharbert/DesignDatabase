@@ -142,6 +142,8 @@ namespace DesignDB_UI
                     ReportOps.FormatMultiResultDGV(dgvResults);
                     break;
                 case Mode.DateRangeSearch:
+                    //ReportOps.ReportFormatMultiResultDGV(dgvResults);
+                    break;
                 case Mode.Report_OpenRequests:
                     ReportOps.FormatMultiResultDGV(dgvResults);
                     break;
@@ -171,14 +173,16 @@ namespace DesignDB_UI
 
         private void btnExport_Click(object sender, EventArgs e)
         {            
-            ListLooper.ExcelExporter<RequestModel> exporter = new ListLooper.ExcelExporter<RequestModel>();
-            exporter.List = (List<RequestModel>)dgvResults.DataSource;
             if (GV.MODE == Mode.DateRangeSearch)
             {
+                ListLooper.ExcelExporter<RequestModelReport> exporter = new ListLooper.ExcelExporter<RequestModelReport>();
+                exporter.List = (List<RequestModelReport>)dgvResults.DataSource;
                 ReportOps.ReportFormatMultiResultExport(exporter.Wksheet);
             }
             else
             {
+                ListLooper.ExcelExporter<RequestModel> exporter = new ListLooper.ExcelExporter<RequestModel>();
+                exporter.List = (List<RequestModel>)dgvResults.DataSource;
                 ReportOps.FormatMultiResultExport(exporter.Wksheet);
             }
         }

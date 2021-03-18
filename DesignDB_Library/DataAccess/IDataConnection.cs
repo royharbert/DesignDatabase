@@ -27,10 +27,13 @@ namespace DesignDB_Library.DataAccess
         List<string> GetSnapshotMSO_s();
         List<RequestModelReport> GetSnapshotData(string MSO, DateTime start, DateTime end);
         List<DesignersReviewersModel> GetDesigner(string designerName);
-        List<RequestModel> DateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, string SearchTerm, string mso);
-        List<RequestModel> DateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, string SearchTerm);
+        List<RequestModel> DateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, string SearchTerm, 
+            string mso);
+        List<RequestModel> DateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, string SearchTerm, 
+            bool pendingOnly, string mso);
         List<RequestModelReport> ReportDateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, string SearchTerm, string mso);
-        List<RequestModelReport> ReportDateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, string SearchTerm);
+        List<RequestModelReport> ReportDateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, 
+            string SearchTerm, bool pendingOnly, string mso);
         List<DesignerLoadModel> DoLoadReport();
         void DeleteAttachment(AttachmentModel model);
         List<AttachmentModel> GetAttachments(string PID);

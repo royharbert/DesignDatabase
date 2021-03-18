@@ -35,13 +35,13 @@ namespace DesignDB_Library
         {
             if (mode == DatabaseType.Live)
             {
-                DesignDB_Library.GlobalConfig.InitializeConnection(DesignDB_Library.DatabaseType.Live);
+                GlobalConfig.InitializeConnection(DesignDB_Library.DatabaseType.Live);
                 GlobalConfig.AttachmentPath = "\\" + "\\USCA5PDBATDGS01\\Databases\\AttachmentsDesign";
                 DatabaseMode = DatabaseType.Live;
             }
             else
             { 
-                GlobalConfig.InitializeConnection(DesignDB_Library.DatabaseType.Sandbox);
+                GlobalConfig.InitializeConnection(DatabaseType.Sandbox);
                 GlobalConfig.AttachmentPath = "\\" + "\\USCA5PDBATDGS01\\Databases\\Sandbox\\AttachmentsDesign";
                 DatabaseMode = DatabaseType.Sandbox;
             }

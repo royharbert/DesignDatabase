@@ -96,7 +96,8 @@ namespace DesignDB_Library.Operations
             List<ReportSalesPriorityModel> report = new List<ReportSalesPriorityModel>();
 
             //get list of requests in timeframe
-            List<RequestModel> requests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(startDate, endDate, "DateCompleted");
+            List<RequestModel> requests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(startDate, endDate, 
+                "DateCompleted", false, "");
 
             //loop thru sales team
             List<RequestModel> requestsP1 = null;
@@ -234,17 +235,15 @@ namespace DesignDB_Library.Operations
 
         public static void FormatLogViewDGV(DataGridView dgv)
         {
-            string[] headers = { "Time Stamp", "User", "Action", "Affected Fields", "Request ID" };
+            string[] headers = { "Time Stamp", "Request ID", "User", "Action", "Affected Fields" };
             setDGV_HeaderText(dgv, headers);
 
 
-            int[] widths = { 140, 140, 140, 140, 200 };
+            int[] widths = { 140, 200, 140, 140, 140 };
             SetDGV_ColumnWidths(dgv, widths);
 
-            dgv.Columns[3].Visible = false;
+            dgv.Columns[3].Visible = true;
             dgv.Columns[4].Visible = false;
-            dgv.Columns[5].Visible = false;
-            dgv.Columns[6].Visible = false;
         }
 
         public static void FormatDesignerLoadDGV(DataGridView dgv)

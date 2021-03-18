@@ -82,7 +82,7 @@ namespace DesignDB_UI
             if (cboMSO.Text == "")
             {
                 requestList = GlobalConfig.Connection.ReportDateRangeSearch_Unfiltered
-                    (dtpStartDate.Value, dtpEndDate.Value, term);
+                    (dtpStartDate.Value, dtpEndDate.Value, term, false,"");
                 int records = requestList.Count;
 
                 switch (records)
@@ -90,11 +90,6 @@ namespace DesignDB_UI
                     case 0:
                         MessageBox.Show("No records found");
                         break;
-
-                    //case 1:
-                    //    GV.MODE = Mode.Search;
-                    //    FC.DisplayRequestForm(requestList[0]);            
-                    //    break;
 
                     default:
                         //frmMultiResult frmMultiResult = new frmMultiResult(requestList);
@@ -114,11 +109,6 @@ namespace DesignDB_UI
                     case 0:
                         MessageBox.Show("No records found");
                         break;
-
-                    //case 1:
-                    //    FC.DisplayRequestForm(requestList[0]);       
-                    //    break;
-
                     default:
                         //frmMultiResult frmMultiResult = new frmMultiResult(requestList);
                         GV.MultiResult.ReportDataList = requestList;

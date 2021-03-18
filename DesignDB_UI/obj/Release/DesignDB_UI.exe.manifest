@@ -4,7 +4,7 @@
   <description asmv2:iconFile="AppIcon.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="DesignDB_UI" version="2.1.26.0" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="DesignDB_UI" version="2.1.31.0" language="neutral" processorArchitecture="msil" />
     <commandLine file="DesignDB_UI.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -103,26 +103,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_Library.dll" size="108544">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_Library.dll" size="114688">
       <assemblyIdentity name="DesignDB_Library" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>e7qDRSw7GQnBF2lrviyhSxFFew3zWgyZzOvx3CejaCs=</dsig:DigestValue>
+        <dsig:DigestValue>QsAIj6/wsFOVnGfWR3ngzpxlAeJmFcyx+P5CdGSGwvA=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_UI.exe" size="158640">
-      <assemblyIdentity name="DesignDB_UI" version="2.1.26.0" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_UI.exe" size="159152">
+      <assemblyIdentity name="DesignDB_UI" version="2.1.31.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>nYyp03hCd6XD0NPTKIF3qMY3mKLMDrN2tZUIklRJJuI=</dsig:DigestValue>
+        <dsig:DigestValue>0VbbQWlW8EwzgMrm/FLCSlHnbEw4OaZg9274qwhO3Ek=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

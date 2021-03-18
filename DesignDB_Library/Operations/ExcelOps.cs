@@ -24,7 +24,7 @@ namespace DesignDB_Library.Operations
         {
             try
             {
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
+                Marshal.ReleaseComObject(obj);
                 obj = null;
             }
             catch (Exception ex)

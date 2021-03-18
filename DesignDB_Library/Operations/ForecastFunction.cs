@@ -100,13 +100,14 @@ namespace DesignDB_Library.Operations
             return xlApp;
         }
 
-        public static List<RequestModel> GetForecastRequests(string mso, DateTime startDate, DateTime endDate, string searchTerm)
+        public static List<RequestModel> GetForecastRequests(string mso, DateTime startDate, DateTime endDate, 
+            string searchTerm)
         {
             List<RequestModel> requests = null;
             if (mso == "")
             {
                 requests = GlobalConfig.Connection.DateRangeSearch_Unfiltered
-                    (startDate, endDate, searchTerm);
+                    (startDate, endDate, searchTerm, false, "");
             }
             else
             {
