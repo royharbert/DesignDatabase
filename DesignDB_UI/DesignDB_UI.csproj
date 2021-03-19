@@ -317,6 +317,7 @@
     <Compile Include="IInputRequestor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
     <EmbeddedResource Include="aTest.resx">
       <DependentUpon>aTest.cs</DependentUpon>
     </EmbeddedResource>

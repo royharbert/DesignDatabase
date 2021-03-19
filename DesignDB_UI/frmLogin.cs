@@ -61,7 +61,8 @@ namespace DesignDB_UI
             if (user.Pwd == txtPwd.Text || txtPwd.Text == "412")
             {
                 GV.USERNAME = user;
-                Properties.Settings.Default.UserIndex = cboUser.SelectedIndex;
+                //Properties.Settings.Default.UserIndex = cboUser.SelectedIndex;
+                Properties.Settings.Default.UserName = cboUser.Text;
                 Properties.Settings.Default.Save();
                 
                 if (!FC.isFormOpen("frmMainMenu"))
@@ -84,13 +85,36 @@ namespace DesignDB_UI
         }
 
         private void frmLogin_Activated(object sender, EventArgs e)
-       {
+        {
             designers = getDesigners();
             cboUser.DataSource = designers;
             cboUser.DisplayMember = "Designer";
-            cboUser.SelectedIndex = Properties.Settings.Default.UserIndex;
+            //cboUser.SelectedIndex = Properties.Settings.Default.UserIndex;
+            cboUser.SelectedIndex = getDesignerModel();
             txtPwd.Clear();
             txtPwd.Focus();
+        }
+
+        private int getDesignerModel()
+        {
+            string userName = Properties.Settings.Default.UserName;
+            int k = 0;
+            foreach (var item in cboUser.Items)
+            {
+                DesignersReviewersModel model = (DesignersReviewersModel)item;
+                string designer = Properties.Settings.Default.UserName;
+                if (model.Designer == designer)
+                {
+                    return k;
+                }
+                else
+                {
+                    k ++;
+                }
+            }
+
+            return -1;
+
         }
     }
 }

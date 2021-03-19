@@ -16,7 +16,8 @@ namespace DesignDB_UI
     public partial class frmAttType : Form
     {
         string thisType = "";
-        AttachmentModel model = null;
+        //AttachmentModel model = null;
+        public AttachmentModel model { get; set; }
         public event EventHandler<AttachmentModel> TypeReadyEvent;
         public frmAttType(AttachmentModel aModel)
         {
@@ -28,6 +29,16 @@ namespace DesignDB_UI
         private void btnOK_Click(object sender, EventArgs e)
         {           
             model.ItemType = thisType;
+
+            if (thisType == "BOM")
+            {
+                string ext = model.DisplayText.Substring(model.DisplayText.Length - 5);
+                if (ext != ".xlsx" & ext != ".xlsm")
+                {
+                    MessageBox.Show("BOM must be an Excel file\nPlease select proper attachment type");
+                    return;
+                }
+            }
             
             TypeReadyEvent?.Invoke(this, model);
             this.Close();

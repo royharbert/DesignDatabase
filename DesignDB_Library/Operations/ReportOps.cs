@@ -19,7 +19,8 @@ namespace DesignDB_Library.Operations
             foreach (MSO_Model mso in msoList)
             {
                 List<RequestModel> requestList =
-                    GlobalConfig.Connection.DateRangeSearch_MSOFiltered(startDate, endDate, "DateAssigned", mso.MSO);
+                    GlobalConfig.Connection.DateRangeSearch_MSOFiltered(startDate, endDate, "DateAssigned", 
+                    mso.MSO, false);
                 if (requestList.Count > 0)
                 {
                     CompletionTimeModel model = new CompletionTimeModel();
@@ -290,7 +291,7 @@ namespace DesignDB_Library.Operations
             foreach (MSO_Model mso in msoList)
             {
                 List<RequestModel> requests = GlobalConfig.Connection.DateRangeSearch_MSOFiltered(startDate, endDate,
-                    "DateAssigned", mso.MSO).ToList();
+                    "DateAssigned", mso.MSO,false).ToList();
 
                 if (requests.Count > 0)
                 {

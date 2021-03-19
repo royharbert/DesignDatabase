@@ -27,7 +27,7 @@ namespace DesignDB_Library.Operations
             catch (Exception ex)
             {
                 string exDescription = ex.Message;
-                System.Windows.Forms.MessageBox.Show("An error occurred while trying to delete the file. "
+                MessageBox.Show("An error occurred while trying to delete the file. "
                     + ex.Message);
                 success = false;
             }
@@ -39,7 +39,7 @@ namespace DesignDB_Library.Operations
             }
 
             List<AttachmentModel> modelList = GlobalConfig.Connection.GetAttachments(model.PID);
-            System.Windows.Forms.MessageBox.Show("Attachment " + model.DisplayText + " has been deleted");
+            MessageBox.Show("Attachment " + model.DisplayText + " has been deleted");
             return modelList;
         }
 

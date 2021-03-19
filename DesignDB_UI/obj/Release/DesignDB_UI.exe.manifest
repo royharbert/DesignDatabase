@@ -103,26 +103,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_Library.dll" size="114688">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_Library.dll" size="114176">
       <assemblyIdentity name="DesignDB_Library" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>QsAIj6/wsFOVnGfWR3ngzpxlAeJmFcyx+P5CdGSGwvA=</dsig:DigestValue>
+        <dsig:DigestValue>k9Ca9h4wKufLt7vxwNuljKURg7bz6EFIkJ1gx3ZNvGQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_UI.exe" size="159152">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_UI.exe" size="160176">
       <assemblyIdentity name="DesignDB_UI" version="2.1.31.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>0VbbQWlW8EwzgMrm/FLCSlHnbEw4OaZg9274qwhO3Ek=</dsig:DigestValue>
+        <dsig:DigestValue>TPgMztIr7GaYuLwdiK4i08qa8Q1X76AvJIf+QAi/bxs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -303,13 +303,13 @@
       <dsig:DigestValue>5D92aDcjas7YFk2Dj3cvsw58XkGH1x0Q9mjFgTHf/7g=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="DesignDB_UI.exe.config" size="1935">
+  <file name="DesignDB_UI.exe.config" size="2034">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>ds3PZXTq2R9EtFKlKO8iN7L3rU/PTkxL5VMEMJ+eUqQ=</dsig:DigestValue>
+      <dsig:DigestValue>79jqr6IdYLrMaYsKKK7DLDdAQBqZMmooCZR7ZQxcSiU=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>

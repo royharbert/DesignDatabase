@@ -4,7 +4,7 @@
   <description asmv2:iconFile="AppIcon.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="DesignDB_UI" version="2.1.31.0" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="DesignDB_UI" version="2.1.32.0" language="neutral" processorArchitecture="msil" />
     <commandLine file="DesignDB_UI.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -103,26 +103,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_Library.dll" size="119296">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_Library.dll" size="118784">
       <assemblyIdentity name="DesignDB_Library" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>gY9K6oDWjFP0nO5eDNHpK3lG4MLxtCpszQYap9gxTc4=</dsig:DigestValue>
+        <dsig:DigestValue>9IK1gEJRZkzNy6bXxZqtALaBpn7YT/Xm/4RoJg8Xia0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_UI.exe" size="167344">
-      <assemblyIdentity name="DesignDB_UI" version="2.1.31.0" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_UI.exe" size="168368">
+      <assemblyIdentity name="DesignDB_UI" version="2.1.32.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>uOmQRD/pjvTwRUAArSP8yjyhlG6jvl8a33SJ1DeLgUo=</dsig:DigestValue>
+        <dsig:DigestValue>dl/6xN0Ukcx3AJwj+Ks7llS5pm13aHwCr98Hf5tXSVM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -303,13 +303,13 @@
       <dsig:DigestValue>5D92aDcjas7YFk2Dj3cvsw58XkGH1x0Q9mjFgTHf/7g=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="DesignDB_UI.exe.config" size="1935">
+  <file name="DesignDB_UI.exe.config" size="2034">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>ds3PZXTq2R9EtFKlKO8iN7L3rU/PTkxL5VMEMJ+eUqQ=</dsig:DigestValue>
+      <dsig:DigestValue>79jqr6IdYLrMaYsKKK7DLDdAQBqZMmooCZR7ZQxcSiU=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>

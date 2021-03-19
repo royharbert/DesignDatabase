@@ -101,7 +101,7 @@ namespace DesignDB_UI
             else
             {
                 requestList = GlobalConfig.Connection.ReportDateRangeSearch_MSOFiltered
-                (dtpStartDate.Value, dtpEndDate.Value, term, cboMSO.Text);
+                (dtpStartDate.Value, dtpEndDate.Value, term, cboMSO.Text,false);
                 int records = requestList.Count;
 
                 switch (records)

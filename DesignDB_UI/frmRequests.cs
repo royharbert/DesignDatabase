@@ -581,7 +581,6 @@ namespace DesignDB_UI
 
             List<CityModel> cityList = GlobalConfig.Connection.GetAllCities();
             cboCities.DataSource = cityList;
-            //cboCities.DataSource = GV.Cities;
             cboCities.DisplayMember = "City";
             cboCities.SelectedIndex = -1;
 

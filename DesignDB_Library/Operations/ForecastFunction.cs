@@ -112,7 +112,7 @@ namespace DesignDB_Library.Operations
             else
             {
                 requests = GlobalConfig.Connection.DateRangeSearch_MSOFiltered
-                    (startDate, endDate, searchTerm, mso);
+                    (startDate, endDate, searchTerm, mso, false);
             }
 
             return requests;

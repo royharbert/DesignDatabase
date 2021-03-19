@@ -16,7 +16,7 @@ namespace DesignDB_Library.DataAccess
 
         public void AddUser(UserModel NewUser)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 var p = new DynamicParameters();
                 p.Add("@UserName", NewUser.UserName);
@@ -33,7 +33,7 @@ namespace DesignDB_Library.DataAccess
 
         public void DeleteUser(int OldUser)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 var p = new DynamicParameters();
                 p.Add("@Ident", OldUser);
@@ -45,7 +45,7 @@ namespace DesignDB_Library.DataAccess
         {
             List<UserModel> output;
 
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 output = connection.Query<UserModel>("dbo.spUsers_GetAll").ToList();
 
@@ -68,7 +68,7 @@ namespace DesignDB_Library.DataAccess
 
         public void UpdateUser(UserModel ThisUser)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
 
                 var p = new DynamicParameters();
@@ -89,7 +89,7 @@ namespace DesignDB_Library.DataAccess
 
             UserModel myUser = new UserModel(userName, "", "", "", 0);
 
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 var p = new DynamicParameters();
 
@@ -113,7 +113,7 @@ namespace DesignDB_Library.DataAccess
 
             UserModel myUser = new UserModel("", "", "", "", 0);
 
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 var p = new DynamicParameters();
 
@@ -134,7 +134,7 @@ namespace DesignDB_Library.DataAccess
 
         public List<CompanyHolidaysModel> GetAllHolidays()
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 List<CompanyHolidaysModel> output = connection.Query<CompanyHolidaysModel>("dbo.spHolidays_GetAll", commandType: CommandType.StoredProcedure).ToList();
                 return output;
@@ -143,7 +143,7 @@ namespace DesignDB_Library.DataAccess
 
         public void AddCountry(string ctry)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 var p = new DynamicParameters();
                 p.Add("@cAdd", ctry, DbType.String);
@@ -153,7 +153,7 @@ namespace DesignDB_Library.DataAccess
 
         public void DeleteCountry(int idx)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 var p = new DynamicParameters();
                 p.Add("@Idx", idx, DbType.Int32);
@@ -164,7 +164,7 @@ namespace DesignDB_Library.DataAccess
 
         public void UpdateCountry(int idx, string country)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 var p = new DynamicParameters();
                 p.Add("@Idx", idx, DbType.Int32);
@@ -175,7 +175,7 @@ namespace DesignDB_Library.DataAccess
 
         public List<CountriesModel> GetAllCountries()
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 List<CountriesModel> output = connection.Query<CountriesModel>("dbo.spCountries_GetAll", commandType: CommandType.StoredProcedure).ToList();
                 return output;
@@ -184,7 +184,7 @@ namespace DesignDB_Library.DataAccess
 
         public void AddDesigner(DesignersReviewersModel designer)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 var p = new DynamicParameters();
                 p.Add("@UserName", designer.Designer, DbType.String);
@@ -199,7 +199,7 @@ namespace DesignDB_Library.DataAccess
         public void DeleteDesigner(DesignersReviewersModel designer)
         {
             {
-                using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+                using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
                 {
                     var p = new DynamicParameters();
                     p.Add("@Ident", designer.ID);
@@ -210,7 +210,7 @@ namespace DesignDB_Library.DataAccess
 
         public void UpdateDesigner(DesignersReviewersModel designer)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
 
                 var p = new DynamicParameters();
@@ -227,7 +227,7 @@ namespace DesignDB_Library.DataAccess
 
         public List<DesignersReviewersModel> GetAllDesigners()
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 List<DesignersReviewersModel> output = connection.Query<DesignersReviewersModel>("dbo.spDesigners_GetAll", commandType: CommandType.StoredProcedure).ToList();
                 return output;
@@ -236,7 +236,7 @@ namespace DesignDB_Library.DataAccess
 
         public List<DesignersReviewersModel> Reviewers_GetActive()
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 List<DesignersReviewersModel> output = connection.Query<DesignersReviewersModel>("dbo.spReviewers_GetAll", commandType: CommandType.StoredProcedure).ToList();
                 return output;
@@ -245,7 +245,7 @@ namespace DesignDB_Library.DataAccess
 
         public List<DesignersReviewersModel> Reviewers_GetAll()
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 List<DesignersReviewersModel> output = connection.Query<DesignersReviewersModel>("dbo.spReviewers_GetActive", commandType: CommandType.StoredProcedure).ToList();
                 return output;
@@ -254,7 +254,7 @@ namespace DesignDB_Library.DataAccess
 
         public List<MSO_Model> GetAllMSO()
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 List<MSO_Model> output = connection.Query<MSO_Model>("dbo.spMSO_GetAll", commandType: CommandType.StoredProcedure).ToList();
                 return output;
@@ -263,7 +263,7 @@ namespace DesignDB_Library.DataAccess
 
         public List<CityModel> GetAllCities()
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 List<CityModel> output = connection.Query<CityModel>("dbo.spCities_GetAll", commandType: CommandType.StoredProcedure).ToList();
                 return output;
@@ -272,7 +272,7 @@ namespace DesignDB_Library.DataAccess
 
         public List<StateModel> GetAllStates()
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 List<StateModel> output = connection.Query<StateModel>("dbo.spStates_GetAll", commandType: CommandType.StoredProcedure).ToList();
                 return output;
@@ -281,7 +281,7 @@ namespace DesignDB_Library.DataAccess
 
         public List<RegionsModel> GetAllRegions()
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 List<RegionsModel> output = connection.Query<RegionsModel>("dbo.spRegions_GetAll", commandType: CommandType.StoredProcedure).ToList();
                 return output;
@@ -290,7 +290,7 @@ namespace DesignDB_Library.DataAccess
 
         public List<SalespersonModel> SalesGetActive()
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 List<SalespersonModel> output = connection.Query<SalespersonModel>("dbo.spSalespersons_GetActive", commandType: CommandType.StoredProcedure).ToList();
                 return output;
@@ -299,7 +299,7 @@ namespace DesignDB_Library.DataAccess
 
         public List<DesignersReviewersModel> DesignersGetActive()
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 List<DesignersReviewersModel> output = connection.Query<DesignersReviewersModel>("dbo.spDesigners_GetActive", commandType: CommandType.StoredProcedure).ToList();
                 return output;
@@ -308,7 +308,7 @@ namespace DesignDB_Library.DataAccess
 
         public int GetSequence()
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 List<SequenceModel> output = connection.Query<SequenceModel>("dbo.spSequence_Get", commandType: CommandType.StoredProcedure).ToList();
                 return output[0].Sequence;
@@ -317,7 +317,7 @@ namespace DesignDB_Library.DataAccess
 
         public void SetSequence(int seq)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 var p = new DynamicParameters();
                 p.Add("@Seq", seq, DbType.Int32);
@@ -329,7 +329,7 @@ namespace DesignDB_Library.DataAccess
         {
             RequestModel myUser = new RequestModel();
 
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 var p = new DynamicParameters();
 
@@ -342,7 +342,7 @@ namespace DesignDB_Library.DataAccess
 
         public int RequestUpdate(RequestModel model)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 DynamicParameters p = makParams(model);
                 try
@@ -359,7 +359,7 @@ namespace DesignDB_Library.DataAccess
 
         public int RequestInsert(RequestModel model)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 DynamicParameters p = makParams(model);
                 try
@@ -377,7 +377,7 @@ namespace DesignDB_Library.DataAccess
 
         public List<RequestModel> GetRequestsForDesignerUpdate(string designer)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 var p = new DynamicParameters();
 
@@ -426,7 +426,7 @@ namespace DesignDB_Library.DataAccess
 
         public void InsertInto_tblAttachments(AttachmentModel model)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 DynamicParameters p = new DynamicParameters();
                 //Unique ID for record
@@ -444,7 +444,7 @@ namespace DesignDB_Library.DataAccess
 
         public void DeleteAttachment(AttachmentModel model)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 DynamicParameters p = new DynamicParameters();
 
@@ -456,7 +456,7 @@ namespace DesignDB_Library.DataAccess
         }
         public List<AttachmentModel> GetAttachments(string PID)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 var p = new DynamicParameters();
 
@@ -480,7 +480,7 @@ namespace DesignDB_Library.DataAccess
             {
                 string designer = designerModel.Designer;
 
-                using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+                using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
                 {
                     var p = new DynamicParameters();
 
@@ -502,7 +502,7 @@ namespace DesignDB_Library.DataAccess
         public List<RequestModel> DateRangeSearch_Unfiltered(DateTime StartDate, 
             DateTime EndDate, string SearchTerm, bool pendingOnly, string mso)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 var p = new DynamicParameters();
 
@@ -514,7 +514,7 @@ namespace DesignDB_Library.DataAccess
                 List<RequestModel> output = null;
 
 
-                output = connection.Query<RequestModel>("spRequests_DateRangeSearch_Unfiltered_Dynamic",
+                output = connection.Query<RequestModel>("spRequests_DateRangeSearch_Dynamic",
                     p, commandType: CommandType.StoredProcedure).ToList();
                 return output;
             }
@@ -534,13 +534,14 @@ namespace DesignDB_Library.DataAccess
                 List<RequestModelReport> output = null;
 
 
-                output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_Unfiltered_Dynamic",
+                output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_Dynamic",
                     p, commandType: CommandType.StoredProcedure).ToList();
                 return output;
             }
         }
 
-        public List<RequestModel> DateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, string SearchTerm, string mso)
+        public List<RequestModel> DateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, 
+            string SearchTerm, string mso, bool pendingOnly)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
             {
@@ -548,35 +549,43 @@ namespace DesignDB_Library.DataAccess
 
                 p.Add("@StartDate", StartDate, DbType.DateTime, ParameterDirection.Input);
                 p.Add("@EndDate", EndDate, DbType.DateTime, ParameterDirection.Input);
+                p.Add("@SearchTerm", SearchTerm, DbType.String, ParameterDirection.Input);
+                p.Add("@PendingOnly", pendingOnly, DbType.Boolean, ParameterDirection.Input);
                 p.Add("@MSO", mso, DbType.String, ParameterDirection.Input);
                 List<RequestModel> output = null;
 
-                switch (SearchTerm)
-                {
-                    case "DateAssigned":
-                        output = connection.Query<RequestModel>("spRequests_DateRangeSearch_MSOFiltered_DateAssigned" ,
-                            p, commandType: CommandType.StoredProcedure).ToList();
-                        break;
+                output = connection.Query<RequestModel>("spRequests_DateRangeSearch_Dynamic",
+                    p, commandType: CommandType.StoredProcedure).ToList();
+                //            
 
-                    case "DateDue":
-                        output = connection.Query<RequestModel>("spRequests_DateRangeSearch_MSOFiltered_DateDue",
-                            p, commandType: CommandType.StoredProcedure).ToList();
-                        break;
+                //            p, commandType: CommandType.StoredProcedure).ToList();
+                //switch (SearchTerm)
+                //{
+                //    case "DateAssigned":
+                //        output = connection.Query<RequestModel>("spRequests_DateRangeSearch_MSOFiltered_DateAssigned" ,
+                //            p, commandType: CommandType.StoredProcedure).ToList();
+                //        break;
 
-                    case "DateCompleted":
-                        output = connection.Query<RequestModel>("spRequests_DateRangeSearch_MSOFiltered_DateCompleted",
-                            p, commandType: CommandType.StoredProcedure).ToList();
-                        break;
+                //    case "DateDue":
+                //        output = connection.Query<RequestModel>("spRequests_DateRangeSearch_MSOFiltered_DateDue",
+                //            p, commandType: CommandType.StoredProcedure).ToList();
+                //        break;
 
-                    default:
-                        break;
-                }
+                //    case "DateCompleted":
+                //        output = connection.Query<RequestModel>("spRequests_DateRangeSearch_MSOFiltered_DateCompleted",
+                //            p, commandType: CommandType.StoredProcedure).ToList();
+                //        break;
+
+                //    default:
+                //        break;
+                //}
                 return output;
             }
         }
 
 
-        public List<RequestModelReport> ReportDateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, string SearchTerm, string mso)
+        public List<RequestModelReport> ReportDateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, 
+            string SearchTerm, string mso, bool pendingOnly)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
             {
@@ -584,29 +593,33 @@ namespace DesignDB_Library.DataAccess
 
                 p.Add("@StartDate", StartDate, DbType.DateTime, ParameterDirection.Input);
                 p.Add("@EndDate", EndDate, DbType.DateTime, ParameterDirection.Input);
+                p.Add("@SearchTerm", SearchTerm, DbType.String, ParameterDirection.Input);
+                p.Add("@PendingOnly", pendingOnly, DbType.Boolean, ParameterDirection.Input);
                 p.Add("@MSO", mso, DbType.String, ParameterDirection.Input);
                 List<RequestModelReport> output = null;
 
-                switch (SearchTerm)
-                {
-                    case "DateAssigned":
-                        output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_MSOFiltered_DateAssigned",
+                output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_Dynamic",
                             p, commandType: CommandType.StoredProcedure).ToList();
-                        break;
+                //switch (SearchTerm)
+                //{
+                //    case "DateAssigned":
+                //        output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_MSOFiltered_DateAssigned",
+                //            p, commandType: CommandType.StoredProcedure).ToList();
+                //        break;
 
-                    case "DateDue":
-                        output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_MSOFiltered_DateDue",
-                            p, commandType: CommandType.StoredProcedure).ToList();
-                        break;
+                //    case "DateDue":
+                //        output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_MSOFiltered_DateDue",
+                //            p, commandType: CommandType.StoredProcedure).ToList();
+                //        break;
 
-                    case "DateCompleted":
-                        output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_MSOFiltered_DateCompleted",
-                            p, commandType: CommandType.StoredProcedure).ToList();
-                        break;
+                //    case "DateCompleted":
+                //        output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_MSOFiltered_DateCompleted",
+                //            p, commandType: CommandType.StoredProcedure).ToList();
+                //        break;
 
-                    default:
-                        break;
-                }
+                //    default:
+                //        break;
+                //}
                 return output;
             }
         }
