@@ -556,29 +556,7 @@ namespace DesignDB_Library.DataAccess
 
                 output = connection.Query<RequestModel>("spRequests_DateRangeSearch_Dynamic",
                     p, commandType: CommandType.StoredProcedure).ToList();
-                //            
-
-                //            p, commandType: CommandType.StoredProcedure).ToList();
-                //switch (SearchTerm)
-                //{
-                //    case "DateAssigned":
-                //        output = connection.Query<RequestModel>("spRequests_DateRangeSearch_MSOFiltered_DateAssigned" ,
-                //            p, commandType: CommandType.StoredProcedure).ToList();
-                //        break;
-
-                //    case "DateDue":
-                //        output = connection.Query<RequestModel>("spRequests_DateRangeSearch_MSOFiltered_DateDue",
-                //            p, commandType: CommandType.StoredProcedure).ToList();
-                //        break;
-
-                //    case "DateCompleted":
-                //        output = connection.Query<RequestModel>("spRequests_DateRangeSearch_MSOFiltered_DateCompleted",
-                //            p, commandType: CommandType.StoredProcedure).ToList();
-                //        break;
-
-                //    default:
-                //        break;
-                //}
+        
                 return output;
             }
         }
@@ -600,26 +578,7 @@ namespace DesignDB_Library.DataAccess
 
                 output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_Dynamic",
                             p, commandType: CommandType.StoredProcedure).ToList();
-                //switch (SearchTerm)
-                //{
-                //    case "DateAssigned":
-                //        output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_MSOFiltered_DateAssigned",
-                //            p, commandType: CommandType.StoredProcedure).ToList();
-                //        break;
-
-                //    case "DateDue":
-                //        output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_MSOFiltered_DateDue",
-                //            p, commandType: CommandType.StoredProcedure).ToList();
-                //        break;
-
-                //    case "DateCompleted":
-                //        output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_MSOFiltered_DateCompleted",
-                //            p, commandType: CommandType.StoredProcedure).ToList();
-                //        break;
-
-                //    default:
-                //        break;
-                //}
+        
                 return output;
             }
         }

@@ -763,6 +763,7 @@ namespace DesignDB_UI
             dtpResetForced(txtDateAllInfo);            
             dtpResetForced(txtLastUpdate);
             loadModel();
+            unlockTLP(true);
         }
 
         private void resetCombo(ComboBox cbo)
@@ -1077,7 +1078,7 @@ namespace DesignDB_UI
             tlpList.Add(tlpRight);
             List<FieldSearchModel> searchList = new List<FieldSearchModel>();
             collectSearchTerms(ref searchList, tlpList);
-            List<RequestModel> requests = DesignDB_Library.Operations.SearchOps.FieldSearch(searchList, true);
+            List<RequestModel> requests = SearchOps.FieldSearch(searchList, true);
             //frmMultiResult frmMultiResult = new frmMultiResult(requests);
             GV.MultiResult.dataList = requests;
             GV.MultiResult.Show();
