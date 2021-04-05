@@ -153,7 +153,7 @@ namespace DesignDB_UI
         /// sets visibility of buttons on form
         /// </summary>
         /// <param name="displayString"></param>
-        private void setButtonDisplay(string displayString)
+        private void setButtonDisplay(string displayString = "")
         {
             //hide all buttons
             foreach (Control ctl in tlpBottom.Controls)
@@ -164,6 +164,14 @@ namespace DesignDB_UI
                 }
             }
 
+            if (GV.USERNAME.Priviledge==1 & displayString == "")
+            {
+                displayString = Level1ButtonNames;
+            }
+            else
+            {
+                displayString = Level2ButtonNames;
+            }
             string[] visibleButtons = displayString.Split(',');
             foreach (Control ctl in tlpBottom.Controls)
             {
@@ -510,6 +518,7 @@ namespace DesignDB_UI
                 default:
                     break;
             }
+            txtSearch.Clear();
       
 
         }
@@ -632,6 +641,7 @@ namespace DesignDB_UI
             List<RequestModel> rm = GlobalConfig.Connection.GetRequestByPID(search).ToList();
             frmMainMenu.ManageSearchResults(rm);
             insertData(rm[0]);
+            setButtonDisplay();
             formDirty = false;
         }
 
@@ -1185,6 +1195,9 @@ namespace DesignDB_UI
         private void frmRequests_Activated(object sender, EventArgs e)
         {
             FC.SetFormPosition(this, _formLocation.X, _formLocation.Y, _useDefaultLocation);
+            
+            setButtonDisplay();
+            
         }
 
         private void txtDateCompleted_DropDown(object sender, EventArgs e)
