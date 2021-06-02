@@ -14,7 +14,7 @@ namespace DesignDB_Library
 
     public enum prty
     {
-        P1 = 3,
+        P1 = 2,
         P2 = 5,
         P3 = 10
     }

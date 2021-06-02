@@ -25,8 +25,8 @@ namespace DesignDB_UI
 
         //Class scope variables to hold button name strings
         
-        static string Level1ButtonNames = "btnUndo,btnSave,btnSearch,btnAddAtt,btnRemoveAtt,btnDone,btnLoadRpt";
-        static string Level2ButtonNames = Level1ButtonNames + ",btnDelete,btnRestore,btnClone,btnNew,btnRev";
+        static string Level1ButtonNames = "btnUndo,btnSave,btnSearch,btnAddAtt,btnRemoveAtt,btnDone";
+        static string Level2ButtonNames = Level1ButtonNames + ",btnDelete,btnRestore,btnClone,btnNew,btnRev,btnLoadRpt";
         static string RequestNewButtons = "btnUndo,btnSave,btnAddAtt,btnRemoveAtt,btnDone,btnClone,btnNew,btnRev";
         static string RequestEditButtons = "btnUndo,btnSave,btnAddAtt,btnRemoveAtt,btnDone,btnClone,btnNew,btnRev";
         static string RequestCloneButtons = "btnUndo,btnSave,btnAddAtt,btnRemoveAtt,btnDone,btnClone,btnNew,btnRev";
@@ -168,7 +168,7 @@ namespace DesignDB_UI
             {
                 displayString = Level1ButtonNames;
             }
-            else
+            else if (displayString == "")
             {
                 displayString = Level2ButtonNames;
             }
@@ -1195,9 +1195,16 @@ namespace DesignDB_UI
         private void frmRequests_Activated(object sender, EventArgs e)
         {
             FC.SetFormPosition(this, _formLocation.X, _formLocation.Y, _useDefaultLocation);
-            
-            setButtonDisplay();
-            
+            switch (GV.MODE)
+            {
+                case Mode.Search:
+                    setButtonDisplay("btnSearchFields");
+                    break;
+                default:
+                    setButtonDisplay();
+                    break;
+            }      
+
         }
 
         private void txtDateCompleted_DropDown(object sender, EventArgs e)

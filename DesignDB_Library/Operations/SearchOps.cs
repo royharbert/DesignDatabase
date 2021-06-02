@@ -22,7 +22,9 @@ namespace DesignDB_Library.Operations
             {
                 string delim = "'";
 
-                if (item.FieldName == "TotalHours" || item.FieldName == "BOM_Value" || item.FieldName == "PercentageProjectCovered")
+                //if (item.FieldName == "TotalHours" || item.FieldName == "BOM_Value" || item.FieldName == "PercentageProjectCovered")
+                Type t = item.FieldValue.GetType();
+                if (t.Name == "int")
                 {
                     delim = "";
                 }
