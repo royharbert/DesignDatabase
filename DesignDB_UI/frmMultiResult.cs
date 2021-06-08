@@ -54,6 +54,7 @@ namespace DesignDB_UI
             }
         }
 
+        
         public List<RequestModelReport> ReportDataList            
         {
             get
@@ -154,15 +155,25 @@ namespace DesignDB_UI
 
         private void dgvResults_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            int selRow = dgvResults.CurrentRow.Index;
+            List<RequestModel> myRequest = new List<RequestModel>();
+
+            if (GV.MODE == Mode.DateRangeSearch)
+            {
+                RequestModel request = RequestModelReportToRequestModel.ConvertReportModelToRequestModel(reportModel[selRow]);
+                myRequest.Add(request);
+            }
+            else
+            {
+                myRequest.Add(Requests[selRow]);
+            }
+            FC.DisplayRequestForm(myRequest[0]);         
+            
             if (GV.MODE != Mode.Delete & GV.MODE != Mode.Restore)
             {
                 GV.MODE = Mode.Edit;
             }
             
-            int selRow = dgvResults.CurrentRow.Index;
-            List<RequestModel> myRequest = new List<RequestModel>();
-            myRequest.Add(Requests[selRow]);
-            FC.DisplayRequestForm(myRequest[0]);         
         }
 
         private void btnClose_Click(object sender, EventArgs e)

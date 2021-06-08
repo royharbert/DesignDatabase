@@ -90,6 +90,7 @@
     <Compile Include="Operations\Logger.cs" />
     <Compile Include="Operations\PID_Generator.cs" />
     <Compile Include="Operations\ReportOps.cs" />
+    <Compile Include="Operations\RequestModelReportToRequestModel.cs" />
     <Compile Include="Operations\RequestOps.cs" />
     <Compile Include="Models\AttachmentModel.cs" />
     <Compile Include="Models\BOM_Model.cs" />

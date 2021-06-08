@@ -120,6 +120,7 @@ namespace DesignDB_UI
 
                 case Mode.Edit:
                 case Mode.Report_Overdue:
+                case Mode.DateRangeSearch:
                     setButtonDisplay(RequestEditButtons);
                     break;
 

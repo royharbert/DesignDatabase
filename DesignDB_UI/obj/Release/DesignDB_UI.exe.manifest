@@ -103,14 +103,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_Library.dll" size="114176">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_Library.dll" size="114688">
       <assemblyIdentity name="DesignDB_Library" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>29B/vbTO8Jg3z7+rrN4PoJwqbVyvxKLy8qglECwAN6k=</dsig:DigestValue>
+        <dsig:DigestValue>SsLfLM8pBqVnz3tkABGuVG8QMUjsXYmXr3NM2qKbsM0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -122,7 +122,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>5q0D6psVaFpPHtEeUjGwnLanu3SCNUWY0rajXQ1Qoj8=</dsig:DigestValue>
+        <dsig:DigestValue>3SEQf/srPWDg7I9mKxEL5yotqVzSiOpROgy3F3BHDN0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
