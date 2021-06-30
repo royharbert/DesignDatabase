@@ -4,5 +4,4 @@
 **/obj
 **/.vs
 **/packages
-**/Releases
-*.nupkg
+
