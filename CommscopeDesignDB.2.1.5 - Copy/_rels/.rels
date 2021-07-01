@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
-  <Relationship Type="http://schemas.microsoft.com/packaging/2010/07/manifest" Target="/CommscopeDesignDB.nuspec" Id="RC7EFB8AF530A00F6" />
-  <Relationship Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="/package/services/metadata/core-properties/f60906617dca4eb2a9fd85cf04dd3e2c.psmdcp" Id="RD37E09265B7F0D6C" />
-</Relationships>
