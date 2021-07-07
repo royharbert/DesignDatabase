@@ -541,13 +541,9 @@ namespace DesignDB_UI
             this.cboArchType.FormattingEnabled = true;
             this.cboArchType.Items.AddRange(new object[] {
             "1310nm Distribution",
-            "1310nm Distribution and nodes",
             "1550nm BC/NC (Chassis)",
             "1550nm BC/NC (VHub)",
-            "1550nm BC/NC and nodes (Chassis)",
-            "1550nm BC/NC and nodes (VHub)",
             "Fiber Deep",
-            "Redundant Route",
             "Transport 1550nm BC Distribution",
             "Transport Digital Return",
             "Transport GigE/Data",
