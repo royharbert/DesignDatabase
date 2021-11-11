@@ -12,6 +12,18 @@ namespace DesignDB_Library.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
+        public List<T> GenericGetAll<T>(string tableName)
+        {
+            var p = new DynamicParameters();
+            p.Add("@TableName", tableName, DbType.String);
+            List<T> list = new List<T>();
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                list = connection.Query<T>("dbo.spGenericGetAll", p,
+                    commandType: CommandType.StoredProcedure).ToList();
+                return list;
+            }
+        }
         public static string db { get; set; }
 
         public void AddUser(UserModel NewUser)

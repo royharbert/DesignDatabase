@@ -11,6 +11,38 @@ namespace DesignDB_Library.Operations
 {
     public static class ReportOps
     {
+        public static List<List<string>> CollectDropDownLists(Form BoxForm)
+        {
+            List<List<string>> BoxData = new List<List<string>>();
+
+            foreach (Control ctl in BoxForm.Controls)
+            {
+                if (ctl is ComboBox)
+                {
+                    ComboBox cbo = (ComboBox)ctl;
+                    string cTag = ctl.Tag.ToString();
+                    string[] tagArray = cTag.Split('|');
+                    List<string> items = new List<string>();
+                    items.Add(cbo.Name);
+                    if (tagArray[2] == "")
+                    {
+                        //Source is internal list
+                        foreach (var item in cbo.Items)
+                        {
+                            items.Add(item.ToString());
+                        }
+                    }
+                    else
+                    {
+                        //source is from database
+                        List<string> dbItems = GlobalConfig.Connection.GenericGetAll<string>(tagArray[2]);
+                    }
+                }
+                
+            }
+                
+            return BoxData;
+        }
         public static List<CompletionTimeModel> GenerateCompletionTimeSummary
             (DateTime startDate, DateTime endDate, List<MSO_Model> msoList)
         {
