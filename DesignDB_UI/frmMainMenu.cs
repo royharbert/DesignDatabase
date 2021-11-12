@@ -561,7 +561,17 @@ namespace DesignDB_UI
 
         private void btnListCollector_Click(object sender, EventArgs e)
         {
-
+            List<List<string>> ddList = new List<List<string>>();
+            Form frmCollect = new frmRequests();
+            foreach (Control control in frmCollect.Controls)
+            {
+                if (control is TableLayoutPanel)
+                {
+                    TableLayoutPanel tlp = (TableLayoutPanel)control;
+                    ddList.AddRange(ReportOps.CollectDropDownLists(tlp));
+                }
+            }
+            ExcelOps.PlaceDDListInExcel(ddList);
         }
     }
 }

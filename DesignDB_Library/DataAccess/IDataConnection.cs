@@ -10,6 +10,7 @@ namespace DesignDB_Library.DataAccess
     public interface IDataConnection
     {
         List<T> GenericGetAll<T>(string tableName);
+        List<T> GenericGetAllByField<T>(string tableName, string fieldName);
         List<LogModel> ActivityLog_GetAll();
         List<LogModel> LogList(string searchTerm, string searchValue);
         void LogEntry_Add(string User, string Action, string AffectedFields, string RequestID);

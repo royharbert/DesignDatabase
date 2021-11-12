@@ -95,7 +95,6 @@
     <Compile Include="Models\AttachmentModel.cs" />
     <Compile Include="Models\BOM_Model.cs" />
     <Compile Include="Models\CityModel.cs" />
-    <Compile Include="Models\ComboBoxListModel.cs" />
     <Compile Include="Models\CompanyHolidaysModel.cs" />
     <Compile Include="Models\CompletionTimeModel.cs" />
     <Compile Include="Models\CountriesModel.cs" />
@@ -122,9 +121,6 @@
     <Compile Include="Operations\Serialization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Holiday_Update.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UserControls\" />

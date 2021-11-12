@@ -25,6 +25,19 @@ namespace DesignDB_Library.DataAccess
             }
         }
         public static string db { get; set; }
+        public List<T> GenericGetAllByField<T>(string tableName, string fieldName)
+        {
+            var p = new DynamicParameters();
+            p.Add("@TableName", tableName, DbType.String);
+            p.Add("@FieldName", fieldName, DbType.String);
+            List<T> list = new List<T>();
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                list = connection.Query<T>("dbo.spGenericGetAllByField", p,
+                    commandType: CommandType.StoredProcedure).ToList();
+                return list;
+            }
+        }
 
         public void AddUser(UserModel NewUser)
         {
