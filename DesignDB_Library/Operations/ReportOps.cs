@@ -37,11 +37,14 @@ namespace DesignDB_Library.Operations
                     }
                     else
                     {
-                        //source is from database
-                        List<string> dbItems = GlobalConfig.Connection.GenericGetAllByField<string>(tagArray[2], field);
-                        //items.AddRange(dbItems);
-                        ddList.AddRange(dbItems);
-                        BoxData.Add(ddList); 
+                        if (tagArray[4] != "City")
+                        {
+                            //source is from database
+                            List<string> dbItems = GlobalConfig.Connection.GenericGetAllByField<string>(tagArray[2], field);
+                            //items.AddRange(dbItems);
+                            ddList.AddRange(dbItems);
+                            BoxData.Add(ddList); 
+                        }
                     }
                 }
                 

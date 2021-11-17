@@ -20,7 +20,7 @@ namespace DesignDB_Library.Operations
             Excel.Worksheet wks = xlApp.ActiveSheet;
             xlApp.Visible = true;
 
-            int col = 1;
+            int col = 0;
             for (int l = 0; l < ddList.Count; l++)
             {
                 int row = 4;
@@ -33,6 +33,11 @@ namespace DesignDB_Library.Operations
                 }
 
             }
+
+            //format sheet
+            wks.Cells[5, 1].EntireRow.Font.Bold = true;
+            wks.UsedRange.Columns.AutoFit();
+            wks.Cells[5, 1].EntireRow.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
 
             releaseObject(xlApp);
         }
