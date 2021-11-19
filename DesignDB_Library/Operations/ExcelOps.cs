@@ -13,6 +13,34 @@ namespace DesignDB_Library.Operations
 {
     public class ExcelOps
     {
+        public static void PlaceDDListInExcel(List<List<string>> ddList)
+        {
+            Excel.Application xlApp = makeExcelApp();
+            xlApp.Workbooks.Add();
+            Excel.Worksheet wks = xlApp.ActiveSheet;
+            xlApp.Visible = true;
+
+            int col = 0;
+            for (int l = 0; l < ddList.Count; l++)
+            {
+                int row = 4;
+                col = col + 1;
+                List<string> xList = ddList[l];
+                for (int i = 0; i < xList.Count; i++)
+                {
+                    row = row + 1;
+                    wks.Cells[row, col].Value = xList[i].ToString();
+                }
+
+            }
+
+            //format sheet
+            wks.Cells[5, 1].EntireRow.Font.Bold = true;
+            wks.UsedRange.Columns.AutoFit();
+            wks.Cells[5, 1].EntireRow.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+            releaseObject(xlApp);
+        }
         public static Excel.Application OpenExcelWorkbook(Excel.Application xlApp, string WorkbookName)
         { 
             

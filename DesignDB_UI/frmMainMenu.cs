@@ -18,7 +18,7 @@ namespace DesignDB_UI
     public partial class frmMainMenu : Form
     {
         frmInput frmInput = new frmInput();
-        frmDateMSO_Picker frmDateMSO_Picker = new frmDateMSO_Picker();        
+        frmDateMSO_Picker frmDateMSO_Picker = new frmDateMSO_Picker();
 
         private bool formLoading = false;
         private bool operationCanceled = false;     //flag to indicate cancel of operation
@@ -241,7 +241,7 @@ namespace DesignDB_UI
             }
 
             if (rm.Count == 1)
-            {                
+            {
                 FC.DisplayRequestForm(rm[0]);
             }
             else
@@ -257,7 +257,7 @@ namespace DesignDB_UI
 
 
         private void btnExit_Click(object sender, EventArgs e)
-        {            
+        {
             Application.Exit();
         }
 
@@ -352,7 +352,7 @@ namespace DesignDB_UI
         {
             GV.MODE = Mode.Report_Snapshot;
             frmSnapahotReport frmSnapahot = new frmSnapahotReport();
-            if (! operationCanceled)
+            if (!operationCanceled)
             {
                 frmSnapahot.Show();
             }
@@ -390,7 +390,7 @@ namespace DesignDB_UI
                         reportCategoryMSOs(e.MSO_s, e.StartDate, e.EndDate);
                     frmReportCatMSO frmReportCatMSO = new frmReportCatMSO();
                     frmReportCatMSO.Report = categoryReport;
-                    frmReportCatMSO.Show();                    
+                    frmReportCatMSO.Show();
                     break;
                 case Mode.Report_Snapshot:
                     List<SnapshotModel> report = ReportOps.GenerateSnapshotReport
@@ -450,7 +450,7 @@ namespace DesignDB_UI
             List<RequestModel> openRequests = GlobalConfig.Connection.GetOpenRequests();
             //frmMultiResult frmMultiResult = new frmMultiResult(openRequests);
             GV.MultiResult.dataList = openRequests;
-            GV.MultiResult.Show();    
+            GV.MultiResult.Show();
         }
 
         private void btnOverdue_Click(object sender, EventArgs e)
@@ -468,7 +468,7 @@ namespace DesignDB_UI
             frmCompletionTimeReport frmCompletionTimeReport = new frmCompletionTimeReport();
             GV.PickerForm.ShowDialog();
 
-            if (! operationCanceled)
+            if (!operationCanceled)
             {
                 try
                 {
@@ -519,7 +519,7 @@ namespace DesignDB_UI
 
         private void rdoLive_CheckedChanged(object sender, EventArgs e)
         {
-            if (! formLoading)
+            if (!formLoading)
             {
                 if (rdoLive.Checked)
                 {
@@ -528,7 +528,7 @@ namespace DesignDB_UI
                 }
                 else
                 {
-                    FC.setDBMode(this,false);
+                    FC.setDBMode(this, false);
                     setModeTextBox(false);
                 }
             }
@@ -537,7 +537,7 @@ namespace DesignDB_UI
         private void btnUtility_Click(object sender, EventArgs e)
         {
             frmUtility frmUtility = new frmUtility();
-            frmUtility.Show();            
+            frmUtility.Show();
         }
 
         private void btnSalespersonMaint_Click(object sender, EventArgs e)
@@ -554,10 +554,26 @@ namespace DesignDB_UI
 
         private void btnLogSearch_Click(object sender, EventArgs e)
         {
-            GV.MODE = Mode.Log_Search;            
+            GV.MODE = Mode.Log_Search;
             FC.SetFormPosition(GV.LogViewer);
             GV.LogViewer.Show();
         }
+
+        private void btnListCollector_Click(object sender, EventArgs e)
+        {
+            List<List<string>> ddList = new List<List<string>>();
+            Form frmCollect = new frmRequests();
+            foreach (Control control in frmCollect.Controls)
+            {
+                if (control is TableLayoutPanel)
+                {
+                    TableLayoutPanel tlp = (TableLayoutPanel)control;
+                    ddList.AddRange(ReportOps.CollectDropDownLists(tlp));
+                }
+            }
+            ExcelOps.PlaceDDListInExcel(ddList);
+        }
     }
 }
+
 

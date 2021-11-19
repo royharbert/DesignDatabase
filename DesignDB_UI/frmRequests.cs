@@ -21,6 +21,10 @@ namespace DesignDB_UI
 
     public partial class frmRequests : Form
     {        
+        //Control tag field key:
+        //Lock or Unlock on open|Search field name for search function|data table|Field for drop-down info|Label for drop-down export
+
+
         RequestModel Rm = new RequestModel();
 
         //Class scope variables to hold button name strings

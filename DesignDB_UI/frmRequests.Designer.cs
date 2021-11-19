@@ -170,7 +170,7 @@ namespace DesignDB_UI
             this.cboMSO.Name = "cboMSO";
             this.cboMSO.Size = new System.Drawing.Size(258, 28);
             this.cboMSO.TabIndex = 0;
-            this.cboMSO.Tag = "U|MSO";
+            this.cboMSO.Tag = "U|MSO|tblMSO|MSO|MSO";
             this.cboMSO.SelectedIndexChanged += new System.EventHandler(this.cboMSO_SelectedIndexChanged);
             // 
             // label2
@@ -208,7 +208,7 @@ namespace DesignDB_UI
             this.cboCities.Name = "cboCities";
             this.cboCities.Size = new System.Drawing.Size(258, 28);
             this.cboCities.TabIndex = 2;
-            this.cboCities.Tag = "L|City";
+            this.cboCities.Tag = "L|City|tblCities|city|City";
             this.cboCities.Enter += new System.EventHandler(this.cboCities_Enter);
             this.cboCities.Leave += new System.EventHandler(this.cboCities_Leave);
             // 
@@ -275,7 +275,7 @@ namespace DesignDB_UI
             this.cboAssisted.Name = "cboAssisted";
             this.cboAssisted.Size = new System.Drawing.Size(258, 28);
             this.cboAssisted.TabIndex = 10;
-            this.cboAssisted.Tag = "L|AssistedBy";
+            this.cboAssisted.Tag = "L|AssistedBy|tblDesigners|Designer|Assisted By";
             this.cboAssisted.Enter += new System.EventHandler(this.cboAssisted_Enter);
             this.cboAssisted.Leave += new System.EventHandler(this.cboAssisted_Leave);
             // 
@@ -305,7 +305,7 @@ namespace DesignDB_UI
             this.cboDesigner.Name = "cboDesigner";
             this.cboDesigner.Size = new System.Drawing.Size(258, 28);
             this.cboDesigner.TabIndex = 9;
-            this.cboDesigner.Tag = "L|Designer";
+            this.cboDesigner.Tag = "L|Designer|tblDesigners|Designer|Designer";
             this.cboDesigner.Enter += new System.EventHandler(this.cboDesigner_Enter);
             this.cboDesigner.Leave += new System.EventHandler(this.cboDesigner_Leave);
             // 
@@ -339,7 +339,7 @@ namespace DesignDB_UI
             this.cboPriority.Name = "cboPriority";
             this.cboPriority.Size = new System.Drawing.Size(258, 28);
             this.cboPriority.TabIndex = 8;
-            this.cboPriority.Tag = "L|Pty";
+            this.cboPriority.Tag = "L|Pty|||Priority";
             this.cboPriority.SelectedIndexChanged += new System.EventHandler(this.cboPriority_SelectedIndexChanged);
             this.cboPriority.Enter += new System.EventHandler(this.cboPriority_Enter);
             this.cboPriority.Leave += new System.EventHandler(this.cboPriority_Leave);
@@ -377,7 +377,7 @@ namespace DesignDB_UI
             this.cboQuoteType.Name = "cboQuoteType";
             this.cboQuoteType.Size = new System.Drawing.Size(258, 28);
             this.cboQuoteType.TabIndex = 7;
-            this.cboQuoteType.Tag = "L|QuoteType";
+            this.cboQuoteType.Tag = "L|QuoteType|||Quote Type";
             this.cboQuoteType.Enter += new System.EventHandler(this.cboQuoteType_Enter);
             this.cboQuoteType.Leave += new System.EventHandler(this.cboQuoteType_Leave);
             // 
@@ -406,7 +406,7 @@ namespace DesignDB_UI
             this.cboRequestor.Name = "cboRequestor";
             this.cboRequestor.Size = new System.Drawing.Size(258, 28);
             this.cboRequestor.TabIndex = 6;
-            this.cboRequestor.Tag = "L|DesignRequestor";
+            this.cboRequestor.Tag = "L|DesignRequestor|tblSalespersons|SalesPerson|Salesperson";
             this.cboRequestor.Enter += new System.EventHandler(this.cboRequestor_Enter);
             this.cboRequestor.Leave += new System.EventHandler(this.cboRequestor_Leave);
             // 
@@ -436,7 +436,7 @@ namespace DesignDB_UI
             this.cboRegion.Name = "cboRegion";
             this.cboRegion.Size = new System.Drawing.Size(258, 28);
             this.cboRegion.TabIndex = 5;
-            this.cboRegion.Tag = "L|Region";
+            this.cboRegion.Tag = "L|Region|tblRegions|Region|Region";
             this.cboRegion.Enter += new System.EventHandler(this.cboRegion_Enter);
             this.cboRegion.Leave += new System.EventHandler(this.cboRegion_Leave);
             // 
@@ -465,7 +465,7 @@ namespace DesignDB_UI
             this.cboCountry.Name = "cboCountry";
             this.cboCountry.Size = new System.Drawing.Size(258, 28);
             this.cboCountry.TabIndex = 4;
-            this.cboCountry.Tag = "L|Country";
+            this.cboCountry.Tag = "L|Country|tblCountries|Country|Country";
             this.cboCountry.Enter += new System.EventHandler(this.cboCountry_Enter);
             this.cboCountry.Leave += new System.EventHandler(this.cboCountry_Leave);
             // 
@@ -494,7 +494,7 @@ namespace DesignDB_UI
             this.cboState.Name = "cboState";
             this.cboState.Size = new System.Drawing.Size(258, 28);
             this.cboState.TabIndex = 3;
-            this.cboState.Tag = "L|ST";
+            this.cboState.Tag = "L|ST|tblStates|State|State";
             this.cboState.Enter += new System.EventHandler(this.cboState_Enter);
             this.cboState.Leave += new System.EventHandler(this.cboState_Leave);
             // 
@@ -566,7 +566,7 @@ namespace DesignDB_UI
             this.cboArchType.Name = "cboArchType";
             this.cboArchType.Size = new System.Drawing.Size(258, 28);
             this.cboArchType.TabIndex = 14;
-            this.cboArchType.Tag = "L|ArchitectureType";
+            this.cboArchType.Tag = "L|ArchitectureType|||Architecture Type";
             this.cboArchType.Enter += new System.EventHandler(this.cboArchType_Enter);
             this.cboArchType.Leave += new System.EventHandler(this.cboArchType_Leave);
             // 
@@ -606,7 +606,7 @@ namespace DesignDB_UI
             this.cboCategory.Name = "cboCategory";
             this.cboCategory.Size = new System.Drawing.Size(258, 28);
             this.cboCategory.TabIndex = 13;
-            this.cboCategory.Tag = "L|Category";
+            this.cboCategory.Tag = "L|Category|||Category";
             this.cboCategory.Enter += new System.EventHandler(this.cboCategory_Enter);
             this.cboCategory.Leave += new System.EventHandler(this.cboCategory_Leave);
             // 
@@ -635,7 +635,7 @@ namespace DesignDB_UI
             this.cboOrigQuote.Name = "cboOrigQuote";
             this.cboOrigQuote.Size = new System.Drawing.Size(258, 28);
             this.cboOrigQuote.TabIndex = 12;
-            this.cboOrigQuote.Tag = "L|OriginalQuote";
+            this.cboOrigQuote.Tag = "L|OriginalQuote|||Original Quote";
             this.cboOrigQuote.Enter += new System.EventHandler(this.cboOrigQuote_Enter);
             this.cboOrigQuote.Leave += new System.EventHandler(this.cboOrigQuote_Leave);
             // 
@@ -695,7 +695,7 @@ namespace DesignDB_UI
             this.cboReviewedBy.Name = "cboReviewedBy";
             this.cboReviewedBy.Size = new System.Drawing.Size(234, 28);
             this.cboReviewedBy.TabIndex = 19;
-            this.cboReviewedBy.Tag = "L|ReviewedBy";
+            this.cboReviewedBy.Tag = "L|ReviewedBy|tblReviewers|Designer|Reviewed By";
             this.cboReviewedBy.Enter += new System.EventHandler(this.cboReviewedBy_Enter);
             this.cboReviewedBy.Leave += new System.EventHandler(this.cboReviewedBy_Leave);
             // 
@@ -732,7 +732,7 @@ namespace DesignDB_UI
             this.cboAwardStatus.Name = "cboAwardStatus";
             this.cboAwardStatus.Size = new System.Drawing.Size(234, 28);
             this.cboAwardStatus.TabIndex = 23;
-            this.cboAwardStatus.Tag = "L|AwardStatus";
+            this.cboAwardStatus.Tag = "L|AwardStatus|||Award Status";
             this.cboAwardStatus.Enter += new System.EventHandler(this.cboAwardStatus_Enter);
             this.cboAwardStatus.Leave += new System.EventHandler(this.cboAwardStatus_Leave);
             // 
