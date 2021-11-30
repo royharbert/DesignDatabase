@@ -40,9 +40,10 @@ namespace DesignDB_Library.Operations
                         if (tagArray[4] != "City")
                         {
                             //source is from database
+                            //List<string> dbItems = GlobalConfig.Connection.GenericGetAllByField<string>(tagArray[2], field);
                             List<string> dbItems = GlobalConfig.Connection.GenericGetAllByField<string>(tagArray[2], field);
-                            //items.AddRange(dbItems);
-                            ddList.AddRange(dbItems);
+
+                            dList.AddRange(dbItems);
                             BoxData.Add(ddList); 
                         }
                     }
