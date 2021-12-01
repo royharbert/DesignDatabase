@@ -43,7 +43,7 @@ namespace DesignDB_Library.Operations
                             //List<string> dbItems = GlobalConfig.Connection.GenericGetAllByField<string>(tagArray[2], field);
                             List<string> dbItems = GlobalConfig.Connection.GenericGetAllByField<string>(tagArray[2], field);
 
-                            dList.AddRange(dbItems);
+                            ddList.AddRange(dbItems);
                             BoxData.Add(ddList); 
                         }
                     }
