@@ -13,7 +13,7 @@ namespace DesignDB_Library.Operations
 {
     public class ExcelOps
     {
-        public static void PlaceDDListInExcel(List<List<string>> ddList)
+        public static void PlaceDDListInExcel(List<List<(string Field, bool Active)>> ddList)
         {
             Excel.Application xlApp = makeExcelApp();
             xlApp.Workbooks.Add();
@@ -25,11 +25,16 @@ namespace DesignDB_Library.Operations
             {
                 int row = 4;
                 col = col + 1;
-                List<string> xList = ddList[l];
+                List<(string Field, bool Active)> xList = ddList[l];
                 for (int i = 0; i < xList.Count; i++)
                 {
                     row = row + 1;
-                    wks.Cells[row, col].Value = xList[i].ToString();
+                    string entry = xList[i].Field.ToString();
+                    wks.Cells[row, col].Value = entry;
+                    if (! xList[i].Active)
+                    {
+                        wks.Cells[row,col].Font.Color = Color.LightGray;
+                    }
                 }
 
             }

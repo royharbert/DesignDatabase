@@ -30,8 +30,8 @@ namespace DesignDB_UI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtPID = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cboMSO = new System.Windows.Forms.ComboBox();
@@ -177,9 +177,9 @@ namespace DesignDB_UI
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(117, 9);
+            this.label2.Location = new System.Drawing.Point(118, 9);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 16);
+            this.label2.Size = new System.Drawing.Size(37, 16);
             this.label2.TabIndex = 3;
             this.label2.Text = "MSO";
             // 
@@ -187,9 +187,9 @@ namespace DesignDB_UI
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(125, 79);
+            this.label3.Location = new System.Drawing.Point(126, 79);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(30, 16);
+            this.label3.Size = new System.Drawing.Size(29, 16);
             this.label3.TabIndex = 5;
             this.label3.Text = "City";
             // 
@@ -214,6 +214,7 @@ namespace DesignDB_UI
             // 
             // ddContextMenu
             // 
+            this.ddContextMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.ddContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clearValueToolStripMenuItem});
             this.ddContextMenu.Name = "ddContextMenu";
@@ -243,9 +244,9 @@ namespace DesignDB_UI
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(15, 44);
+            this.label4.Location = new System.Drawing.Point(16, 44);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(140, 16);
+            this.label4.Size = new System.Drawing.Size(139, 16);
             this.label4.TabIndex = 7;
             this.label4.Text = "End Customer (if VAR)";
             // 
@@ -253,9 +254,9 @@ namespace DesignDB_UI
             // 
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(76, 359);
+            this.label5.Location = new System.Drawing.Point(77, 359);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(79, 16);
+            this.label5.Size = new System.Drawing.Size(78, 16);
             this.label5.TabIndex = 9;
             this.label5.Text = "Assisted By";
             // 
@@ -283,9 +284,9 @@ namespace DesignDB_UI
             // 
             this.label6.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(92, 324);
+            this.label6.Location = new System.Drawing.Point(93, 324);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(63, 16);
+            this.label6.Size = new System.Drawing.Size(62, 16);
             this.label6.TabIndex = 11;
             this.label6.Text = "Designer";
             // 
@@ -313,9 +314,9 @@ namespace DesignDB_UI
             // 
             this.label7.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(106, 289);
+            this.label7.Location = new System.Drawing.Point(107, 289);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(49, 16);
+            this.label7.Size = new System.Drawing.Size(48, 16);
             this.label7.TabIndex = 13;
             this.label7.Text = "Priority";
             // 
@@ -348,9 +349,9 @@ namespace DesignDB_UI
             // 
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(76, 254);
+            this.label8.Location = new System.Drawing.Point(77, 254);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(79, 16);
+            this.label8.Size = new System.Drawing.Size(78, 16);
             this.label8.TabIndex = 15;
             this.label8.Text = "Quote Type";
             // 
@@ -385,9 +386,9 @@ namespace DesignDB_UI
             // 
             this.label9.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(38, 219);
+            this.label9.Location = new System.Drawing.Point(39, 219);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(117, 16);
+            this.label9.Size = new System.Drawing.Size(116, 16);
             this.label9.TabIndex = 17;
             this.label9.Text = "Design Requestor";
             // 
@@ -414,9 +415,9 @@ namespace DesignDB_UI
             // 
             this.label10.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(103, 184);
+            this.label10.Location = new System.Drawing.Point(104, 184);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(52, 16);
+            this.label10.Size = new System.Drawing.Size(51, 16);
             this.label10.TabIndex = 19;
             this.label10.Text = "Region";
             // 
@@ -444,9 +445,9 @@ namespace DesignDB_UI
             // 
             this.label11.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(102, 149);
+            this.label11.Location = new System.Drawing.Point(103, 149);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(53, 16);
+            this.label11.Size = new System.Drawing.Size(52, 16);
             this.label11.TabIndex = 21;
             this.label11.Text = "Country";
             // 
@@ -473,9 +474,9 @@ namespace DesignDB_UI
             // 
             this.label12.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(116, 114);
+            this.label12.Location = new System.Drawing.Point(117, 114);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(39, 16);
+            this.label12.Size = new System.Drawing.Size(38, 16);
             this.label12.TabIndex = 23;
             this.label12.Text = "State";
             // 
@@ -502,9 +503,9 @@ namespace DesignDB_UI
             // 
             this.label13.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(65, 394);
+            this.label13.Location = new System.Drawing.Point(66, 394);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(90, 16);
+            this.label13.Size = new System.Drawing.Size(89, 16);
             this.label13.TabIndex = 25;
             this.label13.Text = "Project Name";
             // 
@@ -522,9 +523,9 @@ namespace DesignDB_UI
             // 
             this.label14.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(42, 499);
+            this.label14.Location = new System.Drawing.Point(43, 499);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(113, 16);
+            this.label14.Size = new System.Drawing.Size(112, 16);
             this.label14.TabIndex = 27;
             this.label14.Text = "Architecture Type";
             // 
@@ -574,9 +575,9 @@ namespace DesignDB_UI
             // 
             this.label15.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(92, 464);
+            this.label15.Location = new System.Drawing.Point(93, 464);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(63, 16);
+            this.label15.Size = new System.Drawing.Size(62, 16);
             this.label15.TabIndex = 29;
             this.label15.Text = "Category";
             // 
@@ -614,9 +615,9 @@ namespace DesignDB_UI
             // 
             this.label17.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(62, 429);
+            this.label17.Location = new System.Drawing.Point(63, 429);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(93, 16);
+            this.label17.Size = new System.Drawing.Size(92, 16);
             this.label17.TabIndex = 33;
             this.label17.Text = "Original Quote";
             // 
@@ -643,9 +644,9 @@ namespace DesignDB_UI
             // 
             this.label18.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(90, 607);
+            this.label18.Location = new System.Drawing.Point(91, 607);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(65, 16);
+            this.label18.Size = new System.Drawing.Size(64, 16);
             this.label18.TabIndex = 35;
             this.label18.Text = "Date Due";
             // 
@@ -653,9 +654,9 @@ namespace DesignDB_UI
             // 
             this.label19.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(14, 569);
+            this.label19.Location = new System.Drawing.Point(15, 569);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(141, 16);
+            this.label19.Size = new System.Drawing.Size(140, 16);
             this.label19.TabIndex = 37;
             this.label19.Text = "Date All Info Received";
             // 
@@ -663,9 +664,9 @@ namespace DesignDB_UI
             // 
             this.label20.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(58, 534);
+            this.label20.Location = new System.Drawing.Point(59, 534);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(97, 16);
+            this.label20.Size = new System.Drawing.Size(96, 16);
             this.label20.TabIndex = 39;
             this.label20.Text = "Date Assigned";
             // 
@@ -673,9 +674,9 @@ namespace DesignDB_UI
             // 
             this.label16.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(53, 44);
+            this.label16.Location = new System.Drawing.Point(54, 44);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(88, 16);
+            this.label16.Size = new System.Drawing.Size(87, 16);
             this.label16.TabIndex = 41;
             this.label16.Text = "Reviewed By";
             // 
@@ -703,9 +704,9 @@ namespace DesignDB_UI
             // 
             this.label21.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(55, 184);
+            this.label21.Location = new System.Drawing.Point(56, 184);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(86, 16);
+            this.label21.Size = new System.Drawing.Size(85, 16);
             this.label21.TabIndex = 43;
             this.label21.Text = "Award Status";
             // 
@@ -740,9 +741,9 @@ namespace DesignDB_UI
             // 
             this.label22.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(65, 79);
+            this.label22.Location = new System.Drawing.Point(66, 79);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(76, 16);
+            this.label22.Size = new System.Drawing.Size(75, 16);
             this.label22.TabIndex = 45;
             this.label22.Text = "BOM Value";
             // 
@@ -764,9 +765,9 @@ namespace DesignDB_UI
             // 
             this.label23.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(21, 114);
+            this.label23.Location = new System.Drawing.Point(22, 114);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(120, 16);
+            this.label23.Size = new System.Drawing.Size(119, 16);
             this.label23.TabIndex = 47;
             this.label23.Text = "% Project Covered";
             // 
@@ -788,9 +789,9 @@ namespace DesignDB_UI
             // 
             this.label24.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(19, 149);
+            this.label24.Location = new System.Drawing.Point(20, 149);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(122, 16);
+            this.label24.Size = new System.Drawing.Size(121, 16);
             this.label24.TabIndex = 49;
             this.label24.Text = "Total Project Value";
             // 
@@ -810,9 +811,9 @@ namespace DesignDB_UI
             // 
             this.label25.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(35, 9);
+            this.label25.Location = new System.Drawing.Point(36, 9);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(106, 16);
+            this.label25.Size = new System.Drawing.Size(105, 16);
             this.label25.TabIndex = 51;
             this.label25.Text = "Date Completed";
             // 
@@ -820,9 +821,9 @@ namespace DesignDB_UI
             // 
             this.label26.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(63, 219);
+            this.label26.Location = new System.Drawing.Point(64, 219);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(78, 16);
+            this.label26.Size = new System.Drawing.Size(77, 16);
             this.label26.TabIndex = 53;
             this.label26.Text = "Total Hours";
             // 
@@ -840,9 +841,9 @@ namespace DesignDB_UI
             // 
             this.label27.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(20, 256);
+            this.label27.Location = new System.Drawing.Point(21, 256);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(121, 16);
+            this.label27.Size = new System.Drawing.Size(120, 16);
             this.label27.TabIndex = 55;
             this.label27.Text = "Date Last Updated";
             // 
@@ -862,7 +863,7 @@ namespace DesignDB_UI
             this.label28.AutoSize = true;
             this.label28.Location = new System.Drawing.Point(3, 0);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(123, 16);
+            this.label28.Size = new System.Drawing.Size(122, 16);
             this.label28.TabIndex = 57;
             this.label28.Text = "Architecture Details";
             // 
@@ -871,7 +872,7 @@ namespace DesignDB_UI
             this.label29.AutoSize = true;
             this.label29.Location = new System.Drawing.Point(3, 310);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(72, 16);
+            this.label29.Size = new System.Drawing.Size(71, 16);
             this.label29.TabIndex = 59;
             this.label29.Text = "Comments";
             // 
@@ -901,9 +902,9 @@ namespace DesignDB_UI
             // 
             this.label30.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(29, 1);
+            this.label30.Location = new System.Drawing.Point(30, 1);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(156, 32);
+            this.label30.Size = new System.Drawing.Size(155, 32);
             this.label30.TabIndex = 61;
             this.label30.Text = "All or part of Project ID to Search";
             // 
@@ -1061,24 +1062,24 @@ namespace DesignDB_UI
             this.dgvAttachments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvAttachments.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvAttachments.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvAttachments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tlpAttachment.SetColumnSpan(this.dgvAttachments, 4);
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvAttachments.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAttachments.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvAttachments.Location = new System.Drawing.Point(3, 3);
             this.dgvAttachments.MultiSelect = false;
             this.dgvAttachments.Name = "dgvAttachments";
@@ -1108,6 +1109,7 @@ namespace DesignDB_UI
             // 
             // dtpContextMenu
             // 
+            this.dtpContextMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.dtpContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clearDateToolStripMenuItem});
             this.dtpContextMenu.Name = "dtpContextMenu";
@@ -1428,7 +1430,7 @@ namespace DesignDB_UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(1631, 876);
+            this.ClientSize = new System.Drawing.Size(1301, 718);
             this.ControlBox = false;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.tlpSearch);

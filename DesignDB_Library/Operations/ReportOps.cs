@@ -1,5 +1,6 @@
 ﻿using DesignDB_Library.Models;
 using System;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,9 @@ namespace DesignDB_Library.Operations
 {
     public static class ReportOps
     {
-        public static List<List<string>> CollectDropDownLists(TableLayoutPanel BoxForm)
+        public static List<List<(string Field, bool Active)>> CollectDropDownLists(TableLayoutPanel BoxForm)
         {
-            List<List<string>> BoxData = new List<List<string>>();
+            List<List<(string, bool)>> BoxData = new List<List<(string, bool)>>();
 
             List<string> items = new List<string>();
             foreach (Control ctl in BoxForm.Controls)
@@ -21,37 +22,109 @@ namespace DesignDB_Library.Operations
                 if (ctl is ComboBox)
                 {
                     ComboBox cbo = (ComboBox)ctl;
+
+                    //parse tag info
                     string cTag = ctl.Tag.ToString();
                     string[] tagArray = cTag.Split('|');
                     string field = tagArray[3];
-                    List<string> ddList = new List<string>();
-                    ddList.Add(tagArray[4]);
+                    //create list for drop-down items
+                    List<(string Field, bool Active)> ddList = new List<(string, bool)>();
+                    //place list description at head of list
+                    ddList.Add((tagArray[4], true));
                     if (tagArray[2] == "")
                     {
                         //Source is internal list
                         foreach (var item in cbo.Items)
                         {
-                            ddList.Add(item.ToString());
+                            (string, bool) tup = (item.ToString(), true);
+                            ddList.Add(tup);
                         }
                         BoxData.Add(ddList);
                     }
                     else
-                    {
+                    { 
                         if (tagArray[4] != "City")
                         {
                             //source is from database
-                            //List<string> dbItems = GlobalConfig.Connection.GenericGetAllByField<string>(tagArray[2], field);
-                            List<string> dbItems = GlobalConfig.Connection.GenericGetAllByField<string>(tagArray[2], field);
+                            switch (tagArray[4])
+                            {
+                                case "MSO":
+                                    BoxData.Add(MakeTupleList<MSO_Model>("tblMSO", "MSO", "Active", "MSO"));
+                                    break;
 
-                            ddList.AddRange(dbItems);
-                            BoxData.Add(ddList); 
+                                case "Salesperson":
+                                    BoxData.Add(MakeTupleList<SalespersonModel>("tblSalespersons", "SalesPerson", "Active", "SalesPersons"));
+                                    break;
+
+                                case "Designer":
+                                    BoxData.Add(MakeTupleList<DesignersReviewersModel>("tblDesigners", "Designer", "ActiveDesigner", "Designer"));
+                                    break;
+
+                                case "Assisted By":
+                                    BoxData.Add(MakeTupleList<DesignersReviewersModel>("tblDesigners", "Designer", "ActiveDesigner", "Assisted By"));
+                                    break;
+
+                                case "Reviewed By":
+                                    BoxData.Add(MakeTupleList<DesignersReviewersModel>("tblDesigners", "Designer", "ActiveDesigner", "Reviewers"));
+                                    break;
+
+                                case "State":
+                                    BoxData.Add(MakeTupleList<StateModel>("tblStates", "State", "States"));
+                                    break;
+
+                                case "Country":
+                                    BoxData.Add(MakeTupleList<CountriesModel>("tblCountries", "Country", "Countries"));
+                                        break;
+
+                                default:
+                                    //BoxData.Add(MakeTupleList<MSO_Model>("tblDesigners", "Designer"));
+                                    break;
+                            }
                         }
                     }
-                }
-                
+                }                
             }
                 
             return BoxData;
+        }
+
+        private static List<(string Field, bool Active)> MakeTupleList<T>(string tableName, string FieldName, string cName)
+        {
+            (string Field, bool Active) tup = (cName, true);
+            List<(string Field, bool Active)> ddList = new List<(string Field, bool Active)>();
+            ddList.Add(tup);
+            //Type model = GetType(T);
+            List<T> dataList = GlobalConfig.Connection.GenericGetAll<T>(tableName);
+            foreach (T item in dataList)
+            {
+                Type modelType = item.GetType();
+                //PropertyInfo[] props = modelType.GetProperties();
+                PropertyInfo fieldInfo = modelType.GetProperty(FieldName);
+                tup.Field = fieldInfo.GetValue(item, null).ToString();
+                tup.Active = true;
+                ddList.Add(tup);
+            }
+            return ddList;
+        }
+
+            private static List<(string Field, bool Active)> MakeTupleList<T>(string tableName,  string FieldName, string activeField, string cName)
+        {
+            (string Field, bool Active) tup = (cName, true);
+            List<(string Field,bool Active)> ddList = new List<(string Field,bool Active)> ();
+            ddList.Add(tup);
+            //Type model = GetType(T);
+            List <T> dataList = GlobalConfig.Connection.GenericGetAll<T>(tableName);
+            foreach (T item in dataList)
+            {
+                Type modelType = item.GetType();
+                //PropertyInfo[] props = modelType.GetProperties();
+                PropertyInfo fieldInfo = modelType.GetProperty(FieldName);
+                tup.Field = fieldInfo.GetValue(item, null).ToString();
+                PropertyInfo modelActive = modelType.GetProperty(activeField);
+                tup.Active = (bool)modelActive.GetValue(item, null);
+                ddList.Add(tup);
+            }
+            return ddList;
         }
         public static List<CompletionTimeModel> GenerateCompletionTimeSummary
             (DateTime startDate, DateTime endDate, List<MSO_Model> msoList)
