@@ -64,6 +64,7 @@ namespace DesignDB_UI
             this.btnLogSearch = new System.Windows.Forms.Button();
             this.btnListCollector = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnMSO = new System.Windows.Forms.Button();
             this.tlpMain.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -466,11 +467,12 @@ namespace DesignDB_UI
             this.tlpMain.Controls.Add(this.btnLoadRpt, 3, 1);
             this.tlpMain.Controls.Add(this.btnLogin, 0, 0);
             this.tlpMain.Controls.Add(this.txtMode, 0, 9);
-            this.tlpMain.Controls.Add(this.btnUtility, 5, 4);
             this.tlpMain.Controls.Add(this.btnSalespersonMaint, 5, 3);
             this.tlpMain.Controls.Add(this.btnScreens, 0, 7);
             this.tlpMain.Controls.Add(this.btnLogSearch, 3, 4);
             this.tlpMain.Controls.Add(this.btnListCollector, 3, 5);
+            this.tlpMain.Controls.Add(this.btnUtility, 5, 6);
+            this.tlpMain.Controls.Add(this.btnMSO, 5, 4);
             this.tlpMain.Location = new System.Drawing.Point(12, 150);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 10;
@@ -563,7 +565,7 @@ namespace DesignDB_UI
             this.btnUtility.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnUtility.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUtility.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnUtility.Location = new System.Drawing.Point(803, 207);
+            this.btnUtility.Location = new System.Drawing.Point(803, 309);
             this.btnUtility.Name = "btnUtility";
             this.btnUtility.Size = new System.Drawing.Size(234, 45);
             this.btnUtility.TabIndex = 34;
@@ -653,6 +655,18 @@ namespace DesignDB_UI
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1037, 33);
             this.tableLayoutPanel2.TabIndex = 32;
             // 
+            // btnMSO
+            // 
+            this.btnMSO.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnMSO.Location = new System.Drawing.Point(803, 207);
+            this.btnMSO.Name = "btnMSO";
+            this.btnMSO.Size = new System.Drawing.Size(231, 45);
+            this.btnMSO.TabIndex = 38;
+            this.btnMSO.Tag = "3";
+            this.btnMSO.Text = "MSO Maintenance";
+            this.btnMSO.UseVisualStyleBackColor = false;
+            this.btnMSO.Click += new System.EventHandler(this.btnMSO_Click);
+            // 
             // frmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
@@ -715,5 +729,6 @@ namespace DesignDB_UI
         private System.Windows.Forms.Button btnScreens;
         private System.Windows.Forms.Button btnLogSearch;
         private System.Windows.Forms.Button btnListCollector;
+        private System.Windows.Forms.Button btnMSO;
     }
 }

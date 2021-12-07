@@ -9,6 +9,8 @@ namespace DesignDB_Library.DataAccess
 {
     public interface IDataConnection
     {
+        void ToggleActivityStatus(string tableName, string activeColumnName, int Idx, string idxName, bool currentStatus);
+        bool GetCurrentActivityStatus(string tableName, string activeColumnName, int Idx, string idxName);
         List<T> GenericGetAll<T>(string tableName);
         List<T> GenericGetAllByField<T>(string tableName, string fieldName);
         List<LogModel> ActivityLog_GetAll();
@@ -66,6 +68,7 @@ namespace DesignDB_Library.DataAccess
         void UpdateDesigner(DesignersReviewersModel designer);
         List<DesignersReviewersModel> GetAllDesigners();
         List<MSO_Model> GetAllMSO();
+        List<MSO_Model> GetAllActiveMSO();
         List<CityModel> GetAllCities();
     }
 }

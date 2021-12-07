@@ -31,6 +31,7 @@ namespace DesignDB_UI
         Log_View,
         Add_Attachment,
         Delete_Attachment,
+        MSO_Maintenance,
         None
     }
     

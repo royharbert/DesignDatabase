@@ -252,6 +252,12 @@
     <Compile Include="frmMainMenu.Designer.cs">
       <DependentUpon>frmMainMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmMSO.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMSO.Designer.cs">
+      <DependentUpon>frmMSO.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMultiResult.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -362,6 +368,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmMainMenu.resx">
       <DependentUpon>frmMainMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMSO.resx">
+      <DependentUpon>frmMSO.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMultiResult.resx">
       <DependentUpon>frmMultiResult.cs</DependentUpon>

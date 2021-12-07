@@ -573,6 +573,14 @@ namespace DesignDB_UI
             }
             ExcelOps.PlaceDDListInExcel(ddList);
         }
+
+        private void btnMSO_Click(object sender, EventArgs e)
+        {
+            GV.MODE = Mode.MSO_Maintenance;
+            Form msoForm = new frmMSO();
+            FC.SetFormPosition(msoForm);
+            msoForm.Show();
+        }
     }
 }
 

@@ -33,7 +33,7 @@ namespace DesignDB_Library.Operations
                     wks.Cells[row, col].Value = entry;
                     if (! xList[i].Active)
                     {
-                        wks.Cells[row,col].Font.Color = Color.LightGray;
+                        wks.Cells[row,col].Font.Color = Color.Gray;
                     }
                 }
 

@@ -286,6 +286,16 @@ namespace DesignDB_Library.DataAccess
             }
         }
 
+
+        public List<MSO_Model> GetAllActiveMSO()
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                List<MSO_Model> output = connection.Query<MSO_Model>("dbo.spMSO_GetAllActive", commandType: CommandType.StoredProcedure).ToList();
+                return output;
+            }
+        }
+
         public List<CityModel> GetAllCities()
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
@@ -811,6 +821,44 @@ namespace DesignDB_Library.DataAccess
                     connection.Query<LogModel>("dbo.spActivityLog_GetAll", commandType: CommandType.StoredProcedure).ToList();
 
                 return output;
+            }
+        }
+
+        public bool GetCurrentActivityStatus(string tableName, string activeColumnName, int Idx, string idxName)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                bool active = false;
+                var p = new DynamicParameters();
+
+                p.Add("@TableName", tableName, DbType.String, ParameterDirection.Input);
+                p.Add("@ActiveColumnName", activeColumnName, DbType.String, ParameterDirection.Input);
+                p.Add("@Index", Idx, DbType.Int32, ParameterDirection.Input);
+                p.Add("@IndexName", idxName, DbType.String, ParameterDirection.Input);
+                List<bool> output =
+                    connection.Query<bool>("dbo.spGetActiveStatus",p , commandType: CommandType.StoredProcedure).ToList();
+                active = output[0];
+                return active;
+            }
+        }
+
+        public void ToggleActivityStatus(string tableName, string activeColumnName, int Idx, string idxName, bool currentStatus)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                //bool active = false;
+                var p = new DynamicParameters();
+
+                p.Add("@TableName", tableName, DbType.String, ParameterDirection.Input);
+                p.Add("@ActiveColumnName", activeColumnName, DbType.String, ParameterDirection.Input);
+                p.Add("@Index", Idx, DbType.Int32, ParameterDirection.Input);
+                p.Add("@IndexName", idxName, DbType.String, ParameterDirection.Input);
+                p.Add("@CurrentStatus", currentStatus, DbType.Boolean, ParameterDirection.Input);
+
+                //List<bool> output =
+                connection.Execute("dbo.spToggleActiveStatus", p, commandType: CommandType.StoredProcedure);
+                //active = output[0];
+                //return active;
             }
         }
     }

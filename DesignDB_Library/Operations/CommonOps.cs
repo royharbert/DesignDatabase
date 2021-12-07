@@ -6,11 +6,29 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace DesignDB_Library.Operations
 {
     public static class CommonOps
     {
+        public static void ToggleMSO_ActiveStatus(DataGridView dgv)
+        {
+            int idx = 0;
+            int.TryParse(dgv.CurrentRow.Cells[0].Value.ToString(), out idx);
+            bool status =  GlobalConfig.Connection.GetCurrentActivityStatus("tblMSO", "Active", idx, "ID");
+            GlobalConfig.Connection.ToggleActivityStatus("tblMSO", "Active", idx, "ID", status);
+            List<MSO_Model> msoList = GlobalConfig.Connection.GenericGetAll<MSO_Model>("tblMSO");
+            dgv.DataSource = msoList;
+        }
+        public static void MakeMSO_StatusList(List<MSO_Model> msoList, DataGridView dgv)
+        {    
+            dgv.DataSource = msoList;
+            dgv.Columns[0].Visible = false;
+            dgv.Columns[2].Visible = false;
+            dgv.Columns[1].AutoSizeMode=DataGridViewAutoSizeColumnMode.AllCells;
+            dgv.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        }
         public static RequestModel CloneRequestList(RequestModel oldModel)
         {
             RequestModel newModel = new RequestModel();
