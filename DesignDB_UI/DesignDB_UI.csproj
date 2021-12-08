@@ -258,6 +258,12 @@
     <Compile Include="frmMSO.Designer.cs">
       <DependentUpon>frmMSO.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmMSO_Add.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMSO_Add.Designer.cs">
+      <DependentUpon>frmMSO_Add.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMultiResult.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -371,6 +377,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmMSO.resx">
       <DependentUpon>frmMSO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMSO_Add.resx">
+      <DependentUpon>frmMSO_Add.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMultiResult.resx">
       <DependentUpon>frmMultiResult.cs</DependentUpon>

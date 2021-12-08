@@ -21,14 +21,30 @@ namespace DesignDB_UI
 
         private void frmMSO_Load(object sender, EventArgs e)
         {
-            List<MSO_Model> msoList = DesignDB_Library.GlobalConfig.Connection.GenericGetAll<MSO_Model>("tblMSO");
-            CommonOps.MakeMSO_StatusList(msoList, dgvMSO);
-            //lbMSO.DataSource = tupList;
+            fillDGV();
         }
 
         private void btnChange_Click(object sender, EventArgs e)
         {
             CommonOps.ToggleMSO_ActiveStatus(dgvMSO);
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            Form frmAddMSO = new frmMSO_Add();
+            frmAddMSO.ShowDialog();
+            fillDGV();
+        }
+
+        private void fillDGV()
+        {
+            List<MSO_Model> msoList = DesignDB_Library.GlobalConfig.Connection.GenericGetAll<MSO_Model>("tblMSO");
+            CommonOps.MakeMSO_StatusList(msoList, dgvMSO);
         }
     }
 }

@@ -12,6 +12,17 @@ namespace DesignDB_Library.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
+        public void MSO_Add(string MSO_Name, string TLA, bool Active)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@MSO_Name", MSO_Name, DbType.String);
+                p.Add("@TLA", TLA, DbType.String);
+                p.Add("@Active", Active, DbType.Boolean);
+                connection.Execute("dbo.spMSO_Add", p, commandType: CommandType.StoredProcedure);
+            }
+        }
         public List<T> GenericGetAll<T>(string tableName)
         {
             var p = new DynamicParameters();

@@ -9,6 +9,7 @@ namespace DesignDB_Library.DataAccess
 {
     public interface IDataConnection
     {
+        void MSO_Add(string MSO_Name, string TLA, bool Active);
         void ToggleActivityStatus(string tableName, string activeColumnName, int Idx, string idxName, bool currentStatus);
         bool GetCurrentActivityStatus(string tableName, string activeColumnName, int Idx, string idxName);
         List<T> GenericGetAll<T>(string tableName);
