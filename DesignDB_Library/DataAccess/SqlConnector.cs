@@ -23,14 +23,18 @@ namespace DesignDB_Library.DataAccess
                 connection.Execute("dbo.spMSO_Add", p, commandType: CommandType.StoredProcedure);
             }
         }
-        public List<T> GenericGetAll<T>(string tableName)
+        public List<T> GenericGetAll<T>(string tableName, string orderByField = "")
         {
             var p = new DynamicParameters();
             p.Add("@TableName", tableName, DbType.String);
+            if ( orderByField != "")
+            {
+                p.Add("@OrderField", orderByField, DbType.String);
+            }
             List<T> list = new List<T>();
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
-                list = connection.Query<T>("dbo.spGenericGetAll", p,
+                list = connection.Query<T>("dbo.spGenericOrderedGetAll", p,
                     commandType: CommandType.StoredProcedure).ToList();
                 return list;
             }
@@ -853,7 +857,7 @@ namespace DesignDB_Library.DataAccess
             }
         }
 
-        public void ToggleActivityStatus(string tableName, string activeColumnName, int Idx, string idxName, bool currentStatus)
+        public void ToggleActiveStatus(string tableName, string activeColumnName, int Idx, string idxName)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
             {
@@ -862,9 +866,8 @@ namespace DesignDB_Library.DataAccess
 
                 p.Add("@TableName", tableName, DbType.String, ParameterDirection.Input);
                 p.Add("@ActiveColumnName", activeColumnName, DbType.String, ParameterDirection.Input);
-                p.Add("@Index", Idx, DbType.Int32, ParameterDirection.Input);
-                p.Add("@IndexName", idxName, DbType.String, ParameterDirection.Input);
-                p.Add("@CurrentStatus", currentStatus, DbType.Boolean, ParameterDirection.Input);
+                p.Add("@ID", Idx, DbType.Int32, ParameterDirection.Input);
+                p.Add("@ID_ColName", idxName, DbType.String, ParameterDirection.Input);
 
                 //List<bool> output =
                 connection.Execute("dbo.spToggleActiveStatus", p, commandType: CommandType.StoredProcedure);

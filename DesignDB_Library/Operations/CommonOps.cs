@@ -16,8 +16,8 @@ namespace DesignDB_Library.Operations
         {
             int idx = 0;
             int.TryParse(dgv.CurrentRow.Cells[0].Value.ToString(), out idx);
-            bool status =  GlobalConfig.Connection.GetCurrentActivityStatus("tblMSO", "Active", idx, "ID");
-            GlobalConfig.Connection.ToggleActivityStatus("tblMSO", "Active", idx, "ID", status);
+            //bool status =  GlobalConfig.Connection.GetCurrentActivityStatus("tblMSO", "Active", idx, "ID");
+            GlobalConfig.Connection.ToggleActiveStatus("tblMSO", "Active", idx, "ID");
             List<MSO_Model> msoList = GlobalConfig.Connection.GenericGetAll<MSO_Model>("tblMSO");
             dgv.DataSource = msoList;
         }

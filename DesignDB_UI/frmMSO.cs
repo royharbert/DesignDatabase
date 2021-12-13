@@ -43,7 +43,7 @@ namespace DesignDB_UI
 
         private void fillDGV()
         {
-            List<MSO_Model> msoList = DesignDB_Library.GlobalConfig.Connection.GenericGetAll<MSO_Model>("tblMSO");
+            List<MSO_Model> msoList = DesignDB_Library.GlobalConfig.Connection.GenericGetAll<MSO_Model>("tblMSO", "MSO");
             CommonOps.MakeMSO_StatusList(msoList, dgvMSO);
         }
     }
