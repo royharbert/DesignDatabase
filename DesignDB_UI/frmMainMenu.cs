@@ -188,7 +188,7 @@ namespace DesignDB_UI
 
         private void btnDesignerMaint_Click(object sender, EventArgs e)
         {
-            Form frm = new frmDesigner();
+            Form frm = new frmReviewer();
             frm.ShowDialog();
         }
 
@@ -580,6 +580,18 @@ namespace DesignDB_UI
             Form msoForm = new frmMSO();
             FC.SetFormPosition(msoForm);
             msoForm.Show();
+        }
+
+        private void btnFE_Maintenance_Click(object sender, EventArgs e)
+        {
+            frmFE FE_Form = new frmFE();
+            FE_Form.Show();
+        }
+
+        private void btnReviewMaint_Click(object sender, EventArgs e)
+        {
+            frmReviewer reviewer = new frmReviewer();
+            reviewer.Show();
         }
     }
 }

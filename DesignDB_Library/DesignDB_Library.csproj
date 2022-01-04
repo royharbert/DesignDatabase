@@ -74,6 +74,7 @@
     <Compile Include="Attributes\ExcelExportProperty.cs" />
     <Compile Include="DataAccess\IDataConnection.cs" />
     <Compile Include="DataAccess\SqlConnector.cs" />
+    <Compile Include="Models\FE_Model.cs" />
     <Compile Include="Models\LogFieldModel.cs" />
     <Compile Include="Models\LogModel.cs" />
     <Compile Include="Models\ReportSalesPriorityModel.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Operations\ExcelOps.cs" />
     <Compile Include="Operations\FileOps.cs" />
     <Compile Include="Operations\ForecastFunction.cs" />
+    <Compile Include="Operations\IHaveID.cs" />
     <Compile Include="Operations\ListLooper.cs" />
     <Compile Include="Operations\Logger.cs" />
     <Compile Include="Operations\PID_Generator.cs" />

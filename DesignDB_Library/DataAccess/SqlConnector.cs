@@ -12,6 +12,42 @@ namespace DesignDB_Library.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
+        public void FE_CRUD(FE_Model model, char action)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@Action", action, DbType.String);
+                p.Add("@ID", model.ID, DbType.Int32);
+                p.Add("@FirstName", model.FirstName, DbType.String);
+                p.Add("@LastName", model.LastName, DbType.String);
+                p.Add("@ManagerID", model.ManagerID, DbType.String);
+                p.Add("@Region", model.Region, DbType.String);
+                p.Add("@Phone", model.Phone, DbType.String);
+                p.Add("@Email", model.EMail, DbType.String);
+                p.Add("@Active", model.Active, DbType.Boolean);
+
+                connection.Execute("dbo.spFE_CRUD", p,
+                    commandType: CommandType.StoredProcedure);
+            }
+        }
+        public List<T> GetItemByColumn<T>(string tableName, string columnName, string stringValue, int intValue = -1)
+        {
+            List<T> list = new List<T>();
+            string iVal = intValue.ToString();
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@TableName", tableName, DbType.String, ParameterDirection.Input);
+                p.Add("@ColumnName", columnName, DbType.String, ParameterDirection.Input);
+                p.Add("@IntValue", iVal, DbType.String, ParameterDirection.Input);
+                p.Add("@StringValue", stringValue, DbType.String, ParameterDirection.Input);
+
+                list = connection.Query<T>("dbo.spGetItemByColumn", p,
+                    commandType: CommandType.StoredProcedure).ToList();
+                return list;
+            }
+        }
         public void MSO_Add(string MSO_Name, string TLA, bool Active)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
@@ -222,11 +258,12 @@ namespace DesignDB_Library.DataAccess
             }
         }
 
-        public void AddDesigner(DesignersReviewersModel designer)
+        public void AddDesigner(DesignersReviewersModel designer,string tableName)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 var p = new DynamicParameters();
+                p.Add("@TableName", tableName, DbType.String);
                 p.Add("@UserName", designer.Designer, DbType.String);
                 p.Add("@PW", designer.Pwd, DbType.String);
                 p.Add("@Priviledge", designer.Priviledge, DbType.Int32);
@@ -248,12 +285,13 @@ namespace DesignDB_Library.DataAccess
             }
         }
 
-        public void UpdateDesigner(DesignersReviewersModel designer)
+        public void UpdateDesigner(DesignersReviewersModel designer, string tableName)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
 
                 var p = new DynamicParameters();
+                p.Add("@TableName", tableName, DbType.String);
                 p.Add("@UName", designer.Designer);
                 p.Add("@PWord", designer.Pwd);
                 p.Add("@Priv", designer.Priviledge);

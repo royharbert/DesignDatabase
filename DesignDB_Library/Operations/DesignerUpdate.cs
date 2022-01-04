@@ -22,7 +22,7 @@ namespace DesignDB_Library.Operations
 
             if (oldModel.Pwd == newPW)
             {
-                GlobalConfig.Connection.UpdateDesigner(newModel);
+                GlobalConfig.Connection.UpdateDesigner(newModel, "tblDesigner");
                 MessageBox.Show("Password successfully changed");
             }
             else
@@ -33,7 +33,7 @@ namespace DesignDB_Library.Operations
 
         public static void UpdateDesigner(DesignersReviewersModel model)
         {
-            GlobalConfig.Connection.UpdateDesigner(model);
+            GlobalConfig.Connection.UpdateDesigner(model, "tblDesigner");
         }
     }
 }

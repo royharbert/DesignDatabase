@@ -12,15 +12,15 @@ using System.Windows.Forms;
 
 namespace DesignDB_UI
 {
-    public partial class frmDesigner : Form
+    public partial class frmReviewer : Form
     {
         List<DesignersReviewersModel> aList;
         List<DesignersReviewersModel> cList;
-        public frmDesigner()
+        public frmReviewer()
         {
             InitializeComponent();
 
-            cList = GlobalConfig.Connection.GetAllDesigners();
+            cList = GlobalConfig.Connection.GenericGetAll<DesignersReviewersModel> ("tblReviewers", "Designer");
 
             setlbxDatasource();
         }
@@ -29,7 +29,7 @@ namespace DesignDB_UI
         {
             aList = new List<DesignersReviewersModel>();
             new List<DesignersReviewersModel>();
-            cList = GlobalConfig.Connection.GetAllDesigners();
+            cList = GlobalConfig.Connection.GenericGetAll<DesignersReviewersModel>("tblReviewers", "Designer");
 
             foreach (DesignersReviewersModel dm in cList)
             {
@@ -43,7 +43,7 @@ namespace DesignDB_UI
         {
             
             lbxDesigner.DataSource = null;
-            lbxDesigner.DisplayMember = "Designer";
+            lbxDesigner.DisplayMember = "Reviewer";
         }
 
         private void lbxDesigner_SelectedIndexChanged(object sender, EventArgs e)
@@ -68,7 +68,7 @@ namespace DesignDB_UI
         {
             DesignersReviewersModel dm = new DesignersReviewersModel(txtDesigner.Text, txtPassword.Text, txtPriviledge.Text, ckbActive.Checked.ToString(),txtID.Text); ;
             dm.Designer = txtDesigner.Text;           
-            GlobalConfig.Connection.AddDesigner(dm, "tblDesigners");
+            GlobalConfig.Connection.AddDesigner(dm, "tblReviewers");
             MessageBox.Show(txtDesigner.Text + " Added");
             clearBoxes();
             setlbxDatasource();
@@ -99,8 +99,8 @@ namespace DesignDB_UI
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             DesignersReviewersModel dm = new DesignersReviewersModel
-            (txtDesigner.Text, txtPassword.Text, txtPriviledge.Text, ckbActive.Checked.ToString(),txtID.Text);
-            GlobalConfig.Connection.UpdateDesigner(dm, "tblDesigner");
+                (txtDesigner.Text, txtPassword.Text, txtPriviledge.Text, ckbActive.Checked.ToString(),txtID.Text);
+            GlobalConfig.Connection.UpdateDesigner(dm, "tblReviewers");
             MessageBox.Show(txtDesigner.Text + " updated");
             setlbxDatasource();
         }

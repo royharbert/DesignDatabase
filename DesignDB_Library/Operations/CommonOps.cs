@@ -12,13 +12,19 @@ namespace DesignDB_Library.Operations
 {
     public static class CommonOps
     {
+        public static FE_Model ToggleFE_ActiveStatus(FE_Model model)
+        {
+            GlobalConfig.Connection.ToggleActiveStatus("tblFE", "Active", model.ID, "ID");
+            model.Active = !model.Active;
+            return model;
+        }
         public static void ToggleMSO_ActiveStatus(DataGridView dgv)
         {
             int idx = 0;
-            int.TryParse(dgv.CurrentRow.Cells[0].Value.ToString(), out idx);
+            int.TryParse(dgv.CurrentRow.Cells[2].Value.ToString(), out idx);
             //bool status =  GlobalConfig.Connection.GetCurrentActivityStatus("tblMSO", "Active", idx, "ID");
             GlobalConfig.Connection.ToggleActiveStatus("tblMSO", "Active", idx, "ID");
-            List<MSO_Model> msoList = GlobalConfig.Connection.GenericGetAll<MSO_Model>("tblMSO");
+            List<MSO_Model> msoList = GlobalConfig.Connection.GenericGetAll<MSO_Model>("tblMSO", "MSO");
             dgv.DataSource = msoList;
         }
         public static void MakeMSO_StatusList(List<MSO_Model> msoList, DataGridView dgv)

@@ -76,10 +76,10 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>B42E18273C5D355AC8AF7258A598AF41801556CF</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>EFCC4E6A7EFA95DC589A36ED8863CAB498349F87</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>DesignDB_UI_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>DesignDB_UI_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -210,6 +210,12 @@
     <Compile Include="frmDesigner.Designer.cs">
       <DependentUpon>frmDesigner.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmFE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFE.designer.cs">
+      <DependentUpon>frmFE.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmHolidays.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -294,6 +300,12 @@
     <Compile Include="frmRequests.Designer.cs">
       <DependentUpon>frmRequests.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmReviewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmReviewer.designer.cs">
+      <DependentUpon>frmReviewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmSalesMaint.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -354,6 +366,9 @@
     <EmbeddedResource Include="frmDesigner.resx">
       <DependentUpon>frmDesigner.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmFE.resx">
+      <DependentUpon>frmFE.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmHolidays.resx">
       <DependentUpon>frmHolidays.cs</DependentUpon>
     </EmbeddedResource>
@@ -396,6 +411,9 @@
     <EmbeddedResource Include="frmRequests.resx">
       <DependentUpon>frmRequests.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmReviewer.resx">
+      <DependentUpon>frmReviewer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmSalesMaint.resx">
       <DependentUpon>frmSalesMaint.cs</DependentUpon>
     </EmbeddedResource>
@@ -420,6 +438,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="DesignDB_UI_1_TemporaryKey.pfx" />
     <None Include="DesignDB_UI_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
