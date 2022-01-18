@@ -67,6 +67,7 @@ namespace DesignDB_UI
             this.btnReviewMaint = new System.Windows.Forms.Button();
             this.btnSalespersonMaint = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnPrjBySales = new System.Windows.Forms.Button();
             this.tlpMain.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -469,7 +470,6 @@ namespace DesignDB_UI
             this.tlpMain.Controls.Add(this.rdoLive, 0, 8);
             this.tlpMain.Controls.Add(this.btnLoadRpt, 3, 1);
             this.tlpMain.Controls.Add(this.btnLogin, 0, 0);
-            this.tlpMain.Controls.Add(this.txtMode, 0, 9);
             this.tlpMain.Controls.Add(this.btnScreens, 0, 7);
             this.tlpMain.Controls.Add(this.btnLogSearch, 3, 4);
             this.tlpMain.Controls.Add(this.btnListCollector, 3, 5);
@@ -478,6 +478,8 @@ namespace DesignDB_UI
             this.tlpMain.Controls.Add(this.btnUtility, 5, 8);
             this.tlpMain.Controls.Add(this.btnReviewMaint, 5, 3);
             this.tlpMain.Controls.Add(this.btnSalespersonMaint, 5, 6);
+            this.tlpMain.Controls.Add(this.txtMode, 0, 9);
+            this.tlpMain.Controls.Add(this.btnPrjBySales, 3, 6);
             this.tlpMain.Location = new System.Drawing.Point(12, 150);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 10;
@@ -699,6 +701,21 @@ namespace DesignDB_UI
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1165, 33);
             this.tableLayoutPanel2.TabIndex = 32;
             // 
+            // btnPrjBySales
+            // 
+            this.btnPrjBySales.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPrjBySales.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnPrjBySales.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnPrjBySales.Location = new System.Drawing.Point(587, 309);
+            this.btnPrjBySales.Name = "btnPrjBySales";
+            this.btnPrjBySales.Size = new System.Drawing.Size(266, 45);
+            this.btnPrjBySales.TabIndex = 42;
+            this.btnPrjBySales.Tag = "2";
+            this.btnPrjBySales.Text = "Projects by Salesperson";
+            this.btnPrjBySales.UseVisualStyleBackColor = false;
+            // 
             // frmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
@@ -764,5 +781,6 @@ namespace DesignDB_UI
         private System.Windows.Forms.Button btnFE_Maintenance;
         private System.Windows.Forms.Button btnUtility;
         private System.Windows.Forms.Button btnReviewMaint;
+        private System.Windows.Forms.Button btnPrjBySales;
     }
 }
