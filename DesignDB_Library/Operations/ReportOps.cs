@@ -15,6 +15,7 @@ namespace DesignDB_Library.Operations
         public static void DoRollup(DateTime startDate, DateTime endDate)
         {
             List<Report_SalesProjectValuesModel> projectRollup = new List<Report_SalesProjectValuesModel>();
+            List<ReportCategoryMSOModel> categoryReport = new List<ReportCategoryMSOModel>();   
             int curYear = startDate.Year;
             DateTime NewYearsDay = new DateTime(curYear,1,1);
             DateTime NewYearsEve = new DateTime(curYear, 12, 31);
@@ -24,6 +25,8 @@ namespace DesignDB_Library.Operations
             //Get all SalesPersons
             List<SalespersonModel> salespersons = GlobalConfig.Connection.GenericConditionalGetAll<SalespersonModel>("tblSalespersons", "Active",
                 "1", "SalesPerson");
+            List<MSO_Model> msoList = GlobalConfig.Connection.GenericConditionalGetAll<MSO_Model>("tblMSO", "Active", "1",
+                "MSO");
             decimal bomTotal = requests.Sum(x => x.BOM_Value);
             foreach (SalespersonModel salespersonModel in salespersons)
             {
@@ -92,7 +95,103 @@ namespace DesignDB_Library.Operations
                 } 
             }
 
-            ExcelOps.PlaceRollupInExcel(projectRollup, bomTotal);
+            ReportCategoryMSOModel categorySummary = new ReportCategoryMSOModel();
+            categorySummary.TotalDollars = requests.Sum(x => x.BOM_Value);
+
+            //Category report
+            foreach (var mso in msoList)
+            {
+                List<RequestModel> categoryRequests = requests;
+                categoryRequests = categoryRequests.Where(x => x.MSO == mso.MSO).ToList();
+                if (categoryRequests.Count > 0)
+                {
+                    ReportCategoryMSOModel model = new ReportCategoryMSOModel();
+                    model.MSO = mso.MSO;
+                    model.TotalDollars = categoryRequests.Sum(x => x.BOM_Value);
+                    model.TotalRequests = categoryRequests.Count;
+                    model.AverageDollarsPerRequest = model.TotalDollars / model.TotalRequests;
+                    model.PctOfTotal = model.TotalDollars * 100/requests.Sum(x => x.BOM_Value);
+                    foreach (var request in categoryRequests)
+                    {
+                        switch (request.Category)
+                        {
+                            case "HFC":
+                                model.HFC++;
+                                model.HFCDollars = model.HFCDollars + request.BOM_Value;
+                                break;
+                            case "NodeSplit":
+                                model.NodeSplit++;
+                                model.NodeSplitDollars=model.NodeSplitDollars + request.BOM_Value;
+                                break;
+                            case "RFoG":
+                                model.RFoG++;
+                                model.RFoGDollars=model.RFoGDollars+request.BOM_Value;
+                                break;
+                            case "PON":
+                                model.PON++;
+                                model.PON_Dollars=model.PON_Dollars+request.BOM_Value;
+                                break;
+                            case "Fiber Deep":
+                                model.FiberDeep++;  
+                                model.FiberDeepDollars=model.FiberDeepDollars+request.BOM_Value;
+                                break;
+                            case "Data Transport":
+                                model.DataTrans++;
+                                model.DataTransportDollars=model.DataTransportDollars+request.BOM_Value;
+                                break;
+                            case "Other":
+                                model.Other++;
+                                model.OtherDollars=model.OtherDollars+request.BOM_Value;
+                                break;
+                            case "PEG":
+                                model.PEG++;
+                                model.PEG_Dollars = model.PEG_Dollars + request.BOM_Value;
+                                break;
+                            case "Commercial":
+                                model.Commercial++;
+                                model.CommercialDollars=model.CommercialDollars+request.BOM_Value;
+                                break;
+                            case "Unassigned":
+                                model.Unassigned++;
+                                model.UnassignedDollars=model.UnassignedDollars+request.BOM_Value;
+                                break;
+                            default:
+                                model.Unassigned++;
+                                model.UnassignedDollars = model.UnassignedDollars + request.BOM_Value;
+                                break;
+                        } 
+                    }
+                    categoryReport.Add(model);
+                }
+            }
+            categorySummary.MSO = "TOTAL";
+            categorySummary.TotalRequests = requests.Count;
+            categorySummary.AverageDollarsPerRequest=categorySummary.TotalDollars/categorySummary.TotalRequests;
+            categorySummary.PctOfTotal = categoryReport.Sum(x => x.PctOfTotal); 
+            categorySummary.HFC= categoryReport.Sum(x => x.HFC);
+            categorySummary.NodeSplit= categoryReport.Sum(x => x.NodeSplit);
+            categorySummary.RFoG = categoryReport.Sum(x => x.RFoG);
+            categorySummary.PON= categoryReport.Sum(x => x.PON);
+            categorySummary.FiberDeep= categoryReport.Sum(x => x.FiberDeep);
+            categorySummary.DataTrans = categoryReport.Sum(x => x.DataTrans);
+            categorySummary.Other = categoryReport.Sum(x => x.Other);
+            categorySummary.PEG = categoryReport.Sum(x => x.PEG);
+            categorySummary.Commercial = categoryReport.Sum(x => x.Commercial);
+            categorySummary.Unassigned = categoryReport.Sum(x => x.Unassigned);
+            categorySummary.HFCDollars = categoryReport.Sum(x => x.HFCDollars);
+            categorySummary.NodeSplitDollars = categoryReport.Sum(x => x.NodeSplitDollars);
+            categorySummary.RFoGDollars = categoryReport.Sum(x => x.RFoGDollars);
+            categorySummary.PON_Dollars = categoryReport.Sum(x => x.PON_Dollars);
+            categorySummary.FiberDeepDollars = categoryReport.Sum(x => x.FiberDeepDollars);
+            categorySummary.DataTransportDollars = categoryReport.Sum(x => x.DataTransportDollars);
+            categorySummary.OtherDollars = categoryReport.Sum(x => x.OtherDollars);
+            categorySummary.PEG_Dollars = categoryReport.Sum(x => x.OtherDollars);
+            categorySummary.CommercialDollars = categoryReport.Sum(x => x.CommercialDollars);
+            categorySummary.UnassignedDollars = categoryReport.Sum(x => x.UnassignedDollars);
+
+            categoryReport.Add(categorySummary);
+
+            ExcelOps.PlaceRollupInExcel(categoryReport, projectRollup, bomTotal);
         }
         public static List<List<(string Field, bool Active)>> CollectDropDownLists(TableLayoutPanel BoxForm)
         {
@@ -510,11 +609,7 @@ namespace DesignDB_Library.Operations
                             case "RFOG":
                                 reportLine.RFoG++;
                                 reportLine.RFoGDollars = reportLine.RFoGDollars + request.BOM_Value;
-                                break;
-                            case "RFOG PON":
-                                reportLine.RFoGPON++;
-                                reportLine.RFoGDollars += request.BOM_Value;
-                                break;
+                                break;                            
                             case "PON":
                                 reportLine.PON++;
                                 reportLine.PON_Dollars = reportLine.PON_Dollars + request.BOM_Value;
