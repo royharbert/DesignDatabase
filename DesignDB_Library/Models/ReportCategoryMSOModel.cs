@@ -20,6 +20,8 @@ namespace DesignDB_Library.Models
         [ExcelExportPropertyAttribute]
         public int HFC { get; set; }
         [ExcelExportPropertyAttribute]
+        public int NodeSplit { get; set; }
+        [ExcelExportPropertyAttribute]
         public int RFoG { get; set; }
         [ExcelExportPropertyAttribute]
         public int PON { get; set; }
@@ -39,6 +41,8 @@ namespace DesignDB_Library.Models
         public int Unassigned { get; set; }
         [ExcelExportPropertyAttribute]
         public decimal HFCDollars { get; set; }
+        [ExcelExportPropertyAttribute]
+        public decimal NodeSplitDollars { get; set; }
         [ExcelExportPropertyAttribute]
         public decimal RFoGDollars { get; set; }
         [ExcelExportPropertyAttribute]

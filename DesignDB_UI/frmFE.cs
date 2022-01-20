@@ -22,7 +22,6 @@ namespace DesignDB_UI
         List<FE_Model> feList = new List<FE_Model>();
 
 
-        string connectionString;
 
         public frmFE()
         {

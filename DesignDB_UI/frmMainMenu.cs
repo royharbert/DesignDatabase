@@ -22,6 +22,8 @@ namespace DesignDB_UI
 
         private bool formLoading = false;
         private bool operationCanceled = false;     //flag to indicate cancel of operation
+        private DateTime startDate;
+        private DateTime endDate;
 
         public frmMainMenu()
         {
@@ -367,23 +369,10 @@ namespace DesignDB_UI
         {
             switch (GV.MODE)
             {
-                case Mode.New:
-                    break;
-                case Mode.Edit:
-                    break;
-                case Mode.Revision:
-                    break;
-                case Mode.Clone:
-                    break;
-                case Mode.Delete:
-                    break;
-                case Mode.Restore:
-                    break;
-                case Mode.DateRangeSearch:
-                    break;
-                case Mode.Forecast:
-                    break;
-                case Mode.Report_OpenRequests:
+                case Mode.Report_Rollup:
+                    startDate = e.StartDate;
+                    endDate = e.EndDate;
+                    ReportOps.DoRollup(startDate, endDate);
                     break;
                 case Mode.Report_CatMSO:
                     List<ReportCategoryMSOModel> categoryReport = ReportOps.
@@ -401,8 +390,8 @@ namespace DesignDB_UI
                         (e.StartDate, e.EndDate, e.MSO_s);
                     break;
                 case Mode.Report_ByPriority:
-                    DateTime startDate = e.StartDate;
-                    DateTime endDate = e.EndDate;
+                    startDate = e.StartDate;
+                    endDate = e.EndDate;
                     List<ReportSalesPriorityModel> PriorityReport = ReportOps.GenerateSalesSummary(startDate, endDate);
                     frmReportSalesPriiority frmReportSalesPriiority = new frmReportSalesPriiority();
                     frmReportSalesPriiority.Report = PriorityReport;
@@ -592,6 +581,15 @@ namespace DesignDB_UI
         {
             frmReviewer reviewer = new frmReviewer();
             reviewer.Show();
+        }
+
+        private void btnPrjBySales_Click(object sender, EventArgs e)
+        {
+            GV.MODE = Mode.Report_Rollup;
+            frmDateMSO_Picker.Height = 175;
+            frmDateMSO_Picker.Show();
+            
+
         }
     }
 }

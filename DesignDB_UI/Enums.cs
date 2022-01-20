@@ -25,6 +25,7 @@ namespace DesignDB_UI
         Report_ByPriority,
         Report_DesignerLoadReport,
         Report_Overdue,
+        Report_Rollup,
         Search,
         Undo,
         Log_Search,

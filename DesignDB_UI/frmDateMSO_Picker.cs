@@ -21,7 +21,7 @@ namespace DesignDB_UI
             InitializeComponent();
             GV.PickerForm = this;
             //this.BringToFront();
-            if (GV.MODE == Mode.Report_ByPriority)
+            if (GV.MODE == Mode.Report_ByPriority | GV.MODE == Mode.Report_Rollup)
             {
                 this.Height = 236;
                 lbMSO.Visible = false;
@@ -61,24 +61,27 @@ namespace DesignDB_UI
         {
             List<MSO_Model> msoList = new List<MSO_Model>();
             DataReadyEventArgs args = new DataReadyEventArgs();
-            if (!ckAll.Checked)
+            if (GV.MODE!=Mode.Report_Rollup)
             {
-                GlobalConfig.Connection.ClearTable("tblSnapshotMSO_S");
-                foreach (MSO_Model model in lbMSO.SelectedItems)
+                if (!ckAll.Checked)
                 {
-                    msoList.Add(model);
-                    GlobalConfig.Connection.UpdateSnapshotMSO_s(model.MSO);
+                    GlobalConfig.Connection.ClearTable("tblSnapshotMSO_S");
+                    foreach (MSO_Model model in lbMSO.SelectedItems)
+                    {
+                        msoList.Add(model);
+                        GlobalConfig.Connection.UpdateSnapshotMSO_s(model.MSO);
+                    }
                 }
-            }
-            else
-            {
-                msoList = GlobalConfig.Connection.GetAllMSO();
+                else
+                {
+                    msoList = GlobalConfig.Connection.GetAllMSO();
+                } 
             }
             args.MSO_s = msoList;
             args.StartDate = dtpStart.Value;
             args.EndDate = dtpStop.Value;
-            DataReadyEvent?.Invoke(this, args);
             this.Hide();
+            DataReadyEvent?.Invoke(this, args);
         }
 
         private void ckAll_CheckedChanged(object sender, EventArgs e)

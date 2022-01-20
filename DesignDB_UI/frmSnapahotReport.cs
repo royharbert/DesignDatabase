@@ -31,6 +31,7 @@ namespace DesignDB_UI
             report = ReportOps.GenerateSnapshotReport
                 (e.MSO_s, e.StartDate, e.EndDate);
             dgvSnapshots.DataSource = report;
+            txtRecords.Text = report.Count.ToString();
             formatDGV();
         }
 

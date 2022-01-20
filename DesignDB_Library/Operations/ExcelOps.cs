@@ -8,11 +8,86 @@ using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Tools.Excel;
 using System.Runtime.InteropServices;
+using DesignDB_Library.Models;
 
 namespace DesignDB_Library.Operations
 {
     public class ExcelOps
     {
+        public static void PlaceRollupInExcel(List<Report_SalesProjectValuesModel> requests, decimal bomTotal)
+        {
+            int row = 1;
+            int col = 1;
+
+            Excel.Application xlApp = makeExcelApp();
+            xlApp.Workbooks.Add();
+            Excel.Worksheet wks = xlApp.ActiveSheet;
+            xlApp.Visible = true;
+
+            //Place column headings
+            wks.Cells[1, 1].Value = "Salesperson";
+            wks.Cells[1, 2].Value = "Total $";
+            wks.Cells[1, 3].Value = "Average $";
+            wks.Cells[1, 4].Value = "Total Count";
+            wks.Cells[1, 5].Value = "% of Total Value";
+            wks.Cells[1, 6].Value = "Jan";
+            wks.Cells[1, 7].Value = "Feb";
+            wks.Cells[1, 8].Value = "Mar";
+            wks.Cells[1, 9].Value = "Apr";
+            wks.Cells[1, 10].Value = "May";
+            wks.Cells[1, 11].Value = "Jun";
+            wks.Cells[1, 12].Value = "Jul";
+            wks.Cells[1, 13].Value = "Aug";
+            wks.Cells[1, 14].Value = "Sep";
+            wks.Cells[1, 15].Value = "Oct";
+            wks.Cells[1, 16].Value = "Nov";
+            wks.Cells[1, 17].Value = "Dec";
+            wks.Cells[1, 18].Value = "Current Week";
+
+            wks.Columns[1].ColumnWidth = 28;
+            wks.get_Range("B:C").ColumnWidth = 20;
+
+            Excel.Range header = wks.get_Range("A1:R1");
+            header.Font.Bold = true;
+            header.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            header.Interior.Color = ColorTranslator.ToOle(System.Drawing.Color.LightSkyBlue);
+            header.WrapText = true;
+
+            row = 2;
+            foreach (var model in requests)
+            {
+                wks.Cells[row, 1] = model.SalesPerson;
+                wks.Cells[row, 2] = model.CurrentYTD_Value;
+                wks.Cells[row, 3] = model.AverageDollars;
+                wks.Cells[row, 4] = model.CurrentYear_Count;
+                wks.Cells[row, 5] = model.PctTotalValue;
+                wks.Cells[row, 6] = model.JanProjects;
+                wks.Cells[row, 7] = model.FebProjects;
+                wks.Cells[row, 8] = model.MarProjects;
+                wks.Cells[row, 9] = model.AprProjects;
+                wks.Cells[row, 10] = model.MayProjects;
+                wks.Cells[row, 11] = model.JunProjects;
+                wks.Cells[row, 12] = model.JulProjects;
+                wks.Cells[row, 13] = model.AugProjects;
+                wks.Cells[row, 14] = model.SepProjects;
+                wks.Cells[row, 15] = model.OctProjects;
+                wks.Cells[row, 16] = model.NovProjects;
+                wks.Cells[row, 17] = model.DecProjects;
+                wks.Cells[row, 18] = model.Weekly;
+                row++;
+            }
+            wks.Cells[row, 2].Value = bomTotal;
+
+            Excel.Range currencyRange = wks.Range[wks.Cells[2, 2], wks.Cells[row, 3]];
+            FormatExcelRangeAsCurrency(wks, currencyRange);
+
+            releaseObject(xlApp);
+        }
+        
+        private static void FormatExcelRangeAsCurrency(Excel.Worksheet wks, Excel.Range range)
+        {   
+            range.NumberFormat = "$###,###,###.00";            
+        }
         public static void PlaceDDListInExcel(List<List<(string Field, bool Active)>> ddList)
         {
             Excel.Application xlApp = makeExcelApp();

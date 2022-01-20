@@ -12,6 +12,21 @@ namespace DesignDB_Library.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
+        public List<T> GenericConditionalGetAll<T>(string tableName, string conditionColumn, string condition, string orderByField = null)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@TableName", tableName, DbType.String);
+                p.Add("@ConditionColumn", conditionColumn, DbType.String);
+                p.Add("@Condition", condition, DbType.String);
+                p.Add("@OrderByField", orderByField, DbType.String);
+
+                List<T> output = connection.Query<T>("dbo.spGenericConditionalGetAll", p,
+                    commandType: CommandType.StoredProcedure).ToList();
+                return output;
+            }
+        }
         public void FE_CRUD(FE_Model model, char action)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))

@@ -12,6 +12,88 @@ namespace DesignDB_Library.Operations
 {
     public static class ReportOps
     {
+        public static void DoRollup(DateTime startDate, DateTime endDate)
+        {
+            List<Report_SalesProjectValuesModel> projectRollup = new List<Report_SalesProjectValuesModel>();
+            int curYear = startDate.Year;
+            DateTime NewYearsDay = new DateTime(curYear,1,1);
+            DateTime NewYearsEve = new DateTime(curYear, 12, 31);
+            //Get all requests YTD
+            List<RequestModel> requests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(NewYearsDay, endDate, "DateAssigned",
+                false, "");
+            //Get all SalesPersons
+            List<SalespersonModel> salespersons = GlobalConfig.Connection.GenericConditionalGetAll<SalespersonModel>("tblSalespersons", "Active",
+                "1", "SalesPerson");
+            decimal bomTotal = requests.Sum(x => x.BOM_Value);
+            foreach (SalespersonModel salespersonModel in salespersons)
+            {
+                string name = salespersonModel.SalesPerson;
+                List<RequestModel> salesRequests = requests;
+                salesRequests = salesRequests.Where(x => x.DesignRequestor == name).ToList();
+                if (salesRequests.Count > 0)
+                {
+                    Report_SalesProjectValuesModel model = new Report_SalesProjectValuesModel();
+                    model.CurrentYTD_Value = salesRequests.Sum(x => x.BOM_Value);
+                    model.SalesPerson = name;
+                    foreach (var request in salesRequests)
+                    {
+                        if (request.DateAssigned >= startDate && request.DateAssigned <= endDate)
+                        {
+                            model.Weekly++;
+                        }
+                        model.CurrentYear_Count=salesRequests.Count;
+                        model.AverageDollars = model.CurrentYTD_Value / model.CurrentYear_Count;
+                        model.PctTotalValue = model.CurrentYTD_Value * 100 / bomTotal;
+                        int month = request.DateAssigned.Month;
+                        List<RequestModel> monthlyRequests = salesRequests.Where(x => x.DateAssigned.Month == month).ToList();
+                        switch (month)
+                        {
+                            case 1:
+                                model.JanProjects++;
+                                break;
+                            case 2:
+                                model.FebProjects++;
+                                break;
+                            case 3:
+                                model.MarProjects++;
+                                break;
+                            case 4:
+                                model.AprProjects++;
+                                break;
+                            case 5:
+                                model.MayProjects++;
+                                break;
+                            case 6:
+                                model.JunProjects++;
+                                break;
+                            case 7:
+                                model.JulProjects++;
+                                break;
+                            case 8:
+                                model.AugProjects++;
+                                break;
+                            case 9:
+                                model.SepProjects++;
+                                break;
+                            case 10:
+                                model.OctProjects++;
+                                break;
+                            case 11:
+                                model.NovProjects++;
+                                break;
+                            case 12:
+                                model.DecProjects++;
+                                break;
+                            default:
+                                    break;
+                        }
+                    }
+                    projectRollup.Add(model);
+                } 
+            }
+
+            ExcelOps.PlaceRollupInExcel(projectRollup, bomTotal);
+        }
         public static List<List<(string Field, bool Active)>> CollectDropDownLists(TableLayoutPanel BoxForm)
         {
             List<List<(string, bool)>> BoxData = new List<List<(string, bool)>>();
@@ -421,6 +503,10 @@ namespace DesignDB_Library.Operations
                                 reportLine.HFC++;
                                 reportLine.HFCDollars = reportLine.HFCDollars + request.BOM_Value;
                                 break;
+                            case "Node Split":
+                                reportLine.NodeSplit++;
+                                reportLine.NodeSplitDollars = reportLine.HFCDollars + request.BOM_Value;
+                                break;
                             case "RFOG":
                                 reportLine.RFoG++;
                                 reportLine.RFoGDollars = reportLine.RFoGDollars + request.BOM_Value;
@@ -710,35 +796,55 @@ namespace DesignDB_Library.Operations
         }
         public static void FormatCatMSO_DGV(DataGridView dgv)
         {
-            string[] headers = { "MSO", "Total Dollars", "Average $/ Request","Total Requests", "HFC","RFoG", "PON", "RFoG/ PON",
-            "Fiber Deep", "Data Trans.", "Other", "PEG", "Commercial","Unassigned", "HFC Dollars","RFoG Dollars", "PON Dollars",
+            string[] headers = { "MSO", "Total Dollars", "Average $/ Request","Total Requests", "HFC", "Node Split", "RFoG", "PON", "RFoG/ PON",
+            "Fiber Deep", "Data Trans.", "Other", "PEG", "Commercial","Unassigned", "HFC Dollars","Node Split Dollars", "RFoG Dollars", "PON Dollars",
             "RFoG/ Pon Dollars","Fiber Deep Dollars", "Data Trans. Dollars","Other Dollars", "PEG Dollars","Commercial Dollars",
             "Unassigned Dollars" };
 
-            int[] widths = { 150, 100, 100, 60, 60, 60, 60, 60, 60, 60, 60, 60, 75, 75, 160,
-             160,160,160,160,160,160,160,160,160};
+            int[] widths = { 150, 100, 100, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 75, 75, 160,
+             160,160,160,160,160,160,160,160};
 
             SetDGV_ColumnWidths(dgv, widths);
             setDGV_HeaderText(dgv, headers);
+
+            int[] currencyCols = { 1, 2, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25 };
+            setDGV_CurrencyCols(dgv, currencyCols);
+        }
+
+        private static void setDGV_CurrencyCols(DataGridView dgv, int[] cols)
+        {
+            foreach (int col in cols)
+            {
+                dgv.Columns[col].DefaultCellStyle.Format = "c2";
+            }
         }
         public static void FormatCatMSO_Export(Excel.Worksheet wks)
         {
-            string[] headers = { "MSO", "Total Dollars", "Average $/ Request","Total Requests", "HFC","RFoG", "PON", "RFoG/ PON",
-            "Fiber Deep", "Data Trans.", "Other", "PEG", "Commercial","Unassigned", "HFC Dollars","RFoG Dollars", "PON Dollars",
+            string[] headers = { "MSO", "Total Dollars", "Average $/ Request","Total Requests", "HFC", "Node Split", "RFoG", "PON", "RFoG/ PON",
+            "Fiber Deep", "Data Trans.", "Other", "PEG", "Commercial","Unassigned", "HFC Dollars", "Node Split Dollars", "RFoG Dollars", "PON Dollars",
             "RFoG/ Pon Dollars","Fiber Deep Dollars", "Data Trans. Dollars","Other Dollars", "PEG Dollars","Commercial Dollars",
             "Unassigned Dollars" };
             placeHeaderTextInExport(wks, headers);
             formatExcelHeaderRow(wks);
 
-            int[] widths = { 25, 15, 20, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 20,
-             20,20,20,20,20,20,20,20,20};
+            int[] widths = { 25, 15, 20, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 20,
+             20,20,20,20,20,20,20,20,20,20};
             setExcelExportColumnWidths(wks, widths);
 
-            string[] currencyCols = { "B", "C", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X" };
+            string[] currencyCols = { "B", "C", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
             FormatExcelColumnsAsCurrency(wks, currencyCols);
 
-            int[] cols = { 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
+            int[] cols = { 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15 };
             CenterSpecificExcelColumns(wks, cols);
+        }
+
+        public static List<Report_SalesProjectValuesModel> Report_SalesProjectValues()
+        {
+            List<Report_SalesProjectValuesModel> ValueReport = new List<Report_SalesProjectValuesModel>();
+            //List<SalespersonModel> ActiveSales = GlobalConfig.Connection.
+
+
+            return ValueReport;
         }
     }
 }

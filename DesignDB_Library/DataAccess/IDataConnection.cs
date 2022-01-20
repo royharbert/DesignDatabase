@@ -9,6 +9,7 @@ namespace DesignDB_Library.DataAccess
 {
     public interface IDataConnection
     {
+        List<T> GenericConditionalGetAll<T>(string tableName, string conditionColumn, string condition, string orderByField = "");
         void FE_CRUD(FE_Model model, char action);
         List<T> GetItemByColumn<T>(string tableName, string columnName, string stringValue, int intValue = -1);
         void MSO_Add(string MSO_Name, string TLA, bool Active);

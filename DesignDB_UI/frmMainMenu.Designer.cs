@@ -57,7 +57,6 @@ namespace DesignDB_UI
             this.btnDeleteRecord = new System.Windows.Forms.Button();
             this.rdoSandbox = new System.Windows.Forms.RadioButton();
             this.rdoLive = new System.Windows.Forms.RadioButton();
-            this.txtMode = new System.Windows.Forms.TextBox();
             this.btnScreens = new System.Windows.Forms.Button();
             this.btnLogSearch = new System.Windows.Forms.Button();
             this.btnListCollector = new System.Windows.Forms.Button();
@@ -66,8 +65,9 @@ namespace DesignDB_UI
             this.btnUtility = new System.Windows.Forms.Button();
             this.btnReviewMaint = new System.Windows.Forms.Button();
             this.btnSalespersonMaint = new System.Windows.Forms.Button();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.txtMode = new System.Windows.Forms.TextBox();
             this.btnPrjBySales = new System.Windows.Forms.Button();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tlpMain.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -555,15 +555,6 @@ namespace DesignDB_UI
             this.rdoLive.UseVisualStyleBackColor = true;
             this.rdoLive.CheckedChanged += new System.EventHandler(this.rdoLive_CheckedChanged);
             // 
-            // txtMode
-            // 
-            this.txtMode.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMode.Location = new System.Drawing.Point(3, 462);
-            this.txtMode.Name = "txtMode";
-            this.txtMode.Size = new System.Drawing.Size(234, 15);
-            this.txtMode.TabIndex = 33;
-            // 
             // btnScreens
             // 
             this.btnScreens.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -681,6 +672,31 @@ namespace DesignDB_UI
             this.btnSalespersonMaint.UseVisualStyleBackColor = false;
             this.btnSalespersonMaint.Click += new System.EventHandler(this.btnSalespersonMaint_Click);
             // 
+            // txtMode
+            // 
+            this.txtMode.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMode.Location = new System.Drawing.Point(3, 462);
+            this.txtMode.Name = "txtMode";
+            this.txtMode.Size = new System.Drawing.Size(234, 15);
+            this.txtMode.TabIndex = 33;
+            // 
+            // btnPrjBySales
+            // 
+            this.btnPrjBySales.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPrjBySales.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnPrjBySales.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnPrjBySales.Location = new System.Drawing.Point(587, 309);
+            this.btnPrjBySales.Name = "btnPrjBySales";
+            this.btnPrjBySales.Size = new System.Drawing.Size(266, 45);
+            this.btnPrjBySales.TabIndex = 42;
+            this.btnPrjBySales.Tag = "2";
+            this.btnPrjBySales.Text = "Rollup";
+            this.btnPrjBySales.UseVisualStyleBackColor = false;
+            this.btnPrjBySales.Click += new System.EventHandler(this.btnPrjBySales_Click);
+            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -700,21 +716,6 @@ namespace DesignDB_UI
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1165, 33);
             this.tableLayoutPanel2.TabIndex = 32;
-            // 
-            // btnPrjBySales
-            // 
-            this.btnPrjBySales.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPrjBySales.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btnPrjBySales.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnPrjBySales.Location = new System.Drawing.Point(587, 309);
-            this.btnPrjBySales.Name = "btnPrjBySales";
-            this.btnPrjBySales.Size = new System.Drawing.Size(266, 45);
-            this.btnPrjBySales.TabIndex = 42;
-            this.btnPrjBySales.Tag = "2";
-            this.btnPrjBySales.Text = "Projects by Salesperson";
-            this.btnPrjBySales.UseVisualStyleBackColor = false;
             // 
             // frmMainMenu
             // 

@@ -17,7 +17,6 @@ namespace DesignDB_UI
     public partial class frmReportCatMSO : Form
     {
         private List<ReportCategoryMSOModel> _report = null;
-
         public List<ReportCategoryMSOModel> Report 
         {
             set
