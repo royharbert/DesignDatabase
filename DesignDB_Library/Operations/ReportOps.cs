@@ -15,18 +15,20 @@ namespace DesignDB_Library.Operations
         public static void DoRollup(DateTime startDate, DateTime endDate)
         {
             List<Report_SalesProjectValuesModel> projectRollup = new List<Report_SalesProjectValuesModel>();
-            List<ReportCategoryMSOModel> categoryReport = new List<ReportCategoryMSOModel>();   
+            List<ReportCategoryMSOModel> categoryReport = new List<ReportCategoryMSOModel>();
+            List<OpenRequestsBySalesModel> openRequestsBySales = new List<OpenRequestsBySalesModel>();
             int curYear = startDate.Year;
             DateTime NewYearsDay = new DateTime(curYear,1,1);
             DateTime NewYearsEve = new DateTime(curYear, 12, 31);
             //Get all requests YTD
-            List<RequestModel> requests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(NewYearsDay, endDate, "DateAssigned",
+            List<RequestModel> requests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(NewYearsDay, NewYearsEve, "DateAssigned",
                 false, "");
             //Get all SalesPersons
             List<SalespersonModel> salespersons = GlobalConfig.Connection.GenericConditionalGetAll<SalespersonModel>("tblSalespersons", "Active",
                 "1", "SalesPerson");
             List<MSO_Model> msoList = GlobalConfig.Connection.GenericConditionalGetAll<MSO_Model>("tblMSO", "Active", "1",
                 "MSO");
+            
             decimal bomTotal = requests.Sum(x => x.BOM_Value);
             foreach (SalespersonModel salespersonModel in salespersons)
             {
@@ -46,7 +48,7 @@ namespace DesignDB_Library.Operations
                         }
                         model.CurrentYear_Count=salesRequests.Count;
                         model.AverageDollars = model.CurrentYTD_Value / model.CurrentYear_Count;
-                        model.PctTotalValue = model.CurrentYTD_Value * 100 / bomTotal;
+                        model.PctTotalValue = model.CurrentYTD_Value / bomTotal;
                         int month = request.DateAssigned.Month;
                         List<RequestModel> monthlyRequests = salesRequests.Where(x => x.DateAssigned.Month == month).ToList();
                         switch (month)
@@ -191,7 +193,143 @@ namespace DesignDB_Library.Operations
 
             categoryReport.Add(categorySummary);
 
-            ExcelOps.PlaceRollupInExcel(categoryReport, projectRollup, bomTotal);
+            //Open Requests by salesperson
+            List<RequestModel> openDesignBySales = GlobalConfig.Connection.GetOpenRequests();
+            OpenRequestsBySalesModel accumulatorModel = new OpenRequestsBySalesModel();
+            accumulatorModel.Salesperson = "Total";
+            foreach (SalespersonModel salesperson in salespersons)
+            {                
+                List<RequestModel> openRequests = openDesignBySales;
+                string person = salesperson.SalesPerson;
+                OpenRequestsBySalesModel openModel = new OpenRequestsBySalesModel();
+                openModel.Salesperson = person;
+                openRequests = (List<RequestModel>)openRequests.Where(x => x.DesignRequestor == person).ToList();
+                if (openRequests.Count > 0)
+                {
+                    foreach (var request in openRequests)
+                    {
+                        int mAssigned = request.DateAssigned.Month;
+                        switch (mAssigned)
+                        {
+                            case 1:
+                                openModel.Jan++;
+                                accumulatorModel.Jan++;
+                                break;
+                            case 2:
+                                openModel.Feb++;
+                                accumulatorModel.Feb++;
+                                break;
+                            case 3:
+                                openModel.Mar++;
+                                accumulatorModel.Mar++;
+                                break;
+                            case 4:
+                                openModel.Apr++;
+                                accumulatorModel.Apr++;
+                                break;
+                            case 5:
+                                openModel.May++;
+                                accumulatorModel.May++;
+                                break;
+                            case 6:
+                                openModel.Jun++;
+                                accumulatorModel.Jun++;
+                                break;
+                            case 7:
+                                openModel.Jul++;
+                                accumulatorModel.Jul++;
+                                break;
+                            case 8:
+                                openModel.Aug++;
+                                accumulatorModel.Aug++;
+                                break;
+                            case 9:
+                                openModel.Sep++;
+                                accumulatorModel.Sep++;
+                                break;
+                            case 10:
+                                openModel.Oct++;
+                                accumulatorModel.Oct++;
+                                break;
+                            case 11:
+                                openModel.Nov++;
+                                accumulatorModel.Nov++;
+                                break;
+                            case 12:
+                                openModel.Dec++;
+                                accumulatorModel.Dec++;
+                                break;
+                            default:
+                                break;
+                        }
+                        openModel.Count++;
+                        accumulatorModel.Count++;
+                    }                        
+                    openRequestsBySales.Add(openModel);
+                }
+            }
+            openRequestsBySales.Add(accumulatorModel);
+            List<ReportSalesPriorityModel> priorityReport = ReportBySalesPriority(requests, salespersons);
+            ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, categoryReport, projectRollup, priorityReport, bomTotal);
+        }
+
+        public static List<ReportSalesPriorityModel> ReportBySalesPriority(List<RequestModel> requests, List<SalespersonModel> salesPeople)
+        {
+            List<ReportSalesPriorityModel> priorityModels = new List<ReportSalesPriorityModel>();
+            ReportSalesPriorityModel companyTotal = new ReportSalesPriorityModel();
+            companyTotal.SalesPerson = "Company Total";
+            ReportSalesPriorityModel percentModel = new ReportSalesPriorityModel();
+            percentModel.SalesPerson = "Percent of Total";
+            foreach (var person in salesPeople)
+            {
+                string name = person.SalesPerson;
+                List<RequestModel> FilteredRequests = requests;
+                FilteredRequests = FilteredRequests.Where(x => x.DesignRequestor == name).ToList();
+                if (FilteredRequests.Count > 0)
+                {
+                    ReportSalesPriorityModel model = new ReportSalesPriorityModel();
+                    model.SalesPerson = name;
+                    foreach (var filteredRequest in FilteredRequests)
+                    {
+                        switch (filteredRequest.Pty)
+                        {
+                            case "P1":
+                                model.P1Count++;
+                                model.P1Dollars = model.P1Dollars + filteredRequest.BOM_Value;
+                                model.TotalCount++;
+                                companyTotal.P1Count++;
+                                companyTotal.P1Dollars=companyTotal.P1Dollars = filteredRequest.BOM_Value;
+                                break;
+                            case "P2":
+                                model.P2Count++;
+                                model.P2Dollars = model.P2Dollars + filteredRequest.BOM_Value;
+                                model.TotalCount++;
+                                companyTotal.P2Count++;
+                                companyTotal.P2Dollars = companyTotal.P2Dollars = filteredRequest.BOM_Value;
+                                break;
+                            case "P3":
+                                model.P3Count++;
+                                model.P3Dollars = model.P3Dollars + filteredRequest.BOM_Value;
+                                model.TotalCount++;
+                                companyTotal.P3Count++;
+                                companyTotal.P3Dollars = companyTotal.P3Dollars = filteredRequest.BOM_Value;
+                                break;
+                            default:
+                                break;
+                        }
+                        companyTotal.TotalCount++;
+                    }
+                    priorityModels.Add(model);
+                }
+            }
+            priorityModels.Add(companyTotal);
+            percentModel.TotalCount = companyTotal.TotalCount / companyTotal.TotalCount;
+            percentModel.P1Count = companyTotal.P1Count / companyTotal.TotalCount;
+            percentModel.P2Count = companyTotal.P2Count / companyTotal.TotalCount;
+            percentModel.P3Count = companyTotal.P3Count / companyTotal.TotalCount;
+            priorityModels.Add(percentModel);
+
+            return priorityModels;
         }
         public static List<List<(string Field, bool Active)>> CollectDropDownLists(TableLayoutPanel BoxForm)
         {
