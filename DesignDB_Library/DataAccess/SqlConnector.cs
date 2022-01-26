@@ -12,7 +12,98 @@ namespace DesignDB_Library.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
+        public List<T> GenericConditionalGetAll<T>(string tableName, string conditionColumn, string condition, string orderByField = null)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@TableName", tableName, DbType.String);
+                p.Add("@ConditionColumn", conditionColumn, DbType.String);
+                p.Add("@Condition", condition, DbType.String);
+                p.Add("@OrderByField", orderByField, DbType.String);
+
+                List<T> output = connection.Query<T>("dbo.spGenericConditionalGetAll", p,
+                    commandType: CommandType.StoredProcedure).ToList();
+                return output;
+            }
+        }
+        public void FE_CRUD(FE_Model model, char action)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@Action", action, DbType.String);
+                p.Add("@ID", model.ID, DbType.Int32);
+                p.Add("@FirstName", model.FirstName, DbType.String);
+                p.Add("@LastName", model.LastName, DbType.String);
+                p.Add("@ManagerID", model.ManagerID, DbType.String);
+                p.Add("@Region", model.Region, DbType.String);
+                p.Add("@Phone", model.Phone, DbType.String);
+                p.Add("@Email", model.EMail, DbType.String);
+                p.Add("@Active", model.Active, DbType.Boolean);
+
+                connection.Execute("dbo.spFE_CRUD", p,
+                    commandType: CommandType.StoredProcedure);
+            }
+        }
+        public List<T> GetItemByColumn<T>(string tableName, string columnName, string stringValue, int intValue = -1)
+        {
+            List<T> list = new List<T>();
+            string iVal = intValue.ToString();
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@TableName", tableName, DbType.String, ParameterDirection.Input);
+                p.Add("@ColumnName", columnName, DbType.String, ParameterDirection.Input);
+                p.Add("@IntValue", iVal, DbType.String, ParameterDirection.Input);
+                p.Add("@StringValue", stringValue, DbType.String, ParameterDirection.Input);
+
+                list = connection.Query<T>("dbo.spGetItemByColumn", p,
+                    commandType: CommandType.StoredProcedure).ToList();
+                return list;
+            }
+        }
+        public void MSO_Add(string MSO_Name, string TLA, bool Active)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@MSO_Name", MSO_Name, DbType.String);
+                p.Add("@TLA", TLA, DbType.String);
+                p.Add("@Active", Active, DbType.Boolean);
+                connection.Execute("dbo.spMSO_Add", p, commandType: CommandType.StoredProcedure);
+            }
+        }
+        public List<T> GenericGetAll<T>(string tableName, string orderByField = "")
+        {
+            var p = new DynamicParameters();
+            p.Add("@TableName", tableName, DbType.String);
+            if ( orderByField != "")
+            {
+                p.Add("@OrderField", orderByField, DbType.String);
+            }
+            List<T> list = new List<T>();
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                list = connection.Query<T>("dbo.spGenericOrderedGetAll", p,
+                    commandType: CommandType.StoredProcedure).ToList();
+                return list;
+            }
+        }
         public static string db { get; set; }
+        public List<T> GenericGetAllByField<T>(string tableName, string fieldName)
+        {
+            var p = new DynamicParameters();
+            p.Add("@TableName", tableName, DbType.String);
+            p.Add("@FieldName", fieldName, DbType.String);
+            List<T> list = new List<T>();
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                list = connection.Query<T>("dbo.spGenericGetAllByField", p,
+                    commandType: CommandType.StoredProcedure).ToList();
+                return list;
+            }
+        }
 
         public void AddUser(UserModel NewUser)
         {
@@ -182,11 +273,12 @@ namespace DesignDB_Library.DataAccess
             }
         }
 
-        public void AddDesigner(DesignersReviewersModel designer)
+        public void AddDesigner(DesignersReviewersModel designer,string tableName)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 var p = new DynamicParameters();
+                p.Add("@TableName", tableName, DbType.String);
                 p.Add("@UserName", designer.Designer, DbType.String);
                 p.Add("@PW", designer.Pwd, DbType.String);
                 p.Add("@Priviledge", designer.Priviledge, DbType.Int32);
@@ -208,12 +300,13 @@ namespace DesignDB_Library.DataAccess
             }
         }
 
-        public void UpdateDesigner(DesignersReviewersModel designer)
+        public void UpdateDesigner(DesignersReviewersModel designer, string tableName)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
 
                 var p = new DynamicParameters();
+                p.Add("@TableName", tableName, DbType.String);
                 p.Add("@UName", designer.Designer);
                 p.Add("@PWord", designer.Pwd);
                 p.Add("@Priv", designer.Priviledge);
@@ -257,6 +350,16 @@ namespace DesignDB_Library.DataAccess
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 List<MSO_Model> output = connection.Query<MSO_Model>("dbo.spMSO_GetAll", commandType: CommandType.StoredProcedure).ToList();
+                return output;
+            }
+        }
+
+
+        public List<MSO_Model> GetAllActiveMSO()
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                List<MSO_Model> output = connection.Query<MSO_Model>("dbo.spMSO_GetAllActive", commandType: CommandType.StoredProcedure).ToList();
                 return output;
             }
         }
@@ -786,6 +889,43 @@ namespace DesignDB_Library.DataAccess
                     connection.Query<LogModel>("dbo.spActivityLog_GetAll", commandType: CommandType.StoredProcedure).ToList();
 
                 return output;
+            }
+        }
+
+        public bool GetCurrentActivityStatus(string tableName, string activeColumnName, int Idx, string idxName)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                bool active = false;
+                var p = new DynamicParameters();
+
+                p.Add("@TableName", tableName, DbType.String, ParameterDirection.Input);
+                p.Add("@ActiveColumnName", activeColumnName, DbType.String, ParameterDirection.Input);
+                p.Add("@Index", Idx, DbType.Int32, ParameterDirection.Input);
+                p.Add("@IndexName", idxName, DbType.String, ParameterDirection.Input);
+                List<bool> output =
+                    connection.Query<bool>("dbo.spGetActiveStatus",p , commandType: CommandType.StoredProcedure).ToList();
+                active = output[0];
+                return active;
+            }
+        }
+
+        public void ToggleActiveStatus(string tableName, string activeColumnName, int Idx, string idxName)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                //bool active = false;
+                var p = new DynamicParameters();
+
+                p.Add("@TableName", tableName, DbType.String, ParameterDirection.Input);
+                p.Add("@ActiveColumnName", activeColumnName, DbType.String, ParameterDirection.Input);
+                p.Add("@ID", Idx, DbType.Int32, ParameterDirection.Input);
+                p.Add("@ID_ColName", idxName, DbType.String, ParameterDirection.Input);
+
+                //List<bool> output =
+                connection.Execute("dbo.spToggleActiveStatus", p, commandType: CommandType.StoredProcedure);
+                //active = output[0];
+                //return active;
             }
         }
     }

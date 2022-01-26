@@ -25,12 +25,14 @@ namespace DesignDB_UI
         Report_ByPriority,
         Report_DesignerLoadReport,
         Report_Overdue,
+        Report_Rollup,
         Search,
         Undo,
         Log_Search,
         Log_View,
         Add_Attachment,
         Delete_Attachment,
+        MSO_Maintenance,
         None
     }
     

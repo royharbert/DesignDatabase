@@ -9,6 +9,14 @@ namespace DesignDB_Library.DataAccess
 {
     public interface IDataConnection
     {
+        List<T> GenericConditionalGetAll<T>(string tableName, string conditionColumn, string condition, string orderByField = "");
+        void FE_CRUD(FE_Model model, char action);
+        List<T> GetItemByColumn<T>(string tableName, string columnName, string stringValue, int intValue = -1);
+        void MSO_Add(string MSO_Name, string TLA, bool Active);
+        void ToggleActiveStatus(string tableName, string activeColumnName, int Idx, string idxName);
+        bool GetCurrentActivityStatus(string tableName, string activeColumnName, int Idx, string idxName);
+        List<T> GenericGetAll<T>(string tableName, string OorderByField = "");
+        List<T> GenericGetAllByField<T>(string tableName, string fieldName);
         List<LogModel> ActivityLog_GetAll();
         List<LogModel> LogList(string searchTerm, string searchValue);
         void LogEntry_Add(string User, string Action, string AffectedFields, string RequestID);
@@ -59,11 +67,12 @@ namespace DesignDB_Library.DataAccess
         void AddCountry(String ctry);
         void DeleteCountry(int idy);
         void UpdateCountry(int idx, string designer);
-        void AddDesigner(DesignersReviewersModel designer);
+        void AddDesigner(DesignersReviewersModel designer, string tableName);
         void DeleteDesigner(DesignersReviewersModel designer);
-        void UpdateDesigner(DesignersReviewersModel designer);
+        void UpdateDesigner(DesignersReviewersModel designer, string tableName);
         List<DesignersReviewersModel> GetAllDesigners();
         List<MSO_Model> GetAllMSO();
+        List<MSO_Model> GetAllActiveMSO();
         List<CityModel> GetAllCities();
     }
 }

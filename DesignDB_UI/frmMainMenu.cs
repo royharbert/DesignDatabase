@@ -18,10 +18,12 @@ namespace DesignDB_UI
     public partial class frmMainMenu : Form
     {
         frmInput frmInput = new frmInput();
-        frmDateMSO_Picker frmDateMSO_Picker = new frmDateMSO_Picker();        
+        frmDateMSO_Picker frmDateMSO_Picker = new frmDateMSO_Picker();
 
         private bool formLoading = false;
         private bool operationCanceled = false;     //flag to indicate cancel of operation
+        private DateTime startDate;
+        private DateTime endDate;
 
         public frmMainMenu()
         {
@@ -188,7 +190,7 @@ namespace DesignDB_UI
 
         private void btnDesignerMaint_Click(object sender, EventArgs e)
         {
-            Form frm = new frmDesigner();
+            Form frm = new frmReviewer();
             frm.ShowDialog();
         }
 
@@ -241,7 +243,7 @@ namespace DesignDB_UI
             }
 
             if (rm.Count == 1)
-            {                
+            {
                 FC.DisplayRequestForm(rm[0]);
             }
             else
@@ -257,7 +259,7 @@ namespace DesignDB_UI
 
 
         private void btnExit_Click(object sender, EventArgs e)
-        {            
+        {
             Application.Exit();
         }
 
@@ -352,7 +354,7 @@ namespace DesignDB_UI
         {
             GV.MODE = Mode.Report_Snapshot;
             frmSnapahotReport frmSnapahot = new frmSnapahotReport();
-            if (! operationCanceled)
+            if (!operationCanceled)
             {
                 frmSnapahot.Show();
             }
@@ -367,30 +369,17 @@ namespace DesignDB_UI
         {
             switch (GV.MODE)
             {
-                case Mode.New:
-                    break;
-                case Mode.Edit:
-                    break;
-                case Mode.Revision:
-                    break;
-                case Mode.Clone:
-                    break;
-                case Mode.Delete:
-                    break;
-                case Mode.Restore:
-                    break;
-                case Mode.DateRangeSearch:
-                    break;
-                case Mode.Forecast:
-                    break;
-                case Mode.Report_OpenRequests:
+                case Mode.Report_Rollup:
+                    startDate = e.StartDate;
+                    endDate = e.EndDate;
+                    ReportOps.DoRollup(startDate, endDate);
                     break;
                 case Mode.Report_CatMSO:
                     List<ReportCategoryMSOModel> categoryReport = ReportOps.
                         reportCategoryMSOs(e.MSO_s, e.StartDate, e.EndDate);
                     frmReportCatMSO frmReportCatMSO = new frmReportCatMSO();
                     frmReportCatMSO.Report = categoryReport;
-                    frmReportCatMSO.Show();                    
+                    frmReportCatMSO.Show();
                     break;
                 case Mode.Report_Snapshot:
                     List<SnapshotModel> report = ReportOps.GenerateSnapshotReport
@@ -401,8 +390,8 @@ namespace DesignDB_UI
                         (e.StartDate, e.EndDate, e.MSO_s);
                     break;
                 case Mode.Report_ByPriority:
-                    DateTime startDate = e.StartDate;
-                    DateTime endDate = e.EndDate;
+                    startDate = e.StartDate;
+                    endDate = e.EndDate;
                     List<ReportSalesPriorityModel> PriorityReport = ReportOps.GenerateSalesSummary(startDate, endDate);
                     frmReportSalesPriiority frmReportSalesPriiority = new frmReportSalesPriiority();
                     frmReportSalesPriiority.Report = PriorityReport;
@@ -450,7 +439,7 @@ namespace DesignDB_UI
             List<RequestModel> openRequests = GlobalConfig.Connection.GetOpenRequests();
             //frmMultiResult frmMultiResult = new frmMultiResult(openRequests);
             GV.MultiResult.dataList = openRequests;
-            GV.MultiResult.Show();    
+            GV.MultiResult.Show();
         }
 
         private void btnOverdue_Click(object sender, EventArgs e)
@@ -468,7 +457,7 @@ namespace DesignDB_UI
             frmCompletionTimeReport frmCompletionTimeReport = new frmCompletionTimeReport();
             GV.PickerForm.ShowDialog();
 
-            if (! operationCanceled)
+            if (!operationCanceled)
             {
                 try
                 {
@@ -519,7 +508,7 @@ namespace DesignDB_UI
 
         private void rdoLive_CheckedChanged(object sender, EventArgs e)
         {
-            if (! formLoading)
+            if (!formLoading)
             {
                 if (rdoLive.Checked)
                 {
@@ -528,7 +517,7 @@ namespace DesignDB_UI
                 }
                 else
                 {
-                    FC.setDBMode(this,false);
+                    FC.setDBMode(this, false);
                     setModeTextBox(false);
                 }
             }
@@ -537,7 +526,7 @@ namespace DesignDB_UI
         private void btnUtility_Click(object sender, EventArgs e)
         {
             frmUtility frmUtility = new frmUtility();
-            frmUtility.Show();            
+            frmUtility.Show();
         }
 
         private void btnSalespersonMaint_Click(object sender, EventArgs e)
@@ -554,10 +543,55 @@ namespace DesignDB_UI
 
         private void btnLogSearch_Click(object sender, EventArgs e)
         {
-            GV.MODE = Mode.Log_Search;            
+            GV.MODE = Mode.Log_Search;
             FC.SetFormPosition(GV.LogViewer);
             GV.LogViewer.Show();
         }
+
+        private void btnListCollector_Click(object sender, EventArgs e)
+        {
+            List<List<(string Field, bool Active)>> ddList = new List<List<(string Field, bool Active)>>();
+            Form frmCollect = new frmRequests();
+            foreach (Control control in frmCollect.Controls)
+            {
+                if (control is TableLayoutPanel)
+                {
+                    TableLayoutPanel tlp = (TableLayoutPanel)control;
+                    ddList.AddRange(ReportOps.CollectDropDownLists(tlp));
+                }
+            }
+            ExcelOps.PlaceDDListInExcel(ddList);
+        }
+
+        private void btnMSO_Click(object sender, EventArgs e)
+        {
+            GV.MODE = Mode.MSO_Maintenance;
+            Form msoForm = new frmMSO();
+            FC.SetFormPosition(msoForm);
+            msoForm.Show();
+        }
+
+        private void btnFE_Maintenance_Click(object sender, EventArgs e)
+        {
+            frmFE FE_Form = new frmFE();
+            FE_Form.Show();
+        }
+
+        private void btnReviewMaint_Click(object sender, EventArgs e)
+        {
+            frmReviewer reviewer = new frmReviewer();
+            reviewer.Show();
+        }
+
+        private void btnPrjBySales_Click(object sender, EventArgs e)
+        {
+            GV.MODE = Mode.Report_Rollup;
+            frmDateMSO_Picker.Height = 175;
+            frmDateMSO_Picker.Show();
+            
+
+        }
     }
 }
+
 

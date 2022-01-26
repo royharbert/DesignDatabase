@@ -18,13 +18,15 @@ namespace DesignDB_Library.Models
         [ExcelExportPropertyAttribute]
         public int TotalRequests { get; set; }
         [ExcelExportPropertyAttribute]
+        public decimal PctOfTotal { get; set; }
+        [ExcelExportPropertyAttribute]
         public int HFC { get; set; }
+        [ExcelExportPropertyAttribute]
+        public int NodeSplit { get; set; }
         [ExcelExportPropertyAttribute]
         public int RFoG { get; set; }
         [ExcelExportPropertyAttribute]
         public int PON { get; set; }
-        [ExcelExportPropertyAttribute]
-        public int RFoGPON { get; set; }
         [ExcelExportPropertyAttribute]
         public int FiberDeep { get; set; }
         [ExcelExportPropertyAttribute]
@@ -40,11 +42,11 @@ namespace DesignDB_Library.Models
         [ExcelExportPropertyAttribute]
         public decimal HFCDollars { get; set; }
         [ExcelExportPropertyAttribute]
+        public decimal NodeSplitDollars { get; set; }
+        [ExcelExportPropertyAttribute]
         public decimal RFoGDollars { get; set; }
         [ExcelExportPropertyAttribute]
         public decimal PON_Dollars { get; set; }
-        [ExcelExportPropertyAttribute]
-        public decimal RFoG_PON_Dollars { get; set; }
         [ExcelExportPropertyAttribute]
         public decimal FiberDeepDollars { get; set; }
         [ExcelExportPropertyAttribute]

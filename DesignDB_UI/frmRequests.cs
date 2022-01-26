@@ -120,6 +120,7 @@ namespace DesignDB_UI
 
                 case Mode.Edit:
                 case Mode.Report_Overdue:
+                case Mode.DateRangeSearch:
                     setButtonDisplay(RequestEditButtons);
                     break;
 
@@ -583,7 +584,7 @@ namespace DesignDB_UI
             cboReviewedBy.DisplayMember = "Designer";
             cboReviewedBy.SelectedIndex = -1;
 
-            List<MSO_Model> msoList = GlobalConfig.Connection.GetAllMSO();
+            List<MSO_Model> msoList = GlobalConfig.Connection.GetAllActiveMSO();
             cboMSO.DataSource = msoList;
             cboMSO.DisplayMember = "MSO";
             cboMSO.SelectedIndex = -1;

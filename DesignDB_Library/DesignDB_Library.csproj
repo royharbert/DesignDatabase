@@ -74,9 +74,13 @@
     <Compile Include="Attributes\ExcelExportProperty.cs" />
     <Compile Include="DataAccess\IDataConnection.cs" />
     <Compile Include="DataAccess\SqlConnector.cs" />
+    <Compile Include="Models\OpenRequestsBySalesModel.cs" />
+    <Compile Include="Models\ReportDesignsInProcessModel.cs" />
+    <Compile Include="Models\FE_Model.cs" />
     <Compile Include="Models\LogFieldModel.cs" />
     <Compile Include="Models\LogModel.cs" />
     <Compile Include="Models\ReportSalesPriorityModel.cs" />
+    <Compile Include="Models\Report_SalesProjectValuesModel.cs" />
     <Compile Include="Models\RequestModel.cs" />
     <Compile Include="Models\ScreenModel.cs" />
     <Compile Include="Operations\DesignerUpdate.cs" />
@@ -86,15 +90,16 @@
     <Compile Include="Operations\ExcelOps.cs" />
     <Compile Include="Operations\FileOps.cs" />
     <Compile Include="Operations\ForecastFunction.cs" />
+    <Compile Include="Operations\IHaveID.cs" />
     <Compile Include="Operations\ListLooper.cs" />
     <Compile Include="Operations\Logger.cs" />
     <Compile Include="Operations\PID_Generator.cs" />
     <Compile Include="Operations\ReportOps.cs" />
+    <Compile Include="Operations\RequestModelReportToRequestModel.cs" />
     <Compile Include="Operations\RequestOps.cs" />
     <Compile Include="Models\AttachmentModel.cs" />
     <Compile Include="Models\BOM_Model.cs" />
     <Compile Include="Models\CityModel.cs" />
-    <Compile Include="Models\ComboBoxListModel.cs" />
     <Compile Include="Models\CompanyHolidaysModel.cs" />
     <Compile Include="Models\CompletionTimeModel.cs" />
     <Compile Include="Models\CountriesModel.cs" />
@@ -121,9 +126,6 @@
     <Compile Include="Operations\Serialization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Holiday_Update.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UserControls\" />

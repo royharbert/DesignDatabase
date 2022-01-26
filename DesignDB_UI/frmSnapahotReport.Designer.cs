@@ -32,6 +32,8 @@ namespace DesignDB_UI
             this.dgvSnapshots = new System.Windows.Forms.DataGridView();
             this.btnExport = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
+            this.txtRecords = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSnapshots)).BeginInit();
             this.SuspendLayout();
             // 
@@ -68,12 +70,30 @@ namespace DesignDB_UI
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
+            // txtRecords
+            // 
+            this.txtRecords.Location = new System.Drawing.Point(138, 776);
+            this.txtRecords.Name = "txtRecords";
+            this.txtRecords.Size = new System.Drawing.Size(54, 20);
+            this.txtRecords.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(198, 779);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(94, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Records Returned";
+            // 
             // frmSnapahotReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1417, 816);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtRecords);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.dgvSnapshots);
@@ -83,6 +103,7 @@ namespace DesignDB_UI
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmSnapahotReport_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgvSnapshots)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -91,5 +112,7 @@ namespace DesignDB_UI
         private System.Windows.Forms.DataGridView dgvSnapshots;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.TextBox txtRecords;
+        private System.Windows.Forms.Label label1;
     }
 }

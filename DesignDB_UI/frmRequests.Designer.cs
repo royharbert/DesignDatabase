@@ -170,16 +170,16 @@ namespace DesignDB_UI
             this.cboMSO.Name = "cboMSO";
             this.cboMSO.Size = new System.Drawing.Size(258, 28);
             this.cboMSO.TabIndex = 0;
-            this.cboMSO.Tag = "U|MSO";
+            this.cboMSO.Tag = "U|MSO|tblMSO|MSO|MSO";
             this.cboMSO.SelectedIndexChanged += new System.EventHandler(this.cboMSO_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(117, 9);
+            this.label2.Location = new System.Drawing.Point(118, 9);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 16);
+            this.label2.Size = new System.Drawing.Size(37, 16);
             this.label2.TabIndex = 3;
             this.label2.Text = "MSO";
             // 
@@ -187,9 +187,9 @@ namespace DesignDB_UI
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(125, 79);
+            this.label3.Location = new System.Drawing.Point(126, 79);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(30, 16);
+            this.label3.Size = new System.Drawing.Size(29, 16);
             this.label3.TabIndex = 5;
             this.label3.Text = "City";
             // 
@@ -208,12 +208,13 @@ namespace DesignDB_UI
             this.cboCities.Name = "cboCities";
             this.cboCities.Size = new System.Drawing.Size(258, 28);
             this.cboCities.TabIndex = 2;
-            this.cboCities.Tag = "L|City";
+            this.cboCities.Tag = "L|City|tblCities|city|City";
             this.cboCities.Enter += new System.EventHandler(this.cboCities_Enter);
             this.cboCities.Leave += new System.EventHandler(this.cboCities_Leave);
             // 
             // ddContextMenu
             // 
+            this.ddContextMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.ddContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clearValueToolStripMenuItem});
             this.ddContextMenu.Name = "ddContextMenu";
@@ -243,9 +244,9 @@ namespace DesignDB_UI
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(15, 44);
+            this.label4.Location = new System.Drawing.Point(16, 44);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(140, 16);
+            this.label4.Size = new System.Drawing.Size(139, 16);
             this.label4.TabIndex = 7;
             this.label4.Text = "End Customer (if VAR)";
             // 
@@ -253,9 +254,9 @@ namespace DesignDB_UI
             // 
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(76, 359);
+            this.label5.Location = new System.Drawing.Point(77, 359);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(79, 16);
+            this.label5.Size = new System.Drawing.Size(78, 16);
             this.label5.TabIndex = 9;
             this.label5.Text = "Assisted By";
             // 
@@ -275,7 +276,7 @@ namespace DesignDB_UI
             this.cboAssisted.Name = "cboAssisted";
             this.cboAssisted.Size = new System.Drawing.Size(258, 28);
             this.cboAssisted.TabIndex = 10;
-            this.cboAssisted.Tag = "L|AssistedBy";
+            this.cboAssisted.Tag = "L|AssistedBy|tblDesigners|Designer|Assisted By";
             this.cboAssisted.Enter += new System.EventHandler(this.cboAssisted_Enter);
             this.cboAssisted.Leave += new System.EventHandler(this.cboAssisted_Leave);
             // 
@@ -283,9 +284,9 @@ namespace DesignDB_UI
             // 
             this.label6.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(92, 324);
+            this.label6.Location = new System.Drawing.Point(93, 324);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(63, 16);
+            this.label6.Size = new System.Drawing.Size(62, 16);
             this.label6.TabIndex = 11;
             this.label6.Text = "Designer";
             // 
@@ -305,7 +306,7 @@ namespace DesignDB_UI
             this.cboDesigner.Name = "cboDesigner";
             this.cboDesigner.Size = new System.Drawing.Size(258, 28);
             this.cboDesigner.TabIndex = 9;
-            this.cboDesigner.Tag = "L|Designer";
+            this.cboDesigner.Tag = "L|Designer|tblDesigners|Designer|Designer";
             this.cboDesigner.Enter += new System.EventHandler(this.cboDesigner_Enter);
             this.cboDesigner.Leave += new System.EventHandler(this.cboDesigner_Leave);
             // 
@@ -313,9 +314,9 @@ namespace DesignDB_UI
             // 
             this.label7.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(106, 289);
+            this.label7.Location = new System.Drawing.Point(107, 289);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(49, 16);
+            this.label7.Size = new System.Drawing.Size(48, 16);
             this.label7.TabIndex = 13;
             this.label7.Text = "Priority";
             // 
@@ -339,7 +340,7 @@ namespace DesignDB_UI
             this.cboPriority.Name = "cboPriority";
             this.cboPriority.Size = new System.Drawing.Size(258, 28);
             this.cboPriority.TabIndex = 8;
-            this.cboPriority.Tag = "L|Pty";
+            this.cboPriority.Tag = "L|Pty|||Priority";
             this.cboPriority.SelectedIndexChanged += new System.EventHandler(this.cboPriority_SelectedIndexChanged);
             this.cboPriority.Enter += new System.EventHandler(this.cboPriority_Enter);
             this.cboPriority.Leave += new System.EventHandler(this.cboPriority_Leave);
@@ -348,9 +349,9 @@ namespace DesignDB_UI
             // 
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(76, 254);
+            this.label8.Location = new System.Drawing.Point(77, 254);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(79, 16);
+            this.label8.Size = new System.Drawing.Size(78, 16);
             this.label8.TabIndex = 15;
             this.label8.Text = "Quote Type";
             // 
@@ -377,7 +378,7 @@ namespace DesignDB_UI
             this.cboQuoteType.Name = "cboQuoteType";
             this.cboQuoteType.Size = new System.Drawing.Size(258, 28);
             this.cboQuoteType.TabIndex = 7;
-            this.cboQuoteType.Tag = "L|QuoteType";
+            this.cboQuoteType.Tag = "L|QuoteType|||Quote Type";
             this.cboQuoteType.Enter += new System.EventHandler(this.cboQuoteType_Enter);
             this.cboQuoteType.Leave += new System.EventHandler(this.cboQuoteType_Leave);
             // 
@@ -385,9 +386,9 @@ namespace DesignDB_UI
             // 
             this.label9.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(38, 219);
+            this.label9.Location = new System.Drawing.Point(39, 219);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(117, 16);
+            this.label9.Size = new System.Drawing.Size(116, 16);
             this.label9.TabIndex = 17;
             this.label9.Text = "Design Requestor";
             // 
@@ -406,7 +407,7 @@ namespace DesignDB_UI
             this.cboRequestor.Name = "cboRequestor";
             this.cboRequestor.Size = new System.Drawing.Size(258, 28);
             this.cboRequestor.TabIndex = 6;
-            this.cboRequestor.Tag = "L|DesignRequestor";
+            this.cboRequestor.Tag = "L|DesignRequestor|tblSalespersons|SalesPerson|Salesperson";
             this.cboRequestor.Enter += new System.EventHandler(this.cboRequestor_Enter);
             this.cboRequestor.Leave += new System.EventHandler(this.cboRequestor_Leave);
             // 
@@ -414,9 +415,9 @@ namespace DesignDB_UI
             // 
             this.label10.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(103, 184);
+            this.label10.Location = new System.Drawing.Point(104, 184);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(52, 16);
+            this.label10.Size = new System.Drawing.Size(51, 16);
             this.label10.TabIndex = 19;
             this.label10.Text = "Region";
             // 
@@ -436,7 +437,7 @@ namespace DesignDB_UI
             this.cboRegion.Name = "cboRegion";
             this.cboRegion.Size = new System.Drawing.Size(258, 28);
             this.cboRegion.TabIndex = 5;
-            this.cboRegion.Tag = "L|Region";
+            this.cboRegion.Tag = "L|Region|tblRegions|Region|Region";
             this.cboRegion.Enter += new System.EventHandler(this.cboRegion_Enter);
             this.cboRegion.Leave += new System.EventHandler(this.cboRegion_Leave);
             // 
@@ -444,9 +445,9 @@ namespace DesignDB_UI
             // 
             this.label11.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(102, 149);
+            this.label11.Location = new System.Drawing.Point(103, 149);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(53, 16);
+            this.label11.Size = new System.Drawing.Size(52, 16);
             this.label11.TabIndex = 21;
             this.label11.Text = "Country";
             // 
@@ -465,7 +466,7 @@ namespace DesignDB_UI
             this.cboCountry.Name = "cboCountry";
             this.cboCountry.Size = new System.Drawing.Size(258, 28);
             this.cboCountry.TabIndex = 4;
-            this.cboCountry.Tag = "L|Country";
+            this.cboCountry.Tag = "L|Country|tblCountries|Country|Country";
             this.cboCountry.Enter += new System.EventHandler(this.cboCountry_Enter);
             this.cboCountry.Leave += new System.EventHandler(this.cboCountry_Leave);
             // 
@@ -473,9 +474,9 @@ namespace DesignDB_UI
             // 
             this.label12.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(116, 114);
+            this.label12.Location = new System.Drawing.Point(117, 114);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(39, 16);
+            this.label12.Size = new System.Drawing.Size(38, 16);
             this.label12.TabIndex = 23;
             this.label12.Text = "State";
             // 
@@ -494,7 +495,7 @@ namespace DesignDB_UI
             this.cboState.Name = "cboState";
             this.cboState.Size = new System.Drawing.Size(258, 28);
             this.cboState.TabIndex = 3;
-            this.cboState.Tag = "L|ST";
+            this.cboState.Tag = "L|ST|tblStates|State|State";
             this.cboState.Enter += new System.EventHandler(this.cboState_Enter);
             this.cboState.Leave += new System.EventHandler(this.cboState_Leave);
             // 
@@ -502,9 +503,9 @@ namespace DesignDB_UI
             // 
             this.label13.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(65, 394);
+            this.label13.Location = new System.Drawing.Point(66, 394);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(90, 16);
+            this.label13.Size = new System.Drawing.Size(89, 16);
             this.label13.TabIndex = 25;
             this.label13.Text = "Project Name";
             // 
@@ -522,9 +523,9 @@ namespace DesignDB_UI
             // 
             this.label14.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(42, 499);
+            this.label14.Location = new System.Drawing.Point(43, 499);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(113, 16);
+            this.label14.Size = new System.Drawing.Size(112, 16);
             this.label14.TabIndex = 27;
             this.label14.Text = "Architecture Type";
             // 
@@ -540,33 +541,33 @@ namespace DesignDB_UI
             this.cboArchType.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboArchType.FormattingEnabled = true;
             this.cboArchType.Items.AddRange(new object[] {
-            "Architecture",
-            "1310 Distribution",
-            "1310 Distribution & Nodes",
-            "1550nm BC+ NC + Nodes (Chassis)",
-            "1550nm BC+ NC + Nodes (VHub)",
-            "1550nm BC+NC(Chassis)",
-            "1550nm BC+NC(VHub)",
+            "1310nm Distribution",
+            "1550nm BC/NC (Chassis)",
+            "1550nm BC/NC (VHub)",
             "Fiber Deep",
-            "FTTH: GEPON",
-            "FTTH: RFoG",
-            "FTTH: RFoG & GEPON",
-            "Harmonic",
-            "LcWDM",
-            "NC Addition",
-            "Node + N Hybrid Fiber Coax",
-            "Other",
-            "Redundant Route",
-            "Transport 1550 BC Distribution",
-            "Transport Digital return",
+            "Transport 1550nm BC Distribution",
+            "Transport Digital Return",
             "Transport GigE/Data",
-            "Transport NC Links"});
+            "",
+            "FTTH: GEPON - TransMax Extender",
+            "FTTH: GEPON - GEPON\t",
+            "FTTH: GEPON - 10GEPON\t",
+            "",
+            "FTTH: RFoG - Chassis",
+            "FTTH: RFoG - VHub\t\t",
+            "",
+            "Full Spectrum DWDM - DM",
+            "Full Spectrum DWDM - EXMOD\t",
+            "\t",
+            "R-PHY - GOA/GOT",
+            "R-PHY - Standard",
+            "\t"});
             this.cboArchType.Location = new System.Drawing.Point(161, 494);
             this.cboArchType.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cboArchType.Name = "cboArchType";
             this.cboArchType.Size = new System.Drawing.Size(258, 28);
             this.cboArchType.TabIndex = 14;
-            this.cboArchType.Tag = "L|ArchitectureType";
+            this.cboArchType.Tag = "L|ArchitectureType|||Architecture Type";
             this.cboArchType.Enter += new System.EventHandler(this.cboArchType_Enter);
             this.cboArchType.Leave += new System.EventHandler(this.cboArchType_Leave);
             // 
@@ -574,9 +575,9 @@ namespace DesignDB_UI
             // 
             this.label15.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(92, 464);
+            this.label15.Location = new System.Drawing.Point(93, 464);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(63, 16);
+            this.label15.Size = new System.Drawing.Size(62, 16);
             this.label15.TabIndex = 29;
             this.label15.Text = "Category";
             // 
@@ -593,6 +594,7 @@ namespace DesignDB_UI
             this.cboCategory.FormattingEnabled = true;
             this.cboCategory.Items.AddRange(new object[] {
             "HFC",
+            "Node Split",
             "RFoG",
             "PON",
             "Fiber Deep",
@@ -605,7 +607,7 @@ namespace DesignDB_UI
             this.cboCategory.Name = "cboCategory";
             this.cboCategory.Size = new System.Drawing.Size(258, 28);
             this.cboCategory.TabIndex = 13;
-            this.cboCategory.Tag = "L|Category";
+            this.cboCategory.Tag = "L|Category|||Category";
             this.cboCategory.Enter += new System.EventHandler(this.cboCategory_Enter);
             this.cboCategory.Leave += new System.EventHandler(this.cboCategory_Leave);
             // 
@@ -613,9 +615,9 @@ namespace DesignDB_UI
             // 
             this.label17.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(62, 429);
+            this.label17.Location = new System.Drawing.Point(63, 429);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(93, 16);
+            this.label17.Size = new System.Drawing.Size(92, 16);
             this.label17.TabIndex = 33;
             this.label17.Text = "Original Quote";
             // 
@@ -634,7 +636,7 @@ namespace DesignDB_UI
             this.cboOrigQuote.Name = "cboOrigQuote";
             this.cboOrigQuote.Size = new System.Drawing.Size(258, 28);
             this.cboOrigQuote.TabIndex = 12;
-            this.cboOrigQuote.Tag = "L|OriginalQuote";
+            this.cboOrigQuote.Tag = "L|OriginalQuote|||Original Quote";
             this.cboOrigQuote.Enter += new System.EventHandler(this.cboOrigQuote_Enter);
             this.cboOrigQuote.Leave += new System.EventHandler(this.cboOrigQuote_Leave);
             // 
@@ -642,9 +644,9 @@ namespace DesignDB_UI
             // 
             this.label18.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(90, 607);
+            this.label18.Location = new System.Drawing.Point(91, 607);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(65, 16);
+            this.label18.Size = new System.Drawing.Size(64, 16);
             this.label18.TabIndex = 35;
             this.label18.Text = "Date Due";
             // 
@@ -652,9 +654,9 @@ namespace DesignDB_UI
             // 
             this.label19.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(14, 569);
+            this.label19.Location = new System.Drawing.Point(15, 569);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(141, 16);
+            this.label19.Size = new System.Drawing.Size(140, 16);
             this.label19.TabIndex = 37;
             this.label19.Text = "Date All Info Received";
             // 
@@ -662,9 +664,9 @@ namespace DesignDB_UI
             // 
             this.label20.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(58, 534);
+            this.label20.Location = new System.Drawing.Point(59, 534);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(97, 16);
+            this.label20.Size = new System.Drawing.Size(96, 16);
             this.label20.TabIndex = 39;
             this.label20.Text = "Date Assigned";
             // 
@@ -672,9 +674,9 @@ namespace DesignDB_UI
             // 
             this.label16.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(53, 44);
+            this.label16.Location = new System.Drawing.Point(54, 44);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(88, 16);
+            this.label16.Size = new System.Drawing.Size(87, 16);
             this.label16.TabIndex = 41;
             this.label16.Text = "Reviewed By";
             // 
@@ -694,7 +696,7 @@ namespace DesignDB_UI
             this.cboReviewedBy.Name = "cboReviewedBy";
             this.cboReviewedBy.Size = new System.Drawing.Size(234, 28);
             this.cboReviewedBy.TabIndex = 19;
-            this.cboReviewedBy.Tag = "L|ReviewedBy";
+            this.cboReviewedBy.Tag = "L|ReviewedBy|tblReviewers|Designer|Reviewed By";
             this.cboReviewedBy.Enter += new System.EventHandler(this.cboReviewedBy_Enter);
             this.cboReviewedBy.Leave += new System.EventHandler(this.cboReviewedBy_Leave);
             // 
@@ -702,9 +704,9 @@ namespace DesignDB_UI
             // 
             this.label21.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(55, 184);
+            this.label21.Location = new System.Drawing.Point(56, 184);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(86, 16);
+            this.label21.Size = new System.Drawing.Size(85, 16);
             this.label21.TabIndex = 43;
             this.label21.Text = "Award Status";
             // 
@@ -731,7 +733,7 @@ namespace DesignDB_UI
             this.cboAwardStatus.Name = "cboAwardStatus";
             this.cboAwardStatus.Size = new System.Drawing.Size(234, 28);
             this.cboAwardStatus.TabIndex = 23;
-            this.cboAwardStatus.Tag = "L|AwardStatus";
+            this.cboAwardStatus.Tag = "L|AwardStatus|||Award Status";
             this.cboAwardStatus.Enter += new System.EventHandler(this.cboAwardStatus_Enter);
             this.cboAwardStatus.Leave += new System.EventHandler(this.cboAwardStatus_Leave);
             // 
@@ -739,9 +741,9 @@ namespace DesignDB_UI
             // 
             this.label22.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(65, 79);
+            this.label22.Location = new System.Drawing.Point(66, 79);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(76, 16);
+            this.label22.Size = new System.Drawing.Size(75, 16);
             this.label22.TabIndex = 45;
             this.label22.Text = "BOM Value";
             // 
@@ -763,9 +765,9 @@ namespace DesignDB_UI
             // 
             this.label23.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(21, 114);
+            this.label23.Location = new System.Drawing.Point(22, 114);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(120, 16);
+            this.label23.Size = new System.Drawing.Size(119, 16);
             this.label23.TabIndex = 47;
             this.label23.Text = "% Project Covered";
             // 
@@ -787,9 +789,9 @@ namespace DesignDB_UI
             // 
             this.label24.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(19, 149);
+            this.label24.Location = new System.Drawing.Point(20, 149);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(122, 16);
+            this.label24.Size = new System.Drawing.Size(121, 16);
             this.label24.TabIndex = 49;
             this.label24.Text = "Total Project Value";
             // 
@@ -809,9 +811,9 @@ namespace DesignDB_UI
             // 
             this.label25.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(35, 9);
+            this.label25.Location = new System.Drawing.Point(36, 9);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(106, 16);
+            this.label25.Size = new System.Drawing.Size(105, 16);
             this.label25.TabIndex = 51;
             this.label25.Text = "Date Completed";
             // 
@@ -819,9 +821,9 @@ namespace DesignDB_UI
             // 
             this.label26.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(63, 219);
+            this.label26.Location = new System.Drawing.Point(64, 219);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(78, 16);
+            this.label26.Size = new System.Drawing.Size(77, 16);
             this.label26.TabIndex = 53;
             this.label26.Text = "Total Hours";
             // 
@@ -839,9 +841,9 @@ namespace DesignDB_UI
             // 
             this.label27.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(20, 256);
+            this.label27.Location = new System.Drawing.Point(21, 256);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(121, 16);
+            this.label27.Size = new System.Drawing.Size(120, 16);
             this.label27.TabIndex = 55;
             this.label27.Text = "Date Last Updated";
             // 
@@ -861,7 +863,7 @@ namespace DesignDB_UI
             this.label28.AutoSize = true;
             this.label28.Location = new System.Drawing.Point(3, 0);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(123, 16);
+            this.label28.Size = new System.Drawing.Size(122, 16);
             this.label28.TabIndex = 57;
             this.label28.Text = "Architecture Details";
             // 
@@ -870,7 +872,7 @@ namespace DesignDB_UI
             this.label29.AutoSize = true;
             this.label29.Location = new System.Drawing.Point(3, 310);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(72, 16);
+            this.label29.Size = new System.Drawing.Size(71, 16);
             this.label29.TabIndex = 59;
             this.label29.Text = "Comments";
             // 
@@ -900,9 +902,9 @@ namespace DesignDB_UI
             // 
             this.label30.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(29, 1);
+            this.label30.Location = new System.Drawing.Point(30, 1);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(156, 32);
+            this.label30.Size = new System.Drawing.Size(155, 32);
             this.label30.TabIndex = 61;
             this.label30.Text = "All or part of Project ID to Search";
             // 
@@ -1107,6 +1109,7 @@ namespace DesignDB_UI
             // 
             // dtpContextMenu
             // 
+            this.dtpContextMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.dtpContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clearDateToolStripMenuItem});
             this.dtpContextMenu.Name = "dtpContextMenu";
@@ -1427,7 +1430,7 @@ namespace DesignDB_UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(1631, 876);
+            this.ClientSize = new System.Drawing.Size(1301, 718);
             this.ControlBox = false;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.tlpSearch);

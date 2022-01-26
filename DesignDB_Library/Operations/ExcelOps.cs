@@ -8,11 +8,292 @@ using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Tools.Excel;
 using System.Runtime.InteropServices;
+using DesignDB_Library.Models;
 
 namespace DesignDB_Library.Operations
 {
     public class ExcelOps
     {
+        public static void PlaceRollupInExcel(DateTime startDate, DateTime endDate, List<OpenRequestsBySalesModel> openBySales, 
+            List<ReportCategoryMSOModel> categories, List<Report_SalesProjectValuesModel> requests, 
+            List<ReportSalesPriorityModel> priorityList, decimal bomTotal)
+        {
+            int row = 1;
+
+            Excel.Application xlApp = makeExcelApp();
+            xlApp.Workbooks.Add();
+            Excel.Worksheet wks = xlApp.ActiveSheet;
+            xlApp.Visible = true;
+
+            //Place column headings
+            wks.Cells[2, 1].Value = "Salesperson";
+            wks.Cells[2, 2].Value = "Total $";
+            wks.Cells[2, 3].Value = "Average $";
+            wks.Cells[2, 4].Value = "Total Count";
+            wks.Cells[2, 5].Value = "% of Total Value";
+            wks.Cells[2, 6].Value = "Jan";
+            wks.Cells[2, 7].Value = "Feb";
+            wks.Cells[2, 8].Value = "Mar";
+            wks.Cells[2, 9].Value = "Apr";
+            wks.Cells[2, 10].Value = "May";
+            wks.Cells[2, 11].Value = "Jun";
+            wks.Cells[2, 12].Value = "Jul";
+            wks.Cells[2, 13].Value = "Aug";
+            wks.Cells[2, 14].Value = "Sep";
+            wks.Cells[2, 15].Value = "Oct";
+            wks.Cells[2, 16].Value = "Nov";
+            wks.Cells[2, 17].Value = "Dec";
+            wks.Cells[2, 18].Value = "Current Week " + startDate.ToShortDateString() + " " + endDate.ToShortDateString();
+
+            wks.Columns[1].ColumnWidth = 28;
+            wks.get_Range("B:C").ColumnWidth = 20;
+            wks.get_Range("D:Y").ColumnWidth=12;
+
+            makeTitle(wks, 1, 18, "Design Requests by Salesperson/Month");
+            //wks.Cells[1, 1].Value = "Design Requests by Salesperson/Month";
+            //Excel.Range title = wks.get_Range("A1:R1");
+            //title.Cells.Merge();
+            Excel.Range header = wks.get_Range("A1:R2");
+            header.Font.Bold = true;
+            header.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            header.Interior.Color = ColorTranslator.ToOle(System.Drawing.Color.LightSkyBlue);
+            header.WrapText = true;
+
+            row = 3;
+            foreach (var model in requests)
+            {
+                wks.Cells[row, 1] = model.SalesPerson;
+                wks.Cells[row, 2] = model.CurrentYTD_Value;
+                wks.Cells[row, 3] = model.AverageDollars;
+                wks.Cells[row, 4] = model.CurrentYear_Count;
+                wks.Cells[row, 5] = model.PctTotalValue;
+                wks.Cells[row, 6] = model.JanProjects;
+                wks.Cells[row, 7] = model.FebProjects;
+                wks.Cells[row, 8] = model.MarProjects;
+                wks.Cells[row, 9] = model.AprProjects;
+                wks.Cells[row, 10] = model.MayProjects;
+                wks.Cells[row, 11] = model.JunProjects;
+                wks.Cells[row, 12] = model.JulProjects;
+                wks.Cells[row, 13] = model.AugProjects;
+                wks.Cells[row, 14] = model.SepProjects;
+                wks.Cells[row, 15] = model.OctProjects;
+                wks.Cells[row, 16] = model.NovProjects;
+                wks.Cells[row, 17] = model.DecProjects;
+                wks.Cells[row, 18] = model.Weekly;
+                row++;
+            }
+            wks.Cells[row, 2].Value = bomTotal;
+            Excel.Range decRange = wks.Range[wks.Cells[2, 5], wks.Cells[row, 5]];
+            decRange.NumberFormat = "###.00%";
+
+            Excel.Range currencyRange = wks.Range[wks.Cells[2, 2], wks.Cells[row, 3]];
+            FormatExcelRangeAsCurrency(wks, currencyRange);
+
+
+            row = row + 3;
+            makeTitle(wks, row, 25, "Design Requests by MSO/Category");
+            row++;
+            wks.Cells[row, 1].Value = "MSO";
+            wks.Cells[row, 2].Value = "Total $";
+            wks.Cells[row, 3].Value = "Average $";
+            wks.Cells[row, 4].Value = "Total Count";
+            wks.Cells[row, 5].Value = "% of Total Value";
+            wks.Cells[row, 6].Value = "HFC";
+            wks.Cells[row, 7].Value = "Node Split";
+            wks.Cells[row, 8].Value = "RFoG";
+            wks.Cells[row, 9].Value = "PON";
+            wks.Cells[row, 10].Value = "Fiber Deep";
+            wks.Cells[row, 11].Value = "Data Transport";
+            wks.Cells[row, 12].Value = "Other";
+            wks.Cells[row, 13].Value = "PEG";
+            wks.Cells[row, 14].Value = "Commercial";
+            wks.Cells[row, 15].Value = "Unassigned";
+            wks.Cells[row, 16].Value = "HFC Dollars";
+            wks.Cells[row, 17].Value = "Node Split Dollars";
+            wks.Cells[row, 18].Value = "RFoG Dollars";
+            wks.Cells[row, 19].Value = "PON Dollars";
+            wks.Cells[row, 20].Value = "Fiber Deep Dollars";
+            wks.Cells[row, 21].Value = "Data Transport Dollars";
+            wks.Cells[row, 22].Value = "Other Dollars";
+            wks.Cells[row, 23].Value = "PEG Dollars";
+            wks.Cells[row, 24].Value = "Commercial Dollars";
+            wks.Cells[row, 25].Value = "Unassigned Dollars";
+
+            int categoryStartRow = row;
+            Excel.Range header2 = wks.Range[wks.Cells[categoryStartRow - 1, 1], wks.Cells[row, 25]];
+            header2.Font.Bold = true;
+            header2.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            header2.Interior.Color = ColorTranslator.ToOle(System.Drawing.Color.LightSkyBlue);
+            header2.WrapText = true;
+            row++;
+            foreach (var model in categories)
+            {
+                wks.Cells[row, 1] = model.MSO;
+                wks.Cells[row, 2] = model.TotalDollars;
+                wks.Cells[row, 3] = model.AverageDollarsPerRequest;
+                wks.Cells[row, 4] = model.TotalRequests;
+                wks.Cells[row, 5] = model.PctOfTotal;
+                wks.Cells[row, 6] = model.HFC;
+                wks.Cells[row, 7] = model.NodeSplit;
+                wks.Cells[row, 8] = model.RFoG;
+                wks.Cells[row, 9] = model.PON;
+                wks.Cells[row, 10] = model.FiberDeep;
+                wks.Cells[row, 11] = model.DataTrans;
+                wks.Cells[row, 12] = model.Other;
+                wks.Cells[row, 13] = model.PEG;
+                wks.Cells[row, 14] = model.Commercial;
+                wks.Cells[row, 15] = model.Unassigned;
+                wks.Cells[row, 16] = model.HFCDollars;
+                wks.Cells[row, 17] = model.NodeSplitDollars;
+                wks.Cells[row, 18] = model.RFoGDollars;
+                wks.Cells[row, 19] = model.PON_Dollars;
+                wks.Cells[row, 20] = model.FiberDeepDollars;
+                wks.Cells[row, 21] = model.DataTransportDollars;
+                wks.Cells[row, 22] = model.OtherDollars;
+                wks.Cells[row, 23] = model.PEG_Dollars;
+                wks.Cells[row, 24] = model.CommercialDollars;
+                wks.Cells[row, 25] = model.UnassignedDollars;
+                row++;
+            }
+
+
+            Excel.Range numRange = wks.Range[wks.Cells[categoryStartRow, 1], wks.Cells[row, 25]];
+            Excel.Range summaryRange = wks.Range[wks.Cells[row-1, 1], wks.Cells[row-1, 25]];
+            summaryRange.Font.Bold = true;
+            numRange.NumberFormat = "0.00";
+
+            currencyRange = wks.Range[wks.Cells[categoryStartRow, 2], wks.Cells[row, 3]];
+            FormatExcelRangeAsCurrency(wks, currencyRange);
+            currencyRange = wks.Range[wks.Cells[categoryStartRow, 16], wks.Cells[row, 25]];
+            FormatExcelRangeAsCurrency(wks, currencyRange);
+
+            //openBySales
+            row = row + 3;
+            makeTitle(wks, row, 14, "Open Design Requests by Salesperson/Month");
+            row++;
+            int openStartRow = row - 1;
+            Excel.Range header3 = wks.Range[wks.Cells[openStartRow, 1], wks.Cells[row, 14]];
+            header3.Font.Bold = true;
+            header3.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            header3.Interior.Color = ColorTranslator.ToOle(System.Drawing.Color.LightSkyBlue);
+            header3.WrapText = true;
+            //row++;
+            wks.Cells[row, 1].Value = "Sales Person";
+            wks.Cells[row, 2].Value = "Total";
+            wks.Cells[row, 3].Value = "Jan";
+            wks.Cells[row, 4].Value = "Feb";
+            wks.Cells[row, 5].Value = "Mar";
+            wks.Cells[row, 6].Value = "Apr";
+            wks.Cells[row, 7].Value = "May";
+            wks.Cells[row, 8].Value = "Jun";
+            wks.Cells[row, 9].Value = "Jul";
+            wks.Cells[row, 10].Value = "Aug";
+            wks.Cells[row, 11].Value = "Sep";
+            wks.Cells[row, 12].Value = "Oct";
+            wks.Cells[row, 13].Value = "Nov";
+            wks.Cells[row, 14].Value = "Dec";
+            row++;
+            foreach (var model in openBySales)
+            {
+                wks.Cells[row, 1] = model.Salesperson;
+                wks.Cells[row, 2] = model.Count;
+                wks.Cells[row, 3] = model.Jan;
+                wks.Cells[row, 4] = model.Feb;
+                wks.Cells[row, 5] = model.Mar;
+                wks.Cells[row, 6] = model.Apr;
+                wks.Cells[row, 7] = model.May;
+                wks.Cells[row, 8] = model.Jun;
+                wks.Cells[row, 9] = model.Jul;
+                wks.Cells[row, 10] = model.Aug;
+                wks.Cells[row, 11] = model.Sep;
+                wks.Cells[row, 12] = model.Oct;
+                wks.Cells[row, 13] = model.Nov;
+                wks.Cells[row, 14] = model.Dec;
+                row++;
+            }
+            InsertPriorityDataIntoWorksheet(wks, row + 2, priorityList);
+
+            releaseObject(xlApp);
+        }
+
+        private static void makeTitle(Excel.Worksheet wks, int row, int rightmostCol, string title)
+        {
+            wks.Cells[row, 1].Value = title;
+            wks.Cells[row, 1].Font.Size = 20;
+            wks.Cells[row, 1].Font.Bold = true;
+            Excel.Range range = wks.Range[wks.Cells[row, 1], wks.Cells[row, rightmostCol]];
+            range.Cells.Merge();
+            range.Cells.HorizontalAlignment = HorizontalAlignment.Center;
+        }
+        private static void InsertPriorityDataIntoWorksheet(Excel.Worksheet wks, int startRow, List<ReportSalesPriorityModel> list)
+        {
+            int row = startRow;
+            makeTitle(wks, row, 5, "Design Requests by Salesperson/Priority");
+            row++;
+            Excel.Range header3 = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row, 5]];
+            header3.Font.Bold = true;
+            header3.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            header3.Interior.Color = ColorTranslator.ToOle(System.Drawing.Color.LightSkyBlue);
+            header3.WrapText = true;
+
+            wks.Cells[row, 1].Value = "Sales Person";
+            wks.Cells[row, 2].Value = "Total";
+            wks.Cells[row, 3].Value = "P1";
+            wks.Cells[row, 4].Value = "P2";
+            wks.Cells[row, 5].Value = "P3";
+            row++;
+            foreach (var model in list)
+            {
+                wks.Cells[row, 1].Value = model.SalesPerson;
+                wks.Cells[row, 2].Value = model.TotalCount;
+                wks.Cells[row, 3].Value = model.P1Count;
+                wks.Cells[row, 4].Value = model.P2Count;
+                wks.Cells[row, 5].Value = model.P3Count;
+                row++;
+            }
+            Excel.Range pctRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 5]];
+            pctRange.NumberFormat = "##.00%";
+            Excel.Range boldRange = wks.Range[wks.Cells[row - 2, 1], wks.Cells[row - 1, 5]];
+            boldRange.Font.Bold = true;
+        }
+
+            private static void FormatExcelRangeAsCurrency(Excel.Worksheet wks, Excel.Range range)
+        {   
+            range.NumberFormat = "$###,###,###.00";            
+        }
+        public static void PlaceDDListInExcel(List<List<(string Field, bool Active)>> ddList)
+        {
+            Excel.Application xlApp = makeExcelApp();
+            xlApp.Workbooks.Add();
+            Excel.Worksheet wks = xlApp.ActiveSheet;
+            xlApp.Visible = true;
+
+            int col = 0;
+            for (int l = 0; l < ddList.Count; l++)
+            {
+                int row = 4;
+                col = col + 1;
+                List<(string Field, bool Active)> xList = ddList[l];
+                for (int i = 0; i < xList.Count; i++)
+                {
+                    row = row + 1;
+                    string entry = xList[i].Field.ToString();
+                    wks.Cells[row, col].Value = entry;
+                    if (! xList[i].Active)
+                    {
+                        wks.Cells[row,col].Font.Color = Color.Gray;
+                    }
+                }
+
+            }
+
+            //format sheet
+            wks.Cells[5, 1].EntireRow.Font.Bold = true;
+            wks.UsedRange.Columns.AutoFit();
+            wks.Cells[5, 1].EntireRow.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+
+            releaseObject(xlApp);
+        }
         public static Excel.Application OpenExcelWorkbook(Excel.Application xlApp, string WorkbookName)
         { 
             

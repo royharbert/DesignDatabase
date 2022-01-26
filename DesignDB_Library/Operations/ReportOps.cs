@@ -1,5 +1,6 @@
 ﻿using DesignDB_Library.Models;
 using System;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,439 @@ namespace DesignDB_Library.Operations
 {
     public static class ReportOps
     {
+        public static void DoRollup(DateTime startDate, DateTime endDate)
+        {
+            List<Report_SalesProjectValuesModel> projectRollup = new List<Report_SalesProjectValuesModel>();
+            List<ReportCategoryMSOModel> categoryReport = new List<ReportCategoryMSOModel>();
+            List<OpenRequestsBySalesModel> openRequestsBySales = new List<OpenRequestsBySalesModel>();
+            int curYear = startDate.Year;
+            DateTime NewYearsDay = new DateTime(curYear,1,1);
+            DateTime NewYearsEve = new DateTime(curYear, 12, 31);
+            //Get all requests YTD
+            List<RequestModel> requests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(NewYearsDay, NewYearsEve, "DateAssigned",
+                false, "");
+            //Get all SalesPersons
+            List<SalespersonModel> salespersons = GlobalConfig.Connection.GenericConditionalGetAll<SalespersonModel>("tblSalespersons", "Active",
+                "1", "SalesPerson");
+            List<MSO_Model> msoList = GlobalConfig.Connection.GenericConditionalGetAll<MSO_Model>("tblMSO", "Active", "1",
+                "MSO");
+            
+            decimal bomTotal = requests.Sum(x => x.BOM_Value);
+            foreach (SalespersonModel salespersonModel in salespersons)
+            {
+                string name = salespersonModel.SalesPerson;
+                List<RequestModel> salesRequests = requests;
+                salesRequests = salesRequests.Where(x => x.DesignRequestor == name).ToList();
+                if (salesRequests.Count > 0)
+                {
+                    Report_SalesProjectValuesModel model = new Report_SalesProjectValuesModel();
+                    model.CurrentYTD_Value = salesRequests.Sum(x => x.BOM_Value);
+                    model.SalesPerson = name;
+                    foreach (var request in salesRequests)
+                    {
+                        if (request.DateAssigned >= startDate && request.DateAssigned <= endDate)
+                        {
+                            model.Weekly++;
+                        }
+                        model.CurrentYear_Count=salesRequests.Count;
+                        model.AverageDollars = model.CurrentYTD_Value / model.CurrentYear_Count;
+                        model.PctTotalValue = model.CurrentYTD_Value / bomTotal;
+                        int month = request.DateAssigned.Month;
+                        List<RequestModel> monthlyRequests = salesRequests.Where(x => x.DateAssigned.Month == month).ToList();
+                        switch (month)
+                        {
+                            case 1:
+                                model.JanProjects++;
+                                break;
+                            case 2:
+                                model.FebProjects++;
+                                break;
+                            case 3:
+                                model.MarProjects++;
+                                break;
+                            case 4:
+                                model.AprProjects++;
+                                break;
+                            case 5:
+                                model.MayProjects++;
+                                break;
+                            case 6:
+                                model.JunProjects++;
+                                break;
+                            case 7:
+                                model.JulProjects++;
+                                break;
+                            case 8:
+                                model.AugProjects++;
+                                break;
+                            case 9:
+                                model.SepProjects++;
+                                break;
+                            case 10:
+                                model.OctProjects++;
+                                break;
+                            case 11:
+                                model.NovProjects++;
+                                break;
+                            case 12:
+                                model.DecProjects++;
+                                break;
+                            default:
+                                    break;
+                        }
+                    }
+                    projectRollup.Add(model);
+                } 
+            }
+
+            ReportCategoryMSOModel categorySummary = new ReportCategoryMSOModel();
+            categorySummary.TotalDollars = requests.Sum(x => x.BOM_Value);
+
+            //Category report
+            foreach (var mso in msoList)
+            {
+                List<RequestModel> categoryRequests = requests;
+                categoryRequests = categoryRequests.Where(x => x.MSO == mso.MSO).ToList();
+                if (categoryRequests.Count > 0)
+                {
+                    ReportCategoryMSOModel model = new ReportCategoryMSOModel();
+                    model.MSO = mso.MSO;
+                    model.TotalDollars = categoryRequests.Sum(x => x.BOM_Value);
+                    model.TotalRequests = categoryRequests.Count;
+                    model.AverageDollarsPerRequest = model.TotalDollars / model.TotalRequests;
+                    model.PctOfTotal = model.TotalDollars * 100/requests.Sum(x => x.BOM_Value);
+                    foreach (var request in categoryRequests)
+                    {
+                        switch (request.Category)
+                        {
+                            case "HFC":
+                                model.HFC++;
+                                model.HFCDollars = model.HFCDollars + request.BOM_Value;
+                                break;
+                            case "NodeSplit":
+                                model.NodeSplit++;
+                                model.NodeSplitDollars=model.NodeSplitDollars + request.BOM_Value;
+                                break;
+                            case "RFoG":
+                                model.RFoG++;
+                                model.RFoGDollars=model.RFoGDollars+request.BOM_Value;
+                                break;
+                            case "PON":
+                                model.PON++;
+                                model.PON_Dollars=model.PON_Dollars+request.BOM_Value;
+                                break;
+                            case "Fiber Deep":
+                                model.FiberDeep++;  
+                                model.FiberDeepDollars=model.FiberDeepDollars+request.BOM_Value;
+                                break;
+                            case "Data Transport":
+                                model.DataTrans++;
+                                model.DataTransportDollars=model.DataTransportDollars+request.BOM_Value;
+                                break;
+                            case "Other":
+                                model.Other++;
+                                model.OtherDollars=model.OtherDollars+request.BOM_Value;
+                                break;
+                            case "PEG":
+                                model.PEG++;
+                                model.PEG_Dollars = model.PEG_Dollars + request.BOM_Value;
+                                break;
+                            case "Commercial":
+                                model.Commercial++;
+                                model.CommercialDollars=model.CommercialDollars+request.BOM_Value;
+                                break;
+                            case "Unassigned":
+                                model.Unassigned++;
+                                model.UnassignedDollars=model.UnassignedDollars+request.BOM_Value;
+                                break;
+                            default:
+                                model.Unassigned++;
+                                model.UnassignedDollars = model.UnassignedDollars + request.BOM_Value;
+                                break;
+                        } 
+                    }
+                    categoryReport.Add(model);
+                }
+            }
+            categorySummary.MSO = "TOTAL";
+            categorySummary.TotalRequests = requests.Count;
+            categorySummary.AverageDollarsPerRequest=categorySummary.TotalDollars/categorySummary.TotalRequests;
+            categorySummary.PctOfTotal = categoryReport.Sum(x => x.PctOfTotal); 
+            categorySummary.HFC= categoryReport.Sum(x => x.HFC);
+            categorySummary.NodeSplit= categoryReport.Sum(x => x.NodeSplit);
+            categorySummary.RFoG = categoryReport.Sum(x => x.RFoG);
+            categorySummary.PON= categoryReport.Sum(x => x.PON);
+            categorySummary.FiberDeep= categoryReport.Sum(x => x.FiberDeep);
+            categorySummary.DataTrans = categoryReport.Sum(x => x.DataTrans);
+            categorySummary.Other = categoryReport.Sum(x => x.Other);
+            categorySummary.PEG = categoryReport.Sum(x => x.PEG);
+            categorySummary.Commercial = categoryReport.Sum(x => x.Commercial);
+            categorySummary.Unassigned = categoryReport.Sum(x => x.Unassigned);
+            categorySummary.HFCDollars = categoryReport.Sum(x => x.HFCDollars);
+            categorySummary.NodeSplitDollars = categoryReport.Sum(x => x.NodeSplitDollars);
+            categorySummary.RFoGDollars = categoryReport.Sum(x => x.RFoGDollars);
+            categorySummary.PON_Dollars = categoryReport.Sum(x => x.PON_Dollars);
+            categorySummary.FiberDeepDollars = categoryReport.Sum(x => x.FiberDeepDollars);
+            categorySummary.DataTransportDollars = categoryReport.Sum(x => x.DataTransportDollars);
+            categorySummary.OtherDollars = categoryReport.Sum(x => x.OtherDollars);
+            categorySummary.PEG_Dollars = categoryReport.Sum(x => x.OtherDollars);
+            categorySummary.CommercialDollars = categoryReport.Sum(x => x.CommercialDollars);
+            categorySummary.UnassignedDollars = categoryReport.Sum(x => x.UnassignedDollars);
+
+            categoryReport.Add(categorySummary);
+
+            //Open Requests by salesperson
+            List<RequestModel> openDesignBySales = GlobalConfig.Connection.GetOpenRequests();
+            OpenRequestsBySalesModel accumulatorModel = new OpenRequestsBySalesModel();
+            accumulatorModel.Salesperson = "Total";
+            foreach (SalespersonModel salesperson in salespersons)
+            {                
+                List<RequestModel> openRequests = openDesignBySales;
+                string person = salesperson.SalesPerson;
+                OpenRequestsBySalesModel openModel = new OpenRequestsBySalesModel();
+                openModel.Salesperson = person;
+                openRequests = (List<RequestModel>)openRequests.Where(x => x.DesignRequestor == person).ToList();
+                if (openRequests.Count > 0)
+                {
+                    foreach (var request in openRequests)
+                    {
+                        int mAssigned = request.DateAssigned.Month;
+                        switch (mAssigned)
+                        {
+                            case 1:
+                                openModel.Jan++;
+                                accumulatorModel.Jan++;
+                                break;
+                            case 2:
+                                openModel.Feb++;
+                                accumulatorModel.Feb++;
+                                break;
+                            case 3:
+                                openModel.Mar++;
+                                accumulatorModel.Mar++;
+                                break;
+                            case 4:
+                                openModel.Apr++;
+                                accumulatorModel.Apr++;
+                                break;
+                            case 5:
+                                openModel.May++;
+                                accumulatorModel.May++;
+                                break;
+                            case 6:
+                                openModel.Jun++;
+                                accumulatorModel.Jun++;
+                                break;
+                            case 7:
+                                openModel.Jul++;
+                                accumulatorModel.Jul++;
+                                break;
+                            case 8:
+                                openModel.Aug++;
+                                accumulatorModel.Aug++;
+                                break;
+                            case 9:
+                                openModel.Sep++;
+                                accumulatorModel.Sep++;
+                                break;
+                            case 10:
+                                openModel.Oct++;
+                                accumulatorModel.Oct++;
+                                break;
+                            case 11:
+                                openModel.Nov++;
+                                accumulatorModel.Nov++;
+                                break;
+                            case 12:
+                                openModel.Dec++;
+                                accumulatorModel.Dec++;
+                                break;
+                            default:
+                                break;
+                        }
+                        openModel.Count++;
+                        accumulatorModel.Count++;
+                    }                        
+                    openRequestsBySales.Add(openModel);
+                }
+            }
+            openRequestsBySales.Add(accumulatorModel);
+            List<ReportSalesPriorityModel> priorityReport = ReportBySalesPriority(requests, salespersons);
+            ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, categoryReport, projectRollup, priorityReport, bomTotal);
+        }
+
+        public static List<ReportSalesPriorityModel> ReportBySalesPriority(List<RequestModel> requests, List<SalespersonModel> salesPeople)
+        {
+            List<ReportSalesPriorityModel> priorityModels = new List<ReportSalesPriorityModel>();
+            ReportSalesPriorityModel companyTotal = new ReportSalesPriorityModel();
+            companyTotal.SalesPerson = "Company Total";
+            ReportSalesPriorityModel percentModel = new ReportSalesPriorityModel();
+            percentModel.SalesPerson = "Percent of Total";
+            foreach (var person in salesPeople)
+            {
+                string name = person.SalesPerson;
+                List<RequestModel> FilteredRequests = requests;
+                FilteredRequests = FilteredRequests.Where(x => x.DesignRequestor == name).ToList();
+                if (FilteredRequests.Count > 0)
+                {
+                    ReportSalesPriorityModel model = new ReportSalesPriorityModel();
+                    model.SalesPerson = name;
+                    foreach (var filteredRequest in FilteredRequests)
+                    {
+                        switch (filteredRequest.Pty)
+                        {
+                            case "P1":
+                                model.P1Count++;
+                                model.P1Dollars = model.P1Dollars + filteredRequest.BOM_Value;
+                                model.TotalCount++;
+                                companyTotal.P1Count++;
+                                companyTotal.P1Dollars=companyTotal.P1Dollars = filteredRequest.BOM_Value;
+                                break;
+                            case "P2":
+                                model.P2Count++;
+                                model.P2Dollars = model.P2Dollars + filteredRequest.BOM_Value;
+                                model.TotalCount++;
+                                companyTotal.P2Count++;
+                                companyTotal.P2Dollars = companyTotal.P2Dollars = filteredRequest.BOM_Value;
+                                break;
+                            case "P3":
+                                model.P3Count++;
+                                model.P3Dollars = model.P3Dollars + filteredRequest.BOM_Value;
+                                model.TotalCount++;
+                                companyTotal.P3Count++;
+                                companyTotal.P3Dollars = companyTotal.P3Dollars = filteredRequest.BOM_Value;
+                                break;
+                            default:
+                                break;
+                        }
+                        companyTotal.TotalCount++;
+                    }
+                    priorityModels.Add(model);
+                }
+            }
+            priorityModels.Add(companyTotal);
+            percentModel.TotalCount = companyTotal.TotalCount / companyTotal.TotalCount;
+            percentModel.P1Count = companyTotal.P1Count / companyTotal.TotalCount;
+            percentModel.P2Count = companyTotal.P2Count / companyTotal.TotalCount;
+            percentModel.P3Count = companyTotal.P3Count / companyTotal.TotalCount;
+            priorityModels.Add(percentModel);
+
+            return priorityModels;
+        }
+        public static List<List<(string Field, bool Active)>> CollectDropDownLists(TableLayoutPanel BoxForm)
+        {
+            List<List<(string, bool)>> BoxData = new List<List<(string, bool)>>();
+
+            List<string> items = new List<string>();
+            foreach (Control ctl in BoxForm.Controls)
+            {
+                if (ctl is ComboBox)
+                {
+                    ComboBox cbo = (ComboBox)ctl;
+
+                    //parse tag info
+                    string cTag = ctl.Tag.ToString();
+                    string[] tagArray = cTag.Split('|');
+                    string field = tagArray[3];
+                    //create list for drop-down items
+                    List<(string Field, bool Active)> ddList = new List<(string, bool)>();
+                    //place list description at head of list
+                    ddList.Add((tagArray[4], true));
+                    if (tagArray[2] == "")
+                    {
+                        //Source is internal list
+                        foreach (var item in cbo.Items)
+                        {
+                            (string, bool) tup = (item.ToString(), true);
+                            ddList.Add(tup);
+                        }
+                        BoxData.Add(ddList);
+                    }
+                    else
+                    { 
+                        if (tagArray[4] != "City")
+                        {
+                            //source is from database
+                            switch (tagArray[4])
+                            {
+                                case "MSO":
+                                    BoxData.Add(MakeTupleList<MSO_Model>("tblMSO", "MSO", "Active", "MSO"));
+                                    break;
+
+                                case "Salesperson":
+                                    BoxData.Add(MakeTupleList<SalespersonModel>("tblSalespersons", "SalesPerson", "Active", "SalesPersons"));
+                                    break;
+
+                                case "Designer":
+                                    BoxData.Add(MakeTupleList<DesignersReviewersModel>("tblDesigners", "Designer", "ActiveDesigner", "Designer"));
+                                    break;
+
+                                case "Assisted By":
+                                    BoxData.Add(MakeTupleList<DesignersReviewersModel>("tblDesigners", "Designer", "ActiveDesigner", "Assisted By"));
+                                    break;
+
+                                case "Reviewed By":
+                                    BoxData.Add(MakeTupleList<DesignersReviewersModel>("tblDesigners", "Designer", "ActiveDesigner", "Reviewers"));
+                                    break;
+
+                                case "State":
+                                    BoxData.Add(MakeTupleList<StateModel>("tblStates", "State", "States"));
+                                    break;
+
+                                case "Country":
+                                    BoxData.Add(MakeTupleList<CountriesModel>("tblCountries", "Country", "Countries"));
+                                        break;
+
+                                default:
+                                    //BoxData.Add(MakeTupleList<MSO_Model>("tblDesigners", "Designer"));
+                                    break;
+                            }
+                        }
+                    }
+                }                
+            }
+                
+            return BoxData;
+        }
+
+        private static List<(string Field, bool Active)> MakeTupleList<T>(string tableName, string FieldName, string cName)
+        {
+            (string Field, bool Active) tup = (cName, true);
+            List<(string Field, bool Active)> ddList = new List<(string Field, bool Active)>();
+            ddList.Add(tup);
+            //Type model = GetType(T);
+            List<T> dataList = GlobalConfig.Connection.GenericGetAll<T>(tableName);
+            foreach (T item in dataList)
+            {
+                Type modelType = item.GetType();
+                //PropertyInfo[] props = modelType.GetProperties();
+                PropertyInfo fieldInfo = modelType.GetProperty(FieldName);
+                tup.Field = fieldInfo.GetValue(item, null).ToString();
+                tup.Active = true;
+                ddList.Add(tup);
+            }
+            return ddList;
+        }
+
+            private static List<(string Field, bool Active)> MakeTupleList<T>(string tableName,  string FieldName, string activeField, string cName)
+        {
+            (string Field, bool Active) tup = (cName, true);
+            List<(string Field,bool Active)> ddList = new List<(string Field,bool Active)> ();
+            ddList.Add(tup);
+            //Type model = GetType(T);
+            List <T> dataList = GlobalConfig.Connection.GenericGetAll<T>(tableName);
+            foreach (T item in dataList)
+            {
+                Type modelType = item.GetType();
+                //PropertyInfo[] props = modelType.GetProperties();
+                PropertyInfo fieldInfo = modelType.GetProperty(FieldName);
+                tup.Field = fieldInfo.GetValue(item, null).ToString();
+                PropertyInfo modelActive = modelType.GetProperty(activeField);
+                tup.Active = (bool)modelActive.GetValue(item, null);
+                ddList.Add(tup);
+            }
+            return ddList;
+        }
         public static List<CompletionTimeModel> GenerateCompletionTimeSummary
             (DateTime startDate, DateTime endDate, List<MSO_Model> msoList)
         {
@@ -306,14 +740,14 @@ namespace DesignDB_Library.Operations
                                 reportLine.HFC++;
                                 reportLine.HFCDollars = reportLine.HFCDollars + request.BOM_Value;
                                 break;
+                            case "Node Split":
+                                reportLine.NodeSplit++;
+                                reportLine.NodeSplitDollars = reportLine.HFCDollars + request.BOM_Value;
+                                break;
                             case "RFOG":
                                 reportLine.RFoG++;
                                 reportLine.RFoGDollars = reportLine.RFoGDollars + request.BOM_Value;
-                                break;
-                            case "RFOG PON":
-                                reportLine.RFoGPON++;
-                                reportLine.RFoGDollars += request.BOM_Value;
-                                break;
+                                break;                            
                             case "PON":
                                 reportLine.PON++;
                                 reportLine.PON_Dollars = reportLine.PON_Dollars + request.BOM_Value;
@@ -595,35 +1029,55 @@ namespace DesignDB_Library.Operations
         }
         public static void FormatCatMSO_DGV(DataGridView dgv)
         {
-            string[] headers = { "MSO", "Total Dollars", "Average $/ Request","Total Requests", "HFC","RFoG", "PON", "RFoG/ PON",
-            "Fiber Deep", "Data Trans.", "Other", "PEG", "Commercial","Unassigned", "HFC Dollars","RFoG Dollars", "PON Dollars",
+            string[] headers = { "MSO", "Total Dollars", "Average $/ Request","Total Requests", "HFC", "Node Split", "RFoG", "PON", "RFoG/ PON",
+            "Fiber Deep", "Data Trans.", "Other", "PEG", "Commercial","Unassigned", "HFC Dollars","Node Split Dollars", "RFoG Dollars", "PON Dollars",
             "RFoG/ Pon Dollars","Fiber Deep Dollars", "Data Trans. Dollars","Other Dollars", "PEG Dollars","Commercial Dollars",
             "Unassigned Dollars" };
 
-            int[] widths = { 150, 100, 100, 60, 60, 60, 60, 60, 60, 60, 60, 60, 75, 75, 160,
-             160,160,160,160,160,160,160,160,160};
+            int[] widths = { 150, 100, 100, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 75, 75, 160,
+             160,160,160,160,160,160,160,160};
 
             SetDGV_ColumnWidths(dgv, widths);
             setDGV_HeaderText(dgv, headers);
+
+            int[] currencyCols = { 1, 2, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25 };
+            setDGV_CurrencyCols(dgv, currencyCols);
+        }
+
+        private static void setDGV_CurrencyCols(DataGridView dgv, int[] cols)
+        {
+            foreach (int col in cols)
+            {
+                dgv.Columns[col].DefaultCellStyle.Format = "c2";
+            }
         }
         public static void FormatCatMSO_Export(Excel.Worksheet wks)
         {
-            string[] headers = { "MSO", "Total Dollars", "Average $/ Request","Total Requests", "HFC","RFoG", "PON", "RFoG/ PON",
-            "Fiber Deep", "Data Trans.", "Other", "PEG", "Commercial","Unassigned", "HFC Dollars","RFoG Dollars", "PON Dollars",
+            string[] headers = { "MSO", "Total Dollars", "Average $/ Request","Total Requests", "HFC", "Node Split", "RFoG", "PON", "RFoG/ PON",
+            "Fiber Deep", "Data Trans.", "Other", "PEG", "Commercial","Unassigned", "HFC Dollars", "Node Split Dollars", "RFoG Dollars", "PON Dollars",
             "RFoG/ Pon Dollars","Fiber Deep Dollars", "Data Trans. Dollars","Other Dollars", "PEG Dollars","Commercial Dollars",
             "Unassigned Dollars" };
             placeHeaderTextInExport(wks, headers);
             formatExcelHeaderRow(wks);
 
-            int[] widths = { 25, 15, 20, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 20,
-             20,20,20,20,20,20,20,20,20};
+            int[] widths = { 25, 15, 20, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 20,
+             20,20,20,20,20,20,20,20,20,20};
             setExcelExportColumnWidths(wks, widths);
 
-            string[] currencyCols = { "B", "C", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X" };
+            string[] currencyCols = { "B", "C", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
             FormatExcelColumnsAsCurrency(wks, currencyCols);
 
-            int[] cols = { 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
+            int[] cols = { 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15 };
             CenterSpecificExcelColumns(wks, cols);
+        }
+
+        public static List<Report_SalesProjectValuesModel> Report_SalesProjectValues()
+        {
+            List<Report_SalesProjectValuesModel> ValueReport = new List<Report_SalesProjectValuesModel>();
+            //List<SalespersonModel> ActiveSales = GlobalConfig.Connection.
+
+
+            return ValueReport;
         }
     }
 }
