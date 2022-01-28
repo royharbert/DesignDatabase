@@ -29,7 +29,9 @@ namespace DesignDB_Library.Operations
             List<MSO_Model> msoList = GlobalConfig.Connection.GenericConditionalGetAll<MSO_Model>("tblMSO", "Active", "1",
                 "MSO");
             
-            decimal bomTotal = requests.Sum(x => x.BOM_Value);
+            Report_SalesProjectValuesModel accumulator = new Report_SalesProjectValuesModel();
+            accumulator.SalesPerson = "Total";
+            accumulator.CurrentYTD_Value = requests.Sum(x => x.BOM_Value);
             foreach (SalespersonModel salespersonModel in salespersons)
             {
                 string name = salespersonModel.SalesPerson;
@@ -47,55 +49,71 @@ namespace DesignDB_Library.Operations
                             model.Weekly++;
                         }
                         model.CurrentYear_Count=salesRequests.Count;
+                        accumulator.CurrentYear_Count++;
                         model.AverageDollars = model.CurrentYTD_Value / model.CurrentYear_Count;
-                        model.PctTotalValue = model.CurrentYTD_Value / bomTotal;
+                        model.PctTotalValue = model.CurrentYTD_Value / accumulator.CurrentYTD_Value;
                         int month = request.DateAssigned.Month;
                         List<RequestModel> monthlyRequests = salesRequests.Where(x => x.DateAssigned.Month == month).ToList();
                         switch (month)
                         {
                             case 1:
                                 model.JanProjects++;
+                                accumulator.JanProjects++;
                                 break;
                             case 2:
                                 model.FebProjects++;
+                                accumulator.FebProjects++;
                                 break;
                             case 3:
                                 model.MarProjects++;
+                                accumulator.MarProjects++;
                                 break;
                             case 4:
                                 model.AprProjects++;
+                                accumulator.AprProjects++;
                                 break;
                             case 5:
                                 model.MayProjects++;
+                                accumulator.MayProjects++;
                                 break;
                             case 6:
                                 model.JunProjects++;
+                                accumulator.JunProjects++;
                                 break;
                             case 7:
                                 model.JulProjects++;
+                                accumulator.JulProjects++;
                                 break;
                             case 8:
                                 model.AugProjects++;
+                                accumulator.AugProjects++;
                                 break;
                             case 9:
                                 model.SepProjects++;
+                                accumulator.SepProjects++;
                                 break;
                             case 10:
                                 model.OctProjects++;
+                                accumulator.OctProjects++;
                                 break;
                             case 11:
                                 model.NovProjects++;
+                                accumulator.NovProjects++;
                                 break;
                             case 12:
                                 model.DecProjects++;
+                                accumulator.DecProjects++;
                                 break;
                             default:
                                     break;
                         }
                     }
                     projectRollup.Add(model);
-                } 
+                }
             }
+            accumulator.AverageDollars = accumulator.CurrentYTD_Value / accumulator.CurrentYear_Count;
+            accumulator.PctTotalValue = 1;
+            projectRollup.Add(accumulator);
 
             ReportCategoryMSOModel categorySummary = new ReportCategoryMSOModel();
             categorySummary.TotalDollars = requests.Sum(x => x.BOM_Value);
@@ -270,7 +288,7 @@ namespace DesignDB_Library.Operations
             }
             openRequestsBySales.Add(accumulatorModel);
             List<ReportSalesPriorityModel> priorityReport = ReportBySalesPriority(requests, salespersons);
-            ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, categoryReport, projectRollup, priorityReport, bomTotal);
+            ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, categoryReport, projectRollup, priorityReport, accumulator.CurrentYTD_Value);
         }
 
         public static List<ReportSalesPriorityModel> ReportBySalesPriority(List<RequestModel> requests, List<SalespersonModel> salesPeople)

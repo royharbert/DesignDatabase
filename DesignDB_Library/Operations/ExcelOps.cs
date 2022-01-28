@@ -50,9 +50,7 @@ namespace DesignDB_Library.Operations
             wks.get_Range("D:Y").ColumnWidth=12;
 
             makeTitle(wks, 1, 18, "Design Requests by Salesperson/Month");
-            //wks.Cells[1, 1].Value = "Design Requests by Salesperson/Month";
-            //Excel.Range title = wks.get_Range("A1:R1");
-            //title.Cells.Merge();
+            
             Excel.Range header = wks.get_Range("A1:R2");
             header.Font.Bold = true;
             header.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
@@ -82,13 +80,14 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 18] = model.Weekly;
                 row++;
             }
-            wks.Cells[row, 2].Value = bomTotal;
+            //wks.Cells[row, 2].Value = bomTotal;
             Excel.Range decRange = wks.Range[wks.Cells[2, 5], wks.Cells[row, 5]];
             decRange.NumberFormat = "###.00%";
 
             Excel.Range currencyRange = wks.Range[wks.Cells[2, 2], wks.Cells[row, 3]];
             FormatExcelRangeAsCurrency(wks, currencyRange);
-
+            Excel.Range summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 18]];
+            summaryRange.Font.Bold = true;
 
             row = row + 3;
             makeTitle(wks, row, 25, "Design Requests by MSO/Category");
@@ -158,7 +157,7 @@ namespace DesignDB_Library.Operations
 
 
             Excel.Range numRange = wks.Range[wks.Cells[categoryStartRow, 1], wks.Cells[row, 25]];
-            Excel.Range summaryRange = wks.Range[wks.Cells[row-1, 1], wks.Cells[row-1, 25]];
+            summaryRange = wks.Range[wks.Cells[row-1, 1], wks.Cells[row-1, 25]];
             summaryRange.Font.Bold = true;
             numRange.NumberFormat = "0.00";
 
