@@ -44,14 +44,15 @@ namespace DesignDB_Library.Operations
             wks.Cells[2, 16].Value = "Nov";
             wks.Cells[2, 17].Value = "Dec";
             wks.Cells[2, 18].Value = "Current Week " + startDate.ToShortDateString() + " " + endDate.ToShortDateString();
+            wks.Cells[2, 19].Value = "TOTAL";
 
             wks.Columns[1].ColumnWidth = 28;
             wks.get_Range("B:C").ColumnWidth = 20;
-            wks.get_Range("D:Y").ColumnWidth=12;
+            wks.get_Range("D:Z").ColumnWidth=12;
 
             makeTitle(wks, 1, 18, "Design Requests by Salesperson/Month");
             
-            Excel.Range header = wks.get_Range("A1:R2");
+            Excel.Range header = wks.get_Range("A1:S2");
             header.Font.Bold = true;
             header.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             header.Interior.Color = ColorTranslator.ToOle(System.Drawing.Color.LightSkyBlue);
@@ -78,6 +79,7 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 16] = model.NovProjects;
                 wks.Cells[row, 17] = model.DecProjects;
                 wks.Cells[row, 18] = model.Weekly;
+                wks.Cells[row, 19] = model.Total;
                 row++;
             }
             //wks.Cells[row, 2].Value = bomTotal;

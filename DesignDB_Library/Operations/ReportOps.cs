@@ -23,6 +23,8 @@ namespace DesignDB_Library.Operations
             //Get all requests YTD
             List<RequestModel> requests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(NewYearsDay, NewYearsEve, "DateAssigned",
                 false, "");
+            //Filter for Pending
+            requests = requests.Where(x => x.AwardStatus == "Pending").ToList();
             //Get all SalesPersons
             List<SalespersonModel> salespersons = GlobalConfig.Connection.GenericConditionalGetAll<SalespersonModel>("tblSalespersons", "Active",
                 "1", "SalesPerson");
@@ -47,6 +49,7 @@ namespace DesignDB_Library.Operations
                         if (request.DateAssigned >= startDate && request.DateAssigned <= endDate)
                         {
                             model.Weekly++;
+                            accumulator.Weekly++;
                         }
                         model.CurrentYear_Count=salesRequests.Count;
                         accumulator.CurrentYear_Count++;
@@ -107,6 +110,8 @@ namespace DesignDB_Library.Operations
                             default:
                                     break;
                         }
+                        model.Total++;
+                        accumulator.Total++;
                     }
                     projectRollup.Add(model);
                 }
@@ -179,7 +184,7 @@ namespace DesignDB_Library.Operations
                                 model.Unassigned++;
                                 model.UnassignedDollars = model.UnassignedDollars + request.BOM_Value;
                                 break;
-                        } 
+                        }
                     }
                     categoryReport.Add(model);
                 }
