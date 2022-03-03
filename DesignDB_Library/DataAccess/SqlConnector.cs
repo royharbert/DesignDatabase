@@ -622,8 +622,29 @@ namespace DesignDB_Library.DataAccess
                 return output;
             }
         }
+
+        public List<RequestModelReport> ReportDateRangeSearch_Unfiltered_Pending_HasRevision(DateTime StartDate, DateTime EndDate,
+            string SearchTerm, string mso)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+
+                p.Add("@StartDate", StartDate, DbType.DateTime, ParameterDirection.Input);
+                p.Add("@EndDate", EndDate, DbType.DateTime, ParameterDirection.Input);
+                p.Add("SearchTerm", SearchTerm, DbType.String, ParameterDirection.Input);
+                p.Add(@"PendingOnly",false,DbType.Boolean)
+;                p.Add("@MSO", mso, DbType.String, ParameterDirection.Input);
+                List<RequestModelReport> output = null;
+
+
+                output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_Dynamic",
+                    p, commandType: CommandType.StoredProcedure).ToList();
+                return output;
+            }
+        }
         public List<RequestModelReport> ReportDateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, 
-            string SearchTerm, bool pendingOnly, string mso)
+            string SearchTerm, string AwardString, string mso)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
@@ -632,7 +653,7 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@StartDate", StartDate, DbType.DateTime, ParameterDirection.Input);
                 p.Add("@EndDate", EndDate, DbType.DateTime, ParameterDirection.Input);
                 p.Add("@SearchTerm", SearchTerm, DbType.String, ParameterDirection.Input);
-                p.Add("@PendingOnly", pendingOnly, DbType.Boolean, ParameterDirection.Input);
+                p.Add("@PendingOnly", AwardString, DbType.String, ParameterDirection.Input);
                 p.Add("@MSO", mso, DbType.String, ParameterDirection.Input);
                 List<RequestModelReport> output = null;
 

@@ -82,9 +82,10 @@ namespace DesignDB_UI
             if (cboMSO.Text == "")
             {
                 requestList = GlobalConfig.Connection.ReportDateRangeSearch_Unfiltered
-                    (dtpStartDate.Value, dtpEndDate.Value, term, false,"");
+                    (dtpStartDate.Value.Date,  dtpEndDate.Value.Date,term,"", "");
+                //requestList = requestList.Where(x => x.AwardStatus == "Pending" | x.AwardStatus == "Has Revision").ToList();
                 int records = requestList.Count;
-
+                 
                 switch (records)
                 {
                     case 0:

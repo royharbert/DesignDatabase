@@ -9,6 +9,8 @@ namespace DesignDB_Library.DataAccess
 {
     public interface IDataConnection
     {
+        List<RequestModelReport> ReportDateRangeSearch_Unfiltered_Pending_HasRevision(DateTime StartDate, DateTime EndDate,
+            string SearchTerm, string mso);
         List<T> GenericConditionalGetAll<T>(string tableName, string conditionColumn, string condition, string orderByField = "");
         void FE_CRUD(FE_Model model, char action);
         List<T> GetItemByColumn<T>(string tableName, string columnName, string stringValue, int intValue = -1);
@@ -42,7 +44,7 @@ namespace DesignDB_Library.DataAccess
         List<RequestModelReport> ReportDateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, 
             string SearchTerm, string mso, bool pendingOnly);
         List<RequestModelReport> ReportDateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, 
-            string SearchTerm, bool pendingOnly, string mso);
+            string SearchTerm, string AwardString, string mso);
         List<DesignerLoadModel> DoLoadReport();
         void DeleteAttachment(AttachmentModel model);
         List<AttachmentModel> GetAttachments(string PID);

@@ -14,6 +14,8 @@ namespace DesignDB_Library.Operations
     {
         public static void DoRollup(DateTime startDate, DateTime endDate)
         {
+            startDate = startDate.Date;
+            endDate = endDate.Date;
             List<Report_SalesProjectValuesModel> projectRollup = new List<Report_SalesProjectValuesModel>();
             List<ReportCategoryMSOModel> categoryReport = new List<ReportCategoryMSOModel>();
             List<OpenRequestsBySalesModel> openRequestsBySales = new List<OpenRequestsBySalesModel>();
@@ -23,8 +25,8 @@ namespace DesignDB_Library.Operations
             //Get all requests YTD
             List<RequestModel> requests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(NewYearsDay, NewYearsEve, "DateAssigned",
                 false, "");
-            //Filter for Pending
-            requests = requests.Where(x => x.AwardStatus == "Pending").ToList();
+            //Filter for Pending and Has Revision
+            //requests = requests.Where(x => x.AwardStatus == "Pending" | x.AwardStatus == "Has Revision").ToList();
             //Get all SalesPersons
             List<SalespersonModel> salespersons = GlobalConfig.Connection.GenericConditionalGetAll<SalespersonModel>("tblSalespersons", "Active",
                 "1", "SalesPerson");
@@ -46,7 +48,7 @@ namespace DesignDB_Library.Operations
                     model.SalesPerson = name;
                     foreach (var request in salesRequests)
                     {
-                        if (request.DateAssigned >= startDate && request.DateAssigned <= endDate)
+                        if (request.DateAssigned.Date >= (startDate) && request.DateAssigned.Date <= endDate)
                         {
                             model.Weekly++;
                             accumulator.Weekly++;
@@ -124,9 +126,9 @@ namespace DesignDB_Library.Operations
             categorySummary.TotalDollars = requests.Sum(x => x.BOM_Value);
 
             //Category report
+            List<RequestModel> categoryRequests = requests.Where(x => x.AwardStatus == "Pending").ToList();
             foreach (var mso in msoList)
             {
-                List<RequestModel> categoryRequests = requests;
                 categoryRequests = categoryRequests.Where(x => x.MSO == mso.MSO).ToList();
                 if (categoryRequests.Count > 0)
                 {
@@ -670,7 +672,7 @@ namespace DesignDB_Library.Operations
                 snap.TotalCanceledDesigns = snapshot.Where(x => x.AwardStatus == "Canceled").ToList().Count;
 
                 snap.RequestsThisMonth = snapshot.Where(x => month == x.DateAssigned.Month).ToList().Count;
-                snap.RequestsThisWeek = snapshot.Where(x => x.DateAssigned >= startDate && x.DateAssigned <= startDate.AddDays(6)).ToList().Count;
+                snap.RequestsThisWeek = snapshot.Where(x => x.DateAssigned.Date >= startDate.Date && x.DateAssigned.Date <= startDate.AddDays(7)).ToList().Count;
                 snap.TotalValue = snapshot.Sum(x => x.BOM_Value);
             }
             else

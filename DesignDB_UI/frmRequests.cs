@@ -20,11 +20,11 @@ namespace DesignDB_UI
 {
 
     public partial class frmRequests : Form
-    {        
+    {
         RequestModel Rm = new RequestModel();
 
         //Class scope variables to hold button name strings
-        
+
         static string Level1ButtonNames = "btnUndo,btnSave,btnSearch,btnAddAtt,btnRemoveAtt,btnDone";
         static string Level2ButtonNames = Level1ButtonNames + ",btnDelete,btnRestore,btnClone,btnNew,btnRev,btnLoadRpt";
         static string RequestNewButtons = "btnUndo,btnSave,btnAddAtt,btnRemoveAtt,btnDone,btnClone,btnNew,btnRev";
@@ -38,10 +38,10 @@ namespace DesignDB_UI
         bool formLoading;
         bool formDirty;
         bool _useDefaultLocation = true;
-        string activeControlOriginalValue;        
+        string activeControlOriginalValue;
 
         Point _formLocation = new Point(-1, -1);
-        frmAttType frm = null;       
+        frmAttType frm = null;
         DateTime failDate = new DateTime(1900, 1, 1);
         RequestModel initialRequest = null;
         private List<LogFieldModel> logFieldList = new List<LogFieldModel>();
@@ -54,9 +54,9 @@ namespace DesignDB_UI
             }
         }
 
-        public Point FormLocation 
+        public Point FormLocation
         {
-            get 
+            get
             {
                 return _formLocation;
             }
@@ -96,7 +96,7 @@ namespace DesignDB_UI
             Cursor.Current = Cursors.WaitCursor;
             Application.DoEvents();
             InitializeComponent();
-            makeLists();            
+            makeLists();
             _formLocation = this.Location;
             FC.SetFormPosition(this, _formLocation.X, _formLocation.Y, UseDefaultLocation);
             this.BringToFront();
@@ -105,9 +105,9 @@ namespace DesignDB_UI
         private void prepFormForTask()
         {
             switch (GV.MODE)
-            { 
-                case Mode.New:                   
-                    setButtonDisplay(RequestNewButtons);                    
+            {
+                case Mode.New:
+                    setButtonDisplay(RequestNewButtons);
                     break;
 
                 case Mode.Restore:
@@ -147,9 +147,9 @@ namespace DesignDB_UI
                 default:
                     Rm = null;
                     break;
-            }            
+            }
         }
-  
+
         /// <summary>
         /// sets visibility of buttons on form
         /// </summary>
@@ -165,7 +165,7 @@ namespace DesignDB_UI
                 }
             }
 
-            if (GV.USERNAME.Priviledge==1 & displayString == "")
+            if (GV.USERNAME.Priviledge == 1 & displayString == "")
             {
                 displayString = Level1ButtonNames;
             }
@@ -180,16 +180,16 @@ namespace DesignDB_UI
                 int idx = Array.IndexOf(visibleButtons, name);
                 if (idx != -1)
                 {
-                    ctl.Visible = true;                            
+                    ctl.Visible = true;
                 }
             }
             btnDone.Visible = true;
-            
+
         }
 
         private void checkForSave()
         {
-            DialogResult result = MessageBox.Show("Save Changes?", caption: "Save", buttons:  MessageBoxButtons.YesNo);
+            DialogResult result = MessageBox.Show("Save Changes?", caption: "Save", buttons: MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
                 saveChanges();
@@ -248,7 +248,7 @@ namespace DesignDB_UI
 
         private void formatAttGrid()
         {
-            
+
             dgvAttachments.Columns[0].Visible = false;
             dgvAttachments.Columns[1].Visible = false;
             dgvAttachments.Columns[4].Visible = false;
@@ -285,26 +285,26 @@ namespace DesignDB_UI
             cboRequestor.Text = rm.DesignRequestor;
             cboQuoteType.Text = setCombo(cboQuoteType, rm.QuoteType);
             cboPriority.Text = setCombo(cboPriority, rm.Pty);
-            cboDesigner.Text = setCombo(cboDesigner, rm.Designer); 
+            cboDesigner.Text = setCombo(cboDesigner, rm.Designer);
             cboAssisted.Text = setCombo(cboAssisted, rm.AssistedBy);
             txtProjName.Text = rm.ProjectName;
             cboOrigQuote.Text = rm.OriginalQuote;
             cboCategory.Text = setCombo(cboCategory, rm.Category);
             cboArchType.Text = setCombo(cboArchType, rm.ArchitectureType);
-            
+
             dtpLoadFromModel(txtDateAssigned, rm.DateAssigned);
-            
+
             dtpLoadFromModel(txtDateAllInfo, rm.DateAllInfoReceived);
-            
+
             dtpLoadFromModel(txtDateDue, rm.DateDue);
-            
+
             dtpLoadFromModel(txtDateCompleted, rm.DateCompleted);
             cboReviewedBy.Text = setCombo(cboReviewedBy, rm.ReviewedBy);
             txtBOM_Val.Text = rm.BOM_Value.ToString("C2");
             txtPctCovered.Text = rm.PercentageProjectCovered.ToString();
             cboAwardStatus.Text = setCombo(cboAwardStatus, rm.AwardStatus);
             txtTotalHours.Text = rm.TotalHours.ToString();
-           
+
             dtpLoadFromModel(txtLastUpdate, rm.DateLastUpdate);
             rtbArchDetails.Text = rm.ArchitectureDetails;
             rtbComments.Text = rm.Comments;
@@ -312,7 +312,7 @@ namespace DesignDB_UI
 
             //set modelMSO since it does not come from DB
             Rm.msoModel = (MSO_Model)cboMSO.SelectedItem;
-            initialRequest = CommonOps.CloneRequestList(Rm);            
+            initialRequest = CommonOps.CloneRequestList(Rm);
         }
 
         private string setCombo(ComboBox cbo, string val)
@@ -344,7 +344,7 @@ namespace DesignDB_UI
 
         private void setDTP_CustomFormat(DateTimePicker picker)
         {
-            dtpResetForced(picker);       
+            dtpResetForced(picker);
         }
 
         private void loadModel()
@@ -376,7 +376,7 @@ namespace DesignDB_UI
             Rm.DateAllInfoReceived = dtpReset(txtDateAllInfo);
             Rm.DateCompleted = dtpReset(txtDateCompleted);
             Rm.DateDue = dtpReset(txtDateDue);
-            Rm.DateLastUpdate = dtpReset(txtLastUpdate);            
+            Rm.DateLastUpdate = dtpReset(txtLastUpdate);
 
             Rm.ReviewedBy = cboReviewedBy.Text;
 
@@ -410,7 +410,7 @@ namespace DesignDB_UI
         {
             if (dtp.Value <= failDate)
             {
-                dtp.Value = new DateTime(1900,1,1);
+                dtp.Value = new DateTime(1900, 1, 1);
                 Application.DoEvents();
                 dtp.CustomFormat = " ";
                 dtp.Format = DateTimePickerFormat.Custom;
@@ -461,7 +461,7 @@ namespace DesignDB_UI
             Rm.DateAssigned = DateTime.Today;
             Rm.AwardStatus = "Pending";
             Rm.PercentageProjectCovered = 100;
-            resetDTPs(false);            
+            resetDTPs(false);
             unlockTLP(false);
             cboMSO.Enabled = true;
             cboMSO.SelectedIndex = -1;
@@ -472,7 +472,7 @@ namespace DesignDB_UI
             formDirty = false;
         }
 
- 
+
         /// <summary>
         /// Resets form for new input by clearing boxes, formatting DTP's and making new RequestModel
         /// </summary>
@@ -480,7 +480,7 @@ namespace DesignDB_UI
         {
             switch (GV.MODE)
             {
-                case Mode.New:                          
+                case Mode.New:
                     generalReset();
                     break;
                 case Mode.Search:
@@ -504,7 +504,7 @@ namespace DesignDB_UI
                     txtPID.Text = Rm.ProjectID;
                     getAttachments(Rm.ProjectID);
                     formDirty = false;
-                    break;          
+                    break;
                 case Mode.Delete:
                     break;
                 case Mode.Restore:
@@ -520,14 +520,14 @@ namespace DesignDB_UI
                     break;
             }
             txtSearch.Clear();
-      
+
 
         }
 
         private void unlockTLP(bool unLock)
         {
             List<TableLayoutPanel> panels = new List<TableLayoutPanel>();
-            
+
             panels.Add(tlpLeft);
             panels.Add(tlpCenterTop);
             panels.Add(tlpRight);
@@ -562,8 +562,8 @@ namespace DesignDB_UI
                 newList.Add(model);
             }
             return newList;
-        }   
-        
+        }
+
         private void makeLists()
         {
             List<DesignersReviewersModel> activeDesignerList = GlobalConfig.Connection.DesignersGetActive();
@@ -620,8 +620,8 @@ namespace DesignDB_UI
         }
 
         private void cboMSO_SelectedIndexChanged(object sender, EventArgs e)
-        {  
-                   
+        {
+
             if (!formLoading)
             {
                 if (cboMSO.SelectedIndex > -1 && GV.MODE == Mode.New)
@@ -652,7 +652,7 @@ namespace DesignDB_UI
             {
                 checkForSave();
             }
-            
+
             GV.MODE = Mode.None;
             resetForm();
             logFieldList.Clear();
@@ -662,7 +662,7 @@ namespace DesignDB_UI
         private void btnSave_Click(object sender, EventArgs e)
         {
             saveChanges();
-            
+
         }
 
         private void logSuccessfulSave(int saveSuccessful)
@@ -677,7 +677,7 @@ namespace DesignDB_UI
         {
             int saved = 0;
             loadModel();
-            
+
             Rm.DateLastUpdate = DateTime.Today;
             switch (GV.MODE)
             {
@@ -702,7 +702,7 @@ namespace DesignDB_UI
                     break;
                 default:
                     break;
-            } 
+            }
 
             if (saved == 1)
             {
@@ -733,7 +733,7 @@ namespace DesignDB_UI
             }
             GV.MODE = Mode.New;
             cboMSO.Enabled = true;
-            Rm = new RequestModel();             
+            Rm = new RequestModel();
             resetForm();
             unlockTLP(false);
         }
@@ -741,19 +741,19 @@ namespace DesignDB_UI
         private void resetDTPs(bool resetDateAssigned)
         {
             setDTP_CustomFormat(txtDateAllInfo);
-            setDTP_CustomFormat(txtDateCompleted); 
+            setDTP_CustomFormat(txtDateCompleted);
             setDTP_CustomFormat(txtDateDue);
             setDTP_CustomFormat(txtLastUpdate);
             if (resetDateAssigned)
             {
-                setDTP_CustomFormat(txtDateAssigned);  
+                setDTP_CustomFormat(txtDateAssigned);
             }
         }
 
         private void btnRev_Click(object sender, EventArgs e)
         {
             GV.MODE = Mode.Revision;
-            if(formDirty)
+            if (formDirty)
             {
                 checkForSave();
             }
@@ -761,7 +761,7 @@ namespace DesignDB_UI
 
             if (result == DialogResult.Yes)
             {
-                this.Request  = RequestOps.CreateRevision(Rm);         
+                this.Request = RequestOps.CreateRevision(Rm);
             }
 
             //set combo boxes to ""
@@ -771,7 +771,7 @@ namespace DesignDB_UI
             resetCombo(cboCategory);
             resetCombo(cboAssisted);
             dtpResetForced(txtDateDue);
-            dtpResetForced(txtDateAllInfo);            
+            dtpResetForced(txtDateAllInfo);
             dtpResetForced(txtLastUpdate);
             loadModel();
             unlockTLP(true);
@@ -811,7 +811,7 @@ namespace DesignDB_UI
 
             model.ID = 0;
             model.PID = txtPID.Text;
-                        
+
             if (openFD.ShowDialog() == DialogResult.OK)
             {
                 string fullFileName = openFD.FileName;
@@ -832,7 +832,7 @@ namespace DesignDB_UI
             List<LogFieldModel> logFields = new List<LogFieldModel>();
             LogFieldModel logModel = new LogFieldModel();
             logModel.FieldName = attachment;
-            logFields.Add(logModel);            
+            logFields.Add(logModel);
             makeLogEntry(logFields);
             //logFieldList = logFields;
             GV.MODE = GV.PreviousMode;
@@ -845,7 +845,7 @@ namespace DesignDB_UI
             string fileName = GlobalConfig.AttachmentPath + "\\" + e.PID + "\\" + e.DisplayText;
             FileOps.SaveAttFile(e);
             GlobalConfig.Connection.InsertInto_tblAttachments(e);
-            List<AttachmentModel> aList =  GlobalConfig.Connection.GetAttachments(e.PID);
+            List<AttachmentModel> aList = GlobalConfig.Connection.GetAttachments(e.PID);
             dgvAttachments.DataSource = null;
             dgvAttachments.DataSource = aList;
             formatAttGrid();
@@ -857,7 +857,7 @@ namespace DesignDB_UI
             {
                 getAttachments(txtPID.Text);
             }
-            
+
         }
 
         private void dgvAttachments_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -957,7 +957,7 @@ namespace DesignDB_UI
 
         private void setdtpFormat(DateTimePicker dtp)
         {
-            if (!formLoading  && GV.MODE != Mode.Undo)
+            if (!formLoading && GV.MODE != Mode.Undo)
             {
                 dtp.Format = DateTimePickerFormat.Short;
                 formDirty = true;
@@ -969,7 +969,7 @@ namespace DesignDB_UI
             if (txtDateAssigned.Text != null && !formLoading && GV.MODE != Mode.Search)
             {
                 setdtpFormat(txtDateDue);
-                txtDateDue.Value = CommonOps.CalculateDateDue(txtDateAssigned.Value, cboPriority.Text);                
+                txtDateDue.Value = CommonOps.CalculateDateDue(txtDateAssigned.Value, cboPriority.Text);
             }
             formDirty = true;
         }
@@ -1053,7 +1053,7 @@ namespace DesignDB_UI
         protected void OnContentChanged(object sender, EventArgs e)
         {
             formDirty = true;
-            
+
         }
 
         private void frmRequests_FormClosing(object sender, FormClosingEventArgs e)
@@ -1071,11 +1071,11 @@ namespace DesignDB_UI
             GV.MODE = Mode.Restore;
             DialogResult result = confirmAction();
             if (result == DialogResult.Yes)
-                {
-                    RequestOps.RestoreRequest(Rm);
-                    prepForButtonLogEntry(Rm.ProjectID);
-                }
-            
+            {
+                RequestOps.RestoreRequest(Rm);
+                prepForButtonLogEntry(Rm.ProjectID);
+            }
+
             resetForm();
             this.Visible = false;
         }
@@ -1144,7 +1144,7 @@ namespace DesignDB_UI
                     break;
 
             }
-            DialogResult result = MessageBox.Show(msg, "Confirm Action",MessageBoxButtons.YesNo);
+            DialogResult result = MessageBox.Show(msg, "Confirm Action", MessageBoxButtons.YesNo);
             return result;
         }
 
@@ -1166,7 +1166,7 @@ namespace DesignDB_UI
                         if (control is DateTimePicker)
                         {
                             DateTimePicker dtp = (DateTimePicker)control;
-                            if (dtp.Format==DateTimePickerFormat.Custom)
+                            if (dtp.Format == DateTimePickerFormat.Custom)
                             {
                                 addDTP = false;
                             }
@@ -1204,7 +1204,7 @@ namespace DesignDB_UI
                 default:
                     setButtonDisplay();
                     break;
-            }      
+            }
 
         }
 
@@ -1232,7 +1232,7 @@ namespace DesignDB_UI
             }
             Application.DoEvents();
         }
-        #region Log processes
+    #region Log processes
         private void makeLogEntry(List<LogFieldModel> fields)
         {
             LogModel logModel = new LogModel();
@@ -1264,7 +1264,7 @@ namespace DesignDB_UI
 
         private void cboCities_Leave(object sender, EventArgs e)
         {
-            addToLogAffectedFields("City",cboCities.Text);
+            addToLogAffectedFields("City", cboCities.Text);
         }
 
         private void cboState_Leave(object sender, EventArgs e)
@@ -1386,7 +1386,7 @@ namespace DesignDB_UI
         {
             addToLogAffectedFields("Comments", rtbComments.Text);
         }
-#endregion
+        #endregion
         #region Initial Values
         private void txtCust_Enter(object sender, EventArgs e)
         {
@@ -1518,6 +1518,8 @@ namespace DesignDB_UI
             activeControlOriginalValue = rtbComments.Text;
         }
         #endregion
-        #endregion
-    }
+
+        #endregion      
+
+    }   
 }
