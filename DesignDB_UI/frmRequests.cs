@@ -494,6 +494,7 @@ namespace DesignDB_UI
                     cboAwardStatus.SelectedIndex = -1;
                     dtpResetForced(txtDateAssigned);
                     unlockTLP(true);
+                    dgvAttachments.DataSource = "";
                     formDirty = false;
                     break;
                 case Mode.Edit:

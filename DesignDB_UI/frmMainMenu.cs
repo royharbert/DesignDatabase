@@ -445,7 +445,7 @@ namespace DesignDB_UI
         private void btnOverdue_Click(object sender, EventArgs e)
         {
             GV.MODE = Mode.Report_Overdue;
-            List<RequestModel> overdueRequests = GlobalConfig.Connection.GetOverdueRequests(DateTime.Now);
+            List<RequestModel> overdueRequests = GlobalConfig.Connection.GetOverdueRequests(DateTime.Now.Date);
             //frmMultiResult frmMultiResult = new frmMultiResult(overdueRequests);
             GV.MultiResult.dataList = overdueRequests;
             GV.MultiResult.Show();

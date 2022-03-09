@@ -26,7 +26,7 @@ namespace DesignDB_Library.Operations
             List<RequestModel> requests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(NewYearsDay, NewYearsEve, "DateAssigned",
                 false, "");
             //Filter for Pending and Has Revision
-            //requests = requests.Where(x => x.AwardStatus == "Pending" | x.AwardStatus == "Has Revision").ToList();
+            requests = requests.Where(x => x.AwardStatus != "Canceled" && x.AwardStatus != "Has Revision").ToList();
             //Get all SalesPersons
             List<SalespersonModel> salespersons = GlobalConfig.Connection.GenericConditionalGetAll<SalespersonModel>("tblSalespersons", "Active",
                 "1", "SalesPerson");
@@ -126,9 +126,9 @@ namespace DesignDB_Library.Operations
             categorySummary.TotalDollars = requests.Sum(x => x.BOM_Value);
 
             //Category report
-            List<RequestModel> categoryRequests = requests.Where(x => x.AwardStatus == "Pending").ToList();
             foreach (var mso in msoList)
             {
+                List<RequestModel> categoryRequests = requests;//.Where(x => x.AwardStatus == "Pending").ToList();
                 categoryRequests = categoryRequests.Where(x => x.MSO == mso.MSO).ToList();
                 if (categoryRequests.Count > 0)
                 {

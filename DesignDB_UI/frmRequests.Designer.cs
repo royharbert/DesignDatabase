@@ -599,8 +599,6 @@ namespace DesignDB_UI
             "PON",
             "Fiber Deep",
             "Data Transport",
-            "PEG",
-            "Commercial",
             "Other"});
             this.cboCategory.Location = new System.Drawing.Point(161, 459);
             this.cboCategory.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -1430,7 +1428,7 @@ namespace DesignDB_UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(1301, 718);
+            this.ClientSize = new System.Drawing.Size(1604, 718);
             this.ControlBox = false;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.tlpSearch);
@@ -1445,6 +1443,7 @@ namespace DesignDB_UI
             this.Name = "frmRequests";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Design Request";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Activated += new System.EventHandler(this.frmRequests_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmRequests_FormClosing);
             this.Move += new System.EventHandler(this.frmRequests_Move);
