@@ -26,7 +26,7 @@ namespace DesignDB_Library.Operations
             List<RequestModel> requests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(NewYearsDay, NewYearsEve, "DateAssigned",
                 false, "");
             //Filter for Pending and Has Revision
-            requests = requests.Where(x => x.AwardStatus != "Canceled" && x.AwardStatus != "Has Revision").ToList();
+            requests = requests.Where(x => x.AwardStatus != "Canceled").ToList();
             //Get all SalesPersons
             List<SalespersonModel> salespersons = GlobalConfig.Connection.GenericConditionalGetAll<SalespersonModel>("tblSalespersons", "Active",
                 "1", "SalesPerson");
@@ -35,7 +35,8 @@ namespace DesignDB_Library.Operations
             
             Report_SalesProjectValuesModel accumulator = new Report_SalesProjectValuesModel();
             accumulator.SalesPerson = "Total";
-            accumulator.CurrentYTD_Value = requests.Sum(x => x.BOM_Value);
+
+            accumulator.CurrentYTD_Value = requests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
             foreach (SalespersonModel salespersonModel in salespersons)
             {
                 string name = salespersonModel.SalesPerson;
@@ -44,7 +45,7 @@ namespace DesignDB_Library.Operations
                 if (salesRequests.Count > 0)
                 {
                     Report_SalesProjectValuesModel model = new Report_SalesProjectValuesModel();
-                    model.CurrentYTD_Value = salesRequests.Sum(x => x.BOM_Value);
+                    model.CurrentYTD_Value = salesRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
                     model.SalesPerson = name;
                     foreach (var request in salesRequests)
                     {
@@ -134,49 +135,78 @@ namespace DesignDB_Library.Operations
                 {
                     ReportCategoryMSOModel model = new ReportCategoryMSOModel();
                     model.MSO = mso.MSO;
-                    model.TotalDollars = categoryRequests.Sum(x => x.BOM_Value);
+                    model.TotalDollars = categoryRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
                     model.TotalRequests = categoryRequests.Count;
                     model.AverageDollarsPerRequest = model.TotalDollars / model.TotalRequests;
-                    model.PctOfTotal = model.TotalDollars * 100/requests.Sum(x => x.BOM_Value);
+
+                    //may need to filter has revision
+                    model.PctOfTotal = model.TotalDollars * 100/requests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
                     foreach (var request in categoryRequests)
                     {
                         switch (request.Category)
                         {
                             case "HFC":
                                 model.HFC++;
-                                model.HFCDollars = model.HFCDollars + request.BOM_Value;
+                                if (request.AwardStatus != "Has Revision")
+                                {
+                                    model.HFCDollars = model.HFCDollars + request.BOM_Value; 
+                                }
                                 break;
                             case "NodeSplit":
                                 model.NodeSplit++;
-                                model.NodeSplitDollars=model.NodeSplitDollars + request.BOM_Value;
+                                if (request.AwardStatus != "Has Revision")
+                                {
+                                    model.NodeSplitDollars = model.NodeSplitDollars + request.BOM_Value;
+                                }
                                 break;
                             case "RFoG":
                                 model.RFoG++;
-                                model.RFoGDollars=model.RFoGDollars+request.BOM_Value;
+                                if (request.AwardStatus != "Has Revision")
+                                {
+                                    model.RFoGDollars = model.RFoGDollars + request.BOM_Value;
+                                }
                                 break;
                             case "PON":
                                 model.PON++;
-                                model.PON_Dollars=model.PON_Dollars+request.BOM_Value;
+                                if (request.AwardStatus != "Has Revision")
+                                {
+                                    model.PON_Dollars = model.PON_Dollars + request.BOM_Value;
+                                }
                                 break;
                             case "Fiber Deep":
-                                model.FiberDeep++;  
-                                model.FiberDeepDollars=model.FiberDeepDollars+request.BOM_Value;
+                                model.FiberDeep++;
+                                if (request.AwardStatus != "Has Revision")
+                                {
+                                    model.FiberDeepDollars = model.FiberDeepDollars + request.BOM_Value;
+                                }
                                 break;
                             case "Data Transport":
                                 model.DataTrans++;
-                                model.DataTransportDollars=model.DataTransportDollars+request.BOM_Value;
+                                if (request.AwardStatus != "Has Revision")
+                                {
+                                    model.DataTransportDollars = model.DataTransportDollars + request.BOM_Value;
+                                }
                                 break;
                             case "Other":
                                 model.Other++;
-                                model.OtherDollars=model.OtherDollars+request.BOM_Value;
+                                if (request.AwardStatus != "Has Revision")
+                                {
+                                    model.OtherDollars = model.OtherDollars + request.BOM_Value;
+                                }
                                 break;
                             case "PEG":
                                 model.PEG++;
-                                model.PEG_Dollars = model.PEG_Dollars + request.BOM_Value;
+                                if (request.AwardStatus != "Has Revision")
+                                {
+                                    model.PEG_Dollars = model.PEG_Dollars + request.BOM_Value;
+                                }
                                 break;
                             case "Commercial":
                                 model.Commercial++;
-                                model.CommercialDollars=model.CommercialDollars+request.BOM_Value;
+                                if (request.AwardStatus != "Has Revision")
+                                {
+                                    model.CommercialDollars = model.CommercialDollars + request.BOM_Value;
+                                }
                                 break;
                             case "Unassigned":
                                 model.Unassigned++;
@@ -184,7 +214,10 @@ namespace DesignDB_Library.Operations
                                 break;
                             default:
                                 model.Unassigned++;
-                                model.UnassignedDollars = model.UnassignedDollars + request.BOM_Value;
+                                if (request.AwardStatus != "Has Revision")
+                                {
+                                    model.UnassignedDollars = model.UnassignedDollars + request.BOM_Value;
+                                }
                                 break;
                         }
                     }

@@ -83,7 +83,6 @@ namespace DesignDB_UI
             {
                 requestList = GlobalConfig.Connection.ReportDateRangeSearch_Unfiltered
                     (dtpStartDate.Value.Date,  dtpEndDate.Value.Date,term,"", "");
-                requestList = requestList.Where(x => x.AwardStatus != "Canceled" && x.AwardStatus != "Has Revision").ToList();
                 int records = requestList.Count;
                  
                 switch (records)
