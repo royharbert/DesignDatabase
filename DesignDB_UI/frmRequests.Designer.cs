@@ -1428,7 +1428,7 @@ namespace DesignDB_UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(1604, 718);
+            this.ClientSize = new System.Drawing.Size(1638, 718);
             this.ControlBox = false;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.tlpSearch);

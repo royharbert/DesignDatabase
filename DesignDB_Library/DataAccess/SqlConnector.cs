@@ -402,11 +402,20 @@ namespace DesignDB_Library.DataAccess
 
         public List<DesignersReviewersModel> DesignersGetActive()
         {
-            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            List<DesignersReviewersModel> output = new List<DesignersReviewersModel>();
+            try
             {
-                List<DesignersReviewersModel> output = connection.Query<DesignersReviewersModel>("dbo.spDesigners_GetActive", commandType: CommandType.StoredProcedure).ToList();
-                return output;
+                using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+                {
+                    output = connection.Query<DesignersReviewersModel>("dbo.spDesigners_GetActive", commandType: CommandType.StoredProcedure).ToList();
+                }
             }
+            catch (Exception)
+            {
+
+                System.Windows.Forms.MessageBox.Show("Cannot connect to server. Please check network and VPN status and try again");
+            }
+            return output;
         }
 
         public int GetSequence()

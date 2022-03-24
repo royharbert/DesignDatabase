@@ -352,6 +352,7 @@ namespace DesignDB_UI
             Rm.ProjectID = txtPID.Text;
             Rm.msoModel = (MSO_Model)cboMSO.SelectedItem;
             Rm.MSO = Rm.msoModel.MSO;
+            cboMSO.SelectedIndex = Rm.msoModel.ID;
             Rm.Cust = txtCust.Text;
             Rm.City = cboCities.Text;
             Rm.ST = cboState.Text;
@@ -715,7 +716,7 @@ namespace DesignDB_UI
 
         private void btnClone_Click(object sender, EventArgs e)
         {
-            saveChanges();
+            //saveChanges();
             GV.MODE = Mode.Clone;
             Rm = RequestOps.Clone(Rm);
 
@@ -1520,7 +1521,8 @@ namespace DesignDB_UI
         }
         #endregion
 
-        #endregion      
+        #endregion
 
+       
     }   
 }

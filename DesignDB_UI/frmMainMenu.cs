@@ -372,7 +372,14 @@ namespace DesignDB_UI
                 case Mode.Report_Rollup:
                     startDate = e.StartDate;
                     endDate = e.EndDate;
-                    ReportOps.DoRollup(startDate, endDate);
+                    if (e.MSO_s == null)
+                    {
+                        ReportOps.DoRollup(startDate, endDate); 
+                    }
+                    else
+                    {
+                        ReportOps.DoRollup(startDate, endDate, e.MSO_s);
+                    }
                     break;
                 case Mode.Report_CatMSO:
                     List<ReportCategoryMSOModel> categoryReport = ReportOps.
@@ -586,7 +593,7 @@ namespace DesignDB_UI
         private void btnPrjBySales_Click(object sender, EventArgs e)
         {
             GV.MODE = Mode.Report_Rollup;
-            frmDateMSO_Picker.Height = 175;
+            //frmDateMSO_Picker.Height = 175;
             frmDateMSO_Picker.Show();       
 
         }

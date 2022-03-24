@@ -12,7 +12,7 @@ namespace DesignDB_Library.Operations
 {
     public static class ReportOps
     {
-        public static void DoRollup(DateTime startDate, DateTime endDate)
+        public static void DoRollup(DateTime startDate, DateTime endDate, List<MSO_Model> msoModels = null)
         {
             startDate = startDate.Date;
             endDate = endDate.Date;
@@ -23,8 +23,16 @@ namespace DesignDB_Library.Operations
             DateTime NewYearsDay = new DateTime(curYear,1,1);
             DateTime NewYearsEve = new DateTime(curYear, 12, 31);
             //Get all requests YTD
-            List<RequestModel> requests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(NewYearsDay, NewYearsEve, "DateAssigned",
-                false, "");
+            List<RequestModel> requests = null;
+            if (msoModels == null)
+            {
+                requests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(NewYearsDay, NewYearsEve, "DateAssigned",
+                        false, ""); 
+            }
+            else
+            {
+                requests = GlobalConfig.Connection.DateRangeSearch_MSOFiltered(NewYearsDay, NewYearsEve, "DateAssigned", msoModels[0].MSO, false);
+            }
             //Filter for Pending and Has Revision
             requests = requests.Where(x => x.AwardStatus != "Canceled").ToList();
             //Get all SalesPersons
@@ -152,7 +160,7 @@ namespace DesignDB_Library.Operations
                                     model.HFCDollars = model.HFCDollars + request.BOM_Value; 
                                 }
                                 break;
-                            case "NodeSplit":
+                            case "Node Split":
                                 model.NodeSplit++;
                                 if (request.AwardStatus != "Has Revision")
                                 {
@@ -209,15 +217,15 @@ namespace DesignDB_Library.Operations
                                 }
                                 break;
                             case "Unassigned":
-                                model.Unassigned++;
-                                model.UnassignedDollars=model.UnassignedDollars+request.BOM_Value;
-                                break;
-                            default:
+                            case "":
                                 model.Unassigned++;
                                 if (request.AwardStatus != "Has Revision")
                                 {
                                     model.UnassignedDollars = model.UnassignedDollars + request.BOM_Value;
                                 }
+                                break;
+                            default:
+                                
                                 break;
                         }
                     }
@@ -227,7 +235,7 @@ namespace DesignDB_Library.Operations
             categorySummary.MSO = "TOTAL";
             categorySummary.TotalRequests = requests.Count;
             categorySummary.AverageDollarsPerRequest=categorySummary.TotalDollars/categorySummary.TotalRequests;
-            categorySummary.PctOfTotal = categoryReport.Sum(x => x.PctOfTotal); 
+            categorySummary.PctOfTotal = categoryReport.Sum(x => x.PctOfTotal/100); 
             categorySummary.HFC= categoryReport.Sum(x => x.HFC);
             categorySummary.NodeSplit= categoryReport.Sum(x => x.NodeSplit);
             categorySummary.RFoG = categoryReport.Sum(x => x.RFoG);

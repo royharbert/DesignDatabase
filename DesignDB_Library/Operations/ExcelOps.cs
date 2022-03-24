@@ -84,7 +84,7 @@ namespace DesignDB_Library.Operations
             }
             //wks.Cells[row, 2].Value = bomTotal;
             Excel.Range decRange = wks.Range[wks.Cells[2, 5], wks.Cells[row, 5]];
-            decRange.NumberFormat = "###.00%";
+            decRange.NumberFormat = "###.0%";
 
             Excel.Range currencyRange = wks.Range[wks.Cells[2, 2], wks.Cells[row, 3]];
             FormatExcelRangeAsCurrency(wks, currencyRange);
@@ -92,7 +92,7 @@ namespace DesignDB_Library.Operations
             summaryRange.Font.Bold = true;
 
             row = row + 3;
-            makeTitle(wks, row, 25, "Design Requests by MSO/Category");
+            makeTitle(wks, row, 21, "Design Requests by MSO/Category");
             row++;
             wks.Cells[row, 1].Value = "MSO";
             wks.Cells[row, 2].Value = "Total $";
@@ -116,12 +116,12 @@ namespace DesignDB_Library.Operations
             wks.Cells[row, 18].Value = "Fiber Deep Dollars";
             wks.Cells[row, 19].Value = "Data Transport Dollars";
             wks.Cells[row, 20].Value = "Other Dollars";
-            wks.Cells[row, 21].Value = "PEG Dollars";
-            wks.Cells[row, 22].Value = "Commercial Dollars";
-            wks.Cells[row, 23].Value = "Unassigned Dollars";
+            //wks.Cells[row, 21].Value = "PEG Dollars";
+            //wks.Cells[row, 22].Value = "Commercial Dollars";
+            wks.Cells[row, 21].Value = "Unassigned Dollars";
 
             int categoryStartRow = row;
-            Excel.Range header2 = wks.Range[wks.Cells[categoryStartRow - 1, 1], wks.Cells[row, 25]];
+            Excel.Range header2 = wks.Range[wks.Cells[categoryStartRow - 2, 1], wks.Cells[row, 21]];
             header2.Font.Bold = true;
             header2.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             header2.Interior.Color = ColorTranslator.ToOle(System.Drawing.Color.LightSkyBlue);
@@ -141,31 +141,34 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 10] = model.FiberDeep;
                 wks.Cells[row, 11] = model.DataTrans;
                 wks.Cells[row, 12] = model.Other;
-                wks.Cells[row, 13] = model.PEG;
-                wks.Cells[row, 14] = model.Commercial;
-                wks.Cells[row, 15] = model.Unassigned;
-                wks.Cells[row, 16] = model.HFCDollars;
-                wks.Cells[row, 17] = model.NodeSplitDollars;
-                wks.Cells[row, 18] = model.RFoGDollars;
-                wks.Cells[row, 19] = model.PON_Dollars;
-                wks.Cells[row, 20] = model.FiberDeepDollars;
-                wks.Cells[row, 21] = model.DataTransportDollars;
-                wks.Cells[row, 22] = model.OtherDollars;
-                wks.Cells[row, 23] = model.PEG_Dollars;
-                wks.Cells[row, 24] = model.CommercialDollars;
-                wks.Cells[row, 25] = model.UnassignedDollars;
+                //wks.Cells[row, 13] = model.PEG;
+                //wks.Cells[row, 14] = model.Commercial;
+                wks.Cells[row, 13] = model.Unassigned;
+                wks.Cells[row, 14] = model.HFCDollars;
+                wks.Cells[row, 15] = model.NodeSplitDollars;
+                wks.Cells[row, 16] = model.RFoGDollars;
+                wks.Cells[row, 17] = model.PON_Dollars;
+                wks.Cells[row, 18] = model.FiberDeepDollars;
+                wks.Cells[row, 19] = model.DataTransportDollars;
+                wks.Cells[row, 20] = model.OtherDollars;
+                //wks.Cells[row, 21] = model.PEG_Dollars;
+                //wks.Cells[row, 22] = model.CommercialDollars;
+                wks.Cells[row, 21] = model.UnassignedDollars;
                 row++;
             }
 
 
-            Excel.Range numRange = wks.Range[wks.Cells[categoryStartRow, 1], wks.Cells[row, 25]];
-            summaryRange = wks.Range[wks.Cells[row-1, 1], wks.Cells[row-1, 25]];
+            Excel.Range numRange = wks.Range[wks.Cells[categoryStartRow, 1], wks.Cells[row, 21]];
+            summaryRange = wks.Range[wks.Cells[row-1, 1], wks.Cells[row-1, 21]];
             summaryRange.Font.Bold = true;
-            numRange.NumberFormat = "0.00";
+            //numRange.NumberFormat = "0";
+
+            Excel.Range pctRange = wks.Range[wks.Cells[categoryStartRow + 1, 5], wks.Cells[row, 5]];
+            pctRange.NumberFormat = "###.0%";
 
             currencyRange = wks.Range[wks.Cells[categoryStartRow, 2], wks.Cells[row, 3]];
             FormatExcelRangeAsCurrency(wks, currencyRange);
-            currencyRange = wks.Range[wks.Cells[categoryStartRow, 16], wks.Cells[row, 25]];
+            currencyRange = wks.Range[wks.Cells[categoryStartRow, 14], wks.Cells[row, 21]];
             FormatExcelRangeAsCurrency(wks, currencyRange);
 
             //openBySales
@@ -212,6 +215,8 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 14] = model.Dec;
                 row++;
             }
+            summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 14]];
+            summaryRange.Font.Bold = true;
             InsertPriorityDataIntoWorksheet(wks, row + 2, priorityList);
 
             releaseObject(xlApp);

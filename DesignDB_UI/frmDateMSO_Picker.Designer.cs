@@ -36,7 +36,8 @@ namespace DesignDB_UI
             this.label2 = new System.Windows.Forms.Label();
             this.btnGo = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.ckAll = new System.Windows.Forms.CheckBox();
+            this.btnSelectAll = new System.Windows.Forms.Button();
+            this.btnDeselect = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lbMSO
@@ -103,16 +104,25 @@ namespace DesignDB_UI
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // ckAll
+            // btnSelectAll
             // 
-            this.ckAll.AutoSize = true;
-            this.ckAll.Location = new System.Drawing.Point(252, 758);
-            this.ckAll.Name = "ckAll";
-            this.ckAll.Size = new System.Drawing.Size(94, 24);
-            this.ckAll.TabIndex = 7;
-            this.ckAll.Text = "Select All";
-            this.ckAll.UseVisualStyleBackColor = true;
-            this.ckAll.CheckedChanged += new System.EventHandler(this.ckAll_CheckedChanged);
+            this.btnSelectAll.Location = new System.Drawing.Point(141, 781);
+            this.btnSelectAll.Name = "btnSelectAll";
+            this.btnSelectAll.Size = new System.Drawing.Size(93, 26);
+            this.btnSelectAll.TabIndex = 9;
+            this.btnSelectAll.Text = "Select All";
+            this.btnSelectAll.UseVisualStyleBackColor = true;
+            this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
+            // 
+            // btnDeselect
+            // 
+            this.btnDeselect.Location = new System.Drawing.Point(327, 781);
+            this.btnDeselect.Name = "btnDeselect";
+            this.btnDeselect.Size = new System.Drawing.Size(93, 26);
+            this.btnDeselect.TabIndex = 10;
+            this.btnDeselect.Text = "Clear";
+            this.btnDeselect.UseVisualStyleBackColor = true;
+            this.btnDeselect.Click += new System.EventHandler(this.btnDeselect_Click);
             // 
             // frmDateMSO_Picker
             // 
@@ -121,8 +131,9 @@ namespace DesignDB_UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(573, 812);
-            this.Controls.Add(this.ckAll);
+            this.ClientSize = new System.Drawing.Size(573, 867);
+            this.Controls.Add(this.btnDeselect);
+            this.Controls.Add(this.btnSelectAll);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnGo);
             this.Controls.Add(this.label2);
@@ -135,6 +146,7 @@ namespace DesignDB_UI
             this.Name = "frmDateMSO_Picker";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Date Range Selection";
+            this.Activated += new System.EventHandler(this.frmDateMSO_Picker_Activated);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -149,6 +161,7 @@ namespace DesignDB_UI
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnGo;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.CheckBox ckAll;
+        private System.Windows.Forms.Button btnSelectAll;
+        private System.Windows.Forms.Button btnDeselect;
     }
 }
