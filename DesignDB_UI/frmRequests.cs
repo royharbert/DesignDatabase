@@ -718,6 +718,7 @@ namespace DesignDB_UI
         {
             //saveChanges();
             GV.MODE = Mode.Clone;
+            Rm.msoModel = cboMSO.SelectedItem as MSO_Model;
             Rm = RequestOps.Clone(Rm);
 
             //Load boxes
