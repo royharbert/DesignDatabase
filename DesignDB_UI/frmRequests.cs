@@ -81,7 +81,7 @@ namespace DesignDB_UI
                 getAttachments(txtPID.Text);
                 if (GV.MODE == Mode.New)
                 {
-                    cboCountry.SelectedIndex = 1;
+                    cboCountry.SelectedIndex = 188;
                 }
                 formLoading = false;
                 formDirty = false;
@@ -352,7 +352,7 @@ namespace DesignDB_UI
             Rm.ProjectID = txtPID.Text;
             Rm.msoModel = (MSO_Model)cboMSO.SelectedItem;
             Rm.MSO = Rm.msoModel.MSO;
-            cboMSO.SelectedIndex = Rm.msoModel.ID;
+            //cboMSO.SelectedIndex = Rm.msoModel.ID;
             Rm.Cust = txtCust.Text;
             Rm.City = cboCities.Text;
             Rm.ST = cboState.Text;
@@ -373,7 +373,7 @@ namespace DesignDB_UI
                 MessageBox.Show("Date Assigned is a required parameter. Please enter a valid date.");
                 return;
             }
-
+            Rm.DateAssigned = dtpReset(txtDateAssigned);
             Rm.DateAllInfoReceived = dtpReset(txtDateAllInfo);
             Rm.DateCompleted = dtpReset(txtDateCompleted);
             Rm.DateDue = dtpReset(txtDateDue);
@@ -606,7 +606,7 @@ namespace DesignDB_UI
             countryList.Insert(0, new CountriesModel());
             cboCountry.DataSource = countryList;
             cboCountry.DisplayMember = "Country";
-            cboCountry.SelectedIndex = -1;
+            cboCountry.SelectedIndex = 188;
 
             List<RegionsModel> regionList = GlobalConfig.Connection.GetAllRegions();
             regionList.Insert(0, new RegionsModel());
@@ -716,9 +716,9 @@ namespace DesignDB_UI
 
         private void btnClone_Click(object sender, EventArgs e)
         {
-            //saveChanges();
+            saveChanges();
             GV.MODE = Mode.Clone;
-            Rm.msoModel = cboMSO.SelectedItem as MSO_Model;
+            //Rm.msoModel = cboMSO.SelectedItem as MSO_Model;
             Rm = RequestOps.Clone(Rm);
 
             //Load boxes

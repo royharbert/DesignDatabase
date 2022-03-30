@@ -596,6 +596,7 @@ namespace DesignDB_UI
             "HFC",
             "Node Split",
             "RFoG",
+            "RFoG-PON",
             "PON",
             "Fiber Deep",
             "Data Transport",
@@ -1429,7 +1430,6 @@ namespace DesignDB_UI
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(1638, 718);
-            this.ControlBox = false;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.tlpSearch);
             this.Controls.Add(this.tlpBottom);
