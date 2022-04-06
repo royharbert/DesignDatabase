@@ -103,25 +103,27 @@ namespace DesignDB_Library.Operations
             wks.Cells[row, 7].Value = "Node Split";
             wks.Cells[row, 8].Value = "RFoG";
             wks.Cells[row, 9].Value = "PON";
-            wks.Cells[row, 10].Value = "Fiber Deep";
-            wks.Cells[row, 11].Value = "Data Transport";
-            wks.Cells[row, 12].Value = "Other";
+            wks.Cells[row, 10].Value = "RFoG-PON";
+            wks.Cells[row, 11].Value = "Fiber Deep";
+            wks.Cells[row, 12].Value = "Data Transport";
+            wks.Cells[row, 13].Value = "Other";
             //wks.Cells[row, 13].Value = "PEG";
             //wks.Cells[row, 14].Value = "Commercial";
-            wks.Cells[row, 13].Value = "Unassigned";
-            wks.Cells[row, 14].Value = "HFC Dollars";
-            wks.Cells[row, 15].Value = "Node Split Dollars";
-            wks.Cells[row, 16].Value = "RFoG Dollars";
-            wks.Cells[row, 17].Value = "PON Dollars";
-            wks.Cells[row, 18].Value = "Fiber Deep Dollars";
-            wks.Cells[row, 19].Value = "Data Transport Dollars";
-            wks.Cells[row, 20].Value = "Other Dollars";
+            wks.Cells[row, 14].Value = "Unassigned";
+            wks.Cells[row, 15].Value = "HFC Dollars";
+            wks.Cells[row, 16].Value = "Node Split Dollars";
+            wks.Cells[row, 17].Value = "RFoG Dollars";
+            wks.Cells[row, 18].Value = "PON Dollars";
+            wks.Cells[row, 19].Value = "RFoG-PON Dollars";
+            wks.Cells[row, 20].Value = "Fiber Deep Dollars";
+            wks.Cells[row, 21].Value = "Data Transport Dollars";
+            wks.Cells[row, 22].Value = "Other Dollars";
             //wks.Cells[row, 21].Value = "PEG Dollars";
             //wks.Cells[row, 22].Value = "Commercial Dollars";
-            wks.Cells[row, 21].Value = "Unassigned Dollars";
+            wks.Cells[row, 23].Value = "Unassigned Dollars";
 
             int categoryStartRow = row;
-            Excel.Range header2 = wks.Range[wks.Cells[categoryStartRow - 2, 1], wks.Cells[row, 21]];
+            Excel.Range header2 = wks.Range[wks.Cells[categoryStartRow - 2, 1], wks.Cells[row, 23]];
             header2.Font.Bold = true;
             header2.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             header2.Interior.Color = ColorTranslator.ToOle(System.Drawing.Color.LightSkyBlue);
@@ -138,28 +140,30 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 7] = model.NodeSplit;
                 wks.Cells[row, 8] = model.RFoG;
                 wks.Cells[row, 9] = model.PON;
-                wks.Cells[row, 10] = model.FiberDeep;
-                wks.Cells[row, 11] = model.DataTrans;
-                wks.Cells[row, 12] = model.Other;
+                wks.Cells[row, 10] = model.RFoGPON;
+                wks.Cells[row, 11] = model.FiberDeep;
+                wks.Cells[row, 12] = model.DataTrans;
+                wks.Cells[row, 13] = model.Other;
                 //wks.Cells[row, 13] = model.PEG;
                 //wks.Cells[row, 14] = model.Commercial;
-                wks.Cells[row, 13] = model.Unassigned;
-                wks.Cells[row, 14] = model.HFCDollars;
-                wks.Cells[row, 15] = model.NodeSplitDollars;
-                wks.Cells[row, 16] = model.RFoGDollars;
-                wks.Cells[row, 17] = model.PON_Dollars;
-                wks.Cells[row, 18] = model.FiberDeepDollars;
-                wks.Cells[row, 19] = model.DataTransportDollars;
-                wks.Cells[row, 20] = model.OtherDollars;
+                wks.Cells[row, 14] = model.Unassigned;
+                wks.Cells[row, 15] = model.HFCDollars;
+                wks.Cells[row, 16] = model.NodeSplitDollars;
+                wks.Cells[row, 17] = model.RFoGDollars;
+                wks.Cells[row, 18] = model.PON_Dollars;
+                wks.Cells[row, 19] = model.RFoGPON_Dollars;
+                wks.Cells[row, 20] = model.FiberDeepDollars;
+                wks.Cells[row, 21] = model.DataTransportDollars;
+                wks.Cells[row, 22] = model.OtherDollars;
                 //wks.Cells[row, 21] = model.PEG_Dollars;
                 //wks.Cells[row, 22] = model.CommercialDollars;
-                wks.Cells[row, 21] = model.UnassignedDollars;
+                wks.Cells[row, 23] = model.UnassignedDollars;
                 row++;
             }
 
 
-            Excel.Range numRange = wks.Range[wks.Cells[categoryStartRow, 1], wks.Cells[row, 21]];
-            summaryRange = wks.Range[wks.Cells[row-1, 1], wks.Cells[row-1, 21]];
+            Excel.Range numRange = wks.Range[wks.Cells[categoryStartRow, 1], wks.Cells[row, 23]];
+            summaryRange = wks.Range[wks.Cells[row-1, 1], wks.Cells[row-1, 23]];
             summaryRange.Font.Bold = true;
             //numRange.NumberFormat = "0";
 
@@ -168,7 +172,7 @@ namespace DesignDB_Library.Operations
 
             currencyRange = wks.Range[wks.Cells[categoryStartRow, 2], wks.Cells[row, 3]];
             FormatExcelRangeAsCurrency(wks, currencyRange);
-            currencyRange = wks.Range[wks.Cells[categoryStartRow, 14], wks.Cells[row, 21]];
+            currencyRange = wks.Range[wks.Cells[categoryStartRow, 15], wks.Cells[row, 23]];
             FormatExcelRangeAsCurrency(wks, currencyRange);
 
             //openBySales

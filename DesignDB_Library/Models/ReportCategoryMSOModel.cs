@@ -28,6 +28,8 @@ namespace DesignDB_Library.Models
         [ExcelExportPropertyAttribute]
         public int PON { get; set; }
         [ExcelExportPropertyAttribute]
+        public int RFoGPON { get; set; }
+        [ExcelExportPropertyAttribute]
         public int FiberDeep { get; set; }
         [ExcelExportPropertyAttribute]
         public int DataTrans { get; set; }
@@ -47,6 +49,8 @@ namespace DesignDB_Library.Models
         public decimal RFoGDollars { get; set; }
         [ExcelExportPropertyAttribute]
         public decimal PON_Dollars { get; set; }
+        [ExcelExportPropertyAttribute]
+        public decimal RFoGPON_Dollars { get; set; }
         [ExcelExportPropertyAttribute]
         public decimal FiberDeepDollars { get; set; }
         [ExcelExportPropertyAttribute]

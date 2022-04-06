@@ -181,6 +181,13 @@ namespace DesignDB_Library.Operations
                                     model.PON_Dollars = model.PON_Dollars + request.BOM_Value;
                                 }
                                 break;
+                            case "RFoG-PON":
+                                model.RFoGPON++;
+                                if (request.AwardStatus != "Has Revision")
+                                {
+                                    model.RFoGPON_Dollars = model.RFoGPON_Dollars + request.BOM_Value;
+                                }
+                                break;
                             case "Fiber Deep":
                                 model.FiberDeep++;
                                 if (request.AwardStatus != "Has Revision")
@@ -240,6 +247,7 @@ namespace DesignDB_Library.Operations
             categorySummary.NodeSplit= categoryReport.Sum(x => x.NodeSplit);
             categorySummary.RFoG = categoryReport.Sum(x => x.RFoG);
             categorySummary.PON= categoryReport.Sum(x => x.PON);
+            categorySummary.RFoGPON = categoryReport.Sum(x => x.RFoGPON);
             categorySummary.FiberDeep= categoryReport.Sum(x => x.FiberDeep);
             categorySummary.DataTrans = categoryReport.Sum(x => x.DataTrans);
             categorySummary.Other = categoryReport.Sum(x => x.Other);
@@ -250,6 +258,7 @@ namespace DesignDB_Library.Operations
             categorySummary.NodeSplitDollars = categoryReport.Sum(x => x.NodeSplitDollars);
             categorySummary.RFoGDollars = categoryReport.Sum(x => x.RFoGDollars);
             categorySummary.PON_Dollars = categoryReport.Sum(x => x.PON_Dollars);
+            categorySummary.RFoGPON_Dollars = categoryReport.Sum(x => x.RFoGPON_Dollars);
             categorySummary.FiberDeepDollars = categoryReport.Sum(x => x.FiberDeepDollars);
             categorySummary.DataTransportDollars = categoryReport.Sum(x => x.DataTransportDollars);
             categorySummary.OtherDollars = categoryReport.Sum(x => x.OtherDollars);
