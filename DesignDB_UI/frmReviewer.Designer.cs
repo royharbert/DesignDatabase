@@ -51,18 +51,18 @@ namespace DesignDB_UI
             // 
             this.txtDesigner.Location = new System.Drawing.Point(428, 114);
             this.txtDesigner.Name = "txtDesigner";
-            this.txtDesigner.Size = new System.Drawing.Size(247, 40);
+            this.txtDesigner.Size = new System.Drawing.Size(247, 29);
             this.txtDesigner.TabIndex = 46;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label1.Location = new System.Drawing.Point(176, 35);
+            this.label1.Location = new System.Drawing.Point(141, 35);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(147, 33);
+            this.label1.Size = new System.Drawing.Size(188, 24);
             this.label1.TabIndex = 45;
-            this.label1.Text = "Designers";
+            this.label1.Text = "Designers/Reviewers";
             // 
             // btnClose
             // 
@@ -84,6 +84,7 @@ namespace DesignDB_UI
             this.btnDelete.TabIndex = 43;
             this.btnDelete.Text = "Delete Designer";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Visible = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnUpdate
@@ -111,10 +112,10 @@ namespace DesignDB_UI
             // lbxDesigner
             // 
             this.lbxDesigner.FormattingEnabled = true;
-            this.lbxDesigner.ItemHeight = 33;
+            this.lbxDesigner.ItemHeight = 24;
             this.lbxDesigner.Location = new System.Drawing.Point(66, 74);
             this.lbxDesigner.Name = "lbxDesigner";
-            this.lbxDesigner.Size = new System.Drawing.Size(320, 763);
+            this.lbxDesigner.Size = new System.Drawing.Size(320, 748);
             this.lbxDesigner.TabIndex = 40;
             this.lbxDesigner.SelectedIndexChanged += new System.EventHandler(this.lbxDesigner_SelectedIndexChanged);
             // 
@@ -122,14 +123,14 @@ namespace DesignDB_UI
             // 
             this.txtPassword.Location = new System.Drawing.Point(428, 202);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(247, 40);
+            this.txtPassword.Size = new System.Drawing.Size(247, 29);
             this.txtPassword.TabIndex = 47;
             // 
             // txtPriviledge
             // 
             this.txtPriviledge.Location = new System.Drawing.Point(428, 291);
             this.txtPriviledge.Name = "txtPriviledge";
-            this.txtPriviledge.Size = new System.Drawing.Size(247, 40);
+            this.txtPriviledge.Size = new System.Drawing.Size(247, 29);
             this.txtPriviledge.TabIndex = 48;
             // 
             // label2
@@ -137,7 +138,7 @@ namespace DesignDB_UI
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(488, 73);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(132, 33);
+            this.label2.Size = new System.Drawing.Size(86, 24);
             this.label2.TabIndex = 50;
             this.label2.Text = "Designer";
             // 
@@ -146,7 +147,7 @@ namespace DesignDB_UI
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(488, 255);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(128, 33);
+            this.label4.Size = new System.Drawing.Size(82, 24);
             this.label4.TabIndex = 52;
             this.label4.Text = "Privilege";
             // 
@@ -155,7 +156,7 @@ namespace DesignDB_UI
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(488, 157);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(143, 33);
+            this.label5.Size = new System.Drawing.Size(92, 24);
             this.label5.TabIndex = 53;
             this.label5.Text = "Password";
             // 
@@ -164,7 +165,7 @@ namespace DesignDB_UI
             this.ckbActive.AutoSize = true;
             this.ckbActive.Location = new System.Drawing.Point(438, 337);
             this.ckbActive.Name = "ckbActive";
-            this.ckbActive.Size = new System.Drawing.Size(246, 37);
+            this.ckbActive.Size = new System.Drawing.Size(161, 28);
             this.ckbActive.TabIndex = 54;
             this.ckbActive.Text = "Active Designer";
             this.ckbActive.UseVisualStyleBackColor = true;
@@ -187,7 +188,7 @@ namespace DesignDB_UI
             this.ckbShowOnlyActive.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ckbShowOnlyActive.Location = new System.Drawing.Point(49, 867);
             this.ckbShowOnlyActive.Name = "ckbShowOnlyActive";
-            this.ckbShowOnlyActive.Size = new System.Drawing.Size(623, 56);
+            this.ckbShowOnlyActive.Size = new System.Drawing.Size(270, 28);
             this.ckbShowOnlyActive.TabIndex = 57;
             this.ckbShowOnlyActive.Text = "Show Only Active Reviewers";
             this.ckbShowOnlyActive.UseVisualStyleBackColor = true;
@@ -197,12 +198,12 @@ namespace DesignDB_UI
             // 
             this.txtID.Location = new System.Drawing.Point(419, 35);
             this.txtID.Name = "txtID";
-            this.txtID.Size = new System.Drawing.Size(241, 40);
+            this.txtID.Size = new System.Drawing.Size(241, 29);
             this.txtID.TabIndex = 58;
             // 
             // frmReviewer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(17F, 33F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(776, 953);

@@ -44,7 +44,7 @@ namespace DesignDB_Library.DataAccess
         List<RequestModelReport> ReportDateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, 
             string SearchTerm, string mso, bool pendingOnly);
         List<RequestModelReport> ReportDateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, 
-            string SearchTerm, string AwardString, string mso);
+            string SearchTerm, string mso);
         List<DesignerLoadModel> DoLoadReport();
         void DeleteAttachment(AttachmentModel model);
         List<AttachmentModel> GetAttachments(string PID);

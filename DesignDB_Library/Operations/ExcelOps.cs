@@ -45,7 +45,8 @@ namespace DesignDB_Library.Operations
             wks.Cells[2, 17].Value = "Dec";
             wks.Cells[2, 18].Value = "Current Week " + startDate.ToShortDateString() + " " + endDate.ToShortDateString();
             wks.Cells[2, 19].Value = "TOTAL";
-
+            //wks.Rows[2].Height = 60;
+                
             wks.Columns[1].ColumnWidth = 28;
             wks.get_Range("B:C").ColumnWidth = 20;
             wks.get_Range("D:Z").ColumnWidth=12;

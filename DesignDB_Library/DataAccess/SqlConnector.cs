@@ -653,7 +653,7 @@ namespace DesignDB_Library.DataAccess
             }
         }
         public List<RequestModelReport> ReportDateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, 
-            string SearchTerm, string AwardString, string mso)
+            string SearchTerm, string mso)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
@@ -662,7 +662,7 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@StartDate", StartDate, DbType.DateTime, ParameterDirection.Input);
                 p.Add("@EndDate", EndDate, DbType.DateTime, ParameterDirection.Input);
                 p.Add("@SearchTerm", SearchTerm, DbType.String, ParameterDirection.Input);
-                p.Add("@PendingOnly", AwardString, DbType.String, ParameterDirection.Input);
+                p.Add("@PendingOnly", false, DbType.Boolean, ParameterDirection.Input);
                 p.Add("@MSO", mso, DbType.String, ParameterDirection.Input);
                 List<RequestModelReport> output = null;
 

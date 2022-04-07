@@ -79,6 +79,7 @@ namespace DesignDB_UI
             this.btnDelete.TabIndex = 43;
             this.btnDelete.Text = "Delete Salesperson";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Visible = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnUpdate

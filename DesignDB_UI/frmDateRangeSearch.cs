@@ -82,7 +82,7 @@ namespace DesignDB_UI
             if (cboMSO.Text == "")
             {
                 requestList = GlobalConfig.Connection.ReportDateRangeSearch_Unfiltered
-                    (dtpStartDate.Value.Date,  dtpEndDate.Value.Date,term,"", "");
+                    (dtpStartDate.Value.Date,  dtpEndDate.Value.Date,term, "");
                 int records = requestList.Count;
                  
                 switch (records)

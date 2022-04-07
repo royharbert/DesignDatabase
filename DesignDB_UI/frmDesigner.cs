@@ -23,6 +23,7 @@ namespace DesignDB_UI
             cList = GlobalConfig.Connection.GetAllDesigners();
 
             setlbxDatasource();
+            btnDelete.Visible = false;
         }
 
         private void make_aList()
