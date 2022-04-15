@@ -20,7 +20,24 @@ namespace DesignDB_UI
         {
             InitializeComponent();
 
-            cList = GlobalConfig.Connection.GenericGetAll<DesignersReviewersModel> ("tblReviewers", "Designer");
+            if (GV.MODE == Mode.DesignerMaintenance)
+            {
+                cList = GlobalConfig.Connection.GetAllDesigners();
+                this.Text = "Designer Maintenance";
+                label1.Text = "Designers";
+                btnAdd.Text = "Add Designer";
+                btnUpdate.Text = "Update Designer";
+                btnDelete.Text = "Delete Designer";
+;            }
+            else
+            {
+                cList = GlobalConfig.Connection.Reviewers_GetAll();
+                this.Text = "Reviewer Maintenance";
+                label1.Text = "Reviewers";
+                btnAdd.Text = "Add Reviewer";
+                btnUpdate.Text = "Update Reviewer";
+                btnDelete.Text = "Delete Reviewer";
+            }
 
             setlbxDatasource();
         }
@@ -33,16 +50,26 @@ namespace DesignDB_UI
 
             foreach (DesignersReviewersModel dm in cList)
             {
-                if (dm.ActiveDesigner)
+                if (GV.MODE == Mode.ReviewerMaintenance)
                 {
-                    aList.Add(dm);                    
-                }                
+                    if (dm.ActiveReviewer)
+                    {
+                        aList.Add(dm);
+                    }
+                }
+                else
+                {
+                    if (dm.ActiveDesigner)
+                    {
+                        aList.Add(dm);                    
+                    }
+                }
             }      
         }
         private void refreshLBox()
         {
-            
             lbxDesigner.DataSource = null;
+            lbxDesigner.DataSource = aList;
             lbxDesigner.DisplayMember = "Reviewer";
         }
 
@@ -54,7 +81,14 @@ namespace DesignDB_UI
                 txtDesigner.Text = dm.Designer;
                 txtPassword.Text = dm.Pwd;
                 txtPriviledge.Text = dm.Priviledge.ToString();
-                ckbActive.Checked = dm.ActiveDesigner;
+                if (GV.MODE == Mode.DesignerMaintenance)
+                {
+                    ckbActive.Checked = dm.ActiveDesigner;
+                }
+                else
+                {
+                    ckbActive.Checked = dm.ActiveReviewer;
+                }
                 txtID.Text = dm.ID.ToString();
             }
         }

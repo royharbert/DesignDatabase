@@ -310,7 +310,8 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@UName", designer.Designer);
                 p.Add("@PWord", designer.Pwd);
                 p.Add("@Priv", designer.Priviledge);
-                p.Add("@Active", designer.ActiveDesigner);
+                p.Add("@ActiveDesigner", designer.ActiveDesigner);
+                p.Add("@ActiveReviewer", designer.ActiveReviewer);
                 p.Add("@Ident", designer.ID);
 
 
@@ -331,7 +332,7 @@ namespace DesignDB_Library.DataAccess
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
-                List<DesignersReviewersModel> output = connection.Query<DesignersReviewersModel>("dbo.spReviewers_GetAll", commandType: CommandType.StoredProcedure).ToList();
+                List<DesignersReviewersModel> output = connection.Query<DesignersReviewersModel>("dbo.spReviewers_GetActive", commandType: CommandType.StoredProcedure).ToList();
                 return output;
             }
         }

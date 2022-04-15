@@ -190,6 +190,7 @@ namespace DesignDB_UI
 
         private void btnDesignerMaint_Click(object sender, EventArgs e)
         {
+            GV.MODE = Mode.DesignerMaintenance;
             Form frm = new frmReviewer();
             frm.ShowDialog();
         }
@@ -586,6 +587,7 @@ namespace DesignDB_UI
 
         private void btnReviewMaint_Click(object sender, EventArgs e)
         {
+            GV.MODE = Mode.ReviewerMaintenance;
             frmReviewer reviewer = new frmReviewer();
             reviewer.Show();
         }

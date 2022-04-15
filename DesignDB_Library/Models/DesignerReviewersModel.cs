@@ -36,6 +36,8 @@ namespace DesignDB_Library.Models
         /// </summary>
         public bool ActiveDesigner { get; set; }
 
+        public bool ActiveReviewer { get; set; }
+
         public DesignersReviewersModel()
         {
 

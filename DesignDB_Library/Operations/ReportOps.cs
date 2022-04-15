@@ -10,6 +10,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace DesignDB_Library.Operations
 {
+    
     public static class ReportOps
     {
         public static void DoRollup(DateTime startDate, DateTime endDate, List<MSO_Model> msoModels = null)
@@ -35,7 +36,7 @@ namespace DesignDB_Library.Operations
             }
             
             List<SalespersonModel> salespersons = GlobalConfig.Connection.GenericGetAll<SalespersonModel>("tblSalespersons");
-            List<MSO_Model> msoList = GlobalConfig.Connection.GenericGetAll<MSO_Model>("tblMSO", "MSO");
+            List<MSO_Model> msoList = GlobalConfig.Connection.GenericGetAll<MSO_Model>("tblMSO", "MSO");            
             
             Report_SalesProjectValuesModel accumulator = new Report_SalesProjectValuesModel();
             accumulator.SalesPerson = "Total";
@@ -348,6 +349,7 @@ namespace DesignDB_Library.Operations
             }
             openRequestsBySales.Add(accumulatorModel);
             List<ReportSalesPriorityModel> priorityReport = ReportBySalesPriority(requests, salespersons);
+            List<Report_SalesProjectValuesModel> msoSummary = MonthlyMSO_Summary(msoList, requests);
             ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, categoryReport, projectRollup, priorityReport, accumulator.CurrentYTD_Value);
         }
 
@@ -409,6 +411,75 @@ namespace DesignDB_Library.Operations
 
             return priorityModels;
         }
+
+        private static List<Report_SalesProjectValuesModel> MonthlyMSO_Summary(List<MSO_Model> msoList, List<RequestModel> AllRequests)
+        {
+            List<Report_SalesProjectValuesModel> result = new List<Report_SalesProjectValuesModel>();
+            Report_SalesProjectValuesModel openModel = new Report_SalesProjectValuesModel();
+            Report_SalesProjectValuesModel accumulatorModel = new Report_SalesProjectValuesModel();
+            foreach (MSO_Model mso in msoList)
+            {
+                List<RequestModel> filteredRequests = AllRequests.Where(x => x.MSO == mso.MSO).ToList();
+                foreach (RequestModel request in filteredRequests)
+                {
+                    int mAssigned = request.DateAssigned.Month;
+                    switch (mAssigned)
+                    {
+                        case 1:
+                            openModel.JanProjects++;
+                            accumulatorModel.JanProjects++;
+                            break;
+                        case 2:
+                            openModel.FebProjects++;
+                            accumulatorModel.FebProjects++;
+                            break;
+                        case 3:
+                            openModel.MarProjects++;
+                            accumulatorModel.MarProjects++;
+                            break;
+                        case 4:
+                            openModel.AprProjects++;
+                            accumulatorModel.AprProjects++;
+                            break;
+                        case 5:
+                            openModel.MayProjects++;
+                            accumulatorModel.MayProjects++;
+                            break;
+                        case 6:
+                            openModel.JunProjects++;
+                            accumulatorModel.JunProjects++;
+                            break;
+                        case 7:
+                            openModel.JulProjects++;
+                            accumulatorModel.JulProjects++;
+                            break;
+                        case 8:
+                            openModel.AugProjects++;
+                            accumulatorModel.AugProjects++;
+                            break;
+                        case 9:
+                            openModel.SepProjects++;
+                            accumulatorModel.SepProjects++;
+                            break;
+                        case 10:
+                            openModel.OctProjects++;
+                            accumulatorModel.OctProjects++;
+                            break;
+                        case 11:
+                            openModel.NovProjects++;
+                            accumulatorModel.NovProjects++;
+                            break;
+                        case 12:
+                            openModel.DecProjects++;
+                            accumulatorModel.DecProjects++;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            return result;
+        }
         public static List<List<(string Field, bool Active)>> CollectDropDownLists(TableLayoutPanel BoxForm)
         {
             List<List<(string, bool)>> BoxData = new List<List<(string, bool)>>();
@@ -454,15 +525,15 @@ namespace DesignDB_Library.Operations
                                     break;
 
                                 case "Designer":
-                                    BoxData.Add(MakeTupleList<DesignersReviewersModel>("tblDesigners", "Designer", "ActiveDesigner", "Designer"));
+                                    BoxData.Add(MakeTupleList<DesignersReviewersModel>("tblReviewers", "Designer", "ActiveDesigner", "Designer"));
                                     break;
 
                                 case "Assisted By":
-                                    BoxData.Add(MakeTupleList<DesignersReviewersModel>("tblDesigners", "Designer", "ActiveDesigner", "Assisted By"));
+                                    BoxData.Add(MakeTupleList<DesignersReviewersModel>("tblReviewers", "Designer", "ActiveDesigner", "Assisted By"));
                                     break;
 
                                 case "Reviewed By":
-                                    BoxData.Add(MakeTupleList<DesignersReviewersModel>("tblDesigners", "Designer", "ActiveDesigner", "Reviewers"));
+                                    BoxData.Add(MakeTupleList<DesignersReviewersModel>("tblReviewers", "Designer", "ActiveReviewer", "Reviewers"));
                                     break;
 
                                 case "State":

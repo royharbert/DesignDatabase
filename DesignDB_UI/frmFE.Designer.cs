@@ -254,12 +254,13 @@ namespace DesignDB_UI
             // 
             // txtFE_Active
             // 
+            this.txtFE_Active.Enabled = false;
             this.txtFE_Active.FormattingEnabled = true;
             this.txtFE_Active.Items.AddRange(new object[] {
             "True",
             "False"});
             this.txtFE_Active.Location = new System.Drawing.Point(493, 250);
-            this.txtFE_Active.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtFE_Active.Margin = new System.Windows.Forms.Padding(2);
             this.txtFE_Active.Name = "txtFE_Active";
             this.txtFE_Active.Size = new System.Drawing.Size(246, 21);
             this.txtFE_Active.TabIndex = 32;
@@ -268,7 +269,7 @@ namespace DesignDB_UI
             // 
             this.txtFE_Region.FormattingEnabled = true;
             this.txtFE_Region.Location = new System.Drawing.Point(491, 114);
-            this.txtFE_Region.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtFE_Region.Margin = new System.Windows.Forms.Padding(2);
             this.txtFE_Region.Name = "txtFE_Region";
             this.txtFE_Region.Size = new System.Drawing.Size(247, 21);
             this.txtFE_Region.TabIndex = 33;

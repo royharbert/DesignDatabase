@@ -58,11 +58,11 @@ namespace DesignDB_UI
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label1.Location = new System.Drawing.Point(141, 35);
+            this.label1.Location = new System.Drawing.Point(188, 40);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(188, 24);
+            this.label1.Size = new System.Drawing.Size(95, 24);
             this.label1.TabIndex = 45;
-            this.label1.Text = "Designers/Reviewers";
+            this.label1.Text = "Designers";
             // 
             // btnClose
             // 
@@ -165,9 +165,9 @@ namespace DesignDB_UI
             this.ckbActive.AutoSize = true;
             this.ckbActive.Location = new System.Drawing.Point(438, 337);
             this.ckbActive.Name = "ckbActive";
-            this.ckbActive.Size = new System.Drawing.Size(161, 28);
+            this.ckbActive.Size = new System.Drawing.Size(80, 28);
             this.ckbActive.TabIndex = 54;
-            this.ckbActive.Text = "Active Designer";
+            this.ckbActive.Text = "Active";
             this.ckbActive.UseVisualStyleBackColor = true;
             // 
             // btnClear
