@@ -276,7 +276,7 @@ namespace DesignDB_UI
             this.cboAssisted.Name = "cboAssisted";
             this.cboAssisted.Size = new System.Drawing.Size(258, 28);
             this.cboAssisted.TabIndex = 10;
-            this.cboAssisted.Tag = "L|AssistedBy|tblDesigners|Designer|Assisted By";
+            this.cboAssisted.Tag = "L|AssistedBy|tbReviewers|Designer|Assisted By";
             this.cboAssisted.Enter += new System.EventHandler(this.cboAssisted_Enter);
             this.cboAssisted.Leave += new System.EventHandler(this.cboAssisted_Leave);
             // 
@@ -306,7 +306,7 @@ namespace DesignDB_UI
             this.cboDesigner.Name = "cboDesigner";
             this.cboDesigner.Size = new System.Drawing.Size(258, 28);
             this.cboDesigner.TabIndex = 9;
-            this.cboDesigner.Tag = "L|Designer|tblDesigners|Designer|Designer";
+            this.cboDesigner.Tag = "L|Designer|tblReviewers|Designer|Designer";
             this.cboDesigner.Enter += new System.EventHandler(this.cboDesigner_Enter);
             this.cboDesigner.Leave += new System.EventHandler(this.cboDesigner_Leave);
             // 
@@ -1429,7 +1429,7 @@ namespace DesignDB_UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(1638, 718);
+            this.ClientSize = new System.Drawing.Size(1655, 718);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.tlpSearch);
             this.Controls.Add(this.tlpBottom);

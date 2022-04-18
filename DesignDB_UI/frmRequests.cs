@@ -566,30 +566,77 @@ namespace DesignDB_UI
             return newList;
         }
 
+        private void MakeActiveDependantLists()
+        {
+            if (GV.MODE != Mode.Search)
+            {
+                List<DesignersReviewersModel> activeDesignerList = GlobalConfig.Connection.DesignersGetActive();
+                activeDesignerList.Insert(0, new DesignersReviewersModel());
+                cboDesigner.DataSource = activeDesignerList;
+                cboDesigner.DisplayMember = "Designer";
+                cboDesigner.SelectedIndex = -1;
+
+
+                List<DesignersReviewersModel> assistedList = cloneList(activeDesignerList);
+                cboAssisted.DataSource = assistedList;
+                cboAssisted.DisplayMember = "Designer";
+                cboAssisted.SelectedIndex = -1;
+
+                List<DesignersReviewersModel> reviewerList = GlobalConfig.Connection.Reviewers_GetActive();
+                reviewerList.Insert(0, new DesignersReviewersModel());
+                cboReviewedBy.DataSource = reviewerList;
+                cboReviewedBy.DisplayMember = "Designer";
+                cboReviewedBy.SelectedIndex = -1;
+
+                List<MSO_Model> msoList = GlobalConfig.Connection.GetAllActiveMSO();
+                cboMSO.DataSource = msoList;
+                cboMSO.DisplayMember = "MSO";
+                cboMSO.SelectedIndex = -1;
+
+                List<SalespersonModel> salesList = GlobalConfig.Connection.SalesGetActive();
+                salesList.Insert(0, new SalespersonModel());
+                cboRequestor.DataSource = salesList;
+                cboRequestor.DisplayMember = "SalesPerson";
+                cboRequestor.SelectedIndex = -1;
+            }
+            else
+            {
+                List<DesignersReviewersModel> activeDesignerList = GlobalConfig.Connection.GetAllDesigners();
+                activeDesignerList.Insert(0, new DesignersReviewersModel());
+                cboDesigner.DataSource = activeDesignerList;
+                cboDesigner.DisplayMember = "Designer";
+                cboDesigner.SelectedIndex = -1;
+
+
+                List<DesignersReviewersModel> assistedList = cloneList(activeDesignerList);
+                cboAssisted.DataSource = assistedList;
+                cboAssisted.DisplayMember = "Designer";
+                cboAssisted.SelectedIndex = -1;
+
+                List<DesignersReviewersModel> reviewerList = GlobalConfig.Connection.Reviewers_GetAll();
+                reviewerList.Insert(0, new DesignersReviewersModel());
+                cboReviewedBy.DataSource = reviewerList;
+                cboReviewedBy.DisplayMember = "Designer";
+                cboReviewedBy.SelectedIndex = -1;
+
+                List<MSO_Model> msoList = GlobalConfig.Connection.GetAllMSO();
+                cboMSO.DataSource = msoList;
+                cboMSO.DisplayMember = "MSO";
+                cboMSO.SelectedIndex = -1;
+
+
+                List<SalespersonModel> salesList = GlobalConfig.Connection.SalespersonsGetAll();
+                salesList.Insert(0, new SalespersonModel());
+                cboRequestor.DataSource = salesList;
+                cboRequestor.DisplayMember = "SalesPerson";
+                cboRequestor.SelectedIndex = -1;
+            }
+        }
         private void makeLists()
         {
-            List<DesignersReviewersModel> activeDesignerList = GlobalConfig.Connection.DesignersGetActive();
-            activeDesignerList.Insert(0, new DesignersReviewersModel());
-            cboDesigner.DataSource = activeDesignerList;
-            cboDesigner.DisplayMember = "Designer";
-            cboDesigner.SelectedIndex = -1;
-
-
-            List<DesignersReviewersModel> assistedList = cloneList(activeDesignerList);
-            cboAssisted.DataSource = assistedList;
-            cboAssisted.DisplayMember = "Designer";
-            cboAssisted.SelectedIndex = -1;
-
-            List<DesignersReviewersModel> reviewerList = GlobalConfig.Connection.Reviewers_GetActive();
-            reviewerList.Insert(0, new DesignersReviewersModel());
-            cboReviewedBy.DataSource = reviewerList;
-            cboReviewedBy.DisplayMember = "Designer";
-            cboReviewedBy.SelectedIndex = -1;
-
-            List<MSO_Model> msoList = GlobalConfig.Connection.GetAllActiveMSO();
-            cboMSO.DataSource = msoList;
-            cboMSO.DisplayMember = "MSO";
-            cboMSO.SelectedIndex = -1;
+            MakeActiveDependantLists();
+            
+            
 
             List<CityModel> cityList = GlobalConfig.Connection.GetAllCities();
             cboCities.DataSource = cityList;
@@ -614,11 +661,6 @@ namespace DesignDB_UI
             cboRegion.DisplayMember = "Region";
             cboRegion.SelectedIndex = -1;
 
-            List<SalespersonModel> salesList = GlobalConfig.Connection.SalesGetActive();
-            salesList.Insert(0, new SalespersonModel());
-            cboRequestor.DataSource = salesList;
-            cboRequestor.DisplayMember = "SalesPerson";
-            cboRequestor.SelectedIndex = -1;
         }
 
         private void cboMSO_SelectedIndexChanged(object sender, EventArgs e)
@@ -1208,6 +1250,7 @@ namespace DesignDB_UI
                     setButtonDisplay();
                     break;
             }
+            //MakeActiveDependantLists();
 
         }
 

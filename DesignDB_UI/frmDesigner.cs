@@ -69,7 +69,7 @@ namespace DesignDB_UI
         {
             DesignersReviewersModel dm = new DesignersReviewersModel(txtDesigner.Text, txtPassword.Text, txtPriviledge.Text, ckbActive.Checked.ToString(),txtID.Text); ;
             dm.Designer = txtDesigner.Text;           
-            GlobalConfig.Connection.AddDesigner(dm, "tblDesigners");
+            GlobalConfig.Connection.AddDesigner(dm, "tblReviewers");
             MessageBox.Show(txtDesigner.Text + " Added");
             clearBoxes();
             setlbxDatasource();
