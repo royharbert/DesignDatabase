@@ -43,7 +43,7 @@ namespace DesignDB_Library.Models
 
         }
 
-        public DesignersReviewersModel(string designerName, string pW, string priviledge, string activeDesigner, string id)
+        public DesignersReviewersModel(string designerName, string pW, string priviledge, string activeDesigner, string id, string activeReviewer)
         {
             Designer = designerName;
             Pwd = pW;
@@ -55,6 +55,10 @@ namespace DesignDB_Library.Models
             bool pActive = true;
             bool.TryParse(activeDesigner, out pActive);
             ActiveDesigner = pActive;
+
+            bool pActiveReviewer = true;
+            bool.TryParse(activeReviewer, out pActiveReviewer);
+            ActiveReviewer = pActive;
 
             int IDval = 0;
             int.TryParse(id, out IDval);

@@ -588,10 +588,13 @@ namespace DesignDB_UI
                 cboReviewedBy.DisplayMember = "Designer";
                 cboReviewedBy.SelectedIndex = -1;
 
-                List<MSO_Model> msoList = GlobalConfig.Connection.GetAllActiveMSO();
-                cboMSO.DataSource = msoList;
-                cboMSO.DisplayMember = "MSO";
-                cboMSO.SelectedIndex = -1;
+                if (formLoading )
+                {
+                    List<MSO_Model> msoList = GlobalConfig.Connection.GetAllActiveMSO();
+                    cboMSO.DataSource = msoList;
+                    cboMSO.DisplayMember = "MSO";
+                    cboMSO.SelectedIndex = -1; 
+                }
 
                 List<SalespersonModel> salesList = GlobalConfig.Connection.SalesGetActive();
                 salesList.Insert(0, new SalespersonModel());

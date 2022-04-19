@@ -61,7 +61,7 @@ namespace DesignDB_UI
                 {
                     if (dm.ActiveDesigner)
                     {
-                        aList.Add(dm);                    
+                        aList.Add(dm);
                     }
                 }
             }      
@@ -87,7 +87,7 @@ namespace DesignDB_UI
                 }
                 else
                 {
-                    ckbActive.Checked = dm.ActiveReviewer;
+                    //ckbActive.Checked = dm.ActiveReviewer;
                 }
                 txtID.Text = dm.ID.ToString();
             }
@@ -132,10 +132,14 @@ namespace DesignDB_UI
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            DesignersReviewersModel dm = new DesignersReviewersModel
-                (txtDesigner.Text, txtPassword.Text, txtPriviledge.Text, ckbActive.Checked.ToString(),txtID.Text);
-            GlobalConfig.Connection.UpdateDesigner(dm, "tblReviewers");
-            MessageBox.Show(txtDesigner.Text + " updated");
+
+            if (GV.MODE == Mode.DesignerMaintenance )
+            {
+                DesignersReviewersModel dm = new DesignersReviewersModel
+                        (txtDesigner.Text, txtPassword.Text, txtPriviledge.Text, ckbActive.Checked.ToString(), txtID.Text);
+                GlobalConfig.Connection.UpdateDesigner(dm, "tblReviewers");
+                MessageBox.Show(txtDesigner.Text + " updated"); 
+            }
             setlbxDatasource();
         }
 

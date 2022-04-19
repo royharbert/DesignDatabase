@@ -311,7 +311,7 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@PWord", designer.Pwd);
                 p.Add("@Priv", designer.Priviledge);
                 p.Add("@ActiveDesigner", designer.ActiveDesigner);
-                p.Add("@ActiveReviewer", designer.ActiveReviewer);
+                //p.Add("@ActiveReviewer", designer.ActiveReviewer);
                 p.Add("@Ident", designer.ID);
 
 
