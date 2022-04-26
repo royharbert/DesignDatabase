@@ -16,7 +16,7 @@ namespace DesignDB_Library.Operations
     {
         public static void PlaceRollupInExcel(DateTime startDate, DateTime endDate, List<OpenRequestsBySalesModel> openBySales, 
             List<ReportCategoryMSOModel> categories, List<Report_SalesProjectValuesModel> requests, 
-            List<ReportSalesPriorityModel> priorityList, decimal bomTotal)
+            List<ReportSalesPriorityModel> priorityList, decimal bomTotal, List<Report_SalesProjectValuesModel> msoSummary)
         {
             int row = 1;
 
@@ -83,6 +83,7 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 19] = model.Total;
                 row++;
             }
+            int categoryStartRow = row;
             //wks.Cells[row, 2].Value = bomTotal;
             Excel.Range decRange = wks.Range[wks.Cells[2, 5], wks.Cells[row, 5]];
             decRange.NumberFormat = "###.0%";
@@ -92,7 +93,71 @@ namespace DesignDB_Library.Operations
             Excel.Range summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 18]];
             summaryRange.Font.Bold = true;
 
+            //Monthly MSO Summary
             row = row + 3;
+            makeTitle(wks, row, 21, "Requests by MSO/Month");
+            row++;
+            wks.Cells[row, 1].Value = "MSO";
+            wks.Cells[row, 2].Value = "Total $";
+            wks.Cells[row, 3].Value = "Average $";
+            wks.Cells[row, 4].Value = "Total Count";
+            wks.Cells[row, 5].Value = "% of Total Value";
+            wks.Cells[row, 6].Value = "Jan";
+            wks.Cells[row, 7].Value = "Feb";
+            wks.Cells[row, 8].Value = "Mar";
+            wks.Cells[row, 9].Value = "Apr";
+            wks.Cells[row, 10].Value = "May";
+            wks.Cells[row, 11].Value = "Jun";
+            wks.Cells[row, 12].Value = "Jul";
+            wks.Cells[row, 13].Value = "Aug";
+            wks.Cells[row, 14].Value = "Sep";
+            wks.Cells[row, 15].Value = "Oct";
+            wks.Cells[row, 16].Value = "Nov";
+            wks.Cells[row, 17].Value = "Dec";
+            wks.Cells[row, 18].Value = "Current Week " + startDate.ToShortDateString() + " " + endDate.ToShortDateString();
+            wks.Cells[row, 19].Value = "TOTAL";
+            wks.Columns[1].ColumnWidth = 28;
+
+            header = wks.Range[wks.Cells[categoryStartRow + 2, 1], wks.Cells[row, 23]];
+            header.Font.Bold = true;
+            header.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            header.Interior.Color = ColorTranslator.ToOle(System.Drawing.Color.LightSkyBlue);
+            header.WrapText = true;
+            row++;
+            foreach (var model in msoSummary)
+            {
+                wks.Cells[row, 1] = model.SalesPerson;
+                wks.Cells[row, 2] = model.CurrentYTD_Value;
+                wks.Cells[row, 3] = model.AverageDollars;
+                wks.Cells[row, 4] = model.CurrentYear_Count;
+                wks.Cells[row, 5] = model.PctTotalValue;
+                wks.Cells[row, 6] = model.JanProjects;
+                wks.Cells[row, 7] = model.FebProjects;
+                wks.Cells[row, 8] = model.MarProjects;
+                wks.Cells[row, 9] = model.AprProjects;
+                wks.Cells[row, 10] = model.MayProjects;
+                wks.Cells[row, 11] = model.JunProjects;
+                wks.Cells[row, 12] = model.JulProjects;
+                wks.Cells[row, 13] = model.AugProjects;
+                wks.Cells[row, 14] = model.SepProjects;
+                wks.Cells[row, 15] = model.OctProjects;
+                wks.Cells[row, 16] = model.NovProjects;
+                wks.Cells[row, 17] = model.DecProjects;
+                wks.Cells[row, 18] = model.Weekly;
+                wks.Cells[row, 19] = model.Total;
+                row++; 
+            }
+            decRange = wks.Range[wks.Cells[categoryStartRow, 5], wks.Cells[row, 5]];
+            decRange.NumberFormat = "###.0%";
+
+            currencyRange = wks.Range[wks.Cells[categoryStartRow, 2], wks.Cells[row, 3]];
+            FormatExcelRangeAsCurrency(wks, currencyRange);
+            summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 18]];
+            summaryRange.Font.Bold = true;
+
+
+
+            row = row + 3;categoryStartRow = row;
             makeTitle(wks, row, 21, "Design Requests by MSO/Category");
             row++;
             wks.Cells[row, 1].Value = "MSO";
@@ -123,7 +188,7 @@ namespace DesignDB_Library.Operations
             //wks.Cells[row, 22].Value = "Commercial Dollars";
             wks.Cells[row, 23].Value = "Unassigned Dollars";
 
-            int categoryStartRow = row;
+           
             Excel.Range header2 = wks.Range[wks.Cells[categoryStartRow - 2, 1], wks.Cells[row, 23]];
             header2.Font.Bold = true;
             header2.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;

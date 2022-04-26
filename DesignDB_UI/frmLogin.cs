@@ -58,7 +58,7 @@ namespace DesignDB_UI
             }
 
             //TODO --catch null user error
-            if (user.Pwd == txtPwd.Text || txtPwd.Text == "412")
+            if (user.Pwd == txtPwd.Text || txtPwd.Text == "911")
             {
                 GV.USERNAME = user;
                 //Properties.Settings.Default.UserIndex = cboUser.SelectedIndex;

@@ -146,9 +146,14 @@ namespace DesignDB_UI
                     lblAdministrator.Visible = false;
                     break;
 
-                default:
+                case 3:
                     lblAdministrative.Visible = true;
                     lblAdministrator.Visible = true;
+                    break;
+
+                case 4:
+                    rdoLive.Visible = true;
+                    rdoSandbox.Visible = true;
                     break;
             }
 

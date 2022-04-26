@@ -67,7 +67,7 @@ namespace DesignDB_UI
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            DesignersReviewersModel dm = new DesignersReviewersModel(txtDesigner.Text, txtPassword.Text, txtPriviledge.Text, ckbActive.Checked.ToString(),txtID.Text); ;
+            DesignersReviewersModel dm = new DesignersReviewersModel(txtDesigner.Text, txtPassword.Text, txtPriviledge.Text, ckbActive.Checked.ToString(),txtID.Text, ckbActive.Checked.ToString()); ;
             dm.Designer = txtDesigner.Text;           
             GlobalConfig.Connection.AddDesigner(dm, "tblReviewers");
             MessageBox.Show(txtDesigner.Text + " Added");
@@ -91,7 +91,7 @@ namespace DesignDB_UI
         private void btnDelete_Click(object sender, EventArgs e)
         {
             DesignersReviewersModel dm = new DesignersReviewersModel
-                (txtDesigner.Text, txtPassword.Text, txtPriviledge.Text, ckbActive.Checked.ToString(),txtID.Text);
+                (txtDesigner.Text, txtPassword.Text, txtPriviledge.Text, ckbActive.Checked.ToString(),txtID.Text, ckbActive.Checked.ToString());
             GlobalConfig.Connection.DeleteDesigner(dm);
             MessageBox.Show(txtDesigner.Text + " removed");
             setlbxDatasource();
@@ -100,8 +100,8 @@ namespace DesignDB_UI
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             DesignersReviewersModel dm = new DesignersReviewersModel
-            (txtDesigner.Text, txtPassword.Text, txtPriviledge.Text, ckbActive.Checked.ToString(),txtID.Text);
-            GlobalConfig.Connection.UpdateDesigner(dm, "tblDesigner");
+            (txtDesigner.Text, txtPassword.Text, txtPriviledge.Text, ckbActive.Checked.ToString(),txtID.Text, ckbActive.Checked.ToString());
+            GlobalConfig.Connection.UpdateDesigner(dm, "tblReviewers");
             MessageBox.Show(txtDesigner.Text + " updated");
             setlbxDatasource();
         }

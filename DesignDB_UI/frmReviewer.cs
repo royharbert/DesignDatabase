@@ -16,6 +16,7 @@ namespace DesignDB_UI
     {
         List<DesignersReviewersModel> aList;
         List<DesignersReviewersModel> cList;
+        DesignersReviewersModel model = null;
         public frmReviewer()
         {
             InitializeComponent();
@@ -74,8 +75,9 @@ namespace DesignDB_UI
         }
 
         private void lbxDesigner_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        {            
             DesignersReviewersModel dm = (DesignersReviewersModel)lbxDesigner.SelectedItem;
+            model = dm; 
             if (dm != null)
             {
                 txtDesigner.Text = dm.Designer;
@@ -84,10 +86,12 @@ namespace DesignDB_UI
                 if (GV.MODE == Mode.DesignerMaintenance)
                 {
                     ckbActive.Checked = dm.ActiveDesigner;
+                    model.ActiveDesigner=dm.ActiveDesigner;
                 }
                 else
                 {
-                    //ckbActive.Checked = dm.ActiveReviewer;
+                    ckbActive.Checked = dm.ActiveReviewer;
+                    model.ActiveReviewer= dm.ActiveDesigner;
                 }
                 txtID.Text = dm.ID.ToString();
             }
@@ -100,7 +104,7 @@ namespace DesignDB_UI
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            DesignersReviewersModel dm = new DesignersReviewersModel(txtDesigner.Text, txtPassword.Text, txtPriviledge.Text, ckbActive.Checked.ToString(),txtID.Text); ;
+            DesignersReviewersModel dm = new DesignersReviewersModel(txtDesigner.Text, txtPassword.Text, txtPriviledge.Text, ckbActive.Checked.ToString(),txtID.Text, ckbActive.Checked.ToString()); ;
             dm.Designer = txtDesigner.Text;           
             GlobalConfig.Connection.AddDesigner(dm, "tblReviewers");
             MessageBox.Show(txtDesigner.Text + " Added");
@@ -124,7 +128,7 @@ namespace DesignDB_UI
         private void btnDelete_Click(object sender, EventArgs e)
         {
             DesignersReviewersModel dm = new DesignersReviewersModel
-                (txtDesigner.Text, txtPassword.Text, txtPriviledge.Text, ckbActive.Checked.ToString(),txtID.Text);
+                (txtDesigner.Text, txtPassword.Text, txtPriviledge.Text, ckbActive.Checked.ToString(),txtID.Text, ckbActive.Checked.ToString());
             GlobalConfig.Connection.DeleteDesigner(dm);
             MessageBox.Show(txtDesigner.Text + " removed");
             setlbxDatasource();
@@ -132,14 +136,20 @@ namespace DesignDB_UI
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-
-            if (GV.MODE == Mode.DesignerMaintenance )
+            DesignersReviewersModel dm = new DesignersReviewersModel(txtDesigner.Text, txtPassword.Text, txtPriviledge.Text, " ", txtID.Text, " ");
+            if (GV.MODE == Mode.DesignerMaintenance)
             {
-                DesignersReviewersModel dm = new DesignersReviewersModel
-                        (txtDesigner.Text, txtPassword.Text, txtPriviledge.Text, ckbActive.Checked.ToString(), txtID.Text);
+                dm.ActiveDesigner = ckbActive.Checked;
+                dm.ActiveReviewer = model.ActiveReviewer; 
+            }
+            else
+            {
+                dm.ActiveReviewer = ckbActive.Checked;
+                dm.ActiveDesigner = model.ActiveDesigner;
+            }
                 GlobalConfig.Connection.UpdateDesigner(dm, "tblReviewers");
                 MessageBox.Show(txtDesigner.Text + " updated"); 
-            }
+            
             setlbxDatasource();
         }
 

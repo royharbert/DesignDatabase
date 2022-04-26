@@ -55,18 +55,18 @@ namespace DesignDB_UI
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.btnNewReq = new System.Windows.Forms.Button();
             this.btnDeleteRecord = new System.Windows.Forms.Button();
-            this.rdoSandbox = new System.Windows.Forms.RadioButton();
-            this.rdoLive = new System.Windows.Forms.RadioButton();
             this.btnScreens = new System.Windows.Forms.Button();
             this.btnLogSearch = new System.Windows.Forms.Button();
             this.btnListCollector = new System.Windows.Forms.Button();
             this.btnMSO = new System.Windows.Forms.Button();
-            this.btnFE_Maintenance = new System.Windows.Forms.Button();
             this.btnUtility = new System.Windows.Forms.Button();
             this.btnReviewMaint = new System.Windows.Forms.Button();
-            this.btnSalespersonMaint = new System.Windows.Forms.Button();
             this.txtMode = new System.Windows.Forms.TextBox();
             this.btnPrjBySales = new System.Windows.Forms.Button();
+            this.btnSalespersonMaint = new System.Windows.Forms.Button();
+            this.btnFE_Maintenance = new System.Windows.Forms.Button();
+            this.rdoSandbox = new System.Windows.Forms.RadioButton();
+            this.rdoLive = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tlpMain.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -526,33 +526,6 @@ namespace DesignDB_UI
             this.btnDeleteRecord.UseVisualStyleBackColor = false;
             this.btnDeleteRecord.Click += new System.EventHandler(this.btnDeleteRecord_Click);
             // 
-            // rdoSandbox
-            // 
-            this.rdoSandbox.AutoSize = true;
-            this.rdoSandbox.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.rdoSandbox.Location = new System.Drawing.Point(145, 23);
-            this.rdoSandbox.Name = "rdoSandbox";
-            this.rdoSandbox.Size = new System.Drawing.Size(104, 28);
-            this.rdoSandbox.TabIndex = 32;
-            this.rdoSandbox.TabStop = true;
-            this.rdoSandbox.Tag = "4";
-            this.rdoSandbox.Text = "Sandbox";
-            this.rdoSandbox.UseVisualStyleBackColor = true;
-            // 
-            // rdoLive
-            // 
-            this.rdoLive.AutoSize = true;
-            this.rdoLive.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.rdoLive.Location = new System.Drawing.Point(44, 23);
-            this.rdoLive.Name = "rdoLive";
-            this.rdoLive.Size = new System.Drawing.Size(62, 28);
-            this.rdoLive.TabIndex = 33;
-            this.rdoLive.TabStop = true;
-            this.rdoLive.Tag = "4";
-            this.rdoLive.Text = "Live";
-            this.rdoLive.UseVisualStyleBackColor = true;
-            this.rdoLive.CheckedChanged += new System.EventHandler(this.rdoLive_CheckedChanged);
-            // 
             // btnScreens
             // 
             this.btnScreens.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -610,21 +583,6 @@ namespace DesignDB_UI
             this.btnMSO.UseVisualStyleBackColor = false;
             this.btnMSO.Click += new System.EventHandler(this.btnMSO_Click);
             // 
-            // btnFE_Maintenance
-            // 
-            this.btnFE_Maintenance.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btnFE_Maintenance.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnFE_Maintenance.Location = new System.Drawing.Point(899, 309);
-            this.btnFE_Maintenance.Name = "btnFE_Maintenance";
-            this.btnFE_Maintenance.Size = new System.Drawing.Size(266, 45);
-            this.btnFE_Maintenance.TabIndex = 39;
-            this.btnFE_Maintenance.TabStop = false;
-            this.btnFE_Maintenance.Tag = "3";
-            this.btnFE_Maintenance.Text = "FE Maintenance";
-            this.btnFE_Maintenance.UseVisualStyleBackColor = false;
-            this.btnFE_Maintenance.Visible = false;
-            this.btnFE_Maintenance.Click += new System.EventHandler(this.btnFE_Maintenance_Click);
-            // 
             // btnUtility
             // 
             this.btnUtility.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -654,23 +612,6 @@ namespace DesignDB_UI
             this.btnReviewMaint.UseVisualStyleBackColor = false;
             this.btnReviewMaint.Click += new System.EventHandler(this.btnReviewMaint_Click);
             // 
-            // btnSalespersonMaint
-            // 
-            this.btnSalespersonMaint.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSalespersonMaint.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btnSalespersonMaint.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSalespersonMaint.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnSalespersonMaint.Location = new System.Drawing.Point(899, 258);
-            this.btnSalespersonMaint.Name = "btnSalespersonMaint";
-            this.btnSalespersonMaint.Size = new System.Drawing.Size(266, 45);
-            this.btnSalespersonMaint.TabIndex = 31;
-            this.btnSalespersonMaint.Tag = "3";
-            this.btnSalespersonMaint.Text = "Salesperson Maintenance";
-            this.btnSalespersonMaint.UseVisualStyleBackColor = false;
-            this.btnSalespersonMaint.Click += new System.EventHandler(this.btnSalespersonMaint_Click);
-            // 
             // txtMode
             // 
             this.txtMode.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -695,6 +636,67 @@ namespace DesignDB_UI
             this.btnPrjBySales.Text = "Rollup";
             this.btnPrjBySales.UseVisualStyleBackColor = false;
             this.btnPrjBySales.Click += new System.EventHandler(this.btnPrjBySales_Click);
+            // 
+            // btnSalespersonMaint
+            // 
+            this.btnSalespersonMaint.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSalespersonMaint.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnSalespersonMaint.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSalespersonMaint.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnSalespersonMaint.Location = new System.Drawing.Point(899, 258);
+            this.btnSalespersonMaint.Name = "btnSalespersonMaint";
+            this.btnSalespersonMaint.Size = new System.Drawing.Size(266, 45);
+            this.btnSalespersonMaint.TabIndex = 31;
+            this.btnSalespersonMaint.Tag = "3";
+            this.btnSalespersonMaint.Text = "Salesperson Maintenance";
+            this.btnSalespersonMaint.UseVisualStyleBackColor = false;
+            this.btnSalespersonMaint.Click += new System.EventHandler(this.btnSalespersonMaint_Click);
+            // 
+            // btnFE_Maintenance
+            // 
+            this.btnFE_Maintenance.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnFE_Maintenance.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFE_Maintenance.Location = new System.Drawing.Point(899, 309);
+            this.btnFE_Maintenance.Name = "btnFE_Maintenance";
+            this.btnFE_Maintenance.Size = new System.Drawing.Size(266, 45);
+            this.btnFE_Maintenance.TabIndex = 39;
+            this.btnFE_Maintenance.TabStop = false;
+            this.btnFE_Maintenance.Tag = "3";
+            this.btnFE_Maintenance.Text = "FE Maintenance";
+            this.btnFE_Maintenance.UseVisualStyleBackColor = false;
+            this.btnFE_Maintenance.Visible = false;
+            this.btnFE_Maintenance.Click += new System.EventHandler(this.btnFE_Maintenance_Click);
+            // 
+            // rdoSandbox
+            // 
+            this.rdoSandbox.AutoSize = true;
+            this.rdoSandbox.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.rdoSandbox.Location = new System.Drawing.Point(145, 23);
+            this.rdoSandbox.Name = "rdoSandbox";
+            this.rdoSandbox.Size = new System.Drawing.Size(104, 28);
+            this.rdoSandbox.TabIndex = 32;
+            this.rdoSandbox.TabStop = true;
+            this.rdoSandbox.Tag = "4";
+            this.rdoSandbox.Text = "Sandbox";
+            this.rdoSandbox.UseVisualStyleBackColor = true;
+            this.rdoSandbox.Visible = false;
+            // 
+            // rdoLive
+            // 
+            this.rdoLive.AutoSize = true;
+            this.rdoLive.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.rdoLive.Location = new System.Drawing.Point(44, 23);
+            this.rdoLive.Name = "rdoLive";
+            this.rdoLive.Size = new System.Drawing.Size(62, 28);
+            this.rdoLive.TabIndex = 33;
+            this.rdoLive.TabStop = true;
+            this.rdoLive.Tag = "4";
+            this.rdoLive.Text = "Live";
+            this.rdoLive.UseVisualStyleBackColor = true;
+            this.rdoLive.Visible = false;
+            this.rdoLive.CheckedChanged += new System.EventHandler(this.rdoLive_CheckedChanged);
             // 
             // tableLayoutPanel2
             // 

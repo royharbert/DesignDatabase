@@ -349,8 +349,8 @@ namespace DesignDB_Library.Operations
             }
             openRequestsBySales.Add(accumulatorModel);
             List<ReportSalesPriorityModel> priorityReport = ReportBySalesPriority(requests, salespersons);
-            List<Report_SalesProjectValuesModel> msoSummary = MonthlyMSO_Summary(msoList, requests);
-            ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, categoryReport, projectRollup, priorityReport, accumulator.CurrentYTD_Value);
+            List<Report_SalesProjectValuesModel> msoSummary = MonthlyMSO_Summary(msoList, requests, startDate, endDate);
+            ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, categoryReport, projectRollup, priorityReport, accumulator.CurrentYTD_Value, msoSummary);
         }
 
         public static List<ReportSalesPriorityModel> ReportBySalesPriority(List<RequestModel> requests, List<SalespersonModel> salesPeople)
@@ -412,72 +412,98 @@ namespace DesignDB_Library.Operations
             return priorityModels;
         }
 
-        private static List<Report_SalesProjectValuesModel> MonthlyMSO_Summary(List<MSO_Model> msoList, List<RequestModel> AllRequests)
+        private static List<Report_SalesProjectValuesModel> MonthlyMSO_Summary(List<MSO_Model> msoList, List<RequestModel> AllRequests, DateTime startDate,
+            DateTime endDate)
         {
             List<Report_SalesProjectValuesModel> result = new List<Report_SalesProjectValuesModel>();
-            Report_SalesProjectValuesModel openModel = new Report_SalesProjectValuesModel();
             Report_SalesProjectValuesModel accumulatorModel = new Report_SalesProjectValuesModel();
+            accumulatorModel.SalesPerson = "Total";
+            //accumulatorModel.CurrentYTD_Value = AllRequests.Where(x => x.AwardStatus != "Has Revision" && x.AwardStatus != "Canceled").Sum(x => x.BOM_Value);
+            accumulatorModel.CurrentYTD_Value = AllRequests.Sum(x => x.BOM_Value);
+            accumulatorModel.CurrentYear_Count = AllRequests.Count;
             foreach (MSO_Model mso in msoList)
             {
+                Report_SalesProjectValuesModel openModel = new Report_SalesProjectValuesModel();
+                openModel.SalesPerson = mso.MSO;
                 List<RequestModel> filteredRequests = AllRequests.Where(x => x.MSO == mso.MSO).ToList();
-                foreach (RequestModel request in filteredRequests)
+                if (filteredRequests.Count > 0)
+                   
                 {
-                    int mAssigned = request.DateAssigned.Month;
-                    switch (mAssigned)
+                    openModel.CurrentYTD_Value = filteredRequests.Sum (x => x.BOM_Value);
+                    openModel.CurrentYear_Count = filteredRequests.Count;
+                    foreach (RequestModel request in filteredRequests)
                     {
-                        case 1:
-                            openModel.JanProjects++;
-                            accumulatorModel.JanProjects++;
-                            break;
-                        case 2:
-                            openModel.FebProjects++;
-                            accumulatorModel.FebProjects++;
-                            break;
-                        case 3:
-                            openModel.MarProjects++;
-                            accumulatorModel.MarProjects++;
-                            break;
-                        case 4:
-                            openModel.AprProjects++;
-                            accumulatorModel.AprProjects++;
-                            break;
-                        case 5:
-                            openModel.MayProjects++;
-                            accumulatorModel.MayProjects++;
-                            break;
-                        case 6:
-                            openModel.JunProjects++;
-                            accumulatorModel.JunProjects++;
-                            break;
-                        case 7:
-                            openModel.JulProjects++;
-                            accumulatorModel.JulProjects++;
-                            break;
-                        case 8:
-                            openModel.AugProjects++;
-                            accumulatorModel.AugProjects++;
-                            break;
-                        case 9:
-                            openModel.SepProjects++;
-                            accumulatorModel.SepProjects++;
-                            break;
-                        case 10:
-                            openModel.OctProjects++;
-                            accumulatorModel.OctProjects++;
-                            break;
-                        case 11:
-                            openModel.NovProjects++;
-                            accumulatorModel.NovProjects++;
-                            break;
-                        case 12:
-                            openModel.DecProjects++;
-                            accumulatorModel.DecProjects++;
-                            break;
-                        default:
-                            break;
-                    }
+                        if (request.DateAssigned.Date >= (startDate) && request.DateAssigned.Date <= endDate)
+                        {
+                            openModel.Weekly++;
+                            accumulatorModel.Weekly++;
+                        }
+                        openModel.CurrentYear_Count = filteredRequests.Count;
+                        openModel.AverageDollars = openModel.CurrentYTD_Value / openModel.CurrentYear_Count;
+                        //openModel.PctTotalValue = openModel.CurrentYTD_Value / accumulatorModel.CurrentYTD_Value;
+                        int mAssigned = request.DateAssigned.Month;
+                        switch (mAssigned)
+                        {
+                            case 1:
+                                openModel.JanProjects++;
+                                accumulatorModel.JanProjects++;
+                                break;
+                            case 2:
+                                openModel.FebProjects++;
+                                accumulatorModel.FebProjects++;
+                                break;
+                            case 3:
+                                openModel.MarProjects++;
+                                accumulatorModel.MarProjects++;
+                                break;
+                            case 4:
+                                openModel.AprProjects++;
+                                accumulatorModel.AprProjects++;
+                                break;
+                            case 5:
+                                openModel.MayProjects++;
+                                accumulatorModel.MayProjects++;
+                                break;
+                            case 6:
+                                openModel.JunProjects++;
+                                accumulatorModel.JunProjects++;
+                                break;
+                            case 7:
+                                openModel.JulProjects++;
+                                accumulatorModel.JulProjects++;
+                                break;
+                            case 8:
+                                openModel.AugProjects++;
+                                accumulatorModel.AugProjects++;
+                                break;
+                            case 9:
+                                openModel.SepProjects++;
+                                accumulatorModel.SepProjects++;
+                                break;
+                            case 10:
+                                openModel.OctProjects++;
+                                accumulatorModel.OctProjects++;
+                                break;
+                            case 11:
+                                openModel.NovProjects++;
+                                accumulatorModel.NovProjects++;
+                                break;
+                            case 12:
+                                openModel.DecProjects++;
+                                accumulatorModel.DecProjects++;
+                                break;
+                            default:
+                                break;
+                        }
+                    } 
+                    openModel.PctTotalValue = openModel.CurrentYTD_Value/accumulatorModel.CurrentYTD_Value;
+                    accumulatorModel.PctTotalValue = accumulatorModel.PctTotalValue + openModel.PctTotalValue;
+                    //accumulatorModel.PctTotalValue = 1;
+                    result.Add(openModel);
                 }
             }
+            accumulatorModel.AverageDollars = accumulatorModel.CurrentYTD_Value / accumulatorModel.CurrentYear_Count;
+            result.Add(accumulatorModel);
             return result;
         }
         public static List<List<(string Field, bool Active)>> CollectDropDownLists(TableLayoutPanel BoxForm)
