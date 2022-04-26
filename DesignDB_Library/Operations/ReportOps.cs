@@ -41,7 +41,8 @@ namespace DesignDB_Library.Operations
             Report_SalesProjectValuesModel accumulator = new Report_SalesProjectValuesModel();
             accumulator.SalesPerson = "Total";
 
-            accumulator.CurrentYTD_Value = requests.Where(x => x.AwardStatus != "Has Revision" && x.AwardStatus != "Canceled").Sum(x => x.BOM_Value);
+            //accumulator.CurrentYTD_Value = requests.Where(x => x.AwardStatus != "Has Revision" && x.AwardStatus != "Canceled").Sum(x => x.BOM_Value);
+            accumulator.CurrentYTD_Value = requests.Sum(x => x.BOM_Value);
             foreach (SalespersonModel salespersonModel in salespersons)
             {
                 string name = salespersonModel.SalesPerson;
@@ -50,7 +51,8 @@ namespace DesignDB_Library.Operations
                 if (salesRequests.Count > 0)
                 {
                     Report_SalesProjectValuesModel model = new Report_SalesProjectValuesModel();
-                    model.CurrentYTD_Value = salesRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
+                    //model.CurrentYTD_Value = salesRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
+                    model.CurrentYTD_Value = salesRequests.Sum(x => x.BOM_Value);
                     accumulator.CurrentYear_Count = requests.Count;
                     model.SalesPerson = name;
                     foreach (var request in salesRequests)
@@ -64,7 +66,7 @@ namespace DesignDB_Library.Operations
                         //accumulator.CurrentYear_Count++;
                         
                         model.AverageDollars = model.CurrentYTD_Value / model.CurrentYear_Count;
-                        model.PctTotalValue = model.CurrentYTD_Value / accumulator.CurrentYTD_Value;
+                        //model.PctTotalValue = model.CurrentYTD_Value / accumulator.CurrentYTD_Value;
                         int month = request.DateAssigned.Month;
                         List<RequestModel> monthlyRequests = salesRequests.Where(x => x.DateAssigned.Month == month).ToList();
                         switch (month)
@@ -123,11 +125,13 @@ namespace DesignDB_Library.Operations
                         model.Total++;
                         accumulator.Total++;
                     }
+                    model.PctTotalValue = model.CurrentYTD_Value / accumulator.CurrentYTD_Value;
+                    accumulator.PctTotalValue = accumulator.PctTotalValue + model.PctTotalValue;
                     projectRollup.Add(model);
                 }
             }
             accumulator.AverageDollars = accumulator.CurrentYTD_Value / accumulator.CurrentYear_Count;
-            accumulator.PctTotalValue = 1;
+            //accumulator.PctTotalValue = 1;
             projectRollup.Add(accumulator);
 
 
