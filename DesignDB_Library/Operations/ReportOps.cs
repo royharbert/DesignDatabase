@@ -41,8 +41,8 @@ namespace DesignDB_Library.Operations
             Report_SalesProjectValuesModel accumulator = new Report_SalesProjectValuesModel();
             accumulator.SalesPerson = "Total";
 
-            //accumulator.CurrentYTD_Value = requests.Where(x => x.AwardStatus != "Has Revision" && x.AwardStatus != "Canceled").Sum(x => x.BOM_Value);
-            accumulator.CurrentYTD_Value = requests.Sum(x => x.BOM_Value);
+            accumulator.CurrentYTD_Value = requests.Where(x => x.AwardStatus != "Has Revision" && x.AwardStatus != "Canceled").Sum(x => x.BOM_Value);
+            //accumulator.CurrentYTD_Value = requests.Sum(x => x.BOM_Value);
             foreach (SalespersonModel salespersonModel in salespersons)
             {
                 string name = salespersonModel.SalesPerson;
@@ -52,7 +52,7 @@ namespace DesignDB_Library.Operations
                 {
                     Report_SalesProjectValuesModel model = new Report_SalesProjectValuesModel();
                     //model.CurrentYTD_Value = salesRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
-                    model.CurrentYTD_Value = salesRequests.Sum(x => x.BOM_Value);
+                    model.CurrentYTD_Value = salesRequests.Where(x => x.AwardStatus != "Has Revisioon" && x.AwardStatus != "Canceled") .Sum(x => x.BOM_Value);
                     accumulator.CurrentYear_Count = requests.Count;
                     model.SalesPerson = name;
                     foreach (var request in salesRequests)
@@ -126,7 +126,8 @@ namespace DesignDB_Library.Operations
                         accumulator.Total++;
                     }
                     model.PctTotalValue = model.CurrentYTD_Value / accumulator.CurrentYTD_Value;
-                    accumulator.PctTotalValue = accumulator.PctTotalValue + model.PctTotalValue;
+                    //accumulator.PctTotalValue = accumulator.PctTotalValue + model.PctTotalValue;
+                    accumulator.PctTotalValue = 1;
                     projectRollup.Add(model);
                 }
             }
@@ -422,8 +423,8 @@ namespace DesignDB_Library.Operations
             List<Report_SalesProjectValuesModel> result = new List<Report_SalesProjectValuesModel>();
             Report_SalesProjectValuesModel accumulatorModel = new Report_SalesProjectValuesModel();
             accumulatorModel.SalesPerson = "Total";
-            //accumulatorModel.CurrentYTD_Value = AllRequests.Where(x => x.AwardStatus != "Has Revision" && x.AwardStatus != "Canceled").Sum(x => x.BOM_Value);
-            accumulatorModel.CurrentYTD_Value = AllRequests.Sum(x => x.BOM_Value);
+            accumulatorModel.CurrentYTD_Value = AllRequests.Where(x => x.AwardStatus != "Has Revision" && x.AwardStatus != "Canceled").Sum(x => x.BOM_Value);
+            //accumulatorModel.CurrentYTD_Value = AllRequests.Sum(x => x.BOM_Value);
             accumulatorModel.CurrentYear_Count = AllRequests.Count;
             foreach (MSO_Model mso in msoList)
             {
@@ -433,7 +434,7 @@ namespace DesignDB_Library.Operations
                 if (filteredRequests.Count > 0)
                    
                 {
-                    openModel.CurrentYTD_Value = filteredRequests.Sum (x => x.BOM_Value);
+                    openModel.CurrentYTD_Value = filteredRequests.Where(x => x.AwardStatus != "Has Revisioon" && x.AwardStatus != "Canceled").Sum (x => x.BOM_Value);
                     openModel.CurrentYear_Count = filteredRequests.Count;
                     foreach (RequestModel request in filteredRequests)
                     {
@@ -499,10 +500,12 @@ namespace DesignDB_Library.Operations
                             default:
                                 break;
                         }
-                    } 
+                        openModel.Total++;
+                        accumulatorModel.Total++;
+                    }
                     openModel.PctTotalValue = openModel.CurrentYTD_Value/accumulatorModel.CurrentYTD_Value;
-                    accumulatorModel.PctTotalValue = accumulatorModel.PctTotalValue + openModel.PctTotalValue;
-                    //accumulatorModel.PctTotalValue = 1;
+                    //accumulatorModel.PctTotalValue = accumulatorModel.PctTotalValue + openModel.PctTotalValue;
+                    accumulatorModel.PctTotalValue = 1;
                     result.Add(openModel);
                 }
             }

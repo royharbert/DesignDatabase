@@ -95,7 +95,7 @@ namespace DesignDB_Library.Operations
 
             //Monthly MSO Summary
             row = row + 3;
-            makeTitle(wks, row, 21, "Requests by MSO/Month");
+            makeTitle(wks, row, 19, "Requests by MSO/Month");
             row++;
             wks.Cells[row, 1].Value = "MSO";
             wks.Cells[row, 2].Value = "Total $";
@@ -118,7 +118,7 @@ namespace DesignDB_Library.Operations
             wks.Cells[row, 19].Value = "TOTAL";
             wks.Columns[1].ColumnWidth = 28;
 
-            header = wks.Range[wks.Cells[categoryStartRow + 2, 1], wks.Cells[row, 23]];
+            header = wks.Range[wks.Cells[categoryStartRow + 2, 1], wks.Cells[row, 19]];
             header.Font.Bold = true;
             header.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             header.Interior.Color = ColorTranslator.ToOle(System.Drawing.Color.LightSkyBlue);
