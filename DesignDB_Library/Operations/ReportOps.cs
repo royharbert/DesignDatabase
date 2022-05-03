@@ -27,14 +27,17 @@ namespace DesignDB_Library.Operations
             List<RequestModel> requests = null;
             if (msoModels == null)
             {
-                requests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(NewYearsDay, NewYearsEve, "DateAssigned",
-                        false, ""); 
+                //requests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(NewYearsDay, NewYearsEve, "DateAssigned", false, "");
+                requests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(NewYearsDay, endDate, "DateAssigned", false, "");
+
             }
             else
             {
-                requests = GlobalConfig.Connection.DateRangeSearch_MSOFiltered(NewYearsDay, NewYearsEve, "DateAssigned", msoModels[0].MSO, false);
+                //requests = GlobalConfig.Connection.DateRangeSearch_MSOFiltered(NewYearsDay, NewYearsEve, "DateAssigned", msoModels[0].MSO, false);
+                requests = GlobalConfig.Connection.DateRangeSearch_MSOFiltered(NewYearsDay, endDate, "DateAssigned", msoModels[0].MSO, false);
+
             }
-            
+
             List<SalespersonModel> salespersons = GlobalConfig.Connection.GenericGetAll<SalespersonModel>("tblSalespersons");
             List<MSO_Model> msoList = GlobalConfig.Connection.GenericGetAll<MSO_Model>("tblMSO", "MSO");            
             
