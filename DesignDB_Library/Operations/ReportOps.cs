@@ -159,7 +159,7 @@ namespace DesignDB_Library.Operations
                     model.AverageDollarsPerRequest = model.TotalDollars / model.TotalRequests;
 
                     //may need to filter has revision
-                    model.PctOfTotal = model.TotalDollars * 100/requests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
+                    model.PctOfTotal = model.TotalDollars * 100/requests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value)/100;
                     foreach (var request in categoryRequests)
                     {
                         switch (request.Category)
@@ -282,6 +282,10 @@ namespace DesignDB_Library.Operations
 
             //Open Requests by salesperson
             List<RequestModel> openDesignBySales = GlobalConfig.Connection.GetOpenRequests();
+            if (msoModels != null)
+            {
+                openDesignBySales = openDesignBySales.Where(x => x.MSO == msoModels[0].MSO).ToList();
+            }
             OpenRequestsBySalesModel accumulatorModel = new OpenRequestsBySalesModel();
             accumulatorModel.Salesperson = "Total";
             foreach (SalespersonModel salesperson in salespersons)
@@ -426,7 +430,7 @@ namespace DesignDB_Library.Operations
             List<Report_SalesProjectValuesModel> result = new List<Report_SalesProjectValuesModel>();
             Report_SalesProjectValuesModel accumulatorModel = new Report_SalesProjectValuesModel();
             accumulatorModel.SalesPerson = "Total";
-            accumulatorModel.CurrentYTD_Value = AllRequests.Where(x => x.AwardStatus != "Has Revision" && x.AwardStatus != "Canceled").Sum(x => x.BOM_Value);
+            accumulatorModel.CurrentYTD_Value = AllRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
             //accumulatorModel.CurrentYTD_Value = AllRequests.Sum(x => x.BOM_Value);
             accumulatorModel.CurrentYear_Count = AllRequests.Count;
             foreach (MSO_Model mso in msoList)
