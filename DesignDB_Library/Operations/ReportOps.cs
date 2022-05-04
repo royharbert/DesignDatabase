@@ -254,7 +254,7 @@ namespace DesignDB_Library.Operations
             //List<RequestModel> totalRequests = requests.Where(x => x.AwardStatus != "Has Revision").ToList();
             categorySummary.TotalRequests = requests.Count;
             categorySummary.AverageDollarsPerRequest=categorySummary.TotalDollars/categorySummary.TotalRequests;
-            categorySummary.PctOfTotal = categoryReport.Sum(x => x.PctOfTotal/100); 
+            categorySummary.PctOfTotal = categoryReport.Sum(x => x.PctOfTotal); 
             categorySummary.HFC= categoryReport.Sum(x => x.HFC);
             categorySummary.NodeSplit= categoryReport.Sum(x => x.NodeSplit);
             categorySummary.RFoG = categoryReport.Sum(x => x.RFoG);
@@ -441,7 +441,8 @@ namespace DesignDB_Library.Operations
                 if (filteredRequests.Count > 0)
                    
                 {
-                    openModel.CurrentYTD_Value = filteredRequests.Where(x => x.AwardStatus != "Has Revisioon" && x.AwardStatus != "Canceled").Sum (x => x.BOM_Value);
+                    //openModel.CurrentYTD_Value = filteredRequests.Where(x => x.AwardStatus != "Has Revisioon" && x.AwardStatus != "Canceled").Sum (x => x.BOM_Value);
+                    openModel.CurrentYTD_Value = filteredRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
                     openModel.CurrentYear_Count = filteredRequests.Count;
                     foreach (RequestModel request in filteredRequests)
                     {
