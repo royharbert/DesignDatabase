@@ -30,8 +30,8 @@ namespace DesignDB_UI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtPID = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cboMSO = new System.Windows.Forms.ComboBox();
@@ -869,7 +869,7 @@ namespace DesignDB_UI
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(3, 310);
+            this.label29.Location = new System.Drawing.Point(3, 315);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(71, 16);
             this.label29.TabIndex = 59;
@@ -877,7 +877,7 @@ namespace DesignDB_UI
             // 
             // rtbComments
             // 
-            this.rtbComments.Location = new System.Drawing.Point(3, 333);
+            this.rtbComments.Location = new System.Drawing.Point(3, 338);
             this.rtbComments.Name = "rtbComments";
             this.rtbComments.Size = new System.Drawing.Size(371, 248);
             this.rtbComments.TabIndex = 27;
@@ -925,9 +925,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDone.BackColor = System.Drawing.Color.Red;
             this.btnDone.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnDone.Location = new System.Drawing.Point(1245, 3);
+            this.btnDone.Location = new System.Drawing.Point(1313, 3);
             this.btnDone.Name = "btnDone";
-            this.btnDone.Size = new System.Drawing.Size(134, 51);
+            this.btnDone.Size = new System.Drawing.Size(130, 51);
             this.btnDone.TabIndex = 35;
             this.btnDone.Text = "Done";
             this.btnDone.UseVisualStyleBackColor = false;
@@ -961,9 +961,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLoadRpt.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnLoadRpt.Location = new System.Drawing.Point(417, 3);
+            this.btnLoadRpt.Location = new System.Drawing.Point(408, 3);
             this.btnLoadRpt.Name = "btnLoadRpt";
-            this.btnLoadRpt.Size = new System.Drawing.Size(132, 51);
+            this.btnLoadRpt.Size = new System.Drawing.Size(125, 51);
             this.btnLoadRpt.TabIndex = 67;
             this.btnLoadRpt.Text = "Designer Load";
             this.btnLoadRpt.UseVisualStyleBackColor = true;
@@ -975,9 +975,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnSave.Location = new System.Drawing.Point(279, 3);
+            this.btnSave.Location = new System.Drawing.Point(273, 3);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(132, 51);
+            this.btnSave.Size = new System.Drawing.Size(129, 51);
             this.btnSave.TabIndex = 30;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -989,9 +989,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnUndo.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnUndo.Location = new System.Drawing.Point(141, 3);
+            this.btnUndo.Location = new System.Drawing.Point(138, 3);
             this.btnUndo.Name = "btnUndo";
-            this.btnUndo.Size = new System.Drawing.Size(132, 51);
+            this.btnUndo.Size = new System.Drawing.Size(129, 51);
             this.btnUndo.TabIndex = 29;
             this.btnUndo.Text = "Undo";
             this.btnUndo.UseVisualStyleBackColor = true;
@@ -1005,7 +1005,7 @@ namespace DesignDB_UI
             this.btnRev.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnRev.Location = new System.Drawing.Point(3, 3);
             this.btnRev.Name = "btnRev";
-            this.btnRev.Size = new System.Drawing.Size(132, 51);
+            this.btnRev.Size = new System.Drawing.Size(129, 51);
             this.btnRev.TabIndex = 28;
             this.btnRev.TabStop = false;
             this.btnRev.Text = "Create Revision";
@@ -1018,9 +1018,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClone.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnClone.Location = new System.Drawing.Point(693, 3);
+            this.btnClone.Location = new System.Drawing.Point(668, 3);
             this.btnClone.Name = "btnClone";
-            this.btnClone.Size = new System.Drawing.Size(132, 51);
+            this.btnClone.Size = new System.Drawing.Size(123, 51);
             this.btnClone.TabIndex = 32;
             this.btnClone.Text = "Clone";
             this.btnClone.UseVisualStyleBackColor = true;
@@ -1032,9 +1032,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDelete.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnDelete.Location = new System.Drawing.Point(831, 3);
+            this.btnDelete.Location = new System.Drawing.Point(797, 3);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(132, 51);
+            this.btnDelete.Size = new System.Drawing.Size(123, 51);
             this.btnDelete.TabIndex = 33;
             this.btnDelete.Text = "Delete Request";
             this.btnDelete.UseVisualStyleBackColor = true;
@@ -1046,9 +1046,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnNew.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnNew.Location = new System.Drawing.Point(555, 3);
+            this.btnNew.Location = new System.Drawing.Point(539, 3);
             this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(132, 51);
+            this.btnNew.Size = new System.Drawing.Size(123, 51);
             this.btnNew.TabIndex = 31;
             this.btnNew.Text = "Add New";
             this.btnNew.UseVisualStyleBackColor = true;
@@ -1061,24 +1061,24 @@ namespace DesignDB_UI
             this.dgvAttachments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvAttachments.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvAttachments.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.dgvAttachments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tlpAttachment.SetColumnSpan(this.dgvAttachments, 4);
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvAttachments.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAttachments.DefaultCellStyle = dataGridViewCellStyle6;
             this.dgvAttachments.Location = new System.Drawing.Point(3, 3);
             this.dgvAttachments.MultiSelect = false;
             this.dgvAttachments.Name = "dgvAttachments";
@@ -1309,7 +1309,7 @@ namespace DesignDB_UI
             this.tlpRight.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlpRight.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlpRight.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpRight.Size = new System.Drawing.Size(377, 620);
+            this.tlpRight.Size = new System.Drawing.Size(377, 630);
             this.tlpRight.TabIndex = 71;
             // 
             // tlpAttachment
@@ -1333,19 +1333,19 @@ namespace DesignDB_UI
             // 
             // tlpBottom
             // 
-            this.tlpBottom.ColumnCount = 10;
-            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tlpBottom.ColumnCount = 11;
+            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.371105F));
+            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.371105F));
+            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.371105F));
+            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.089972F));
+            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.97096F));
+            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.97096F));
+            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.97096F));
+            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.97096F));
+            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.97096F));
+            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.97096F));
+            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.97096F));
             this.tlpBottom.Controls.Add(this.btnSearchFields, 8, 0);
-            this.tlpBottom.Controls.Add(this.btnDone, 9, 0);
             this.tlpBottom.Controls.Add(this.btnDelete, 6, 0);
             this.tlpBottom.Controls.Add(this.btnClone, 5, 0);
             this.tlpBottom.Controls.Add(this.btnNew, 4, 0);
@@ -1354,12 +1354,13 @@ namespace DesignDB_UI
             this.tlpBottom.Controls.Add(this.btnUndo, 1, 0);
             this.tlpBottom.Controls.Add(this.btnSave, 2, 0);
             this.tlpBottom.Controls.Add(this.btnRestore, 7, 0);
+            this.tlpBottom.Controls.Add(this.btnDone, 10, 0);
             this.tlpBottom.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tlpBottom.Location = new System.Drawing.Point(128, 784);
             this.tlpBottom.Name = "tlpBottom";
             this.tlpBottom.RowCount = 1;
             this.tlpBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpBottom.Size = new System.Drawing.Size(1382, 57);
+            this.tlpBottom.Size = new System.Drawing.Size(1446, 57);
             this.tlpBottom.TabIndex = 73;
             // 
             // btnSearchFields
@@ -1368,9 +1369,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSearchFields.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnSearchFields.Location = new System.Drawing.Point(1107, 3);
+            this.btnSearchFields.Location = new System.Drawing.Point(1055, 3);
             this.btnSearchFields.Name = "btnSearchFields";
-            this.btnSearchFields.Size = new System.Drawing.Size(132, 51);
+            this.btnSearchFields.Size = new System.Drawing.Size(123, 51);
             this.btnSearchFields.TabIndex = 76;
             this.btnSearchFields.Text = "Search";
             this.btnSearchFields.UseVisualStyleBackColor = true;
@@ -1383,9 +1384,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRestore.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnRestore.Location = new System.Drawing.Point(969, 3);
+            this.btnRestore.Location = new System.Drawing.Point(926, 3);
             this.btnRestore.Name = "btnRestore";
-            this.btnRestore.Size = new System.Drawing.Size(132, 51);
+            this.btnRestore.Size = new System.Drawing.Size(123, 51);
             this.btnRestore.TabIndex = 68;
             this.btnRestore.Text = "Restore Request";
             this.btnRestore.UseVisualStyleBackColor = true;

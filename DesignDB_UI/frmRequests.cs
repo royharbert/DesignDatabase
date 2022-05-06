@@ -33,7 +33,7 @@ namespace DesignDB_UI
         static string RequestRevisionButtons = "btnUndo,btnSave,btnAddAtt,btnRemoveAtt,btnDone,btnClone,btnNew,btnRev";
         static string RequestDeleteButtons = "btnDelete";
         static string RequestRestoreButtons = "btnRestore";
-        static string RequestSearchButtons = "btnSearchFields";
+        static string RequestSearchButtons = "btnSearchFields,btnNewSearch";
 
         bool formLoading;
         bool formDirty;
@@ -485,18 +485,7 @@ namespace DesignDB_UI
                     generalReset();
                     break;
                 case Mode.Search:
-                    Rm = new RequestModel();
-                    generalReset();
-                    txtBOM_Val.Clear();
-                    txtPctCovered.Clear();
-                    txtTotalVal.Clear();
-                    txtTotalHours.Clear();
-                    cboCountry.SelectedIndex = -1;
-                    cboAwardStatus.SelectedIndex = -1;
-                    dtpResetForced(txtDateAssigned);
-                    unlockTLP(true);
-                    dgvAttachments.DataSource = "";
-                    formDirty = false;
+                    searchReset();
                     break;
                 case Mode.Edit:
                     resetDTPs(false);
@@ -1130,18 +1119,28 @@ namespace DesignDB_UI
 
         private void btnSearchFields_Click(object sender, EventArgs e)
         {
-            GV.MODE = Mode.Search;
-            List<TableLayoutPanel> tlpList = new List<TableLayoutPanel>();
-            tlpList.Add(tlpLeft);
-            tlpList.Add(tlpCenterTop);
-            tlpList.Add(tlpRight);
-            List<FieldSearchModel> searchList = new List<FieldSearchModel>();
-            collectSearchTerms(ref searchList, tlpList);
-            List<RequestModel> requests = SearchOps.FieldSearch(searchList, true);
-            //frmMultiResult frmMultiResult = new frmMultiResult(requests);
-            GV.MultiResult.dataList = requests;
-            GV.MultiResult.Show();
-            formDirty = false;
+            if (btnSearchFields.Text == "Search")
+            {
+                GV.MODE = Mode.Search;
+                List<TableLayoutPanel> tlpList = new List<TableLayoutPanel>();
+                tlpList.Add(tlpLeft);
+                tlpList.Add(tlpCenterTop);
+                tlpList.Add(tlpRight);
+                List<FieldSearchModel> searchList = new List<FieldSearchModel>();
+                collectSearchTerms(ref searchList, tlpList);
+                List<RequestModel> requests = SearchOps.FieldSearch(searchList, true);
+                //frmMultiResult frmMultiResult = new frmMultiResult(requests);
+                GV.MultiResult.dataList = requests;
+                GV.MultiResult.Show();
+                formDirty = false;
+
+                btnSearchFields.Text = "New Search"; 
+            }
+            else
+            {
+                btnSearchFields.Text = "Search";
+                searchReset();
+            }
         }
 
         private DialogResult confirmAction()
@@ -1566,10 +1565,28 @@ namespace DesignDB_UI
         {
             activeControlOriginalValue = rtbComments.Text;
         }
-        #endregion
 
         #endregion
 
-       
+        #endregion
+
+      
+
+        private void searchReset()
+        {
+            Rm = new RequestModel();
+            generalReset();
+            txtBOM_Val.Clear();
+            txtPctCovered.Clear();
+            txtTotalVal.Clear();
+            txtTotalHours.Clear();
+            cboCountry.SelectedIndex = -1;
+            cboAwardStatus.SelectedIndex = -1;
+            dtpResetForced(txtDateAssigned);
+            unlockTLP(true);
+            dgvAttachments.DataSource = "";
+            formDirty = false;            
+        }
+
     }   
 }
