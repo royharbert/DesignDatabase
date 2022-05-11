@@ -33,6 +33,12 @@ namespace DesignDB_UI
                 cboDesigner.DataSource= designers;
                 cboDesigner.DisplayMember = "Designer";
                 cboDesigner.SelectedIndex = -1;
+
+                List<SalespersonModel> requestors = GlobalConfig.Connection.GenericGetAll<SalespersonModel>("tblSalespersons", "SalesPerson");
+                cboRequestor.DataSource = requestors;
+                cboRequestor.DisplayMember = "Salesperson";
+                cboRequestor.SelectedIndex = -1;
+
                 btnForecast.Visible = false;
                 btnSearch.Visible = true;
             }
@@ -86,7 +92,7 @@ namespace DesignDB_UI
             int records = requestList.Count;
             
             requestList = GlobalConfig.Connection.ReportDateRangeSearch_MSOFiltered
-                (dtpStartDate.Value, dtpEndDate.Value, term, cboMSO.Text, false);
+                (dtpStartDate.Value, dtpEndDate.Value, term, cboMSO.Text, false,cboDesigner.Text,cboRequestor.Text);
             records = requestList.Count;
 
             switch (records)

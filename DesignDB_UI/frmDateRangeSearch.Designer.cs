@@ -44,12 +44,14 @@ namespace DesignDB_UI
             this.btnForecast = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.cboDesigner = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cboRequestor = new System.Windows.Forms.ComboBox();
             this.gbxSearchTerm.SuspendLayout();
             this.SuspendLayout();
             // 
             // dtpStartDate
             // 
-            this.dtpStartDate.Location = new System.Drawing.Point(451, 61);
+            this.dtpStartDate.Location = new System.Drawing.Point(451, 40);
             this.dtpStartDate.Name = "dtpStartDate";
             this.dtpStartDate.Size = new System.Drawing.Size(309, 29);
             this.dtpStartDate.TabIndex = 0;
@@ -57,7 +59,7 @@ namespace DesignDB_UI
             // dtpStart
             // 
             this.dtpStart.AutoSize = true;
-            this.dtpStart.Location = new System.Drawing.Point(270, 67);
+            this.dtpStart.Location = new System.Drawing.Point(270, 45);
             this.dtpStart.Name = "dtpStart";
             this.dtpStart.Size = new System.Drawing.Size(89, 24);
             this.dtpStart.TabIndex = 1;
@@ -66,7 +68,7 @@ namespace DesignDB_UI
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(270, 112);
+            this.label1.Location = new System.Drawing.Point(270, 90);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(88, 24);
             this.label1.TabIndex = 3;
@@ -74,7 +76,7 @@ namespace DesignDB_UI
             // 
             // dtpEndDate
             // 
-            this.dtpEndDate.Location = new System.Drawing.Point(451, 106);
+            this.dtpEndDate.Location = new System.Drawing.Point(451, 85);
             this.dtpEndDate.Name = "dtpEndDate";
             this.dtpEndDate.Size = new System.Drawing.Size(309, 29);
             this.dtpEndDate.TabIndex = 2;
@@ -84,7 +86,7 @@ namespace DesignDB_UI
             this.cboMSO.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboMSO.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboMSO.FormattingEnabled = true;
-            this.cboMSO.Location = new System.Drawing.Point(451, 151);
+            this.cboMSO.Location = new System.Drawing.Point(451, 130);
             this.cboMSO.Name = "cboMSO";
             this.cboMSO.Size = new System.Drawing.Size(309, 32);
             this.cboMSO.TabIndex = 4;
@@ -92,7 +94,7 @@ namespace DesignDB_UI
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(270, 155);
+            this.label2.Location = new System.Drawing.Point(270, 133);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(141, 24);
             this.label2.TabIndex = 5;
@@ -100,7 +102,7 @@ namespace DesignDB_UI
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(451, 269);
+            this.btnSearch.Location = new System.Drawing.Point(451, 300);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(135, 43);
             this.btnSearch.TabIndex = 6;
@@ -111,7 +113,7 @@ namespace DesignDB_UI
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(625, 269);
+            this.btnCancel.Location = new System.Drawing.Point(625, 300);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(135, 43);
             this.btnCancel.TabIndex = 7;
@@ -168,7 +170,7 @@ namespace DesignDB_UI
             // 
             // btnForecast
             // 
-            this.btnForecast.Location = new System.Drawing.Point(451, 274);
+            this.btnForecast.Location = new System.Drawing.Point(451, 305);
             this.btnForecast.Name = "btnForecast";
             this.btnForecast.Size = new System.Drawing.Size(135, 38);
             this.btnForecast.TabIndex = 9;
@@ -179,7 +181,7 @@ namespace DesignDB_UI
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(270, 205);
+            this.label3.Location = new System.Drawing.Point(270, 183);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(173, 24);
             this.label3.TabIndex = 11;
@@ -190,10 +192,29 @@ namespace DesignDB_UI
             this.cboDesigner.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboDesigner.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboDesigner.FormattingEnabled = true;
-            this.cboDesigner.Location = new System.Drawing.Point(451, 201);
+            this.cboDesigner.Location = new System.Drawing.Point(451, 180);
             this.cboDesigner.Name = "cboDesigner";
             this.cboDesigner.Size = new System.Drawing.Size(309, 32);
             this.cboDesigner.TabIndex = 10;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(270, 232);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(184, 24);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "Requestor (Optional)";
+            // 
+            // cboRequestor
+            // 
+            this.cboRequestor.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboRequestor.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboRequestor.FormattingEnabled = true;
+            this.cboRequestor.Location = new System.Drawing.Point(451, 229);
+            this.cboRequestor.Name = "cboRequestor";
+            this.cboRequestor.Size = new System.Drawing.Size(309, 32);
+            this.cboRequestor.TabIndex = 12;
             // 
             // frmDateRangeSearch
             // 
@@ -203,6 +224,8 @@ namespace DesignDB_UI
             this.BackColor = System.Drawing.Color.DimGray;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(801, 377);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.cboRequestor);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.cboDesigner);
             this.Controls.Add(this.btnForecast);
@@ -244,5 +267,7 @@ namespace DesignDB_UI
         private System.Windows.Forms.Button btnForecast;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cboDesigner;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cboRequestor;
     }
 }

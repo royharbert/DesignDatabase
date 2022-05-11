@@ -40,9 +40,9 @@ namespace DesignDB_Library.DataAccess
         List<RequestModel> DateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, string SearchTerm, 
             string mso, bool pendingOnly, string designer = null);
         List<RequestModel> DateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, string SearchTerm, 
-            bool pendingOnly, string mso, string designer =null);
+            bool pendingOnly, string mso, string designer =null, string requestor = null);
         List<RequestModelReport> ReportDateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, 
-            string SearchTerm, string mso, bool pendingOnly, string designer = null); 
+            string SearchTerm, string mso, bool pendingOnly, string designer = null, string requestor = null); 
         List<RequestModelReport> ReportDateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, 
             string SearchTerm, string mso, string designer = null);
         List<DesignerLoadModel> DoLoadReport();

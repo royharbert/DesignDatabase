@@ -613,7 +613,7 @@ namespace DesignDB_Library.DataAccess
         }
 
         public List<RequestModel> DateRangeSearch_Unfiltered(DateTime StartDate, 
-            DateTime EndDate, string SearchTerm, bool pendingOnly, string mso, string designer = null)
+            DateTime EndDate, string SearchTerm, bool pendingOnly, string mso, string designer = null, string requestor = null)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
@@ -625,6 +625,7 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@PendingOnly", pendingOnly, DbType.Boolean, ParameterDirection.Input);
                 p.Add("Designer", designer, DbType.String, ParameterDirection.Input);
                 p.Add("@MSO", mso, DbType.String, ParameterDirection.Input);
+                p.Add("@Requestor", requestor, DbType.String, ParameterDirection.Input);
                 List<RequestModel> output = null;
 
 
@@ -701,7 +702,7 @@ namespace DesignDB_Library.DataAccess
 
 
         public List<RequestModelReport> ReportDateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, 
-            string SearchTerm, string mso, bool pendingOnly, string designer)
+            string SearchTerm, string mso, bool pendingOnly, string designer = null, string requestor = null)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
             {
@@ -712,7 +713,8 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@SearchTerm", SearchTerm, DbType.String, ParameterDirection.Input);
                 p.Add("@PendingOnly", pendingOnly, DbType.Boolean, ParameterDirection.Input);
                 p.Add("@MSO", mso, DbType.String, ParameterDirection.Input);
-                p.Add("Designer", designer, DbType.String, ParameterDirection.Input);
+                p.Add("@Designer", designer, DbType.String, ParameterDirection.Input);
+                p.Add("@Requestor", requestor, DbType.String, ParameterDirection.Input);
                 List<RequestModelReport> output = null;
 
                 output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_Dynamic",
