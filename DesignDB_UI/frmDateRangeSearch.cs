@@ -29,6 +29,10 @@ namespace DesignDB_UI
             term = "DateAssigned";
             if (GV.MODE == Mode.DateRangeSearch)
             {
+                List<DesignersReviewersModel> designers = GlobalConfig.Connection.GetAllDesigners();
+                cboDesigner.DataSource= designers;
+                cboDesigner.DisplayMember = "Designer";
+                cboDesigner.SelectedIndex = -1;
                 btnForecast.Visible = false;
                 btnSearch.Visible = true;
             }
@@ -79,42 +83,23 @@ namespace DesignDB_UI
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            if (cboMSO.Text == "")
-            {
-                requestList = GlobalConfig.Connection.ReportDateRangeSearch_Unfiltered
-                    (dtpStartDate.Value.Date,  dtpEndDate.Value.Date,term, "");
-                int records = requestList.Count;
-                 
-                switch (records)
-                {
-                    case 0:
-                        MessageBox.Show("No records found");
-                        break;
+            int records = requestList.Count;
+            
+            requestList = GlobalConfig.Connection.ReportDateRangeSearch_MSOFiltered
+                (dtpStartDate.Value, dtpEndDate.Value, term, cboMSO.Text, false);
+            records = requestList.Count;
 
-                    default:
-                        //frmMultiResult frmMultiResult = new frmMultiResult(requestList);
-                        GV.MultiResult.ReportDataList = requestList;
-                        GV.MultiResult.Show();
-                        break;
-                }
-            }
-            else
+            switch (records)
             {
-                requestList = GlobalConfig.Connection.ReportDateRangeSearch_MSOFiltered
-                (dtpStartDate.Value, dtpEndDate.Value, term, cboMSO.Text,false);
-                int records = requestList.Count;
+                case 0:
+                    MessageBox.Show("No records found");
+                    break;
 
-                switch (records)
-                {
-                    case 0:
-                        MessageBox.Show("No records found");
-                        break;
-                    default:
-                        //frmMultiResult frmMultiResult = new frmMultiResult(requestList);
-                        GV.MultiResult.ReportDataList = requestList;
-                        GV.MultiResult.Show();
-                        break;
-                }
+                default:
+                    //frmMultiResult frmMultiResult = new frmMultiResult(requestList);
+                    GV.MultiResult.ReportDataList = requestList;
+                    GV.MultiResult.Show();
+                    break;
             }
             this.Close();
         }
