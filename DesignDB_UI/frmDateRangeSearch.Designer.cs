@@ -42,9 +42,9 @@ namespace DesignDB_UI
             this.rdoDateDue = new System.Windows.Forms.RadioButton();
             this.rdoDate = new System.Windows.Forms.RadioButton();
             this.btnForecast = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblDesigner = new System.Windows.Forms.Label();
             this.cboDesigner = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblRequestor = new System.Windows.Forms.Label();
             this.cboRequestor = new System.Windows.Forms.ComboBox();
             this.gbxSearchTerm.SuspendLayout();
             this.SuspendLayout();
@@ -178,14 +178,14 @@ namespace DesignDB_UI
             this.btnForecast.UseVisualStyleBackColor = true;
             this.btnForecast.Click += new System.EventHandler(this.btnForecast_Click);
             // 
-            // label3
+            // lblDesigner
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(270, 183);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(173, 24);
-            this.label3.TabIndex = 11;
-            this.label3.Text = "Designer (Optional)";
+            this.lblDesigner.AutoSize = true;
+            this.lblDesigner.Location = new System.Drawing.Point(270, 183);
+            this.lblDesigner.Name = "lblDesigner";
+            this.lblDesigner.Size = new System.Drawing.Size(173, 24);
+            this.lblDesigner.TabIndex = 11;
+            this.lblDesigner.Text = "Designer (Optional)";
             // 
             // cboDesigner
             // 
@@ -197,14 +197,14 @@ namespace DesignDB_UI
             this.cboDesigner.Size = new System.Drawing.Size(309, 32);
             this.cboDesigner.TabIndex = 10;
             // 
-            // label4
+            // lblRequestor
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(270, 232);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(184, 24);
-            this.label4.TabIndex = 13;
-            this.label4.Text = "Requestor (Optional)";
+            this.lblRequestor.AutoSize = true;
+            this.lblRequestor.Location = new System.Drawing.Point(270, 232);
+            this.lblRequestor.Name = "lblRequestor";
+            this.lblRequestor.Size = new System.Drawing.Size(184, 24);
+            this.lblRequestor.TabIndex = 13;
+            this.lblRequestor.Text = "Requestor (Optional)";
             // 
             // cboRequestor
             // 
@@ -224,9 +224,9 @@ namespace DesignDB_UI
             this.BackColor = System.Drawing.Color.DimGray;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(801, 377);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.lblRequestor);
             this.Controls.Add(this.cboRequestor);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lblDesigner);
             this.Controls.Add(this.cboDesigner);
             this.Controls.Add(this.btnForecast);
             this.Controls.Add(this.gbxSearchTerm);
@@ -265,9 +265,9 @@ namespace DesignDB_UI
         private System.Windows.Forms.RadioButton rdoDateDue;
         private System.Windows.Forms.RadioButton rdoDate;
         private System.Windows.Forms.Button btnForecast;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblDesigner;
         private System.Windows.Forms.ComboBox cboDesigner;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblRequestor;
         private System.Windows.Forms.ComboBox cboRequestor;
     }
 }

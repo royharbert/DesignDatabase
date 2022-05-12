@@ -39,14 +39,24 @@ namespace DesignDB_UI
                 cboRequestor.DisplayMember = "Salesperson";
                 cboRequestor.SelectedIndex = -1;
 
+                lblDesigner.Visible = true;
+                lblRequestor.Visible = true;
+                cboDesigner.Visible = true;
+                cboRequestor.Visible = true;
+
                 btnForecast.Visible = false;
                 btnSearch.Visible = true;
             }
             else
             {
+                lblDesigner.Visible = false;
+                lblRequestor.Visible = false;
+                cboDesigner.Visible = false;
+                cboRequestor.Visible = false;
+
                 btnSearch.Visible = false;
                 btnForecast.Visible = true;
-            }
+            } 
 
             FC.SetFormPosition(this);
             this.BringToFront();
