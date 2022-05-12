@@ -38,7 +38,7 @@ namespace DesignDB_Library.DataAccess
         List<RequestModelReport> GetSnapshotData(string MSO, DateTime start, DateTime end);
         List<DesignersReviewersModel> GetDesigner(string designerName);
         List<RequestModel> DateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, string SearchTerm, 
-            string mso, bool pendingOnly, string designer = null);
+            string mso, bool pendingOnly, string designer, string requestor);
         List<RequestModel> DateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, string SearchTerm, 
             bool pendingOnly, string mso, string designer =null, string requestor = null);
         List<RequestModelReport> ReportDateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, 

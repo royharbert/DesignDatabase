@@ -34,7 +34,7 @@ namespace DesignDB_Library.Operations
             else
             {
                 //requests = GlobalConfig.Connection.DateRangeSearch_MSOFiltered(NewYearsDay, NewYearsEve, "DateAssigned", msoModels[0].MSO, false);
-                requests = GlobalConfig.Connection.DateRangeSearch_MSOFiltered(NewYearsDay, endDate, "DateAssigned", msoModels[0].MSO, false);
+                requests = GlobalConfig.Connection.DateRangeSearch_MSOFiltered(NewYearsDay, endDate, "DateAssigned", msoModels[0].MSO, false, "", "");
 
             }
 
@@ -643,8 +643,8 @@ namespace DesignDB_Library.Operations
             foreach (MSO_Model mso in msoList)
             {
                 List<RequestModel> requestList =
-                    GlobalConfig.Connection.DateRangeSearch_MSOFiltered(startDate, endDate, "DateAssigned", 
-                    mso.MSO, false);
+                    GlobalConfig.Connection.DateRangeSearch_MSOFiltered(startDate, endDate, "DateAssigned", mso.MSO, false, "", "");
+                   
                 if (requestList.Count > 0)
                 {
                     CompletionTimeModel model = new CompletionTimeModel();
@@ -915,7 +915,7 @@ namespace DesignDB_Library.Operations
             foreach (MSO_Model mso in msoList)
             {
                 List<RequestModel> requests = GlobalConfig.Connection.DateRangeSearch_MSOFiltered(startDate, endDate,
-                    "DateAssigned", mso.MSO,false).ToList();
+                    "DateAssigned", mso.MSO,false, "", "").ToList();
 
                 if (requests.Count > 0)
                 {
