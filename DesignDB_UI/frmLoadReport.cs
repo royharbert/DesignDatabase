@@ -35,5 +35,16 @@ namespace DesignDB_UI
             exporter.List = (List<DesignerLoadModel>)dgvLoad.DataSource;
             ReportOps.FormatDesignerLoadExport(exporter.Wksheet);
         }
+
+        private void dgvLoad_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            GV.MODE = Mode.Edit;
+            int curRow = e.RowIndex;
+            DesignerLoadModel model = load[curRow];
+            string pid = model.ProjectID;
+            RequestModel request = GlobalConfig.Connection.GetRequestByPID(pid)[0];
+            GV.REQFORM.Request = request;
+            GV.REQFORM.Show();
+        }
     }
 }
