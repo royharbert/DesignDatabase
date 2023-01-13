@@ -115,7 +115,7 @@ namespace DesignDB_UI
         {
             if (GlobalConfig.DatabaseMode == DatabaseType.Live)
             {
-                using (var manager = new UpdateManager(@"\\sccacve1\Databases\DesignDB\Beta"))
+                using (var manager = new UpdateManager(@"\\USCA5PDBATDGS01\Databases\ProgramUpdates"))
                 {
                     await manager.UpdateApp();
                 }
