@@ -76,10 +76,10 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>EFCC4E6A7EFA95DC589A36ED8863CAB498349F87</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>1B797B68A7764FB6352EE42B40AFBFCBBE103DFA</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>DesignDB_UI_1_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>DesignDB_UI_2_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -444,6 +444,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="DesignDB_UI_1_TemporaryKey.pfx" />
+    <None Include="DesignDB_UI_2_TemporaryKey.pfx" />
     <None Include="DesignDB_UI_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
