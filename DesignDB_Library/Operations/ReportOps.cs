@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
+using Microsoft.Office.Interop.Excel;
 
 namespace DesignDB_Library.Operations
 {
@@ -33,14 +34,23 @@ namespace DesignDB_Library.Operations
             }
             else
             {
-                //requests = GlobalConfig.Connection.DateRangeSearch_MSOFiltered(NewYearsDay, NewYearsEve, "DateAssigned", msoModels[0].MSO, false);
-                requests = GlobalConfig.Connection.DateRangeSearch_MSOFiltered(NewYearsDay, endDate, "DateAssigned", msoModels[0].MSO, false, "", "");
+                //requests = GlobalConfig.Connection.DateRangeSearch_MSOFiltered(NewYearsDay,  NewYearsEve, "DateAssigned", msoModels[0].MSO, false);
+                requests = GlobalConfig.Connection.DateRangeSearch_MSOFiltered(NewYearsDay, NewYearsEve,  "DateAssigned", msoModels[0].MSO, false, "", "");
 
             }
 
             List<SalespersonModel> salespersons = GlobalConfig.Connection.GenericGetAll<SalespersonModel>("tblSalespersons");
-            List<MSO_Model> msoList = GlobalConfig.Connection.GenericGetAll<MSO_Model>("tblMSO", "MSO");            
-            
+            List<MSO_Model> msoList = new List<MSO_Model>();
+            if (msoModels is null)
+            {
+                msoList = GlobalConfig.Connection.GenericGetAll<MSO_Model>("tblMSO", "MSO");
+
+            }
+            else
+            {
+                msoList = msoModels;
+            }
+            //List<MSO_Model> msoList = msoModels;            
             Report_SalesProjectValuesModel accumulator = new Report_SalesProjectValuesModel();
             accumulator.SalesPerson = "Total";
 
@@ -251,7 +261,6 @@ namespace DesignDB_Library.Operations
                 }
             }
             categorySummary.MSO = "TOTAL";
-            //List<RequestModel> totalRequests = requests.Where(x => x.AwardStatus != "Has Revision").ToList();
             categorySummary.TotalRequests = requests.Count;
             categorySummary.AverageDollarsPerRequest=categorySummary.TotalDollars/categorySummary.TotalRequests;
             categorySummary.PctOfTotal = categoryReport.Sum(x => x.PctOfTotal); 
@@ -359,17 +368,25 @@ namespace DesignDB_Library.Operations
                     openRequestsBySales.Add(openModel);
                 }
             }
+            
             openRequestsBySales.Add(accumulatorModel);
-            List<ReportSalesPriorityModel> priorityReport = ReportBySalesPriority(requests, salespersons);
+            List<ReportSalesPriorityModel> priorityReport = ReportBySalesPriority(requests, salespersons, msoList);
             List<Report_SalesProjectValuesModel> msoSummary = MonthlyMSO_Summary(msoList, requests, startDate, endDate);
-            ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, categoryReport, projectRollup, priorityReport, accumulator.CurrentYTD_Value, msoSummary);
+            ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, categoryReport, projectRollup, priorityReport, accumulator.CurrentYTD_Value, msoSummary, msoModels);
         }
 
-        public static List<ReportSalesPriorityModel> ReportBySalesPriority(List<RequestModel> requests, List<SalespersonModel> salesPeople)
+        public static List<ReportSalesPriorityModel> ReportBySalesPriority(List<RequestModel> requests, List<SalespersonModel> salesPeople, List<MSO_Model> msoList)
         {
             List<ReportSalesPriorityModel> priorityModels = new List<ReportSalesPriorityModel>();
             ReportSalesPriorityModel companyTotal = new ReportSalesPriorityModel();
-            companyTotal.SalesPerson = "Company Total";
+            if (msoList.Count >1)
+            {
+                companyTotal.SalesPerson = "Total";
+            }
+            else
+            {
+                companyTotal.SalesPerson = msoList[0].MSO + " Total";
+            }
             ReportSalesPriorityModel percentModel = new ReportSalesPriorityModel();
             percentModel.SalesPerson = "Percent of Total";
             foreach (var person in salesPeople)
@@ -390,7 +407,7 @@ namespace DesignDB_Library.Operations
                                 model.P1Dollars = model.P1Dollars + filteredRequest.BOM_Value;
                                 model.TotalCount++;
                                 companyTotal.P1Count++;
-                                companyTotal.P1Dollars=companyTotal.P1Dollars = filteredRequest.BOM_Value;
+                                companyTotal.P1Dollars=companyTotal.P1Dollars = filteredRequest.BOM_Value;                                
                                 break;
                             case "P2":
                                 model.P2Count++;
@@ -441,7 +458,6 @@ namespace DesignDB_Library.Operations
                 if (filteredRequests.Count > 0)
                    
                 {
-                    //openModel.CurrentYTD_Value = filteredRequests.Where(x => x.AwardStatus != "Has Revisioon" && x.AwardStatus != "Canceled").Sum (x => x.BOM_Value);
                     openModel.CurrentYTD_Value = filteredRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
                     openModel.CurrentYear_Count = filteredRequests.Count;
                     foreach (RequestModel request in filteredRequests)

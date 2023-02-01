@@ -16,7 +16,7 @@ namespace DesignDB_Library.Operations
     {
         public static void PlaceRollupInExcel(DateTime startDate, DateTime endDate, List<OpenRequestsBySalesModel> openBySales, 
             List<ReportCategoryMSOModel> categories, List<Report_SalesProjectValuesModel> requests, 
-            List<ReportSalesPriorityModel> priorityList, decimal bomTotal, List<Report_SalesProjectValuesModel> msoSummary)
+            List<ReportSalesPriorityModel> priorityList, decimal bomTotal, List<Report_SalesProjectValuesModel> msoSummary, List<MSO_Model> msoModels)
         {
             int row = 1;
 
@@ -44,7 +44,7 @@ namespace DesignDB_Library.Operations
             wks.Cells[2, 16].Value = "Nov";
             wks.Cells[2, 17].Value = "Dec";
             wks.Cells[2, 18].Value = "Current Week " + startDate.ToShortDateString() + " " + endDate.ToShortDateString();
-            wks.Cells[2, 19].Value = "TOTAL";
+            //wks.Cells[2, 19].Value = "TOTAL";
             //wks.Rows[2].Height = 60;
                 
             wks.Columns[1].ColumnWidth = 28;
@@ -53,7 +53,7 @@ namespace DesignDB_Library.Operations
 
             makeTitle(wks, 1, 18, "Design Requests by Salesperson/Month");
             
-            Excel.Range header = wks.get_Range("A1:S2");
+            Excel.Range header = wks.get_Range("A1:R2");
             header.Font.Bold = true;
             header.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             header.Interior.Color = ColorTranslator.ToOle(System.Drawing.Color.LightSkyBlue);
@@ -80,7 +80,7 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 16] = model.NovProjects;
                 wks.Cells[row, 17] = model.DecProjects;
                 wks.Cells[row, 18] = model.Weekly;
-                wks.Cells[row, 19] = model.Total;
+                //wks.Cells[row, 19] = model.Total;
                 row++;
             }
             int categoryStartRow = row;
@@ -90,12 +90,12 @@ namespace DesignDB_Library.Operations
 
             Excel.Range currencyRange = wks.Range[wks.Cells[2, 2], wks.Cells[row, 3]];
             FormatExcelRangeAsCurrency(wks, currencyRange);
-            Excel.Range summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 18]];
+            Excel.Range summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 17]];
             summaryRange.Font.Bold = true;
 
             //Monthly MSO Summary
             row = row + 3;
-            makeTitle(wks, row, 19, "Requests by MSO/Month");
+            makeTitle(wks, row, 18, "Requests by MSO/Month");
             row++;
             wks.Cells[row, 1].Value = "MSO";
             wks.Cells[row, 2].Value = "Total $";
@@ -115,10 +115,10 @@ namespace DesignDB_Library.Operations
             wks.Cells[row, 16].Value = "Nov";
             wks.Cells[row, 17].Value = "Dec";
             wks.Cells[row, 18].Value = "Current Week " + startDate.ToShortDateString() + " " + endDate.ToShortDateString();
-            wks.Cells[row, 19].Value = "TOTAL";
+            //wks.Cells[row, 19].Value = "TOTAL";
             wks.Columns[1].ColumnWidth = 28;
 
-            header = wks.Range[wks.Cells[categoryStartRow + 2, 1], wks.Cells[row, 19]];
+            header = wks.Range[wks.Cells[categoryStartRow + 2, 1], wks.Cells[row, 18]];
             header.Font.Bold = true;
             header.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             header.Interior.Color = ColorTranslator.ToOle(System.Drawing.Color.LightSkyBlue);
@@ -144,7 +144,7 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 16] = model.NovProjects;
                 wks.Cells[row, 17] = model.DecProjects;
                 wks.Cells[row, 18] = model.Weekly;
-                wks.Cells[row, 19] = model.Total;
+                //wks.Cells[row, 19] = model.Total;
                 row++; 
             }
             decRange = wks.Range[wks.Cells[categoryStartRow, 5], wks.Cells[row, 5]];
@@ -287,7 +287,7 @@ namespace DesignDB_Library.Operations
             }
             summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 14]];
             summaryRange.Font.Bold = true;
-            InsertPriorityDataIntoWorksheet(wks, row + 2, priorityList);
+            InsertPriorityDataIntoWorksheet(wks, row + 2, priorityList, msoModels);
 
             releaseObject(xlApp);
         }
@@ -301,7 +301,7 @@ namespace DesignDB_Library.Operations
             range.Cells.Merge();
             range.Cells.HorizontalAlignment = HorizontalAlignment.Center;
         }
-        private static void InsertPriorityDataIntoWorksheet(Excel.Worksheet wks, int startRow, List<ReportSalesPriorityModel> list)
+        private static void InsertPriorityDataIntoWorksheet(Excel.Worksheet wks, int startRow, List<ReportSalesPriorityModel> list, List<MSO_Model> MSO_model)
         {
             int row = startRow;
             makeTitle(wks, row, 5, "Design Requests by Salesperson/Priority");
@@ -322,14 +322,14 @@ namespace DesignDB_Library.Operations
             {
                 wks.Cells[row, 1].Value = model.SalesPerson;
                 wks.Cells[row, 2].Value = model.TotalCount;
-                wks.Cells[row, 3].Value = model.P1Count;
-                wks.Cells[row, 4].Value = model.P2Count;
-                wks.Cells[row, 5].Value = model.P3Count;
+                wks.Cells[row, 3].Value = model.P1Pct;
+                wks.Cells[row, 4].Value = model.P2Pct;
+                wks.Cells[row, 5].Value = model.P3Pct;
                 row++;
             }
-            Excel.Range pctRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 5]];
+            Excel.Range pctRange = wks.Range[wks.Cells[startRow + 2, 3], wks.Cells[row - 1, 5]];
             pctRange.NumberFormat = "##.00%";
-            Excel.Range boldRange = wks.Range[wks.Cells[row - 2, 1], wks.Cells[row - 1, 5]];
+            Excel.Range boldRange = wks.Range[wks.Cells[row - 2, 1], wks.Cells[row, 5]];
             boldRange.Font.Bold = true;
         }
 

@@ -384,8 +384,11 @@ namespace DesignDB_UI
                     }
                     else
                     {
-                        ReportOps.DoRollup(startDate, endDate, e.MSO_s);
-                    }
+                        if (e.MSO_s.Count == 1)
+                        {
+                            
+                        }
+                        ReportOps.DoRollup(startDate, endDate, e.MSO_s);                    }
                     break;
                 case Mode.Report_CatMSO:
                     List<ReportCategoryMSOModel> categoryReport = ReportOps.
