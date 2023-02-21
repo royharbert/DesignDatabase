@@ -46,6 +46,7 @@ namespace DesignDB_UI
             this.dgvLoad.ReadOnly = true;
             this.dgvLoad.Size = new System.Drawing.Size(691, 700);
             this.dgvLoad.TabIndex = 0;
+            this.dgvLoad.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvLoad_RowHeaderMouseClick);
             // 
             // btnExport
             // 

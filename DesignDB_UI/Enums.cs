@@ -33,6 +33,8 @@ namespace DesignDB_UI
         Add_Attachment,
         Delete_Attachment,
         MSO_Maintenance,
+        ReviewerMaintenance,
+        DesignerMaintenance,
         None
     }
     

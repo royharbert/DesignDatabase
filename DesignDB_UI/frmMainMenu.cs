@@ -1,4 +1,4 @@
-﻿using DesignDB_Library;
+﻿ using DesignDB_Library;
 using DesignDB_Library.Models;
 using DesignDB_Library.Operations;
 using Squirrel;
@@ -115,7 +115,7 @@ namespace DesignDB_UI
         {
             if (GlobalConfig.DatabaseMode == DatabaseType.Live)
             {
-                using (var manager = new UpdateManager(@"\\sccacve1\Databases\DesignDB\Beta"))
+                using (var manager = new UpdateManager(@"\\USCA5PDBATDGS01\Databases\ProgramUpdates"))
                 {
                     await manager.UpdateApp();
                 }
@@ -146,9 +146,14 @@ namespace DesignDB_UI
                     lblAdministrator.Visible = false;
                     break;
 
-                default:
+                case 3:
                     lblAdministrative.Visible = true;
                     lblAdministrator.Visible = true;
+                    break;
+
+                case 4:
+                    rdoLive.Visible = true;
+                    rdoSandbox.Visible = true;
                     break;
             }
 
@@ -190,6 +195,7 @@ namespace DesignDB_UI
 
         private void btnDesignerMaint_Click(object sender, EventArgs e)
         {
+            GV.MODE = Mode.DesignerMaintenance;
             Form frm = new frmReviewer();
             frm.ShowDialog();
         }
@@ -372,7 +378,14 @@ namespace DesignDB_UI
                 case Mode.Report_Rollup:
                     startDate = e.StartDate;
                     endDate = e.EndDate;
-                    ReportOps.DoRollup(startDate, endDate);
+                    if (e.MSO_s == null)
+                    {
+                        ReportOps.DoRollup(startDate, endDate); 
+                    }
+                    else
+                    {
+                        ReportOps.DoRollup(startDate, endDate, e.MSO_s);
+                    }
                     break;
                 case Mode.Report_CatMSO:
                     List<ReportCategoryMSOModel> categoryReport = ReportOps.
@@ -445,7 +458,7 @@ namespace DesignDB_UI
         private void btnOverdue_Click(object sender, EventArgs e)
         {
             GV.MODE = Mode.Report_Overdue;
-            List<RequestModel> overdueRequests = GlobalConfig.Connection.GetOverdueRequests(DateTime.Now);
+            List<RequestModel> overdueRequests = GlobalConfig.Connection.GetOverdueRequests(DateTime.Now.Date);
             //frmMultiResult frmMultiResult = new frmMultiResult(overdueRequests);
             GV.MultiResult.dataList = overdueRequests;
             GV.MultiResult.Show();
@@ -579,6 +592,7 @@ namespace DesignDB_UI
 
         private void btnReviewMaint_Click(object sender, EventArgs e)
         {
+            GV.MODE = Mode.ReviewerMaintenance;
             frmReviewer reviewer = new frmReviewer();
             reviewer.Show();
         }
@@ -586,9 +600,8 @@ namespace DesignDB_UI
         private void btnPrjBySales_Click(object sender, EventArgs e)
         {
             GV.MODE = Mode.Report_Rollup;
-            frmDateMSO_Picker.Height = 175;
-            frmDateMSO_Picker.Show();
-            
+            //frmDateMSO_Picker.Height = 175;
+            frmDateMSO_Picker.Show();       
 
         }
     }

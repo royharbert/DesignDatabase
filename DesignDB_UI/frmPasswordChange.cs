@@ -25,7 +25,7 @@ namespace DesignDB_UI
         }
 
         private void btnChange_Click(object sender, EventArgs e)
-        {
+                {
             if (txtConfirm.Text == txtPW.Text)
             {
                 DesignDB_Library.Operations.DesignerUpdate.ChangePassword(txtDesigner.Text, txtCurrentPW.Text, txtPW.Text);

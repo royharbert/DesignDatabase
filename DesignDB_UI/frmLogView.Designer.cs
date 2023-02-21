@@ -43,6 +43,7 @@ namespace DesignDB_UI
             this.dgvLog = new System.Windows.Forms.DataGridView();
             this.btnViewAll = new System.Windows.Forms.Button();
             this.btnGoTORecord = new System.Windows.Forms.Button();
+            this.lblCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvLog)).BeginInit();
             this.SuspendLayout();
             // 
@@ -203,6 +204,14 @@ namespace DesignDB_UI
             this.btnGoTORecord.UseVisualStyleBackColor = true;
             this.btnGoTORecord.Click += new System.EventHandler(this.btnGoTORecord_Click);
             // 
+            // lblCount
+            // 
+            this.lblCount.AutoSize = true;
+            this.lblCount.Location = new System.Drawing.Point(449, 618);
+            this.lblCount.Name = "lblCount";
+            this.lblCount.Size = new System.Drawing.Size(0, 20);
+            this.lblCount.TabIndex = 14;
+            // 
             // frmLogView
             // 
             this.AcceptButton = this.btnSearch;
@@ -210,6 +219,7 @@ namespace DesignDB_UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 692);
             this.ControlBox = false;
+            this.Controls.Add(this.lblCount);
             this.Controls.Add(this.btnGoTORecord);
             this.Controls.Add(this.btnViewAll);
             this.Controls.Add(this.dgvLog);
@@ -251,5 +261,6 @@ namespace DesignDB_UI
         private System.Windows.Forms.DataGridView dgvLog;
         private System.Windows.Forms.Button btnViewAll;
         private System.Windows.Forms.Button btnGoTORecord;
+        private System.Windows.Forms.Label lblCount;
     }
 }

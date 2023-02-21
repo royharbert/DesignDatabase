@@ -45,5 +45,7 @@ namespace DesignDB_Library.Models
         public int DecProjects { get; set; }
         [ExcelExportPropertyAttribute]
         public int Weekly { get; set; }
+        [ExcelExportPropertyAttribute]
+        public int Total { get; set; }
     }
 }

@@ -29,6 +29,8 @@ namespace DesignDB_Library.Models
         public decimal BOM_Value { get; set; }
         [ExcelExportPropertyAttribute]
         public int PercentageProjectCovered { get; set; }
+        //[ExcelExportPropertyAttribute]
+        //public decimal EstProjectValue { get; set; }
         [ExcelExportPropertyAttribute]
         public string MSO { get; set; }
         [ExcelExportPropertyAttribute]
@@ -116,6 +118,7 @@ namespace DesignDB_Library.Models
             PercentageProjectCovered = percentCovered;
             ArchitectureDetails = archDetails;
             Comments = comments;
+            //EstProjectValue = BOM_Value * 100 / percentCovered;
             
             msoModel = modelMSO;
         }

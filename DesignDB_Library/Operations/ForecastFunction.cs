@@ -41,6 +41,7 @@ namespace DesignDB_Library.Operations
             pb.Minimum = 0;
             pb.Maximum = requests.Count;
             pb.Step = 1;
+            pb.Value = 0;
             int recordsProcessed = 0;            
             pBox.Text = recordsProcessed.ToString();            
             List<BOM_Model> products = new List<BOM_Model>();
@@ -112,7 +113,7 @@ namespace DesignDB_Library.Operations
             else
             {
                 requests = GlobalConfig.Connection.DateRangeSearch_MSOFiltered
-                    (startDate, endDate, searchTerm, mso, false);
+                    (startDate, endDate, searchTerm, mso, false, "", "");
             }
 
             return requests;

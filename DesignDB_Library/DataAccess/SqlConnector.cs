@@ -310,7 +310,8 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@UName", designer.Designer);
                 p.Add("@PWord", designer.Pwd);
                 p.Add("@Priv", designer.Priviledge);
-                p.Add("@Active", designer.ActiveDesigner);
+                p.Add("@ActiveDesigner", designer.ActiveDesigner);
+                p.Add("@ActiveReviewer", designer.ActiveReviewer);
                 p.Add("@Ident", designer.ID);
 
 
@@ -331,7 +332,7 @@ namespace DesignDB_Library.DataAccess
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
-                List<DesignersReviewersModel> output = connection.Query<DesignersReviewersModel>("dbo.spReviewers_GetAll", commandType: CommandType.StoredProcedure).ToList();
+                List<DesignersReviewersModel> output = connection.Query<DesignersReviewersModel>("dbo.spReviewers_GetActive", commandType: CommandType.StoredProcedure).ToList();
                 return output;
             }
         }
@@ -340,7 +341,7 @@ namespace DesignDB_Library.DataAccess
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
-                List<DesignersReviewersModel> output = connection.Query<DesignersReviewersModel>("dbo.spReviewers_GetActive", commandType: CommandType.StoredProcedure).ToList();
+                List<DesignersReviewersModel> output = connection.Query<DesignersReviewersModel>("dbo.spReviewers_GetAll", commandType: CommandType.StoredProcedure).ToList();
                 return output;
             }
         }
@@ -402,11 +403,20 @@ namespace DesignDB_Library.DataAccess
 
         public List<DesignersReviewersModel> DesignersGetActive()
         {
-            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            List<DesignersReviewersModel> output = new List<DesignersReviewersModel>();
+            try
             {
-                List<DesignersReviewersModel> output = connection.Query<DesignersReviewersModel>("dbo.spDesigners_GetActive", commandType: CommandType.StoredProcedure).ToList();
-                return output;
+                using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+                {
+                    output = connection.Query<DesignersReviewersModel>("dbo.spDesigners_GetActive", commandType: CommandType.StoredProcedure).ToList();
+                }
             }
+            catch (Exception)
+            {
+
+                System.Windows.Forms.MessageBox.Show("Cannot connect to server. Please check network and VPN status and try again");
+            }
+            return output;
         }
 
         public int GetSequence()
@@ -603,7 +613,7 @@ namespace DesignDB_Library.DataAccess
         }
 
         public List<RequestModel> DateRangeSearch_Unfiltered(DateTime StartDate, 
-            DateTime EndDate, string SearchTerm, bool pendingOnly, string mso)
+            DateTime EndDate, string SearchTerm, bool pendingOnly, string mso, string designer, string requestor)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
@@ -613,7 +623,9 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@EndDate", EndDate, DbType.DateTime, ParameterDirection.Input);
                 p.Add("@SearchTerm", SearchTerm, DbType.String, ParameterDirection.Input);
                 p.Add("@PendingOnly", pendingOnly, DbType.Boolean, ParameterDirection.Input);
+                p.Add("Designer", designer, DbType.String, ParameterDirection.Input);
                 p.Add("@MSO", mso, DbType.String, ParameterDirection.Input);
+                p.Add("@Requestor", requestor, DbType.String, ParameterDirection.Input);
                 List<RequestModel> output = null;
 
 
@@ -622,8 +634,30 @@ namespace DesignDB_Library.DataAccess
                 return output;
             }
         }
+
+        public List<RequestModelReport> ReportDateRangeSearch_Unfiltered_Pending_HasRevision(DateTime StartDate, DateTime EndDate,
+            string SearchTerm, string mso, string designer = null)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+
+                p.Add("@StartDate", StartDate, DbType.DateTime, ParameterDirection.Input);
+                p.Add("@EndDate", EndDate, DbType.DateTime, ParameterDirection.Input);
+                p.Add("SearchTerm", SearchTerm, DbType.String, ParameterDirection.Input);
+                p.Add(@"PendingOnly",false,DbType.Boolean)
+;               p.Add("@MSO", mso, DbType.String, ParameterDirection.Input);
+                p.Add("Designer", designer, DbType.String, ParameterDirection.Input);
+                List<RequestModelReport> output = null;
+
+
+                output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_Dynamic",
+                    p, commandType: CommandType.StoredProcedure).ToList();
+                return output;
+            }
+        }
         public List<RequestModelReport> ReportDateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, 
-            string SearchTerm, bool pendingOnly, string mso)
+            string SearchTerm, string mso, string designer = null)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
@@ -632,8 +666,9 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@StartDate", StartDate, DbType.DateTime, ParameterDirection.Input);
                 p.Add("@EndDate", EndDate, DbType.DateTime, ParameterDirection.Input);
                 p.Add("@SearchTerm", SearchTerm, DbType.String, ParameterDirection.Input);
-                p.Add("@PendingOnly", pendingOnly, DbType.Boolean, ParameterDirection.Input);
+                p.Add("@PendingOnly", false, DbType.Boolean, ParameterDirection.Input);
                 p.Add("@MSO", mso, DbType.String, ParameterDirection.Input);
+                p.Add("Designer", designer, DbType.String, ParameterDirection.Input);
                 List<RequestModelReport> output = null;
 
 
@@ -644,7 +679,7 @@ namespace DesignDB_Library.DataAccess
         }
 
         public List<RequestModel> DateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, 
-            string SearchTerm, string mso, bool pendingOnly)
+            string SearchTerm, string mso, bool pendingOnly, string designer, string requestor)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
             {
@@ -655,6 +690,8 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@SearchTerm", SearchTerm, DbType.String, ParameterDirection.Input);
                 p.Add("@PendingOnly", pendingOnly, DbType.Boolean, ParameterDirection.Input);
                 p.Add("@MSO", mso, DbType.String, ParameterDirection.Input);
+                p.Add("@Designer", designer, DbType.String, ParameterDirection.Input);
+                p.Add("@Requestor", requestor, DbType.String, ParameterDirection.Input);
                 List<RequestModel> output = null;
 
                 output = connection.Query<RequestModel>("spRequests_DateRangeSearch_Dynamic",
@@ -666,7 +703,7 @@ namespace DesignDB_Library.DataAccess
 
 
         public List<RequestModelReport> ReportDateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, 
-            string SearchTerm, string mso, bool pendingOnly)
+            string SearchTerm, string mso, bool pendingOnly, string designer, string requestor)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
             {
@@ -677,6 +714,8 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@SearchTerm", SearchTerm, DbType.String, ParameterDirection.Input);
                 p.Add("@PendingOnly", pendingOnly, DbType.Boolean, ParameterDirection.Input);
                 p.Add("@MSO", mso, DbType.String, ParameterDirection.Input);
+                p.Add("@Designer", designer, DbType.String, ParameterDirection.Input);
+                p.Add("@Requestor", requestor, DbType.String, ParameterDirection.Input);
                 List<RequestModelReport> output = null;
 
                 output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_Dynamic",

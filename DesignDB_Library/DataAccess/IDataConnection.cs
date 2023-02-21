@@ -9,6 +9,8 @@ namespace DesignDB_Library.DataAccess
 {
     public interface IDataConnection
     {
+        List<RequestModelReport> ReportDateRangeSearch_Unfiltered_Pending_HasRevision(DateTime StartDate, DateTime EndDate,
+            string SearchTerm, string mso, string designer = null);
         List<T> GenericConditionalGetAll<T>(string tableName, string conditionColumn, string condition, string orderByField = "");
         void FE_CRUD(FE_Model model, char action);
         List<T> GetItemByColumn<T>(string tableName, string columnName, string stringValue, int intValue = -1);
@@ -36,13 +38,13 @@ namespace DesignDB_Library.DataAccess
         List<RequestModelReport> GetSnapshotData(string MSO, DateTime start, DateTime end);
         List<DesignersReviewersModel> GetDesigner(string designerName);
         List<RequestModel> DateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, string SearchTerm, 
-            string mso, bool pendingOnly);
+            string mso, bool pendingOnly, string designer, string requestor);
         List<RequestModel> DateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, string SearchTerm, 
-            bool pendingOnly, string mso);
+            bool pendingOnly, string mso, string designer =null, string requestor = null);
         List<RequestModelReport> ReportDateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, 
-            string SearchTerm, string mso, bool pendingOnly);
+            string SearchTerm, string mso, bool pendingOnly, string designer = null, string requestor = null); 
         List<RequestModelReport> ReportDateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, 
-            string SearchTerm, bool pendingOnly, string mso);
+            string SearchTerm, string mso, string designer = null);
         List<DesignerLoadModel> DoLoadReport();
         void DeleteAttachment(AttachmentModel model);
         List<AttachmentModel> GetAttachments(string PID);

@@ -16,7 +16,7 @@ namespace DesignDB_Library.Operations
     {
         public static void PlaceRollupInExcel(DateTime startDate, DateTime endDate, List<OpenRequestsBySalesModel> openBySales, 
             List<ReportCategoryMSOModel> categories, List<Report_SalesProjectValuesModel> requests, 
-            List<ReportSalesPriorityModel> priorityList, decimal bomTotal)
+            List<ReportSalesPriorityModel> priorityList, decimal bomTotal, List<Report_SalesProjectValuesModel> msoSummary)
         {
             int row = 1;
 
@@ -44,16 +44,16 @@ namespace DesignDB_Library.Operations
             wks.Cells[2, 16].Value = "Nov";
             wks.Cells[2, 17].Value = "Dec";
             wks.Cells[2, 18].Value = "Current Week " + startDate.ToShortDateString() + " " + endDate.ToShortDateString();
-
+            wks.Cells[2, 19].Value = "TOTAL";
+            //wks.Rows[2].Height = 60;
+                
             wks.Columns[1].ColumnWidth = 28;
             wks.get_Range("B:C").ColumnWidth = 20;
-            wks.get_Range("D:Y").ColumnWidth=12;
+            wks.get_Range("D:Z").ColumnWidth=12;
 
             makeTitle(wks, 1, 18, "Design Requests by Salesperson/Month");
-            //wks.Cells[1, 1].Value = "Design Requests by Salesperson/Month";
-            //Excel.Range title = wks.get_Range("A1:R1");
-            //title.Cells.Merge();
-            Excel.Range header = wks.get_Range("A1:R2");
+            
+            Excel.Range header = wks.get_Range("A1:S2");
             header.Font.Bold = true;
             header.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             header.Interior.Color = ColorTranslator.ToOle(System.Drawing.Color.LightSkyBlue);
@@ -80,18 +80,85 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 16] = model.NovProjects;
                 wks.Cells[row, 17] = model.DecProjects;
                 wks.Cells[row, 18] = model.Weekly;
+                wks.Cells[row, 19] = model.Total;
                 row++;
             }
-            wks.Cells[row, 2].Value = bomTotal;
+            int categoryStartRow = row;
+            //wks.Cells[row, 2].Value = bomTotal;
             Excel.Range decRange = wks.Range[wks.Cells[2, 5], wks.Cells[row, 5]];
-            decRange.NumberFormat = "###.00%";
+            decRange.NumberFormat = "###.0%";
 
             Excel.Range currencyRange = wks.Range[wks.Cells[2, 2], wks.Cells[row, 3]];
             FormatExcelRangeAsCurrency(wks, currencyRange);
+            Excel.Range summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 18]];
+            summaryRange.Font.Bold = true;
 
-
+            //Monthly MSO Summary
             row = row + 3;
-            makeTitle(wks, row, 25, "Design Requests by MSO/Category");
+            makeTitle(wks, row, 19, "Requests by MSO/Month");
+            row++;
+            wks.Cells[row, 1].Value = "MSO";
+            wks.Cells[row, 2].Value = "Total $";
+            wks.Cells[row, 3].Value = "Average $";
+            wks.Cells[row, 4].Value = "Total Count";
+            wks.Cells[row, 5].Value = "% of Total Value";
+            wks.Cells[row, 6].Value = "Jan";
+            wks.Cells[row, 7].Value = "Feb";
+            wks.Cells[row, 8].Value = "Mar";
+            wks.Cells[row, 9].Value = "Apr";
+            wks.Cells[row, 10].Value = "May";
+            wks.Cells[row, 11].Value = "Jun";
+            wks.Cells[row, 12].Value = "Jul";
+            wks.Cells[row, 13].Value = "Aug";
+            wks.Cells[row, 14].Value = "Sep";
+            wks.Cells[row, 15].Value = "Oct";
+            wks.Cells[row, 16].Value = "Nov";
+            wks.Cells[row, 17].Value = "Dec";
+            wks.Cells[row, 18].Value = "Current Week " + startDate.ToShortDateString() + " " + endDate.ToShortDateString();
+            wks.Cells[row, 19].Value = "TOTAL";
+            wks.Columns[1].ColumnWidth = 28;
+
+            header = wks.Range[wks.Cells[categoryStartRow + 2, 1], wks.Cells[row, 19]];
+            header.Font.Bold = true;
+            header.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            header.Interior.Color = ColorTranslator.ToOle(System.Drawing.Color.LightSkyBlue);
+            header.WrapText = true;
+            row++;
+            foreach (var model in msoSummary)
+            {
+                wks.Cells[row, 1] = model.SalesPerson;
+                wks.Cells[row, 2] = model.CurrentYTD_Value;
+                wks.Cells[row, 3] = model.AverageDollars;
+                wks.Cells[row, 4] = model.CurrentYear_Count;
+                wks.Cells[row, 5] = model.PctTotalValue;
+                wks.Cells[row, 6] = model.JanProjects;
+                wks.Cells[row, 7] = model.FebProjects;
+                wks.Cells[row, 8] = model.MarProjects;
+                wks.Cells[row, 9] = model.AprProjects;
+                wks.Cells[row, 10] = model.MayProjects;
+                wks.Cells[row, 11] = model.JunProjects;
+                wks.Cells[row, 12] = model.JulProjects;
+                wks.Cells[row, 13] = model.AugProjects;
+                wks.Cells[row, 14] = model.SepProjects;
+                wks.Cells[row, 15] = model.OctProjects;
+                wks.Cells[row, 16] = model.NovProjects;
+                wks.Cells[row, 17] = model.DecProjects;
+                wks.Cells[row, 18] = model.Weekly;
+                wks.Cells[row, 19] = model.Total;
+                row++; 
+            }
+            decRange = wks.Range[wks.Cells[categoryStartRow, 5], wks.Cells[row, 5]];
+            decRange.NumberFormat = "###.0%";
+
+            currencyRange = wks.Range[wks.Cells[categoryStartRow, 2], wks.Cells[row, 3]];
+            FormatExcelRangeAsCurrency(wks, currencyRange);
+            summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 18]];
+            summaryRange.Font.Bold = true;
+
+
+
+            row = row + 3;categoryStartRow = row;
+            makeTitle(wks, row, 21, "Design Requests by MSO/Category");
             row++;
             wks.Cells[row, 1].Value = "MSO";
             wks.Cells[row, 2].Value = "Total $";
@@ -102,25 +169,27 @@ namespace DesignDB_Library.Operations
             wks.Cells[row, 7].Value = "Node Split";
             wks.Cells[row, 8].Value = "RFoG";
             wks.Cells[row, 9].Value = "PON";
-            wks.Cells[row, 10].Value = "Fiber Deep";
-            wks.Cells[row, 11].Value = "Data Transport";
-            wks.Cells[row, 12].Value = "Other";
-            wks.Cells[row, 13].Value = "PEG";
-            wks.Cells[row, 14].Value = "Commercial";
-            wks.Cells[row, 15].Value = "Unassigned";
-            wks.Cells[row, 16].Value = "HFC Dollars";
-            wks.Cells[row, 17].Value = "Node Split Dollars";
-            wks.Cells[row, 18].Value = "RFoG Dollars";
-            wks.Cells[row, 19].Value = "PON Dollars";
+            wks.Cells[row, 10].Value = "RFoG-PON";
+            wks.Cells[row, 11].Value = "Fiber Deep";
+            wks.Cells[row, 12].Value = "Data Transport";
+            wks.Cells[row, 13].Value = "Other";
+            //wks.Cells[row, 13].Value = "PEG";
+            //wks.Cells[row, 14].Value = "Commercial";
+            wks.Cells[row, 14].Value = "Unassigned";
+            wks.Cells[row, 15].Value = "HFC Dollars";
+            wks.Cells[row, 16].Value = "Node Split Dollars";
+            wks.Cells[row, 17].Value = "RFoG Dollars";
+            wks.Cells[row, 18].Value = "PON Dollars";
+            wks.Cells[row, 19].Value = "RFoG-PON Dollars";
             wks.Cells[row, 20].Value = "Fiber Deep Dollars";
             wks.Cells[row, 21].Value = "Data Transport Dollars";
             wks.Cells[row, 22].Value = "Other Dollars";
-            wks.Cells[row, 23].Value = "PEG Dollars";
-            wks.Cells[row, 24].Value = "Commercial Dollars";
-            wks.Cells[row, 25].Value = "Unassigned Dollars";
+            //wks.Cells[row, 21].Value = "PEG Dollars";
+            //wks.Cells[row, 22].Value = "Commercial Dollars";
+            wks.Cells[row, 23].Value = "Unassigned Dollars";
 
-            int categoryStartRow = row;
-            Excel.Range header2 = wks.Range[wks.Cells[categoryStartRow - 1, 1], wks.Cells[row, 25]];
+           
+            Excel.Range header2 = wks.Range[wks.Cells[categoryStartRow - 2, 1], wks.Cells[row, 23]];
             header2.Font.Bold = true;
             header2.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             header2.Interior.Color = ColorTranslator.ToOle(System.Drawing.Color.LightSkyBlue);
@@ -137,34 +206,39 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 7] = model.NodeSplit;
                 wks.Cells[row, 8] = model.RFoG;
                 wks.Cells[row, 9] = model.PON;
-                wks.Cells[row, 10] = model.FiberDeep;
-                wks.Cells[row, 11] = model.DataTrans;
-                wks.Cells[row, 12] = model.Other;
-                wks.Cells[row, 13] = model.PEG;
-                wks.Cells[row, 14] = model.Commercial;
-                wks.Cells[row, 15] = model.Unassigned;
-                wks.Cells[row, 16] = model.HFCDollars;
-                wks.Cells[row, 17] = model.NodeSplitDollars;
-                wks.Cells[row, 18] = model.RFoGDollars;
-                wks.Cells[row, 19] = model.PON_Dollars;
+                wks.Cells[row, 10] = model.RFoGPON;
+                wks.Cells[row, 11] = model.FiberDeep;
+                wks.Cells[row, 12] = model.DataTrans;
+                wks.Cells[row, 13] = model.Other;
+                //wks.Cells[row, 13] = model.PEG;
+                //wks.Cells[row, 14] = model.Commercial;
+                wks.Cells[row, 14] = model.Unassigned;
+                wks.Cells[row, 15] = model.HFCDollars;
+                wks.Cells[row, 16] = model.NodeSplitDollars;
+                wks.Cells[row, 17] = model.RFoGDollars;
+                wks.Cells[row, 18] = model.PON_Dollars;
+                wks.Cells[row, 19] = model.RFoGPON_Dollars;
                 wks.Cells[row, 20] = model.FiberDeepDollars;
                 wks.Cells[row, 21] = model.DataTransportDollars;
                 wks.Cells[row, 22] = model.OtherDollars;
-                wks.Cells[row, 23] = model.PEG_Dollars;
-                wks.Cells[row, 24] = model.CommercialDollars;
-                wks.Cells[row, 25] = model.UnassignedDollars;
+                //wks.Cells[row, 21] = model.PEG_Dollars;
+                //wks.Cells[row, 22] = model.CommercialDollars;
+                wks.Cells[row, 23] = model.UnassignedDollars;
                 row++;
             }
 
 
-            Excel.Range numRange = wks.Range[wks.Cells[categoryStartRow, 1], wks.Cells[row, 25]];
-            Excel.Range summaryRange = wks.Range[wks.Cells[row-1, 1], wks.Cells[row-1, 25]];
+            Excel.Range numRange = wks.Range[wks.Cells[categoryStartRow, 1], wks.Cells[row, 23]];
+            summaryRange = wks.Range[wks.Cells[row-1, 1], wks.Cells[row-1, 23]];
             summaryRange.Font.Bold = true;
-            numRange.NumberFormat = "0.00";
+            //numRange.NumberFormat = "0";
+
+            Excel.Range pctRange = wks.Range[wks.Cells[categoryStartRow + 1, 5], wks.Cells[row, 5]];
+            pctRange.NumberFormat = "###.0%";
 
             currencyRange = wks.Range[wks.Cells[categoryStartRow, 2], wks.Cells[row, 3]];
             FormatExcelRangeAsCurrency(wks, currencyRange);
-            currencyRange = wks.Range[wks.Cells[categoryStartRow, 16], wks.Cells[row, 25]];
+            currencyRange = wks.Range[wks.Cells[categoryStartRow, 15], wks.Cells[row, 23]];
             FormatExcelRangeAsCurrency(wks, currencyRange);
 
             //openBySales
@@ -211,6 +285,8 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 14] = model.Dec;
                 row++;
             }
+            summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 14]];
+            summaryRange.Font.Bold = true;
             InsertPriorityDataIntoWorksheet(wks, row + 2, priorityList);
 
             releaseObject(xlApp);

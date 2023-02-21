@@ -29,14 +29,34 @@ namespace DesignDB_UI
             term = "DateAssigned";
             if (GV.MODE == Mode.DateRangeSearch)
             {
+                List<DesignersReviewersModel> designers = GlobalConfig.Connection.GetAllDesigners();
+                cboDesigner.DataSource= designers;
+                cboDesigner.DisplayMember = "Designer";
+                cboDesigner.SelectedIndex = -1;
+
+                List<SalespersonModel> requestors = GlobalConfig.Connection.GenericGetAll<SalespersonModel>("tblSalespersons", "SalesPerson");
+                cboRequestor.DataSource = requestors;
+                cboRequestor.DisplayMember = "Salesperson";
+                cboRequestor.SelectedIndex = -1;
+
+                lblDesigner.Visible = true;
+                lblRequestor.Visible = true;
+                cboDesigner.Visible = true;
+                cboRequestor.Visible = true;
+
                 btnForecast.Visible = false;
                 btnSearch.Visible = true;
             }
             else
             {
+                lblDesigner.Visible = false;
+                lblRequestor.Visible = false;
+                cboDesigner.Visible = false;
+                cboRequestor.Visible = false;
+
                 btnSearch.Visible = false;
                 btnForecast.Visible = true;
-            }
+            } 
 
             FC.SetFormPosition(this);
             this.BringToFront();
@@ -79,42 +99,23 @@ namespace DesignDB_UI
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            if (cboMSO.Text == "")
+            int records = requestList.Count;
+            
+            requestList = GlobalConfig.Connection.ReportDateRangeSearch_MSOFiltered
+                (dtpStartDate.Value, dtpEndDate.Value, term, cboMSO.Text, false,cboDesigner.Text,cboRequestor.Text);
+            records = requestList.Count;
+
+            switch (records)
             {
-                requestList = GlobalConfig.Connection.ReportDateRangeSearch_Unfiltered
-                    (dtpStartDate.Value, dtpEndDate.Value, term, false,"");
-                int records = requestList.Count;
+                case 0:
+                    MessageBox.Show("No records found");
+                    break;
 
-                switch (records)
-                {
-                    case 0:
-                        MessageBox.Show("No records found");
-                        break;
-
-                    default:
-                        //frmMultiResult frmMultiResult = new frmMultiResult(requestList);
-                        GV.MultiResult.ReportDataList = requestList;
-                        GV.MultiResult.Show();
-                        break;
-                }
-            }
-            else
-            {
-                requestList = GlobalConfig.Connection.ReportDateRangeSearch_MSOFiltered
-                (dtpStartDate.Value, dtpEndDate.Value, term, cboMSO.Text,false);
-                int records = requestList.Count;
-
-                switch (records)
-                {
-                    case 0:
-                        MessageBox.Show("No records found");
-                        break;
-                    default:
-                        //frmMultiResult frmMultiResult = new frmMultiResult(requestList);
-                        GV.MultiResult.ReportDataList = requestList;
-                        GV.MultiResult.Show();
-                        break;
-                }
+                default:
+                    //frmMultiResult frmMultiResult = new frmMultiResult(requestList);
+                    GV.MultiResult.ReportDataList = requestList;
+                    GV.MultiResult.Show();
+                    break;
             }
             this.Close();
         }

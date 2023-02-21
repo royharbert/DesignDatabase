@@ -21,7 +21,7 @@ namespace DesignDB_UI
         {
             InitializeComponent();
             
-            frmDateMSO_Picker.DataReadyEvent += FrmDateMSO_Picker_DataReadyEvent;        
+            frmDateMSO_Picker.DataReadyEvent += FrmDateMSO_Picker_DataReadyEvent;
         }
 
  

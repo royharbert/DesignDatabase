@@ -72,6 +72,8 @@ namespace DesignDB_UI
                 List<LogModel> logList = GlobalConfig.Connection.LogList(searchTerm, searchValue);
                 frmLogMultiResult Results = new frmLogMultiResult();
                 Results.LogResults = logList;
+                lblCount.Text = logList.Count.ToString() + " records.";
+                Application.DoEvents();
                 Results.Show();
             }
         }
@@ -108,6 +110,7 @@ namespace DesignDB_UI
             List<LogModel> logList = GlobalConfig.Connection.ActivityLog_GetAll();
             frmLogMultiResult Results = new frmLogMultiResult();
             Results.LogResults = logList;
+            lblCount.Text = logList.Count.ToString() + " records.";
             Results.Show();
         }
 

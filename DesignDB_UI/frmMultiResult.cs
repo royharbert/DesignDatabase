@@ -77,7 +77,7 @@ namespace DesignDB_UI
             this.BringToFront();
             this.Show();
             frmDateRangeSearch frmDateRangeSearch = new frmDateRangeSearch();
-            frmDateRangeSearch.DateRangeSet += FrmDateRangeSearch_DateRangeSet;
+            frmDateRangeSearch.DateRangeSet += FrmDateRangeSearch_DateRangeSet;            
             frmDateRangeSearch.ShowDialog();
 
         }
@@ -120,7 +120,9 @@ namespace DesignDB_UI
             txtRecordsProcessed.Visible = true;
             lblRecordsProcessed.Visible = true;
             pbProgress.Visible = true;
+            DateTime emptyDate = new DateTime(1900,1,1);
             List<RequestModel> Requests = ForecastFunction.GetForecastRequests(MSO, startDate, endDate, "DateAssigned");
+            Requests = Requests.Where(x => x.AwardStatus != "Canceled" && x.DateCompleted != emptyDate).ToList();
             dgvResults.DataSource = Requests;
             ReportOps.FormatMultiResultDGV(dgvResults);
             txtRecordsReturned.Text = Requests.Count.ToString();
@@ -178,6 +180,10 @@ namespace DesignDB_UI
 
         private void btnClose_Click(object sender, EventArgs e)
         {
+            dgvResults.DataSource = null;
+            pbProgress.Value = 0;
+            txtRecordsProcessed.Text = "";
+            txtRecordsReturned.Text = "";
             this.Hide();
             GV.MAINMENU.BringToFront();
         }

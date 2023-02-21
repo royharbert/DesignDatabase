@@ -16,19 +16,29 @@ namespace DesignDB_UI
     {
         public event EventHandler<DataReadyEventArgs> DataReadyEvent;
         public event EventHandler<CancelEventArgs> PickerCanceled;
+
+        bool allSelected;
         public frmDateMSO_Picker(bool rollupVisible = false)
         {
             InitializeComponent();
             GV.PickerForm = this;
             //this.BringToFront();
-            if (GV.MODE == Mode.Report_ByPriority | GV.MODE == Mode.Report_Rollup)
+            if (GV.MODE == Mode.Report_Rollup)
             {
-                this.Height = 236;
+                lbMSO.SelectionMode = SelectionMode.One;
+            }
+            else
+            {
+                lbMSO.SelectionMode = SelectionMode.MultiSimple;
+            }
+            if (GV.MODE == Mode.Report_ByPriority)
+            {
+                //this.Height = 236;
                 lbMSO.Visible = false;
             }
             else
             {
-                this.Height = 822;
+                //this.Height = 822;
                 lbMSO.Visible = true;
             }
             List<MSO_Model> mso_s = GlobalConfig.Connection.GetAllMSO();
@@ -37,6 +47,7 @@ namespace DesignDB_UI
             lbMSO.DisplayMember = "MSO";
             lbMSO.SelectedIndex = -1;
 
+            
             for (int i = 0; i < mso_s.Count; i++)
             {
                 MSO_Model msoModel = (MSO_Model)lbMSO.Items[i];
@@ -46,7 +57,8 @@ namespace DesignDB_UI
                 {
                     lbMSO.SetSelected(i, true);
                 }
-            }
+            } 
+            
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -63,7 +75,7 @@ namespace DesignDB_UI
             DataReadyEventArgs args = new DataReadyEventArgs();
             if (GV.MODE!=Mode.Report_Rollup)
             {
-                if (!ckAll.Checked)
+                if (!allSelected)
                 {
                     GlobalConfig.Connection.ClearTable("tblSnapshotMSO_S");
                     foreach (MSO_Model model in lbMSO.SelectedItems)
@@ -75,19 +87,40 @@ namespace DesignDB_UI
                 else
                 {
                     msoList = GlobalConfig.Connection.GetAllMSO();
-                } 
+                }
+            }
+            
+
+            if (GV.MODE == Mode.Report_Rollup)
+            {
+                if (lbMSO.SelectedItems.Count == 1)
+                {
+                    if (!allSelected)
+                    {                        
+                        msoList.Add(lbMSO.SelectedItem as MSO_Model); 
+                    }
+                }
+                else
+                {
+                    if (allSelected)
+                    {
+                        msoList = null; 
+                    }
+                }
             }
             args.MSO_s = msoList;
             args.StartDate = dtpStart.Value;
             args.EndDate = dtpStop.Value;
             this.Hide();
+            allSelected = false;
             DataReadyEvent?.Invoke(this, args);
         }
 
         private void ckAll_CheckedChanged(object sender, EventArgs e)
         {
-            if (ckAll.Checked)
+            if (allSelected)
             {
+                allSelected = true;
                 for (int i = 0; i < lbMSO.Items.Count; i++)
                 {
                     lbMSO.SetSelected(i, true);
@@ -95,6 +128,7 @@ namespace DesignDB_UI
             }
             else
             {
+                allSelected = false;
                 lbMSO.Items.Clear();
             }
         }
@@ -107,6 +141,34 @@ namespace DesignDB_UI
         private void dtpStart_ValueChanged(object sender, EventArgs e)
         {
             dtpStop.Value = dtpStart.Value.AddDays(7);
+        }
+
+        private void ckClear_CheckedChanged(object sender, EventArgs e)
+        {
+            lbMSO.SelectedItems.Clear();
+        }
+
+        private void frmDateMSO_Picker_Activated(object sender, EventArgs e)
+        {
+            if (GV.MODE == Mode.Report_Rollup)
+            {
+                lbMSO.SelectedItems.Clear();
+            }
+        }
+
+        private void btnSelectAll_Click(object sender, EventArgs e)
+        {
+            allSelected = true;
+            for (int i = 0; i < lbMSO.Items.Count; i++)
+            {
+                lbMSO.SetSelected(i, true);
+            }
+        }
+
+        private void btnDeselect_Click(object sender, EventArgs e)
+        {
+            lbMSO.ClearSelected();
+            allSelected  = false;
         }
     }
 
