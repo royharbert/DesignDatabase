@@ -27,7 +27,7 @@ namespace DesignDB_Library.Operations
 
             //Place column headings
             wks.Cells[2, 1].Value = "Salesperson";
-            wks.Cells[2, 2].Value = "Total $";
+            wks.Cells[2, 2].Value = "Total $ *";
             wks.Cells[2, 3].Value = "Average $";
             wks.Cells[2, 4].Value = "Total Count";
             wks.Cells[2, 5].Value = "% of Total Value";
@@ -80,9 +80,10 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 16] = model.NovProjects;
                 wks.Cells[row, 17] = model.DecProjects;
                 wks.Cells[row, 18] = model.Weekly;
-                //wks.Cells[row, 19] = model.Total;
                 row++;
             }
+            wks.Cells[row, 1].Value = "* Values in Total Row/Average Column includes Has Revision";
+            row++;
             int categoryStartRow = row;
             //wks.Cells[row, 2].Value = bomTotal;
             Excel.Range decRange = wks.Range[wks.Cells[2, 5], wks.Cells[row, 5]];
@@ -90,7 +91,7 @@ namespace DesignDB_Library.Operations
 
             Excel.Range currencyRange = wks.Range[wks.Cells[2, 2], wks.Cells[row, 3]];
             FormatExcelRangeAsCurrency(wks, currencyRange);
-            Excel.Range summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 17]];
+            Excel.Range summaryRange = wks.Range[wks.Cells[row - 2, 1], wks.Cells[row - 1, 17]];
             summaryRange.Font.Bold = true;
 
             //Monthly MSO Summary
