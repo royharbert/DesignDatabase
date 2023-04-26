@@ -11,16 +11,32 @@ namespace DesignDB_Library.Operations
 {
     public static class FileOps
     {
-        public static void SaveAttFile(AttachmentModel model)
+        public static bool SaveAttFile(AttachmentModel model)
         {
             string fullSavePath = GlobalConfig.AttachmentPath + "\\" + model.PID;
-            if (!Directory.Exists(fullSavePath))
+            bool fileSaved = false;
+
+            try
             {
-                Directory.CreateDirectory(fullSavePath);
+                if (!Directory.Exists(fullSavePath))
+                {
+                    Directory.CreateDirectory(fullSavePath);
+                }
+                string fullFileName = fullSavePath + "\\" + model.DisplayText;
+                File.Copy(model.FileToSave, fullFileName, true);
+                MessageBox.Show("1 file copied");
+                fileSaved = true;
+            
+    }
+            catch (Exception e)
+            {
+                if(e.Message.Contains("network path was not found"))
+                {
+                    MessageBox.Show("Attachment server unreachable. Check VPN and network status" );
+                    fileSaved = false;
+                }                
             }
-            string fullFileName = fullSavePath + "\\" + model.DisplayText;
-            File.Copy(model.FileToSave, fullFileName, true);
-            //MessageBox.Show("1 file copied");
+            return fileSaved;
             
         }
     }

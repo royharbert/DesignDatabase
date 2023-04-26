@@ -130,6 +130,7 @@ namespace DesignDB_UI
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1072, 959);
+            this.ControlBox = false;
             this.Controls.Add(this.pbProgress);
             this.Controls.Add(this.lblRecordsProcessed);
             this.Controls.Add(this.txtRecordsProcessed);

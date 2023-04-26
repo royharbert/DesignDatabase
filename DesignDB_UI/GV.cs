@@ -30,7 +30,7 @@ namespace DesignDB_UI
             set
             { 
                 PreviousMode = mode;
-                mode = value;
+                mode = value;                
             }
         }
         public static Mode PreviousMode { get; set; }

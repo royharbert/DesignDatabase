@@ -514,9 +514,10 @@ namespace DesignDB_UI
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            GV.MODE = Mode.Search;
+            GV.MODE = Mode.SearchFields;
             FC.DisplayRequestForm();
             GV.REQFORM.resetForm();
+            
         }
 
 

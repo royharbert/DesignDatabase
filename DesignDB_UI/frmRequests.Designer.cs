@@ -118,6 +118,12 @@ namespace DesignDB_UI
             this.tlpSearch = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.commonBEDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.gbDateRange = new System.Windows.Forms.GroupBox();
+            this.ckFilter = new System.Windows.Forms.CheckBox();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.dtpEnd = new System.Windows.Forms.DateTimePicker();
+            this.dtpStart = new System.Windows.Forms.DateTimePicker();
             this.ddContextMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachments)).BeginInit();
             this.dtpContextMenu.SuspendLayout();
@@ -129,6 +135,7 @@ namespace DesignDB_UI
             this.tlpSearch.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.commonBEDataSetBindingSource)).BeginInit();
+            this.gbDateRange.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtPID
@@ -172,6 +179,7 @@ namespace DesignDB_UI
             this.cboMSO.TabIndex = 0;
             this.cboMSO.Tag = "U|MSO|tblMSO|MSO|MSO";
             this.cboMSO.SelectedIndexChanged += new System.EventHandler(this.cboMSO_SelectedIndexChanged);
+            this.cboMSO.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             // 
             // label2
             // 
@@ -209,6 +217,7 @@ namespace DesignDB_UI
             this.cboCities.Size = new System.Drawing.Size(258, 28);
             this.cboCities.TabIndex = 2;
             this.cboCities.Tag = "L|City|tblCities|city|City";
+            this.cboCities.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.cboCities.Enter += new System.EventHandler(this.cboCities_Enter);
             this.cboCities.Leave += new System.EventHandler(this.cboCities_Leave);
             // 
@@ -237,6 +246,7 @@ namespace DesignDB_UI
             this.txtCust.Size = new System.Drawing.Size(258, 22);
             this.txtCust.TabIndex = 1;
             this.txtCust.Tag = "L|Cust";
+            this.txtCust.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.txtCust.Enter += new System.EventHandler(this.txtCust_Enter);
             this.txtCust.Leave += new System.EventHandler(this.txtCust_Leave);
             // 
@@ -277,6 +287,7 @@ namespace DesignDB_UI
             this.cboAssisted.Size = new System.Drawing.Size(258, 28);
             this.cboAssisted.TabIndex = 10;
             this.cboAssisted.Tag = "L|AssistedBy|tbReviewers|Designer|Assisted By";
+            this.cboAssisted.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.cboAssisted.Enter += new System.EventHandler(this.cboAssisted_Enter);
             this.cboAssisted.Leave += new System.EventHandler(this.cboAssisted_Leave);
             // 
@@ -307,6 +318,7 @@ namespace DesignDB_UI
             this.cboDesigner.Size = new System.Drawing.Size(258, 28);
             this.cboDesigner.TabIndex = 9;
             this.cboDesigner.Tag = "L|Designer|tblReviewers|Designer|Designer";
+            this.cboDesigner.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.cboDesigner.Enter += new System.EventHandler(this.cboDesigner_Enter);
             this.cboDesigner.Leave += new System.EventHandler(this.cboDesigner_Leave);
             // 
@@ -342,6 +354,7 @@ namespace DesignDB_UI
             this.cboPriority.TabIndex = 8;
             this.cboPriority.Tag = "L|Pty|||Priority";
             this.cboPriority.SelectedIndexChanged += new System.EventHandler(this.cboPriority_SelectedIndexChanged);
+            this.cboPriority.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.cboPriority.Enter += new System.EventHandler(this.cboPriority_Enter);
             this.cboPriority.Leave += new System.EventHandler(this.cboPriority_Leave);
             // 
@@ -379,6 +392,7 @@ namespace DesignDB_UI
             this.cboQuoteType.Size = new System.Drawing.Size(258, 28);
             this.cboQuoteType.TabIndex = 7;
             this.cboQuoteType.Tag = "L|QuoteType|||Quote Type";
+            this.cboQuoteType.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.cboQuoteType.Enter += new System.EventHandler(this.cboQuoteType_Enter);
             this.cboQuoteType.Leave += new System.EventHandler(this.cboQuoteType_Leave);
             // 
@@ -408,6 +422,7 @@ namespace DesignDB_UI
             this.cboRequestor.Size = new System.Drawing.Size(258, 28);
             this.cboRequestor.TabIndex = 6;
             this.cboRequestor.Tag = "L|DesignRequestor|tblSalespersons|SalesPerson|Salesperson";
+            this.cboRequestor.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.cboRequestor.Enter += new System.EventHandler(this.cboRequestor_Enter);
             this.cboRequestor.Leave += new System.EventHandler(this.cboRequestor_Leave);
             // 
@@ -438,6 +453,7 @@ namespace DesignDB_UI
             this.cboRegion.Size = new System.Drawing.Size(258, 28);
             this.cboRegion.TabIndex = 5;
             this.cboRegion.Tag = "L|Region|tblRegions|Region|Region";
+            this.cboRegion.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.cboRegion.Enter += new System.EventHandler(this.cboRegion_Enter);
             this.cboRegion.Leave += new System.EventHandler(this.cboRegion_Leave);
             // 
@@ -467,6 +483,7 @@ namespace DesignDB_UI
             this.cboCountry.Size = new System.Drawing.Size(258, 28);
             this.cboCountry.TabIndex = 4;
             this.cboCountry.Tag = "L|Country|tblCountries|Country|Country";
+            this.cboCountry.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.cboCountry.Enter += new System.EventHandler(this.cboCountry_Enter);
             this.cboCountry.Leave += new System.EventHandler(this.cboCountry_Leave);
             // 
@@ -496,6 +513,7 @@ namespace DesignDB_UI
             this.cboState.Size = new System.Drawing.Size(258, 28);
             this.cboState.TabIndex = 3;
             this.cboState.Tag = "L|ST|tblStates|State|State";
+            this.cboState.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.cboState.Enter += new System.EventHandler(this.cboState_Enter);
             this.cboState.Leave += new System.EventHandler(this.cboState_Leave);
             // 
@@ -516,6 +534,7 @@ namespace DesignDB_UI
             this.txtProjName.Size = new System.Drawing.Size(258, 22);
             this.txtProjName.TabIndex = 11;
             this.txtProjName.Tag = "L|ProjectName";
+            this.txtProjName.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.txtProjName.Enter += new System.EventHandler(this.txtProjName_Enter);
             this.txtProjName.Leave += new System.EventHandler(this.txtProjName_Leave);
             // 
@@ -568,6 +587,7 @@ namespace DesignDB_UI
             this.cboArchType.Size = new System.Drawing.Size(258, 28);
             this.cboArchType.TabIndex = 14;
             this.cboArchType.Tag = "L|ArchitectureType|||Architecture Type";
+            this.cboArchType.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.cboArchType.Enter += new System.EventHandler(this.cboArchType_Enter);
             this.cboArchType.Leave += new System.EventHandler(this.cboArchType_Leave);
             // 
@@ -607,6 +627,7 @@ namespace DesignDB_UI
             this.cboCategory.Size = new System.Drawing.Size(258, 28);
             this.cboCategory.TabIndex = 13;
             this.cboCategory.Tag = "L|Category|||Category";
+            this.cboCategory.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.cboCategory.Enter += new System.EventHandler(this.cboCategory_Enter);
             this.cboCategory.Leave += new System.EventHandler(this.cboCategory_Leave);
             // 
@@ -636,6 +657,7 @@ namespace DesignDB_UI
             this.cboOrigQuote.Size = new System.Drawing.Size(258, 28);
             this.cboOrigQuote.TabIndex = 12;
             this.cboOrigQuote.Tag = "L|OriginalQuote|||Original Quote";
+            this.cboOrigQuote.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.cboOrigQuote.Enter += new System.EventHandler(this.cboOrigQuote_Enter);
             this.cboOrigQuote.Leave += new System.EventHandler(this.cboOrigQuote_Leave);
             // 
@@ -696,6 +718,7 @@ namespace DesignDB_UI
             this.cboReviewedBy.Size = new System.Drawing.Size(234, 28);
             this.cboReviewedBy.TabIndex = 19;
             this.cboReviewedBy.Tag = "L|ReviewedBy|tblReviewers|Designer|Reviewed By";
+            this.cboReviewedBy.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.cboReviewedBy.Enter += new System.EventHandler(this.cboReviewedBy_Enter);
             this.cboReviewedBy.Leave += new System.EventHandler(this.cboReviewedBy_Leave);
             // 
@@ -733,6 +756,7 @@ namespace DesignDB_UI
             this.cboAwardStatus.Size = new System.Drawing.Size(234, 28);
             this.cboAwardStatus.TabIndex = 23;
             this.cboAwardStatus.Tag = "L|AwardStatus|||Award Status";
+            this.cboAwardStatus.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.cboAwardStatus.Enter += new System.EventHandler(this.cboAwardStatus_Enter);
             this.cboAwardStatus.Leave += new System.EventHandler(this.cboAwardStatus_Leave);
             // 
@@ -756,7 +780,7 @@ namespace DesignDB_UI
             this.txtBOM_Val.Size = new System.Drawing.Size(234, 22);
             this.txtBOM_Val.TabIndex = 20;
             this.txtBOM_Val.Tag = "L|BOM_Value";
-            this.txtBOM_Val.TextChanged += new System.EventHandler(this.txtBOM_Val_TextChanged);
+            this.txtBOM_Val.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.txtBOM_Val.Enter += new System.EventHandler(this.txtBOM_Val_Enter);
             this.txtBOM_Val.Leave += new System.EventHandler(this.txtBOM_Val_Leave);
             // 
@@ -780,7 +804,7 @@ namespace DesignDB_UI
             this.txtPctCovered.Size = new System.Drawing.Size(234, 22);
             this.txtPctCovered.TabIndex = 21;
             this.txtPctCovered.Tag = "L|PercentageProjectCovered";
-            this.txtPctCovered.TextChanged += new System.EventHandler(this.txtPctCovered_TextChanged);
+            this.txtPctCovered.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.txtPctCovered.Enter += new System.EventHandler(this.txtPctCovered_Enter);
             this.txtPctCovered.Leave += new System.EventHandler(this.txtPctCovered_Leave);
             // 
@@ -805,6 +829,7 @@ namespace DesignDB_UI
             this.txtTotalVal.Size = new System.Drawing.Size(234, 22);
             this.txtTotalVal.TabIndex = 22;
             this.txtTotalVal.Tag = "";
+            this.txtTotalVal.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             // 
             // label25
             // 
@@ -833,6 +858,7 @@ namespace DesignDB_UI
             this.txtTotalHours.Size = new System.Drawing.Size(234, 22);
             this.txtTotalHours.TabIndex = 24;
             this.txtTotalHours.Tag = "L|TotalHours";
+            this.txtTotalHours.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.txtTotalHours.Enter += new System.EventHandler(this.txtTotalHours_Enter);
             this.txtTotalHours.Leave += new System.EventHandler(this.txtTotalHours_Leave);
             // 
@@ -854,6 +880,7 @@ namespace DesignDB_UI
             this.rtbArchDetails.TabIndex = 26;
             this.rtbArchDetails.Tag = "L|ArchitectureDetails";
             this.rtbArchDetails.Text = "";
+            this.rtbArchDetails.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.rtbArchDetails.Enter += new System.EventHandler(this.rtbArchDetails_Enter);
             this.rtbArchDetails.Leave += new System.EventHandler(this.rtbArchDetails_Leave);
             // 
@@ -883,6 +910,7 @@ namespace DesignDB_UI
             this.rtbComments.TabIndex = 27;
             this.rtbComments.Tag = "L|Comments";
             this.rtbComments.Text = "";
+            this.rtbComments.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.rtbComments.Enter += new System.EventHandler(this.rtbComments_Enter);
             this.rtbComments.Leave += new System.EventHandler(this.rtbComments_Leave);
             // 
@@ -896,6 +924,7 @@ namespace DesignDB_UI
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(372, 22);
             this.txtSearch.TabIndex = 60;
+            this.txtSearch.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             // 
             // label30
             // 
@@ -1424,6 +1453,71 @@ namespace DesignDB_UI
             this.tableLayoutPanel1.Size = new System.Drawing.Size(665, 50);
             this.tableLayoutPanel1.TabIndex = 75;
             // 
+            // gbDateRange
+            // 
+            this.gbDateRange.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.gbDateRange.Controls.Add(this.ckFilter);
+            this.gbDateRange.Controls.Add(this.label31);
+            this.gbDateRange.Controls.Add(this.label32);
+            this.gbDateRange.Controls.Add(this.dtpEnd);
+            this.gbDateRange.Controls.Add(this.dtpStart);
+            this.gbDateRange.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbDateRange.Location = new System.Drawing.Point(529, 669);
+            this.gbDateRange.Name = "gbDateRange";
+            this.gbDateRange.Size = new System.Drawing.Size(437, 88);
+            this.gbDateRange.TabIndex = 209;
+            this.gbDateRange.TabStop = false;
+            this.gbDateRange.Text = "Optional Date Range Filter";
+            // 
+            // ckFilter
+            // 
+            this.ckFilter.AutoSize = true;
+            this.ckFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckFilter.Location = new System.Drawing.Point(6, 37);
+            this.ckFilter.Name = "ckFilter";
+            this.ckFilter.Size = new System.Drawing.Size(83, 22);
+            this.ckFilter.TabIndex = 4;
+            this.ckFilter.Text = "Filter On";
+            this.ckFilter.UseVisualStyleBackColor = true;
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label31.Location = new System.Drawing.Point(93, 62);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(69, 18);
+            this.label31.TabIndex = 3;
+            this.label31.Text = "End Date";
+            this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label32.Location = new System.Drawing.Point(88, 28);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(74, 18);
+            this.label32.TabIndex = 2;
+            this.label32.Text = "Start Date";
+            this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // dtpEnd
+            // 
+            this.dtpEnd.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpEnd.Location = new System.Drawing.Point(166, 58);
+            this.dtpEnd.Name = "dtpEnd";
+            this.dtpEnd.Size = new System.Drawing.Size(259, 24);
+            this.dtpEnd.TabIndex = 1;
+            // 
+            // dtpStart
+            // 
+            this.dtpStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpStart.Location = new System.Drawing.Point(166, 28);
+            this.dtpStart.Name = "dtpStart";
+            this.dtpStart.Size = new System.Drawing.Size(259, 24);
+            this.dtpStart.TabIndex = 0;
+            // 
             // frmRequests
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1431,6 +1525,7 @@ namespace DesignDB_UI
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(1689, 888);
+            this.Controls.Add(this.gbDateRange);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.tlpSearch);
             this.Controls.Add(this.tlpBottom);
@@ -1464,6 +1559,8 @@ namespace DesignDB_UI
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.commonBEDataSetBindingSource)).EndInit();
+            this.gbDateRange.ResumeLayout(false);
+            this.gbDateRange.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1556,5 +1653,11 @@ namespace DesignDB_UI
         private System.Windows.Forms.ToolStripMenuItem clearValueToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip dtpContextMenu;
         private System.Windows.Forms.ToolStripMenuItem clearDateToolStripMenuItem;
+        private System.Windows.Forms.GroupBox gbDateRange;
+        private System.Windows.Forms.CheckBox ckFilter;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.DateTimePicker dtpEnd;
+        private System.Windows.Forms.DateTimePicker dtpStart;
     }
 }

@@ -19,6 +19,7 @@ namespace DesignDB_Library.Operations
 
             //delete the file
             string fullFilePath = GlobalConfig.AttachmentPath + "\\" + model.PID + "\\" + model.DisplayText;
+            List<AttachmentModel> modelList= new List<AttachmentModel>();
 
             try
             {
@@ -27,8 +28,6 @@ namespace DesignDB_Library.Operations
             catch (Exception ex)
             {
                 string exDescription = ex.Message;
-                MessageBox.Show("An error occurred while trying to delete the file. "
-                    + ex.Message);
                 success = false;
             }
 
@@ -36,10 +35,10 @@ namespace DesignDB_Library.Operations
             if (success)
             {
                 GlobalConfig.Connection.DeleteAttachment(model);
+                modelList = GlobalConfig.Connection.GetAttachments(model.PID);
+                MessageBox.Show("Attachment " + model.DisplayText + " has been deleted");
             }
 
-            List<AttachmentModel> modelList = GlobalConfig.Connection.GetAttachments(model.PID);
-            MessageBox.Show("Attachment " + model.DisplayText + " has been deleted");
             return modelList;
         }
 

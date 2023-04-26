@@ -51,6 +51,7 @@ namespace DesignDB_UI
                 dgvResults.DataSource = null;
                 dgvResults.DataSource = Requests;
                 ReportOps.FormatMultiResultDGV(dgvResults);
+                //GV.MODE = Mode.Edit;
             }
         }
 

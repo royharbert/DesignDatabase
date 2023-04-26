@@ -89,10 +89,14 @@ namespace DesignDB_UI
         public static frmRequests DisplayRequestForm(RequestModel request = null)
         {
             Cursor.Current = Cursors.WaitCursor;
-            GV.REQFORM.Request = request;
+            if (request != null)
+            {
+                GV.REQFORM.Request = request; 
+            }
+            GV.REQFORM.setDateRangeControls();
             GV.REQFORM.Show();
             Point altLocation = GV.REQFORM.FormLocation;
-            FC.SetFormPosition(GV.REQFORM, altLocation.X, altLocation.Y, GV.REQFORM.UseDefaultLocation);
+            FC.SetFormPosition(GV.REQFORM, altLocation.X, altLocation.Y, GV.REQFORM.UseDefaultLocation);            
             GV.REQFORM.BringToFront();
             Cursor.Current = Cursors.Default;
             return GV.REQFORM;

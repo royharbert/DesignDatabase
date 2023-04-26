@@ -34,6 +34,7 @@ namespace DesignDB_UI
         static string RequestDeleteButtons = "btnDelete";
         static string RequestRestoreButtons = "btnRestore";
         static string RequestSearchButtons = "btnSearchFields,btnNewSearch";
+        static string RequestSearchFieldsButtons = "btnSearchFields";
 
         bool formLoading;
         bool formDirty;
@@ -74,15 +75,20 @@ namespace DesignDB_UI
                 Application.DoEvents();
                 Rm = value;
                 prepFormForTask();
-                if (Rm != null)
+               
+                insertData(Rm);
+                if (Rm.ProjectID != null)
                 {
-                    insertData(Rm);
+                    GV.MODE = Mode.Edit;
+                    setButtonDisplay(RequestEditButtons); 
                 }
+                
                 getAttachments(txtPID.Text);
                 if (GV.MODE == Mode.New)
                 {
                     cboCountry.SelectedIndex = 188;
                 }
+                
                 formLoading = false;
                 formDirty = false;
                 addHandlers();
@@ -142,6 +148,9 @@ namespace DesignDB_UI
 
                 case Mode.Forecast:
                     unlockTLP(true);
+                    break;
+                case Mode.SearchFields:
+                    setButtonDisplay(RequestSearchFieldsButtons);
                     break;
 
                 default:
@@ -487,6 +496,12 @@ namespace DesignDB_UI
                 case Mode.Search:
                     searchReset();
                     break;
+                case Mode.SearchFields:
+                    searchReset();
+                    btnSearchFields.Visible = true;
+                    btnSearchFields.Text = "Search";
+                    //formLoading = false;
+                    break;
                 case Mode.Edit:
                     resetDTPs(false);
                     break;
@@ -673,7 +688,8 @@ namespace DesignDB_UI
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            GV.MODE = Mode.Edit;
+            changeMode(Mode.Edit);
+            //GV.MODE = Mode.Edit;
             string search = '%' + txtSearch.Text + '%';
             List<RequestModel> rm = GlobalConfig.Connection.GetRequestByPID(search).ToList();
             frmMainMenu.ManageSearchResults(rm);
@@ -689,7 +705,8 @@ namespace DesignDB_UI
                 checkForSave();
             }
 
-            GV.MODE = Mode.None;
+            //GV.MODE = Mode.None;
+            changeMode(Mode.None);
             resetForm();
             logFieldList.Clear();
             GV.REQFORM.Hide();
@@ -721,7 +738,8 @@ namespace DesignDB_UI
                 case Mode.Revision:
                     saved = GlobalConfig.Connection.RequestInsert(Rm);
                     logSuccessfulSave(saved);
-                    GV.MODE = Mode.Edit;
+                    //GV.MODE = Mode.Edit;
+                    changeMode(Mode.Edit);
                     break;
                 case Mode.Edit:
                     saved = GlobalConfig.Connection.RequestUpdate(Rm);
@@ -730,7 +748,8 @@ namespace DesignDB_UI
                 case Mode.Clone:
                     saved = RequestOps.InsertNewRequest(Rm);
                     logSuccessfulSave(saved);
-                    GV.MODE = Mode.Edit;
+                    //GV.MODE = Mode.Edit;
+                    changeMode(Mode.Edit);
                     break;
                 case Mode.Delete:
                     break;
@@ -751,7 +770,8 @@ namespace DesignDB_UI
         private void btnClone_Click(object sender, EventArgs e)
         {
             saveChanges();
-            GV.MODE = Mode.Clone;
+            //GV.MODE = Mode.Clone;
+            changeMode(Mode.Clone);
             //Rm.msoModel = cboMSO.SelectedItem as MSO_Model;
             Rm = RequestOps.Clone(Rm);
 
@@ -768,7 +788,8 @@ namespace DesignDB_UI
             {
                 checkForSave();
             }
-            GV.MODE = Mode.New;
+            //GV.MODE = Mode.New;
+            changeMode(Mode.New);
             cboMSO.Enabled = true;
             Rm = new RequestModel();
             resetForm();
@@ -789,7 +810,8 @@ namespace DesignDB_UI
 
         private void btnRev_Click(object sender, EventArgs e)
         {
-            GV.MODE = Mode.Revision;
+            //GV.MODE = Mode.Revision;
+            changeMode(Mode.Revision);
             if (formDirty)
             {
                 checkForSave();
@@ -821,7 +843,8 @@ namespace DesignDB_UI
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            GV.MODE = Mode.Delete;
+            //GV.MODE = Mode.Delete;
+            changeMode(Mode.Delete);
             DialogResult result = confirmAction();
             if (result == DialogResult.Yes)
             {
@@ -834,7 +857,8 @@ namespace DesignDB_UI
 
         private void btnAddAtt_Click(object sender, EventArgs e)
         {
-            GV.MODE = Mode.Add_Attachment;
+            //GV.MODE = Mode.Add_Attachment;
+            changeMode(Mode.Add_Attachment);
             AttachmentModel model = new AttachmentModel();
             frm = new frmAttType(model);
             frm.TypeReadyEvent += Frm_TypeReadyEvent;
@@ -880,12 +904,15 @@ namespace DesignDB_UI
         private void Frm_TypeReadyEvent(object sender, AttachmentModel e)
         {
             string fileName = GlobalConfig.AttachmentPath + "\\" + e.PID + "\\" + e.DisplayText;
-            FileOps.SaveAttFile(e);
-            GlobalConfig.Connection.InsertInto_tblAttachments(e);
-            List<AttachmentModel> aList = GlobalConfig.Connection.GetAttachments(e.PID);
-            dgvAttachments.DataSource = null;
-            dgvAttachments.DataSource = aList;
-            formatAttGrid();
+            bool fileSaved = FileOps.SaveAttFile(e);
+            if (fileSaved)
+            {
+                GlobalConfig.Connection.InsertInto_tblAttachments(e);
+                List<AttachmentModel> aList = GlobalConfig.Connection.GetAttachments(e.PID);
+                dgvAttachments.DataSource = null;
+                dgvAttachments.DataSource = aList;
+                formatAttGrid(); 
+            }
         }
 
         private void txtPID_TextChanged(object sender, EventArgs e)
@@ -920,24 +947,47 @@ namespace DesignDB_UI
         {
             //use class to accomplish
             //make attachment model and pass to class
-            GV.MODE = Mode.Delete_Attachment;
+            //GV.MODE = Mode.Delete_Attachment;
+            changeMode(Mode.Delete_Attachment);
             if (dgvAttachments.CurrentRow != null)
             {
                 int sel = dgvAttachments.CurrentRow.Index;
                 List<AttachmentModel> aList = (List<AttachmentModel>)dgvAttachments.DataSource;
                 AttachmentModel model = aList[sel];
-                List<AttachmentModel> newList = AttachmentOps.DeleteAttachment(model);
-                dgvAttachments.DataSource = null;
-                dgvAttachments.DataSource = newList;
-                formatAttGrid();
-                prepForButtonLogEntry(model.DisplayText);
-            }
-            else
-            {
-                MessageBox.Show("No row selected for deletion. \nPlease click left margin of desired row");
-            }
-        }
+                List<AttachmentModel> newList = new List<AttachmentModel>();
+                
 
+
+                try
+                {
+                    newList = AttachmentOps.DeleteAttachment(model);
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message.Contains("network path was not found"))
+                    {
+                    }
+
+                    //else
+                    //{
+                    //    MessageBox.Show("Connection to Attachment Server lost. Check VPN and network status.");
+                    //}
+                }
+                if(newList.Count == 0)
+                {
+                    //MessageBox.Show("No row selected for deletion. \nPlease click left margin of desired row");
+                    MessageBox.Show("Attachment not deleted. Attachment server unreachable. Check VPN and network status");
+                }
+                else 
+                {
+                    dgvAttachments.DataSource = null;
+                    dgvAttachments.DataSource = newList;
+                    formatAttGrid();
+                    prepForButtonLogEntry(model.DisplayText);                
+                }
+            }
+            
+        }
         private void txtPctCovered_TextChanged(object sender, EventArgs e)
         {
             if (GV.MODE != Mode.Search)
@@ -956,7 +1006,8 @@ namespace DesignDB_UI
 
         private void btnUndo_Click(object sender, EventArgs e)
         {
-            GV.MODE = Mode.Undo;
+            //GV.MODE = Mode.Undo;
+            changeMode(Mode.Undo);
             Rm = initialRequest;
             insertData(Rm);
             GV.MODE = GV.PreviousMode;
@@ -1105,7 +1156,8 @@ namespace DesignDB_UI
 
         private void btnRestore_Click(object sender, EventArgs e)
         {
-            GV.MODE = Mode.Restore;
+            //GV.MODE = Mode.Restore;
+            changeMode(Mode.Restore);
             DialogResult result = confirmAction();
             if (result == DialogResult.Yes)
             {
@@ -1121,7 +1173,8 @@ namespace DesignDB_UI
         {
             if (btnSearchFields.Text == "Search")
             {
-                GV.MODE = Mode.Search;
+                //GV.MODE = Mode.Search;
+                changeMode(Mode.SearchFields);
                 List<TableLayoutPanel> tlpList = new List<TableLayoutPanel>();
                 tlpList.Add(tlpLeft);
                 tlpList.Add(tlpCenterTop);
@@ -1138,7 +1191,10 @@ namespace DesignDB_UI
             }
             else
             {
+                //GV.MODE = Mode.Search;
+                changeMode(Mode.SearchFields);
                 btnSearchFields.Text = "Search";
+                btnSearch.Visible = true;
                 searchReset();
             }
         }
@@ -1243,15 +1299,12 @@ namespace DesignDB_UI
         private void frmRequests_Activated(object sender, EventArgs e)
         {
             FC.SetFormPosition(this, _formLocation.X, _formLocation.Y, _useDefaultLocation);
-            switch (GV.MODE)
+            if (GV.MODE == Mode.Edit)
             {
-                case Mode.Search:
-                    setButtonDisplay("btnSearchFields");
-                    break;
-                default:
-                    setButtonDisplay();
-                    break;
+                btnSearchFields.Text = "Search";
             }
+            this.Text = "Design Request - Mode: " + GV.MODE;
+            
             //MakeActiveDependantLists();
 
         }
@@ -1277,6 +1330,17 @@ namespace DesignDB_UI
             if (!formLoading)
             {
                 _useDefaultLocation = false;
+            }
+            switch (GV.MODE)
+            {
+                case Mode.Search:
+                    tlpSearch.Visible = false;
+                    gbDateRange.Visible = true;
+                    break;
+                default:
+                    tlpSearch.Visible = true;
+                    gbDateRange.Visible = false;
+                    break;
             }
             Application.DoEvents();
         }
@@ -1574,8 +1638,10 @@ namespace DesignDB_UI
 
         private void searchReset()
         {
+            formLoading = true;
             Rm = new RequestModel();
             generalReset();
+            formLoading = true;
             txtBOM_Val.Clear();
             txtPctCovered.Clear();
             txtTotalVal.Clear();
@@ -1588,5 +1654,35 @@ namespace DesignDB_UI
             formDirty = false;            
         }
 
+        public void setDateRangeControls()
+        {
+            switch (GV.MODE)
+            {
+                case Mode.Search:
+                    tlpSearch.Visible = false;
+                    gbDateRange.Visible = true;
+                    break;
+                default:
+                    tlpSearch.Visible = true;
+                    gbDateRange.Visible = false;
+                    break;
+            }
+        }
+
+        private void cboMSO_TextChanged(object sender, EventArgs e)
+        {
+            if (!formLoading)
+            {
+                //GV.MODE = Mode.Edit;
+                changeMode(Mode.Edit); 
+                formDirty = true;
+            }
+        }
+
+        private void changeMode(Mode mode) 
+        {
+            GV.MODE = mode;
+            prepFormForTask();
+        }
     }   
 }

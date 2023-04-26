@@ -27,6 +27,7 @@ namespace DesignDB_UI
         Report_Overdue,
         Report_Rollup,
         Search,
+        SearchFields,
         Undo,
         Log_Search,
         Log_View,

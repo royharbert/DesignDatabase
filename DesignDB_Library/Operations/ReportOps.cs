@@ -53,12 +53,32 @@ namespace DesignDB_Library.Operations
                 msoList = msoModels;
             }
             
-            //initialize model to hold report values
+            //initialize model to hold total report values
             Report_SalesProjectValuesModel accumulator = new Report_SalesProjectValuesModel();
             accumulator.SalesPerson = "Total";
 
             //eliminate cancels, has revision and no
             //accumulator.CurrentYTD_Value = requests.Where(x => x.AwardStatus != "Canceled").Sum(x => x.BOM_Value);
+            List<List<RequestModel>> awardLists = new List<List<RequestModel>>();
+            List<RequestModel> Pending = requests.Where(r => r.AwardStatus == "Pending").ToList();
+            awardLists.Add(Pending);
+            Pending = null;
+            List<RequestModel> HasRevision = requests.Where(r => r.AwardStatus == "Has Revision").ToList();
+            awardLists.Add(HasRevision);
+            HasRevision = null;
+            List<RequestModel> Cancels = requests.Where(r => r.AwardStatus == "Canceled").ToList();
+            awardLists.Add(Cancels);
+            Cancels = null;
+            List<RequestModel> Inactive = requests.Where(r => r.AwardStatus == "Inactive").ToList();
+            awardLists.Add(Inactive);
+            Inactive = null;
+            List<RequestModel> YesRequests = requests.Where(r => r.AwardStatus == "Yes").ToList();
+            awardLists.Add(YesRequests);
+            YesRequests = null;
+            List<RequestModel> NoRequests = requests.Where(r => r.AwardStatus == "No").ToList();
+            awardLists.Add(NoRequests);
+            NoRequests = null;
+
             accumulator.CurrentYear_Count = requests.Count;
             accumulator.AverageDollars = accumulator.CurrentYTD_Value / accumulator.CurrentYear_Count;
 
@@ -70,7 +90,7 @@ namespace DesignDB_Library.Operations
 
                 //preserve requests as unchanged, assign list to salesRequests for filtering
                 List<RequestModel> salesRequests = requests.Where(x => x.DesignRequestor == name && x.AwardStatus != "Has Revision" && x.AwardStatus != "Canceled").ToList();
-
+                //salesRequests = salesRequests.OrderBy(x => x.BOM_Value).ToList();
                 if (salesRequests.Count > 0)
                 {
                     Report_SalesProjectValuesModel model = new Report_SalesProjectValuesModel();
@@ -148,14 +168,15 @@ namespace DesignDB_Library.Operations
                     }
                     //get requests filtering only cancels
                     accumulator.CurrentYTD_Value = accumulator.CurrentYTD_Value + model.CurrentYTD_Value;
-                    model.AverageDollars = totalValue / model.CurrentYear_Count;
+                    model.AverageDollars = model.CurrentYTD_Value / model.CurrentYear_Count;
                     model.PctTotalValue = model.CurrentYTD_Value / accumulator.CurrentYTD_Value;
                     accumulator.PctTotalValue = 1;
                     projectRollup.Add(model);
+                    projectRollup = projectRollup.OrderByDescending(x => x.CurrentYTD_Value).ToList();
                 }
             }
             
-            accumulator.AverageDollars =totalValue / accumulator.CurrentYear_Count;
+            accumulator.AverageDollars = totalValue / accumulator.CurrentYear_Count;
             projectRollup.Add(accumulator);
 
 
@@ -298,6 +319,7 @@ namespace DesignDB_Library.Operations
             categorySummary.UnassignedDollars = categoryReport.Sum(x => x.UnassignedDollars);
 
             categoryReport.Add(categorySummary);
+            categoryReport = categoryReport.OrderByDescending(x => x.TotalDollars).ToList();
 
             //Open Requests by salesperson
             List<RequestModel> openDesignBySales = GlobalConfig.Connection.GetOpenRequests();
@@ -376,13 +398,15 @@ namespace DesignDB_Library.Operations
                         accumulatorModel.Count++;
                     }                        
                     openRequestsBySales.Add(openModel);
+                    openRequestsBySales = openRequestsBySales.OrderByDescending(x => x.Count).ToList();
                 }
             }
             
             openRequestsBySales.Add(accumulatorModel);
             List<ReportSalesPriorityModel> priorityReport = ReportBySalesPriority(requests, salespersons, msoList);
             List<Report_SalesProjectValuesModel> msoSummary = MonthlyMSO_Summary(msoList, requests, startDate, endDate);
-            ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, categoryReport, projectRollup, priorityReport, accumulator.CurrentYTD_Value, msoSummary, msoModels);
+            ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, categoryReport, projectRollup, priorityReport, 
+                accumulator.CurrentYTD_Value, msoSummary, msoModels, awardLists);
         }
 
         public static List<ReportSalesPriorityModel> ReportBySalesPriority(List<RequestModel> requests, List<SalespersonModel> salesPeople, List<MSO_Model> msoList)
@@ -441,6 +465,7 @@ namespace DesignDB_Library.Operations
                     priorityModels.Add(model);
                 }
             }
+            priorityModels = priorityModels.OrderByDescending(x => x.TotalCount).ToList();
             priorityModels.Add(companyTotal);
             percentModel.TotalCount = companyTotal.TotalCount / companyTotal.TotalCount;
             percentModel.P1Count = companyTotal.P1Count / companyTotal.TotalCount;
@@ -541,6 +566,7 @@ namespace DesignDB_Library.Operations
                     //accumulatorModel.PctTotalValue = accumulatorModel.PctTotalValue + openModel.PctTotalValue;
                     accumulatorModel.PctTotalValue = 1;
                     result.Add(openModel);
+                    result = result.OrderByDescending(x => x.CurrentYTD_Value).ToList();
                 }
             }
             accumulatorModel.AverageDollars = accumulatorModel.CurrentYTD_Value / accumulatorModel.CurrentYear_Count;
