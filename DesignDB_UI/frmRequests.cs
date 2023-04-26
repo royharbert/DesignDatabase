@@ -77,7 +77,7 @@ namespace DesignDB_UI
                 prepFormForTask();
                
                 insertData(Rm);
-                if (Rm.ProjectID != null)
+                if (Rm.ProjectID != null && GV.MODE != Mode.New )
                 {
                     GV.MODE = Mode.Edit;
                     setButtonDisplay(RequestEditButtons); 
@@ -1467,11 +1467,13 @@ namespace DesignDB_UI
         private void txtBOM_Val_Leave(object sender, EventArgs e)
         {
             addToLogAffectedFields("BOM Value", txtBOM_Val.Text);
+            txtTotalVal.Text = calcTotVal().ToString("C2");
         }
 
         private void txtPctCovered_Leave(object sender, EventArgs e)
         {
             addToLogAffectedFields("Percent Covered", txtPctCovered.Text);
+            txtTotalVal.Text = calcTotVal().ToString("C2");
         }
 
         private void cboAwardStatus_Leave(object sender, EventArgs e)
@@ -1671,7 +1673,7 @@ namespace DesignDB_UI
 
         private void cboMSO_TextChanged(object sender, EventArgs e)
         {
-            if (!formLoading)
+            if (!formLoading && GV.MODE != Mode.New)
             {
                 //GV.MODE = Mode.Edit;
                 changeMode(Mode.Edit); 
