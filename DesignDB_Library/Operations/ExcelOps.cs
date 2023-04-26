@@ -371,7 +371,7 @@ namespace DesignDB_Library.Operations
             Excel.Range pctRange = wks.Range[wks.Cells[startRow + 2, 3], wks.Cells[row - 1, 5]];
             pctRange.NumberFormat = "##.00%";
             wks.Cells[row - 1, 2].NumberFormat = "##%";
-            Excel.Range boldRange = wks.Range[wks.Cells[row - 2, 1], wks.Cells[row, 5]];
+            Excel.Range boldRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row, 5]];
             boldRange.Font.Bold = true;
         }
 

@@ -466,7 +466,7 @@ namespace DesignDB_Library.Operations
                 }
             }
             priorityModels = priorityModels.OrderByDescending(x => x.TotalCount).ToList();
-            priorityModels.Add(companyTotal);
+            //priorityModels.Add(companyTotal);
             percentModel.TotalCount = companyTotal.TotalCount / companyTotal.TotalCount;
             percentModel.P1Count = companyTotal.P1Count / companyTotal.TotalCount;
             percentModel.P2Count = companyTotal.P2Count / companyTotal.TotalCount;
