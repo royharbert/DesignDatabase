@@ -1463,7 +1463,7 @@ namespace DesignDB_UI
             this.gbDateRange.Controls.Add(this.dtpEnd);
             this.gbDateRange.Controls.Add(this.dtpStart);
             this.gbDateRange.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbDateRange.Location = new System.Drawing.Point(793, 606);
+            this.gbDateRange.Location = new System.Drawing.Point(1123, 534);
             this.gbDateRange.Name = "gbDateRange";
             this.gbDateRange.Size = new System.Drawing.Size(437, 88);
             this.gbDateRange.TabIndex = 209;
@@ -1525,7 +1525,7 @@ namespace DesignDB_UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(1508, 905);
+            this.ClientSize = new System.Drawing.Size(1508, 922);
             this.Controls.Add(this.gbDateRange);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.tlpSearch);
