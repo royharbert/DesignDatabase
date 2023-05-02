@@ -291,6 +291,7 @@ namespace DesignDB_Library.Operations
                     categoryReport.Add(model);
                 }
             }
+            categoryReport = categoryReport.OrderByDescending(x => x.TotalDollars).ToList();
             categorySummary.MSO = "TOTAL";
             categorySummary.TotalRequests = requests.Count;
             categorySummary.AverageDollarsPerRequest=categorySummary.TotalDollars/categorySummary.TotalRequests;
@@ -319,7 +320,6 @@ namespace DesignDB_Library.Operations
             categorySummary.UnassignedDollars = categoryReport.Sum(x => x.UnassignedDollars);
 
             categoryReport.Add(categorySummary);
-            categoryReport = categoryReport.OrderByDescending(x => x.TotalDollars).ToList();
 
             //Open Requests by salesperson
             List<RequestModel> openDesignBySales = GlobalConfig.Connection.GetOpenRequests();
