@@ -58,7 +58,6 @@ namespace DesignDB_Library.Operations
             accumulator.SalesPerson = "Total";
 
             //eliminate cancels, has revision and no
-            //accumulator.CurrentYTD_Value = requests.Where(x => x.AwardStatus != "Canceled").Sum(x => x.BOM_Value);
             List<List<RequestModel>> awardLists = new List<List<RequestModel>>();
             List<RequestModel> Pending = requests.Where(r => r.AwardStatus == "Pending").ToList();
             awardLists.Add(Pending);
@@ -79,18 +78,27 @@ namespace DesignDB_Library.Operations
             awardLists.Add(NoRequests);
             NoRequests = null;
 
+            //Filter out Canceled
+            requests = requests.Where(x => x.AwardStatus != "Canceled").ToList();
+
+            //Don't include Canceled or Has revision in $ amounts
+            accumulator.CurrentYTD_Value = requests.Where(x => x.AwardStatus != "Canceled" && x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
             accumulator.CurrentYear_Count = requests.Count;
             accumulator.AverageDollars = accumulator.CurrentYTD_Value / accumulator.CurrentYear_Count;
 
+            //decimal totalValue = requests.Where(x => x.AwardStatus != "Canceled").Sum(x => x.BOM_Value);
+
             //cycle through salespersons and accumulate numbers
-                decimal totalValue = requests.Where(x => x.AwardStatus != "Canceled").Sum(x => x.BOM_Value);
             foreach (SalespersonModel salespersonModel in salespersons)
             {
                 string name = salespersonModel.SalesPerson;
 
                 //preserve requests as unchanged, assign list to salesRequests for filtering
-                List<RequestModel> salesRequests = requests.Where(x => x.DesignRequestor == name && x.AwardStatus != "Has Revision" && x.AwardStatus != "Canceled").ToList();
-                //salesRequests = salesRequests.OrderBy(x => x.BOM_Value).ToList();
+                //List<RequestModel> salesRequests = requests.Where(x => x.DesignRequestor == name && x.AwardStatus != "Has Revision" && 
+                //    x.AwardStatus != "Canceled").ToList();
+                List<RequestModel> salesRequests = requests.Where(x => x.DesignRequestor == name &&  
+                x.AwardStatus != "Canceled").ToList();
+                salesRequests = salesRequests.OrderBy(x => x.BOM_Value).ToList();
                 if (salesRequests.Count > 0)
                 {
                     Report_SalesProjectValuesModel model = new Report_SalesProjectValuesModel();
@@ -167,7 +175,7 @@ namespace DesignDB_Library.Operations
                         accumulator.Total++;
                     }
                     //get requests filtering only cancels
-                    accumulator.CurrentYTD_Value = accumulator.CurrentYTD_Value + model.CurrentYTD_Value;
+                    //accumulator.CurrentYTD_Value = accumulator.CurrentYTD_Value + model.CurrentYTD_Value;
                     model.AverageDollars = model.CurrentYTD_Value / model.CurrentYear_Count;
                     model.PctTotalValue = model.CurrentYTD_Value / accumulator.CurrentYTD_Value;
                     accumulator.PctTotalValue = 1;
@@ -176,7 +184,7 @@ namespace DesignDB_Library.Operations
                 }
             }
             
-            accumulator.AverageDollars = totalValue / accumulator.CurrentYear_Count;
+            //accumulator.AverageDollars = totalValue / accumulator.CurrentYear_Count;
             projectRollup.Add(accumulator);
 
 

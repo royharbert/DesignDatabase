@@ -1172,8 +1172,7 @@ namespace DesignDB_UI
         private void btnSearchFields_Click(object sender, EventArgs e)
         {
             if (btnSearchFields.Text == "Search")
-            {
-                //GV.MODE = Mode.Search;
+            {List<RequestModel> requests = new List<RequestModel>();
                 changeMode(Mode.SearchFields);
                 List<TableLayoutPanel> tlpList = new List<TableLayoutPanel>();
                 tlpList.Add(tlpLeft);
@@ -1181,7 +1180,14 @@ namespace DesignDB_UI
                 tlpList.Add(tlpRight);
                 List<FieldSearchModel> searchList = new List<FieldSearchModel>();
                 collectSearchTerms(ref searchList, tlpList);
-                List<RequestModel> requests = SearchOps.FieldSearch(searchList, true);
+                if (!ckFilter.Checked)
+                {
+                    requests = SearchOps.FieldSearch(searchList, true); 
+                }
+                else
+                {
+                    requests = SearchOps.FieldSearch(searchList, true, dtpStart.Value, dtpEnd.Value);
+                }
                 //frmMultiResult frmMultiResult = new frmMultiResult(requests);
                 GV.MultiResult.dataList = requests;
                 GV.MultiResult.Show();
@@ -1302,6 +1308,17 @@ namespace DesignDB_UI
             if (GV.MODE == Mode.Edit)
             {
                 btnSearchFields.Text = "Search";
+            }
+
+            if (GV.MODE == Mode.SearchFields)
+            {
+                gbDateRange.Visible = true;
+                tlpSearch.Visible = false;
+            }
+            else
+            {
+                gbDateRange.Visible = false;
+                tlpSearch.Visible = true;
             }
             this.Text = "Design Request - Mode: " + GV.MODE;
             
