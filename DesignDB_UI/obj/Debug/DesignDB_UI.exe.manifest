@@ -3,7 +3,7 @@
   <asmv1:assemblyIdentity name="DesignDB_UI.exe" version="1.0.0.4" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="DesignDB_UI" version="2.1.95.0" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="DesignDB_UI" version="2.1.97.0" language="neutral" processorArchitecture="msil" />
     <commandLine file="DesignDB_UI.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -109,19 +109,19 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>GugLQl5KDy1Cw6q1du6ZKHmWbeMaP3UiqvSPHWzePsY=</dsig:DigestValue>
+        <dsig:DigestValue>h9/bdY4ZZVOCkgnBmZtOYv9Tr5l+b0Zkx9lLw84P2ck=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_UI.exe" size="191952">
-      <assemblyIdentity name="DesignDB_UI" version="2.1.95.0" language="neutral" processorArchitecture="msil" />
+      <assemblyIdentity name="DesignDB_UI" version="2.1.97.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>G15pttLKaoQ4MGN0CoZXzevnJ1ttrU6++HFvfwVTb+0=</dsig:DigestValue>
+        <dsig:DigestValue>qb5Tb40KCP2tCoOIZIOycDW/xsXnjCxkHOxN5j9lHRw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

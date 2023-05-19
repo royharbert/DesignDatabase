@@ -54,7 +54,6 @@ namespace DesignDB_UI
             this.btnExit = new System.Windows.Forms.Button();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.btnNewReq = new System.Windows.Forms.Button();
-            this.btnDeleteRecord = new System.Windows.Forms.Button();
             this.btnScreens = new System.Windows.Forms.Button();
             this.btnLogSearch = new System.Windows.Forms.Button();
             this.btnListCollector = new System.Windows.Forms.Button();
@@ -65,9 +64,11 @@ namespace DesignDB_UI
             this.btnPrjBySales = new System.Windows.Forms.Button();
             this.btnSalespersonMaint = new System.Windows.Forms.Button();
             this.btnFE_Maintenance = new System.Windows.Forms.Button();
+            this.btnDeleteRecord = new System.Windows.Forms.Button();
             this.rdoSandbox = new System.Windows.Forms.RadioButton();
             this.rdoLive = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnDeletedRecords = new System.Windows.Forms.Button();
             this.tlpMain.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -186,11 +187,11 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnUndelete.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnUndelete.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnUndelete.Location = new System.Drawing.Point(315, 105);
+            this.btnUndelete.Location = new System.Drawing.Point(315, 360);
             this.btnUndelete.Name = "btnUndelete";
             this.btnUndelete.Size = new System.Drawing.Size(266, 45);
             this.btnUndelete.TabIndex = 9;
-            this.btnUndelete.Tag = "2";
+            this.btnUndelete.Tag = "4";
             this.btnUndelete.Text = "Un-Delete Record";
             this.btnUndelete.UseVisualStyleBackColor = false;
             this.btnUndelete.Click += new System.EventHandler(this.btnUndelete_Click);
@@ -266,7 +267,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCatMSO.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnCatMSO.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnCatMSO.Location = new System.Drawing.Point(315, 207);
+            this.btnCatMSO.Location = new System.Drawing.Point(315, 105);
             this.btnCatMSO.Name = "btnCatMSO";
             this.btnCatMSO.Size = new System.Drawing.Size(266, 45);
             this.btnCatMSO.TabIndex = 19;
@@ -282,7 +283,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSnapshot.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnSnapshot.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnSnapshot.Location = new System.Drawing.Point(315, 156);
+            this.btnSnapshot.Location = new System.Drawing.Point(315, 54);
             this.btnSnapshot.Name = "btnSnapshot";
             this.btnSnapshot.Size = new System.Drawing.Size(266, 45);
             this.btnSnapshot.TabIndex = 18;
@@ -314,7 +315,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAvgComp.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnAvgComp.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnAvgComp.Location = new System.Drawing.Point(315, 309);
+            this.btnAvgComp.Location = new System.Drawing.Point(315, 207);
             this.btnAvgComp.Name = "btnAvgComp";
             this.btnAvgComp.Size = new System.Drawing.Size(266, 45);
             this.btnAvgComp.TabIndex = 21;
@@ -330,7 +331,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenReq.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnOpenReq.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnOpenReq.Location = new System.Drawing.Point(315, 258);
+            this.btnOpenReq.Location = new System.Drawing.Point(315, 156);
             this.btnOpenReq.Name = "btnOpenReq";
             this.btnOpenReq.Size = new System.Drawing.Size(266, 45);
             this.btnOpenReq.TabIndex = 20;
@@ -382,7 +383,7 @@ namespace DesignDB_UI
             this.btnForecast.Name = "btnForecast";
             this.btnForecast.Size = new System.Drawing.Size(266, 45);
             this.btnForecast.TabIndex = 29;
-            this.btnForecast.Tag = "2";
+            this.btnForecast.Tag = "3";
             this.btnForecast.Text = "Forecast";
             this.btnForecast.UseVisualStyleBackColor = false;
             this.btnForecast.Click += new System.EventHandler(this.btnForecast_Click);
@@ -456,12 +457,6 @@ namespace DesignDB_UI
             this.tlpMain.Controls.Add(this.btnFind, 0, 3);
             this.tlpMain.Controls.Add(this.btnLogout, 0, 1);
             this.tlpMain.Controls.Add(this.btnNewReq, 2, 0);
-            this.tlpMain.Controls.Add(this.btnDeleteRecord, 2, 1);
-            this.tlpMain.Controls.Add(this.btnUndelete, 2, 2);
-            this.tlpMain.Controls.Add(this.btnSnapshot, 2, 3);
-            this.tlpMain.Controls.Add(this.btnCatMSO, 2, 4);
-            this.tlpMain.Controls.Add(this.btnOpenReq, 2, 5);
-            this.tlpMain.Controls.Add(this.btnAvgComp, 2, 6);
             this.tlpMain.Controls.Add(this.btnOverdue, 3, 2);
             this.tlpMain.Controls.Add(this.btnSearch, 0, 5);
             this.tlpMain.Controls.Add(this.btnDateRange, 0, 6);
@@ -478,6 +473,13 @@ namespace DesignDB_UI
             this.tlpMain.Controls.Add(this.btnPrjBySales, 3, 6);
             this.tlpMain.Controls.Add(this.btnSalespersonMaint, 5, 5);
             this.tlpMain.Controls.Add(this.btnFE_Maintenance, 5, 6);
+            this.tlpMain.Controls.Add(this.btnSnapshot, 2, 1);
+            this.tlpMain.Controls.Add(this.btnCatMSO, 2, 2);
+            this.tlpMain.Controls.Add(this.btnOpenReq, 2, 3);
+            this.tlpMain.Controls.Add(this.btnAvgComp, 2, 4);
+            this.tlpMain.Controls.Add(this.btnUndelete, 2, 7);
+            this.tlpMain.Controls.Add(this.btnDeleteRecord, 2, 6);
+            this.tlpMain.Controls.Add(this.btnDeletedRecords, 2, 5);
             this.tlpMain.Location = new System.Drawing.Point(12, 150);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 10;
@@ -510,22 +512,6 @@ namespace DesignDB_UI
             this.btnNewReq.UseVisualStyleBackColor = false;
             this.btnNewReq.Click += new System.EventHandler(this.btnNewReq_Click_1);
             // 
-            // btnDeleteRecord
-            // 
-            this.btnDeleteRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDeleteRecord.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btnDeleteRecord.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnDeleteRecord.Location = new System.Drawing.Point(315, 54);
-            this.btnDeleteRecord.Name = "btnDeleteRecord";
-            this.btnDeleteRecord.Size = new System.Drawing.Size(266, 45);
-            this.btnDeleteRecord.TabIndex = 15;
-            this.btnDeleteRecord.Tag = "2";
-            this.btnDeleteRecord.Text = "Delete Record";
-            this.btnDeleteRecord.UseVisualStyleBackColor = false;
-            this.btnDeleteRecord.Click += new System.EventHandler(this.btnDeleteRecord_Click);
-            // 
             // btnScreens
             // 
             this.btnScreens.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -553,7 +539,7 @@ namespace DesignDB_UI
             this.btnLogSearch.Name = "btnLogSearch";
             this.btnLogSearch.Size = new System.Drawing.Size(266, 45);
             this.btnLogSearch.TabIndex = 36;
-            this.btnLogSearch.Tag = "2";
+            this.btnLogSearch.Tag = "3";
             this.btnLogSearch.Text = "Log Search";
             this.btnLogSearch.UseVisualStyleBackColor = false;
             this.btnLogSearch.Click += new System.EventHandler(this.btnLogSearch_Click);
@@ -565,7 +551,7 @@ namespace DesignDB_UI
             this.btnListCollector.Name = "btnListCollector";
             this.btnListCollector.Size = new System.Drawing.Size(266, 45);
             this.btnListCollector.TabIndex = 37;
-            this.btnListCollector.Tag = "2";
+            this.btnListCollector.Tag = "3";
             this.btnListCollector.Text = "List Collector";
             this.btnListCollector.UseVisualStyleBackColor = false;
             this.btnListCollector.Click += new System.EventHandler(this.btnListCollector_Click);
@@ -632,7 +618,7 @@ namespace DesignDB_UI
             this.btnPrjBySales.Name = "btnPrjBySales";
             this.btnPrjBySales.Size = new System.Drawing.Size(266, 45);
             this.btnPrjBySales.TabIndex = 42;
-            this.btnPrjBySales.Tag = "2";
+            this.btnPrjBySales.Tag = "3";
             this.btnPrjBySales.Text = "Rollup";
             this.btnPrjBySales.UseVisualStyleBackColor = false;
             this.btnPrjBySales.Click += new System.EventHandler(this.btnPrjBySales_Click);
@@ -668,6 +654,22 @@ namespace DesignDB_UI
             this.btnFE_Maintenance.UseVisualStyleBackColor = false;
             this.btnFE_Maintenance.Visible = false;
             this.btnFE_Maintenance.Click += new System.EventHandler(this.btnFE_Maintenance_Click);
+            // 
+            // btnDeleteRecord
+            // 
+            this.btnDeleteRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDeleteRecord.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnDeleteRecord.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnDeleteRecord.Location = new System.Drawing.Point(315, 309);
+            this.btnDeleteRecord.Name = "btnDeleteRecord";
+            this.btnDeleteRecord.Size = new System.Drawing.Size(266, 45);
+            this.btnDeleteRecord.TabIndex = 15;
+            this.btnDeleteRecord.Tag = "4";
+            this.btnDeleteRecord.Text = "Delete Record";
+            this.btnDeleteRecord.UseVisualStyleBackColor = false;
+            this.btnDeleteRecord.Click += new System.EventHandler(this.btnDeleteRecord_Click);
             // 
             // rdoSandbox
             // 
@@ -717,6 +719,18 @@ namespace DesignDB_UI
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1165, 33);
             this.tableLayoutPanel2.TabIndex = 32;
+            // 
+            // btnDeletedRecords
+            // 
+            this.btnDeletedRecords.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnDeletedRecords.Location = new System.Drawing.Point(315, 258);
+            this.btnDeletedRecords.Name = "btnDeletedRecords";
+            this.btnDeletedRecords.Size = new System.Drawing.Size(266, 44);
+            this.btnDeletedRecords.TabIndex = 43;
+            this.btnDeletedRecords.Tag = "3";
+            this.btnDeletedRecords.Text = "Deleted Records";
+            this.btnDeletedRecords.UseVisualStyleBackColor = false;
+            this.btnDeletedRecords.Click += new System.EventHandler(this.btnDeletedRecords_Click);
             // 
             // frmMainMenu
             // 
@@ -787,5 +801,6 @@ namespace DesignDB_UI
         private System.Windows.Forms.Button btnUtility;
         private System.Windows.Forms.Button btnReviewMaint;
         private System.Windows.Forms.Button btnPrjBySales;
+        private System.Windows.Forms.Button btnDeletedRecords;
     }
 }

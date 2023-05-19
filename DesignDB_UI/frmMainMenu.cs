@@ -608,6 +608,13 @@ namespace DesignDB_UI
             frmDateMSO_Picker.Show();       
 
         }
+
+        private void btnDeletedRecords_Click(object sender, EventArgs e)
+        {
+            List<RequestModel> deletedRequests = GlobalConfig.Connection.GetRequestsDeleted();
+            frmMultiResult resultsForm = new frmMultiResult(deletedRequests);
+            resultsForm.Show();
+        }
     }
 }
 

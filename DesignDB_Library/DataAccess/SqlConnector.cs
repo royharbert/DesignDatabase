@@ -12,6 +12,15 @@ namespace DesignDB_Library.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
+        public List<RequestModel>GetRequestsDeleted()
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                List<RequestModel> output = connection.Query<RequestModel>("spRecordsDeleted",
+                    commandType: CommandType.StoredProcedure).ToList();
+                return output;
+            }
+        }
         public List<T> GenericConditionalGetAll<T>(string tableName, string conditionColumn, string condition, string orderByField = null)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
