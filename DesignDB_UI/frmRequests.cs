@@ -149,8 +149,12 @@ namespace DesignDB_UI
                 case Mode.Forecast:
                     unlockTLP(true);
                     break;
+
                 case Mode.SearchFields:
                     setButtonDisplay(RequestSearchFieldsButtons);
+                    break;
+
+                case Mode.Add_Attachment:
                     break;
 
                 default:
