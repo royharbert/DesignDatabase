@@ -28,7 +28,8 @@ namespace DesignDB_UI
 
         private void FrmDateMSO_Picker_DataReadyEvent(object sender, DataReadyEventArgs e)
         {
-            List<CompletionTimeModel> report = ReportOps.GenerateCompletionTimeSummary(e.StartDate, e.EndDate, e.MSO_s);
+            //List<CompletionTimeModel> report = ReportOps.GenerateCompletionTimeSummary(e.StartDate, e.EndDate, e.MSO_s);
+            List<CompletionTimeModel> report = ReportOps.DoCompletionTimeSummary(e.StartDate, e.EndDate, e.MSO_s);
             dgvCompletion.DataSource = report;
             ReportOps.FormatCompletionTimeDGV(dgvCompletion);
         }

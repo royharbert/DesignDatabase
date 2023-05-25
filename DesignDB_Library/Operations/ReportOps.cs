@@ -695,8 +695,37 @@ namespace DesignDB_Library.Operations
             }
             return ddList;
         }
+
+        public static int NumberOfWorkDays(DateTime startDate, DateTime endDate)
+        {
+            //int totalDays = 0;
+            int start = 0;
+            int end = 0;
+            int.TryParse(startDate.ToString(), out start);
+            int.TryParse(endDate.ToString(), out end);
+            double totalDays = 1 + (endDate.Date - startDate.Date).TotalDays;
+            int allDays = (int)totalDays;
+
+            return allDays;
+        }
+
+        public static List<CompletionTimeModel>DoCompletionTimeSummary(DateTime startDate, DateTime endDate, List<MSO_Model> msoList)
+        {
+            DateTime emptyDate = new DateTime(1900, 1, 1);
+            List<CompletionTimeModel> report = new List<CompletionTimeModel>();
+            List<RequestModel> allRequests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(startDate, endDate);
+            List<RequestModel> canceledDesigns = allRequests.Where(x => x.AwardStatus == "Canceled").ToList();
+            List<RequestModel> activeDesigns = allRequests.Where(x => x.AwardStatus != "Canceled").ToList();
+            List<RequestModel> completedDesigns = activeDesigns.Where(x => x.DateCompleted != DateTime.MinValue && x.DateCompleted != emptyDate 
+                && x.AwardStatus != "Canceled").ToList();
+            List<RequestModel> openDesigns = activeDesigns.Where(x => x.DateCompleted == emptyDate || x.DateCompleted == DateTime.MinValue
+                && x.AwardStatus != "Canceled").ToList();
+
+            return report;
+        }
         public static List<CompletionTimeModel> GenerateCompletionTimeSummary
             (DateTime startDate, DateTime endDate, List<MSO_Model> msoList)
+           
         {
             List<CompletionTimeModel> report = new List<CompletionTimeModel>();
             //get completed requests from the time frame

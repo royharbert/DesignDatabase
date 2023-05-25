@@ -26,11 +26,12 @@ namespace DesignDB_UI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            dtp.Value = new DateTime(1900, 1, 1);
-            Application.DoEvents();
-            dtp.CustomFormat = " ";
-            dtp.Format = DateTimePickerFormat.Custom;
-            txtBox.Text = dtp.Value.ToShortDateString();
+            //dtp.Value = new DateTime(1900, 1, 1);
+            //Application.DoEvents();
+            //dtp.CustomFormat = " ";
+            //dtp.Format = DateTimePickerFormat.Custom;
+            //txtBox.Text = dtp.Value.ToShortDateString();
+            ReportOps.NumberOfWorkDays(new DateTime(2023, 1, 1), new DateTime(2023, 6, 12));
         }
 
         private void btnExcel_Click(object sender, EventArgs e)

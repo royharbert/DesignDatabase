@@ -471,6 +471,7 @@ namespace DesignDB_UI
         {
             GV.MODE = Mode.Report_AvgCompletion;
             frmCompletionTimeReport frmCompletionTimeReport = new frmCompletionTimeReport();
+            FC.SetFormPosition(frmCompletionTimeReport);
             GV.PickerForm.ShowDialog();
 
             if (!operationCanceled)

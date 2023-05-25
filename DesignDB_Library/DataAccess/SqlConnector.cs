@@ -622,7 +622,7 @@ namespace DesignDB_Library.DataAccess
         }
 
         public List<RequestModel> DateRangeSearch_Unfiltered(DateTime StartDate, 
-            DateTime EndDate, string SearchTerm, bool pendingOnly, string mso, string designer, string requestor)
+            DateTime EndDate, string SearchTerm, bool pendingOnly, string mso = null, string designer = null, string requestor = null)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
@@ -639,6 +639,23 @@ namespace DesignDB_Library.DataAccess
 
 
                 output = connection.Query<RequestModel>("spRequests_DateRangeSearch_Dynamic",
+                    p, commandType: CommandType.StoredProcedure).ToList();
+                return output;
+            }
+        }
+
+        public List<RequestModel> DateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+
+                p.Add("@StartDate", StartDate, DbType.DateTime, ParameterDirection.Input);
+                p.Add("@EndDate", EndDate, DbType.DateTime, ParameterDirection.Input);
+                List<RequestModel> output = null;
+
+
+                output = connection.Query<RequestModel>("spRequests_DateRangeSearch_Unfiltered_DateAssigned",
                     p, commandType: CommandType.StoredProcedure).ToList();
                 return output;
             }

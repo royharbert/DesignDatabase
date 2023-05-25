@@ -140,7 +140,10 @@ namespace DesignDB_UI
 
         private void dtpStart_ValueChanged(object sender, EventArgs e)
         {
-            dtpStop.Value = dtpStart.Value.AddDays(7);
+            if (GV.MODE != Mode.Report_AvgCompletion)
+            {
+                dtpStop.Value = dtpStart.Value.AddDays(7); 
+            }
         }
 
         private void ckClear_CheckedChanged(object sender, EventArgs e)
