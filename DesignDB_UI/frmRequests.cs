@@ -1697,7 +1697,10 @@ namespace DesignDB_UI
             if (!formLoading && GV.MODE != Mode.New)
             {
                 //GV.MODE = Mode.Edit;
-                changeMode(Mode.Edit); 
+                if (GV.MODE != Mode.Clone)
+                {
+                    changeMode(Mode.Edit); 
+                }
                 formDirty = true;
             }
         }

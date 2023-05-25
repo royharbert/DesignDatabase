@@ -3,7 +3,7 @@
   <asmv1:assemblyIdentity name="DesignDB_UI.exe" version="1.0.0.4" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="DesignDB_UI" version="2.1.99.0" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="DesignDB_UI" version="2.1.100.0" language="neutral" processorArchitecture="msil" />
     <commandLine file="DesignDB_UI.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -115,13 +115,13 @@
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_UI.exe" size="191952">
-      <assemblyIdentity name="DesignDB_UI" version="2.1.99.0" language="neutral" processorArchitecture="msil" />
+      <assemblyIdentity name="DesignDB_UI" version="2.1.100.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>PwB87g/FS0QmW1IGwdP6b/UTU1KE5E3DXdRjznnuWK0=</dsig:DigestValue>
+        <dsig:DigestValue>NJ6qY3HBqQhgn22ge4Bn0xr3iC9yj24XGbM2l4VfP68=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
