@@ -77,7 +77,7 @@ namespace DesignDB_UI
                 prepFormForTask();
                
                 insertData(Rm);
-                if (Rm.ProjectID != null && GV.MODE != Mode.New )
+                if (Rm.ProjectID != null && GV.MODE != Mode.New && GV.MODE != Mode.Delete && GV.MODE != Mode.Restore)
                 {
                     GV.MODE = Mode.Edit;
                     setButtonDisplay(RequestEditButtons); 

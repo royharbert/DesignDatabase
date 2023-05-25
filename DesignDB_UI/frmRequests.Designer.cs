@@ -1065,6 +1065,7 @@ namespace DesignDB_UI
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(123, 51);
             this.btnDelete.TabIndex = 33;
+            this.btnDelete.Tag = "4";
             this.btnDelete.Text = "Delete Request";
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
@@ -1462,7 +1463,7 @@ namespace DesignDB_UI
             this.gbDateRange.Controls.Add(this.dtpEnd);
             this.gbDateRange.Controls.Add(this.dtpStart);
             this.gbDateRange.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbDateRange.Location = new System.Drawing.Point(580, 639);
+            this.gbDateRange.Location = new System.Drawing.Point(613, 630);
             this.gbDateRange.Name = "gbDateRange";
             this.gbDateRange.Size = new System.Drawing.Size(437, 88);
             this.gbDateRange.TabIndex = 209;
