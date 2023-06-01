@@ -773,7 +773,6 @@ namespace DesignDB_Library.Operations
                     List<RequestModel> P2Jobs = msoRequests.Where(x => x.Pty == "P2").ToList();
                     int P2Count = P2Jobs.Count;
                     float P2Days = (int)P2Jobs.Sum(x => (x.DateCompleted - x.DateAllInfoReceived).TotalDays);
-                    //cModel.TotalDaysFromAllInfo = P1Days;
                     if (P2Count > 0)
                     {
                         float P2Avg = P2Days / (float)P2Count;
