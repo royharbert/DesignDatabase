@@ -20,11 +20,11 @@ namespace DesignDB_UI
         public frmCompletionTimeReport()
         {
             InitializeComponent();
-            
+
             frmDateMSO_Picker.DataReadyEvent += FrmDateMSO_Picker_DataReadyEvent;
         }
 
- 
+
 
         private void FrmDateMSO_Picker_DataReadyEvent(object sender, DataReadyEventArgs e)
         {
@@ -51,6 +51,18 @@ namespace DesignDB_UI
         {
             //frmDateMSO_Picker.DataReadyEvent -= FrmDateMSO_Picker_DataReadyEvent;
             //frmDateMSO_Picker.PickerCanceled -= FrmDateMSO_Picker_PickerCanceled;
+        }
+
+        private void frmCompletionTimeReport_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Show();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Report canceled");
+            }
         }
     }
 }

@@ -402,8 +402,8 @@ namespace DesignDB_UI
                         (e.MSO_s, e.StartDate, e.EndDate);
                     break;
                 case Mode.Report_AvgCompletion:
-                    List<CompletionTimeModel> completionReport = ReportOps.GenerateCompletionTimeSummary
-                        (e.StartDate, e.EndDate, e.MSO_s);
+                    //List<CompletionTimeModel> completionReport = ReportOps.GenerateCompletionTimeSummary
+                    //    (e.StartDate, e.EndDate, e.MSO_s);
                     break;
                 case Mode.Report_ByPriority:
                     startDate = e.StartDate;

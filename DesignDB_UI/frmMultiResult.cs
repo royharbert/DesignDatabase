@@ -136,6 +136,7 @@ namespace DesignDB_UI
             txtRecordsProcessed.Visible = false;
             lblRecordsProcessed.Visible = false;
             pbProgress.Visible = false;
+            btnExport.Visible = true;
             switch (GV.MODE)
             {
                 case Mode.Edit:
@@ -150,6 +151,9 @@ namespace DesignDB_UI
                     break;
                 case Mode.Report_OpenRequests:
                     ReportOps.FormatMultiResultDGV(dgvResults);
+                    break;
+                case Mode.Forecast:
+                    btnExport.Visible = false;
                     break;
                 default:
                     break;
@@ -190,19 +194,37 @@ namespace DesignDB_UI
         }
 
         private void btnExport_Click(object sender, EventArgs e)
-        {            
-            if (GV.MODE == Mode.DateRangeSearch)
-            {
-                ListLooper.ExcelExporter<RequestModelReport> exporter = new ListLooper.ExcelExporter<RequestModelReport>();
-                exporter.List = (List<RequestModelReport>)dgvResults.DataSource;
-                ReportOps.ReportFormatMultiResultExport(exporter.Wksheet);
+        {
+            switch (GV.MODE)
+            {               
+                case Mode.DateRangeSearch:
+                    ListLooper.ExcelExporter<RequestModelReport> reportExporter = new ListLooper.ExcelExporter<RequestModelReport>();
+                    reportExporter.List = (List<RequestModelReport>)dgvResults.DataSource;
+                    ReportOps.ReportFormatMultiResultExport(reportExporter.Wksheet);
+                    break;
+           
+                case Mode.Report_AvgCompletion:
+                    ListLooper.ExcelExporter<CompletionTimeModel> avgExporter = new ListLooper.ExcelExporter<CompletionTimeModel>();
+                    avgExporter.List = (List<CompletionTimeModel>)dgvResults.DataSource;
+                    ReportOps.FormatMultiResultExport(avgExporter.Wksheet);
+                    break;
+                
+                default:
+                    ListLooper.ExcelExporter<RequestModel> exporter = new ListLooper.ExcelExporter<RequestModel>();
+                    exporter.List = (List<RequestModel>)dgvResults.DataSource;
+                    ReportOps.FormatMultiResultExport(exporter.Wksheet);
+                    break;
             }
-            else
-            {
-                ListLooper.ExcelExporter<RequestModel> exporter = new ListLooper.ExcelExporter<RequestModel>();
-                exporter.List = (List<RequestModel>)dgvResults.DataSource;
-                ReportOps.FormatMultiResultExport(exporter.Wksheet);
-            }
+            //if (GV.MODE == Mode.DateRangeSearch)
+            //{
+            //    ListLooper.ExcelExporter<RequestModelReport> exporter = new ListLooper.ExcelExporter<RequestModelReport>();
+            //    exporter.List = (List<RequestModelReport>)dgvResults.DataSource;
+            //    ReportOps.ReportFormatMultiResultExport(exporter.Wksheet);
+            //}
+            //else
+            //{
+           
+            //}
         }
 
         private void frmMultiResult_FormClosing(object sender, FormClosingEventArgs e)

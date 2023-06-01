@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Interop.Excel;
+using Mono.Cecil.Cil;
 
 namespace DesignDB_Library.Operations
 {
@@ -698,15 +699,31 @@ namespace DesignDB_Library.Operations
 
         public static int NumberOfWorkDays(DateTime startDate, DateTime endDate)
         {
-            //int totalDays = 0;
-            int start = 0;
-            int end = 0;
-            int.TryParse(startDate.ToString(), out start);
-            int.TryParse(endDate.ToString(), out end);
-            double totalDays = 1 + (endDate.Date - startDate.Date).TotalDays;
-            int allDays = (int)totalDays;
+            List<CompanyHolidaysModel> holidaysList = GlobalConfig.Connection.GetAllHolidays();
 
-            return allDays;
+            int workingDays = 0;
+            while(startDate <= endDate)
+            {
+                if(startDate.DayOfWeek != DayOfWeek.Saturday && startDate.DayOfWeek != DayOfWeek.Sunday)
+                {
+                    workingDays++;
+                }
+                startDate = startDate.AddDays(1);
+            }
+
+            foreach (var holiday in holidaysList)
+            {
+                if ((holiday.HolidayDate.Date - endDate.Date).TotalDays <= 0)
+                {
+                    workingDays = workingDays - 1;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return workingDays;
         }
 
         public static List<CompletionTimeModel>DoCompletionTimeSummary(DateTime startDate, DateTime endDate, List<MSO_Model> msoList)
@@ -720,6 +737,73 @@ namespace DesignDB_Library.Operations
                 && x.AwardStatus != "Canceled").ToList();
             List<RequestModel> openDesigns = activeDesigns.Where(x => x.DateCompleted == emptyDate || x.DateCompleted == DateTime.MinValue
                 && x.AwardStatus != "Canceled").ToList();
+
+            //loop thru MSO's with requests
+            foreach (var mso in msoList)
+            {
+                string MSO = mso.MSO;
+                List<RequestModel> msoRequests = completedDesigns.Where(x => x.MSO == MSO).ToList();
+                if (msoRequests.Count > 0)
+                {
+                    CompletionTimeModel cModel = new CompletionTimeModel();
+                    cModel.MSO = MSO;
+                    cModel.CompletedDesigns = msoRequests.Count;
+                    cModel.TotalDaysToComplete = (int)msoRequests.Sum(x => (x.DateCompleted - x.DateAssigned).TotalDays);
+                    float avgDaysToComplete = (cModel.TotalDaysToComplete / cModel.CompletedDesigns);
+                    cModel.AvgDaysToComplete = avgDaysToComplete.ToString("#.00");
+                    cModel.CanceledDesigns = msoRequests.Where(x => x.AwardStatus == "Canceled").ToList().Count;
+                    cModel.TotalDaysFromAllInfo = (int)msoRequests.Sum(x => (x.DateCompleted - x.DateAllInfoReceived).TotalDays);
+                    float avgDaysFromAllInfo = (cModel.TotalDaysFromAllInfo / cModel.CompletedDesigns);
+                    cModel.AvgDaysFromAllInfo = avgDaysFromAllInfo.ToString("#.00");
+
+                    List<RequestModel> P1Jobs = msoRequests.Where(x => x.Pty == "P1").ToList();
+                    int P1Count = P1Jobs.Count;
+                    float P1Days = (int)P1Jobs.Sum(x => (x.DateCompleted - x.DateAllInfoReceived).TotalDays);
+                    //cModel.TotalDaysFromAllInfo = P1Days;
+                    if (P1Count > 0)
+                    {
+                        float P1Avg = P1Days / (float)P1Count; 
+                        cModel.P1Average = P1Avg.ToString("#.00");
+                    }
+                    else
+                    {
+                        cModel.P1Average = "N/A";
+                    }
+
+                    List<RequestModel> P2Jobs = msoRequests.Where(x => x.Pty == "P2").ToList();
+                    int P2Count = P2Jobs.Count;
+                    float P2Days = (int)P2Jobs.Sum(x => (x.DateCompleted - x.DateAllInfoReceived).TotalDays);
+                    //cModel.TotalDaysFromAllInfo = P1Days;
+                    if (P2Count > 0)
+                    {
+                        float P2Avg = P2Days / (float)P2Count;
+                        cModel.P2Average = P2Avg.ToString("#.00");
+                    }
+                    else
+                    {
+                        cModel.P2Average = "N/A";
+                    }
+
+                    List<RequestModel> P3Jobs = msoRequests.Where(x => x.Pty == "P3").ToList();
+                    int P3Count = P3Jobs.Count;
+                    float P3Days = (int)P3Jobs.Sum(x => (x.DateCompleted - x.DateAllInfoReceived).TotalDays);
+                    //cModel.TotalDaysFromAllInfo = P1Days;
+                    if (P3Count > 0)
+                    {
+                        float P3Avg = P3Days / (float)P3Count;
+                        cModel.P3Average = P3Avg.ToString("#.00");
+                    }
+                    else
+                    {
+                        cModel.P3Average = "N/A";
+                    }
+
+                    report.Add(cModel);
+                }
+            }
+
+            
+
 
             return report;
         }
@@ -787,13 +871,13 @@ namespace DesignDB_Library.Operations
                     model.TotalDaysToComplete = totalDaysToComplete;
                     model.AvgDaysToComplete = averageDaysToComplete.ToString("0.00");
 
-                    model.OpenDesigns = openList.Count;
-                    model.OpenDays = totalOpenDays;
-                    model.AverageOpenDays = averageOpenDays.ToString("#0.00");
+                    //model.OpenDesigns = openList.Count;
+                    //model.OpenDays = totalOpenDays;
+                    //model.AverageOpenDays = averageOpenDays.ToString("#0.00");
 
-                    model.OpenDesigns = openList.Count;
-                    model.OpenDays = totalOpenDays;
-                    model.AverageOpenDays = averageOpenDays.ToString("#0.00");
+                    //model.OpenDesigns = openList.Count;
+                    //model.OpenDays = totalOpenDays;
+                    //model.AverageOpenDays = averageOpenDays.ToString("#0.00");
                     List<RequestModel> canceledDesigns = requestList.Where(x => x.AwardStatus == "Canceled").ToList();
                     model.CanceledDesigns = canceledDesigns.Count;
 
@@ -1076,20 +1160,20 @@ namespace DesignDB_Library.Operations
         public static void formatCompletionTimeExport(Excel.Worksheet wks)
         {
             //column widths
-            int[] widths = { 20, 12, 12, 12, 12, 12, 12, 12 };
+            int[] widths = { 25, 12, 12, 12, 12, 12, 12, 12 };
             setExcelExportColumnWidths(wks, widths);
 
             //Header Texts
             string[] headers = { "MSO", "Completed Designs", "Total Days to Complete", "Average Days to Complete",
-                "Open Designs", "Total Days Open", "Average Days Open", "Canceled Designs" };
+                "Total Days From All Info Received", "Average Days From All Info Received", "Average Days P1", "Aveerage Days P2", "Average Days P3", "Canceled Designs" };
             placeHeaderTextInExport(wks, headers);
 
             formatExcelHeaderRow(wks);
         }
         public static void FormatCompletionTimeDGV(DataGridView dgv)
         {
-            string[] headers = { "MSO", "Completed Designs","Total Days to Complete", "Average Days to Complete", "Open Designs",
-            "Open Days", "Average Open Days", "Canceled Designs"};
+            string[] headers = { "MSO", "Completed Designs","Total Days to Complete", "Average Days to Complete", "Total Days From All Info Received",
+            "Average Days From All Info Received", "Average Days P1", "Average days P2", "Average Days P3", "Canceled Designs"};
             setDGV_HeaderText(dgv, headers);
         }
         public static void FormatRequestPriorityExport(Excel.Worksheet wks)

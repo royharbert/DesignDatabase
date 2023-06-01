@@ -45,6 +45,7 @@ namespace DesignDB_UI
             List<string> msoList = GlobalConfig.Connection.GetSnapshotMSO_s();
             lbMSO.DataSource = mso_s;
             lbMSO.DisplayMember = "MSO";
+            lbMSO.SelectedItems.Clear();
             lbMSO.SelectedIndex = -1;
 
             

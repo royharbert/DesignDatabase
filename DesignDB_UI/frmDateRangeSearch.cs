@@ -55,7 +55,7 @@ namespace DesignDB_UI
                 cboRequestor.Visible = false;
 
                 btnSearch.Visible = false;
-                btnForecast.Visible = true;
+                btnForecast.Visible = true;                
             } 
 
             FC.SetFormPosition(this);

@@ -12,17 +12,21 @@ namespace DesignDB_Library.Models
         [ExcelExportPropertyAttribute]
         public string MSO { get; set; }
         [ExcelExportPropertyAttribute]
-        public int  CompletedDesigns { get; set; }
+        public float  CompletedDesigns { get; set; }
         [ExcelExportPropertyAttribute]
-        public int TotalDaysToComplete { get; set; }
+        public float TotalDaysToComplete { get; set; }
         [ExcelExportPropertyAttribute]
         public string AvgDaysToComplete { get; set; }
         [ExcelExportPropertyAttribute]
-        public int OpenDesigns { get; set; }
+        public float TotalDaysFromAllInfo { get; set; }
         [ExcelExportPropertyAttribute]
-        public int OpenDays { get; set; }
+        public string AvgDaysFromAllInfo { get; set; }
         [ExcelExportPropertyAttribute]
-        public string AverageOpenDays { get; set; }
+        public string P1Average  { get; set; }
+        [ExcelExportPropertyAttribute]
+        public string P2Average { get; set; }
+        [ExcelExportPropertyAttribute]
+        public string P3Average { get; set; }
         [ExcelExportPropertyAttribute]
         public int CanceledDesigns { get; set; }
 

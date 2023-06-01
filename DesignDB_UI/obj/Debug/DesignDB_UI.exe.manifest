@@ -3,7 +3,7 @@
   <asmv1:assemblyIdentity name="DesignDB_UI.exe" version="1.0.0.4" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="DesignDB_UI" version="2.1.100.0" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="DesignDB_UI" version="2.1.101.0" language="neutral" processorArchitecture="msil" />
     <commandLine file="DesignDB_UI.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -102,26 +102,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_Library.dll" size="184320">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_Library.dll" size="186880">
       <assemblyIdentity name="DesignDB_Library" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>EhZ7F7Ka9qCqwGnoAMoqfQ16k6N2zYuogu+a0Hp6CeU=</dsig:DigestValue>
+        <dsig:DigestValue>8zvIzgXQeX0Lpe3Kr04hJS3IyKECaVVH2QvlsTo5aZI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_UI.exe" size="191952">
-      <assemblyIdentity name="DesignDB_UI" version="2.1.100.0" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="DesignDB_UI.exe" size="192464">
+      <assemblyIdentity name="DesignDB_UI" version="2.1.101.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>/evAHCFOe3kRnogfZ8p0Ylw0vm7U1c2M9mfPqihGcTc=</dsig:DigestValue>
+        <dsig:DigestValue>ivPy+tiu7++cygZlbdjaOtXbgmkhSTo95/MqIBoJe8k=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

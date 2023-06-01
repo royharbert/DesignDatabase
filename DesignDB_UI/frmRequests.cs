@@ -826,7 +826,7 @@ namespace DesignDB_UI
             {
                 this.Request = RequestOps.CreateRevision(Rm);
             }
-
+            changeMode(Mode.Revision);
             //set combo boxes to ""
             resetCombo(cboReviewedBy);
             resetCombo(cboPriority);
@@ -1694,7 +1694,7 @@ namespace DesignDB_UI
 
         private void cboMSO_TextChanged(object sender, EventArgs e)
         {
-            if (!formLoading && GV.MODE != Mode.New)
+            if (!formLoading && GV.MODE != Mode.New &&GV.MODE != Mode.Revision)
             {
                 //GV.MODE = Mode.Edit;
                 changeMode(Mode.Edit); 

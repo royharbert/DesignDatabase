@@ -81,6 +81,7 @@ namespace DesignDB_UI
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CompletionTimeReport";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmCompletionTimeReport_FormClosing);
+            this.Load += new System.EventHandler(this.frmCompletionTimeReport_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCompletion)).EndInit();
             this.ResumeLayout(false);
 
