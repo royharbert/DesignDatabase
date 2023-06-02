@@ -33,19 +33,16 @@ namespace DesignDB_UI
             }
             if (GV.MODE == Mode.Report_ByPriority)
             {
-                //this.Height = 236;
                 lbMSO.Visible = false;
             }
             else
             {
-                //this.Height = 822;
                 lbMSO.Visible = true;
             }
             List<MSO_Model> mso_s = GlobalConfig.Connection.GetAllMSO();
             List<string> msoList = GlobalConfig.Connection.GetSnapshotMSO_s();
             lbMSO.DataSource = mso_s;
             lbMSO.DisplayMember = "MSO";
-            lbMSO.SelectedItems.Clear();
             lbMSO.SelectedIndex = -1;
 
             
@@ -117,22 +114,6 @@ namespace DesignDB_UI
             DataReadyEvent?.Invoke(this, args);
         }
 
-        private void ckAll_CheckedChanged(object sender, EventArgs e)
-        {
-            if (allSelected)
-            {
-                allSelected = true;
-                for (int i = 0; i < lbMSO.Items.Count; i++)
-                {
-                    lbMSO.SetSelected(i, true);
-                }
-            }
-            else
-            {
-                allSelected = false;
-                lbMSO.Items.Clear();
-            }
-        }
 
         public class CancelEventArgs : EventArgs
         {
@@ -147,14 +128,10 @@ namespace DesignDB_UI
             }
         }
 
-        private void ckClear_CheckedChanged(object sender, EventArgs e)
-        {
-            lbMSO.SelectedItems.Clear();
-        }
 
         private void frmDateMSO_Picker_Activated(object sender, EventArgs e)
         {
-            if (GV.MODE == Mode.Report_Rollup)
+            if (GV.MODE == Mode.Report_Rollup || GV.MODE == Mode.Report_AvgCompletion)
             {
                 lbMSO.SelectedItems.Clear();
             }
