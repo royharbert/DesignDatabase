@@ -18,6 +18,7 @@ namespace DesignDB_UI
         public event EventHandler<CancelEventArgs> PickerCanceled;
 
         bool allSelected;
+        bool CustomFormat = false;
         public frmDateMSO_Picker(bool rollupVisible = false)
         {
             InitializeComponent();
@@ -112,6 +113,14 @@ namespace DesignDB_UI
             this.Hide();
             allSelected = false;
             DataReadyEvent?.Invoke(this, args);
+            if (CustomFormat)
+            {
+                args.CustomFormat = true;
+            }
+            else
+            {
+                args.CustomFormat = false;
+            }
         }
 
 
@@ -151,6 +160,22 @@ namespace DesignDB_UI
             lbMSO.ClearSelected();
             allSelected  = false;
         }
+
+        private void rdo_Normal_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdo_Normal.Checked)
+            {
+                CustomFormat = false;
+            }
+        }
+
+        private void rdo_Custom_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdo_Custom.Checked)
+            {
+                CustomFormat = true;
+            }
+        }
     }
 
     public class DataReadyEventArgs : EventArgs
@@ -158,6 +183,7 @@ namespace DesignDB_UI
             public List<MSO_Model> MSO_s { get; set; }
             public DateTime StartDate { get; set; }
             public DateTime EndDate { get; set; }
-        }
+            public bool CustomFormat { get; set; }
+    }
 }
 

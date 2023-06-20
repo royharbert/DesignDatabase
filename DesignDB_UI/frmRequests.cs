@@ -1155,7 +1155,10 @@ namespace DesignDB_UI
                 checkForSave();
             }
             dropHandlers();
-            GV.REQFORM = null;
+            //GV.REQFORM = null;
+            e.Cancel = true;
+            this.Hide();
+            dgvAttachments.DataSource = null;
         }
 
         private void btnRestore_Click(object sender, EventArgs e)

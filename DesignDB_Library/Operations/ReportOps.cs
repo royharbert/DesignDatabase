@@ -15,7 +15,7 @@ namespace DesignDB_Library.Operations
     
     public static class ReportOps
     {
-        public static void DoRollup(DateTime startDate, DateTime endDate, List<MSO_Model> msoModels = null)
+        public static void DoRollup(DateTime startDate, DateTime endDate, List<MSO_Model> msoModels = null, bool CustomFormat)
         {
             startDate = startDate.Date;
             endDate = endDate.Date;
