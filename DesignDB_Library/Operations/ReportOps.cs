@@ -15,7 +15,7 @@ namespace DesignDB_Library.Operations
     
     public static class ReportOps
     {
-        public static void DoRollup(DateTime startDate, DateTime endDate, List<MSO_Model> msoModels = null, bool CustomFormat)
+        public static void DoRollup(DateTime startDate, DateTime endDate, List<MSO_Model> msoModels = null, bool CustomFormat = false)
         {
             startDate = startDate.Date;
             endDate = endDate.Date;
@@ -415,7 +415,7 @@ namespace DesignDB_Library.Operations
             List<ReportSalesPriorityModel> priorityReport = ReportBySalesPriority(requests, salespersons, msoList);
             List<Report_SalesProjectValuesModel> msoSummary = MonthlyMSO_Summary(msoList, requests, startDate, endDate);
             ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, categoryReport, projectRollup, priorityReport, 
-                accumulator.CurrentYTD_Value, msoSummary, msoModels, awardLists);
+                accumulator.CurrentYTD_Value, msoSummary, msoModels, awardLists, CustomFormat);
         }
 
         public static List<ReportSalesPriorityModel> ReportBySalesPriority(List<RequestModel> requests, List<SalespersonModel> salesPeople, List<MSO_Model> msoList)

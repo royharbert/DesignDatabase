@@ -76,7 +76,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>E34336834AA71797AA343EEDCD536F4DFD4E9B2F</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>C8D8AE2F7986E53F60D32638E36406085388ED72</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>DesignDB_UI_3_TemporaryKey.pfx</ManifestKeyFile>

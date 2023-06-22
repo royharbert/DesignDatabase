@@ -18,7 +18,7 @@ namespace DesignDB_Library.Operations
         public static void PlaceRollupInExcel(DateTime startDate, DateTime endDate, List<OpenRequestsBySalesModel> openBySales, 
             List<ReportCategoryMSOModel> categories, List<Report_SalesProjectValuesModel> requests, 
             List<ReportSalesPriorityModel> priorityList, decimal bomTotal, List<Report_SalesProjectValuesModel> msoSummary, List<MSO_Model> msoModels,
-            List<List<RequestModel>> awards)
+            List<List<RequestModel>> awards, bool customFormat)
         {
             int row = 1;
 
@@ -320,6 +320,10 @@ namespace DesignDB_Library.Operations
             summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 14]];
             summaryRange.Font.Bold = true;
             InsertPriorityDataIntoWorksheet(wks, row + 2, priorityList, msoModels);
+            if (customFormat)
+            {
+
+            }
 
             releaseObject(xlApp);
         }
