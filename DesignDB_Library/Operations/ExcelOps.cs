@@ -18,9 +18,12 @@ namespace DesignDB_Library.Operations
         public static void PlaceRollupInExcel(DateTime startDate, DateTime endDate, List<OpenRequestsBySalesModel> openBySales, 
             List<ReportCategoryMSOModel> categories, List<Report_SalesProjectValuesModel> requests, 
             List<ReportSalesPriorityModel> priorityList, decimal bomTotal, List<Report_SalesProjectValuesModel> msoSummary, List<MSO_Model> msoModels,
-            List<List<RequestModel>> awards, bool customFormat)
+            List<List<RequestModel>> awards, bool customFormat = false)
         {
+            int[] sectionArray = new int[6];
             int row = 1;
+            sectionArray[0] = 1;
+            
 
             Excel.Application xlApp = makeExcelApp();
             xlApp.Workbooks.Add();
@@ -93,6 +96,7 @@ namespace DesignDB_Library.Operations
 
             //Monthly MSO Summary
             row = row + 3;
+            sectionArray[1] = row;
             makeTitle(wks, row, 18, "Requests by MSO/Month");
             row++;
             wks.Cells[row, 1].Value = "MSO";
@@ -155,6 +159,7 @@ namespace DesignDB_Library.Operations
 
 
             row = row + 3;
+            sectionArray[2] = row;
             makeTitle(wks, row,12,"Award Status Summary");
             categoryStartRow = row;
             header = wks.Range[wks.Cells[categoryStartRow - 1, 1], wks.Cells[row, 12]];
@@ -192,6 +197,7 @@ namespace DesignDB_Library.Operations
 
             row = row + 5;
             categoryStartRow = row;
+            sectionArray[3] = row;
             makeTitle(wks, row, 21, "Design Requests by MSO/Category");
             row++;
             wks.Cells[row, 1].Value = "MSO";
@@ -275,6 +281,7 @@ namespace DesignDB_Library.Operations
 
             //openBySales
             row = row + 3;
+            sectionArray[4] = row;
             makeTitle(wks, row, 14, "Open Design Requests by Salesperson/Month");
             row++;
             int openStartRow = row - 1;
@@ -319,10 +326,12 @@ namespace DesignDB_Library.Operations
             }
             summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 14]];
             summaryRange.Font.Bold = true;
-            InsertPriorityDataIntoWorksheet(wks, row + 2, priorityList, msoModels);
+            InsertPriorityDataIntoWorksheet(wks, row + 2, priorityList, msoModels, sectionArray);
             if (customFormat)
             {
-
+                wks.Range[wks.Cells[sectionArray[2],50 : sectionArray[3] - 1], 50];
+                //Excel.Range delRange = wks.get_Range(wks.Cells[sectionArray[2]]:50, wks.Cells[sectionArray[3]-1], 50);
+                //delRange.EntireRow.Delete(Type.Missing);
             }
 
             releaseObject(xlApp);
@@ -346,9 +355,10 @@ namespace DesignDB_Library.Operations
             range.Cells.HorizontalAlignment = HorizontalAlignment.Center;
             range.Cells.Merge();
         }
-        private static void InsertPriorityDataIntoWorksheet(Excel.Worksheet wks, int startRow, List<ReportSalesPriorityModel> list, List<MSO_Model> MSO_model)
+        private static void InsertPriorityDataIntoWorksheet(Excel.Worksheet wks, int startRow, List<ReportSalesPriorityModel> list, List<MSO_Model> MSO_model, int[] sectionArray)
         {
             int row = startRow;
+            sectionArray[5] = row;
             makeTitle(wks, row, 5, "Design Requests by Salesperson/Priority");
             row++;
             Excel.Range header3 = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row, 5]];

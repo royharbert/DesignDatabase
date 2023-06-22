@@ -76,10 +76,10 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>C8D8AE2F7986E53F60D32638E36406085388ED72</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>F0136927707C711415679D2DA3A72CB6AC5C7935</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>DesignDB_UI_3_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>DesignDB_UI_4_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -447,6 +447,7 @@
     <None Include="DesignDB_UI_1_TemporaryKey.pfx" />
     <None Include="DesignDB_UI_2_TemporaryKey.pfx" />
     <None Include="DesignDB_UI_3_TemporaryKey.pfx" />
+    <None Include="DesignDB_UI_4_TemporaryKey.pfx" />
     <None Include="DesignDB_UI_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
