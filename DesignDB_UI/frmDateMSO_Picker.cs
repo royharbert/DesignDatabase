@@ -23,7 +23,7 @@ namespace DesignDB_UI
         {
             InitializeComponent();
             GV.PickerForm = this;
-            //this.BringToFront();
+            rdo_Normal.Checked = true;
             if (GV.MODE == Mode.Report_Rollup)
             {
                 lbMSO.SelectionMode = SelectionMode.One;
@@ -72,41 +72,12 @@ namespace DesignDB_UI
         {
             List<MSO_Model> msoList = new List<MSO_Model>();
             DataReadyEventArgs args = new DataReadyEventArgs();
-            //if (GV.MODE!=Mode.Report_Rollup)
-            //{
-                //if (!allSelected)
-                //{
-                    GlobalConfig.Connection.ClearTable("tblSnapshotMSO_S");
-                    foreach (MSO_Model model in lbMSO.SelectedItems)
-                    {
-                        msoList.Add(model);
-                        GlobalConfig.Connection.UpdateSnapshotMSO_s(model.MSO);
-                    }
-                //}
-                //else
-                //{
-                //    msoList = GlobalConfig.Connection.GetAllMSO();
-                //}
-            //}
-            
-
-            //if (GV.MODE == Mode.Report_Rollup)
-            //{
-            //    if (lbMSO.SelectedItems.Count == 1)
-            //    {
-            //        if (!allSelected)
-            //        {                        
-            //            msoList.Add(lbMSO.SelectedItem as MSO_Model); 
-            //        }
-            //    }
-            //    else
-            //    {
-            //        if (allSelected)
-            //        {
-            //            msoList = null; 
-            //        }
-            //    }
-            //}
+            GlobalConfig.Connection.ClearTable("tblSnapshotMSO_S");
+            foreach (MSO_Model model in lbMSO.SelectedItems)
+            {
+                msoList.Add(model);
+                GlobalConfig.Connection.UpdateSnapshotMSO_s(model.MSO);
+            }
             args.MSO_s = msoList;
             args.StartDate = dtpStart.Value;
             args.EndDate = dtpStop.Value;

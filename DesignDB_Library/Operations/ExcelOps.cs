@@ -96,7 +96,7 @@ namespace DesignDB_Library.Operations
 
             //Monthly MSO Summary
             row = row + 3;
-            sectionArray[1] = row;
+            sectionArray[1] = row - 1;
             makeTitle(wks, row, 18, "Requests by MSO/Month");
             row++;
             wks.Cells[row, 1].Value = "MSO";
@@ -159,7 +159,7 @@ namespace DesignDB_Library.Operations
 
 
             row = row + 3;
-            sectionArray[2] = row;
+            sectionArray[2] = row - 1;
             makeTitle(wks, row,12,"Award Status Summary");
             categoryStartRow = row;
             header = wks.Range[wks.Cells[categoryStartRow - 1, 1], wks.Cells[row, 12]];
@@ -197,7 +197,7 @@ namespace DesignDB_Library.Operations
 
             row = row + 5;
             categoryStartRow = row;
-            sectionArray[3] = row;
+            sectionArray[3] = row - 1;
             makeTitle(wks, row, 21, "Design Requests by MSO/Category");
             row++;
             wks.Cells[row, 1].Value = "MSO";
@@ -281,7 +281,7 @@ namespace DesignDB_Library.Operations
 
             //openBySales
             row = row + 3;
-            sectionArray[4] = row;
+            sectionArray[4] = row - 1;
             makeTitle(wks, row, 14, "Open Design Requests by Salesperson/Month");
             row++;
             int openStartRow = row - 1;
@@ -329,9 +329,8 @@ namespace DesignDB_Library.Operations
             InsertPriorityDataIntoWorksheet(wks, row + 2, priorityList, msoModels, sectionArray);
             if (customFormat)
             {
-                wks.Range[wks.Cells[sectionArray[2],50 : sectionArray[3] - 1], 50];
-                //Excel.Range delRange = wks.get_Range(wks.Cells[sectionArray[2]]:50, wks.Cells[sectionArray[3]-1], 50);
-                //delRange.EntireRow.Delete(Type.Missing);
+                Excel.Range delRange = wks.Range[wks.Cells[sectionArray[2], 22], wks.Cells[sectionArray[3] - 1, 22]];
+                delRange.EntireRow.Delete(Type.Missing);
             }
 
             releaseObject(xlApp);
@@ -358,7 +357,7 @@ namespace DesignDB_Library.Operations
         private static void InsertPriorityDataIntoWorksheet(Excel.Worksheet wks, int startRow, List<ReportSalesPriorityModel> list, List<MSO_Model> MSO_model, int[] sectionArray)
         {
             int row = startRow;
-            sectionArray[5] = row;
+            sectionArray[5] = row - 1;
             makeTitle(wks, row, 5, "Design Requests by Salesperson/Priority");
             row++;
             Excel.Range header3 = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row, 5]];
