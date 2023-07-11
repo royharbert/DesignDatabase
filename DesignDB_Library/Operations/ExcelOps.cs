@@ -20,9 +20,9 @@ namespace DesignDB_Library.Operations
             List<ReportSalesPriorityModel> priorityList, decimal bomTotal, List<Report_SalesProjectValuesModel> msoSummary, List<MSO_Model> msoModels,
             List<List<RequestModel>> awards, bool customFormat = false)
         {
-            int[] sectionArray = new int[6];
+            int[,] sectionArray = new int[6,2];
             int row = 1;
-            sectionArray[0] = 1;
+            sectionArray[0,0] = 1;
             
 
             Excel.Application xlApp = makeExcelApp();
@@ -85,18 +85,20 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 18] = model.Weekly;
                 row++;
             }
+            sectionArray[0, 1] = row - 1;
             int categoryStartRow = row;
             Excel.Range decRange = wks.Range[wks.Cells[2, 5], wks.Cells[row, 5]];
-            decRange.NumberFormat = "###.0%";
+            formatNumbers(decRange, customFormat, "###.0%", "0%");
 
             Excel.Range currencyRange = wks.Range[wks.Cells[2, 2], wks.Cells[row, 3]];
-            FormatExcelRangeAsCurrency(wks, currencyRange);
+            //FormatExcelRangeAsCurrency(wks, currencyRange);
+            formatNumbers(currencyRange, customFormat, "$###,###,###.00", "$###,###,###");
             Excel.Range summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 17]];
             summaryRange.Font.Bold = true;
 
             //Monthly MSO Summary
             row = row + 3;
-            sectionArray[1] = row - 1;
+            sectionArray[1,0] = row - 1;
             makeTitle(wks, row, 18, "Requests by MSO/Month");
             row++;
             wks.Cells[row, 1].Value = "MSO";
@@ -149,17 +151,20 @@ namespace DesignDB_Library.Operations
                 //wks.Cells[row, 19] = model.Total;
                 row++; 
             }
+            sectionArray[1, 1] = row - 1;
             decRange = wks.Range[wks.Cells[categoryStartRow, 5], wks.Cells[row, 5]];
-            decRange.NumberFormat = "###.0%";
+            //decRange.NumberFormat = "###.0%";
+            formatNumbers(decRange, customFormat, "###.0%", "#0%");
 
             currencyRange = wks.Range[wks.Cells[categoryStartRow, 2], wks.Cells[row, 3]];
-            FormatExcelRangeAsCurrency(wks, currencyRange);
+            //FormatExcelRangeAsCurrency(wks, currencyRange);
+            formatNumbers(currencyRange, customFormat, "$###,###,###.00", "$###,###,###");
             summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 18]];
             summaryRange.Font.Bold = true;
 
 
             row = row + 3;
-            sectionArray[2] = row - 1;
+            sectionArray[2,0] = row - 1;
             makeTitle(wks, row,12,"Award Status Summary");
             categoryStartRow = row;
             header = wks.Range[wks.Cells[categoryStartRow - 1, 1], wks.Cells[row, 12]];
@@ -194,10 +199,11 @@ namespace DesignDB_Library.Operations
                 List<RequestModel> status = awards[i];
                 col = placeAwardStatusData(status, wks, row, col); 
             }
+            sectionArray[2, 1] = row;
 
             row = row + 5;
             categoryStartRow = row;
-            sectionArray[3] = row - 1;
+            sectionArray[3,0] = row - 1;
             makeTitle(wks, row, 21, "Design Requests by MSO/Category");
             row++;
             wks.Cells[row, 1].Value = "MSO";
@@ -264,6 +270,7 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 23] = model.UnassignedDollars;
                 row++;
             }
+            sectionArray[3, 1] = row - 1;
 
 
             Excel.Range numRange = wks.Range[wks.Cells[categoryStartRow, 1], wks.Cells[row, 23]];
@@ -272,16 +279,19 @@ namespace DesignDB_Library.Operations
             //numRange.NumberFormat = "0";
 
             Excel.Range pctRange = wks.Range[wks.Cells[categoryStartRow + 1, 5], wks.Cells[row, 5]];
-            pctRange.NumberFormat = "###.0%";
+            //pctRange.NumberFormat = "###.0%";
+            formatNumbers(pctRange, customFormat, "###.0%", "#0%");
 
             currencyRange = wks.Range[wks.Cells[categoryStartRow, 2], wks.Cells[row, 3]];
-            FormatExcelRangeAsCurrency(wks, currencyRange);
+            //FormatExcelRangeAsCurrency(wks, currencyRange);
+            formatNumbers(currencyRange, customFormat, "$###,###,##0.00", "$###,###,###");
             currencyRange = wks.Range[wks.Cells[categoryStartRow, 15], wks.Cells[row, 23]];
-            FormatExcelRangeAsCurrency(wks, currencyRange);
+            //FormatExcelRangeAsCurrency(wks, currencyRange);
+            formatNumbers(currencyRange, customFormat, "$###,###,##0.00", "$###,###,###");
 
             //openBySales
             row = row + 3;
-            sectionArray[4] = row - 1;
+            sectionArray[4,1] = row - 1;
             makeTitle(wks, row, 14, "Open Design Requests by Salesperson/Month");
             row++;
             int openStartRow = row - 1;
@@ -324,16 +334,29 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 14] = model.Dec;
                 row++;
             }
+            sectionArray[4, 1] = row - 1;
             summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 14]];
             summaryRange.Font.Bold = true;
-            InsertPriorityDataIntoWorksheet(wks, row + 2, priorityList, msoModels, sectionArray);
+            InsertPriorityDataIntoWorksheet(wks, row + 2, priorityList, msoModels, sectionArray, customFormat);
             if (customFormat)
             {
-                Excel.Range delRange = wks.Range[wks.Cells[sectionArray[2], 22], wks.Cells[sectionArray[3] - 1, 22]];
+                Excel.Range delRange = wks.Range[wks.Cells[sectionArray[2,0], 22], wks.Cells[sectionArray[3,0] - 1, 22]];
                 delRange.EntireRow.Delete(Type.Missing);
             }
 
             releaseObject(xlApp);
+        }
+
+        private static void formatNumbers(Excel.Range range, bool customFormat, string normalString, string customString)
+        {
+            if (customFormat)
+            {
+                range.NumberFormat = customString;
+            }
+            else
+            {
+                range.NumberFormat = normalString;
+            }
         }
 
         private static int  placeAwardStatusData(List<RequestModel> status, Excel.Worksheet wks, int row, int col)
@@ -354,10 +377,11 @@ namespace DesignDB_Library.Operations
             range.Cells.HorizontalAlignment = HorizontalAlignment.Center;
             range.Cells.Merge();
         }
-        private static void InsertPriorityDataIntoWorksheet(Excel.Worksheet wks, int startRow, List<ReportSalesPriorityModel> list, List<MSO_Model> MSO_model, int[] sectionArray)
+        private static void InsertPriorityDataIntoWorksheet(Excel.Worksheet wks, int startRow, List<ReportSalesPriorityModel> list, 
+            List<MSO_Model> MSO_model, int[,] sectionArray, bool customFormat)
         {
             int row = startRow;
-            sectionArray[5] = row - 1;
+            sectionArray[5,0] = row - 1;
             makeTitle(wks, row, 5, "Design Requests by Salesperson/Priority");
             row++;
             Excel.Range header3 = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row, 5]];
@@ -381,9 +405,13 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 5].Value = model.P3Pct;
                 row++;
             }
-            Excel.Range pctRange = wks.Range[wks.Cells[startRow + 2, 3], wks.Cells[row - 1, 5]];
-            pctRange.NumberFormat = "##.00%";
-            wks.Cells[row - 1, 2].NumberFormat = "##%";
+            sectionArray[5, 1] = row - 1;
+            Excel.Range pctRange = wks.Range[wks.Cells[startRow + 2, 3], wks.Cells[row - 2, 5]];
+            //pctRange.NumberFormat = "##.00%";
+            formatNumbers(pctRange, customFormat, "#0.00%", "#0%");
+            //wks.Cells[row - 1, 2].NumberFormat = "##%";
+            Excel.Range pctSummary = wks.Range[wks.Cells[row - 1, 3], wks.Cells[row - 1, 5]];
+            formatNumbers(pctSummary, customFormat, "#0.00%", "#0%");
             Excel.Range boldRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row, 5]];
             boldRange.Font.Bold = true;
         }

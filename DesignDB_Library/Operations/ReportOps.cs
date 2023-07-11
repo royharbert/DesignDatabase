@@ -431,7 +431,7 @@ namespace DesignDB_Library.Operations
                 companyTotal.SalesPerson = msoList[0].MSO + " Total";
             }
             ReportSalesPriorityModel percentModel = new ReportSalesPriorityModel();
-            percentModel.SalesPerson = "Percent of Total";
+            percentModel.SalesPerson = "Total Requests/% of Total";
             foreach (var person in salesPeople)
             {
                 string name = person.SalesPerson;
@@ -476,10 +476,11 @@ namespace DesignDB_Library.Operations
             }
             priorityModels = priorityModels.OrderByDescending(x => x.TotalCount).ToList();
             //priorityModels.Add(companyTotal);
-            percentModel.TotalCount = companyTotal.TotalCount / companyTotal.TotalCount;
-            percentModel.P1Count = companyTotal.P1Count / companyTotal.TotalCount;
-            percentModel.P2Count = companyTotal.P2Count / companyTotal.TotalCount;
-            percentModel.P3Count = companyTotal.P3Count / companyTotal.TotalCount;
+            percentModel = new ReportSalesPriorityModel();
+            percentModel.TotalCount = companyTotal.TotalCount;
+            //percentModel.P1Pct = companyTotal.P1Count / companyTotal.TotalCount;
+            //percentModel.P2Pct = companyTotal.P2Count / companyTotal.TotalCount;
+            //percentModel.P3Pct = companyTotal.P3Pct;
             priorityModels.Add(percentModel);
 
             return priorityModels;

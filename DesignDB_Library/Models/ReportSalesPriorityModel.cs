@@ -31,7 +31,6 @@ namespace DesignDB_Library.Models
         public decimal TotalCount { get; set; }
         [ExcelExportPropertyAttribute]
         public decimal TotalDollars { get; set; }
-
         public float P1Pct
         {
             get 
