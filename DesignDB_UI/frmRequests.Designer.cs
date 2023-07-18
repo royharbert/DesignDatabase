@@ -117,13 +117,13 @@ namespace DesignDB_UI
             this.btnRestore = new System.Windows.Forms.Button();
             this.tlpSearch = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.commonBEDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.gbDateRange = new System.Windows.Forms.GroupBox();
             this.ckFilter = new System.Windows.Forms.CheckBox();
             this.label31 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.dtpEnd = new System.Windows.Forms.DateTimePicker();
             this.dtpStart = new System.Windows.Forms.DateTimePicker();
+            this.commonBEDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.ddContextMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachments)).BeginInit();
             this.dtpContextMenu.SuspendLayout();
@@ -134,8 +134,8 @@ namespace DesignDB_UI
             this.tlpBottom.SuspendLayout();
             this.tlpSearch.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.commonBEDataSetBindingSource)).BeginInit();
             this.gbDateRange.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.commonBEDataSetBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // txtPID
@@ -1463,7 +1463,7 @@ namespace DesignDB_UI
             this.gbDateRange.Controls.Add(this.dtpEnd);
             this.gbDateRange.Controls.Add(this.dtpStart);
             this.gbDateRange.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbDateRange.Location = new System.Drawing.Point(646, 621);
+            this.gbDateRange.Location = new System.Drawing.Point(552, 656);
             this.gbDateRange.Name = "gbDateRange";
             this.gbDateRange.Size = new System.Drawing.Size(437, 88);
             this.gbDateRange.TabIndex = 209;
@@ -1474,7 +1474,7 @@ namespace DesignDB_UI
             // 
             this.ckFilter.AutoSize = true;
             this.ckFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ckFilter.Location = new System.Drawing.Point(6, 37);
+            this.ckFilter.Location = new System.Drawing.Point(16, 30);
             this.ckFilter.Name = "ckFilter";
             this.ckFilter.Size = new System.Drawing.Size(83, 22);
             this.ckFilter.TabIndex = 4;
@@ -1525,7 +1525,7 @@ namespace DesignDB_UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(1508, 922);
+            this.ClientSize = new System.Drawing.Size(1508, 956);
             this.Controls.Add(this.gbDateRange);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.tlpSearch);
@@ -1559,9 +1559,9 @@ namespace DesignDB_UI
             this.tlpSearch.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.commonBEDataSetBindingSource)).EndInit();
             this.gbDateRange.ResumeLayout(false);
             this.gbDateRange.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.commonBEDataSetBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }

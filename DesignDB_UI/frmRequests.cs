@@ -1710,5 +1710,6 @@ namespace DesignDB_UI
             GV.MODE = mode;
             prepFormForTask();
         }
+
     }   
 }
