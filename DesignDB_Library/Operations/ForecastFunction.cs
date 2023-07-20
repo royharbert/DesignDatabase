@@ -165,7 +165,8 @@ namespace DesignDB_Library.Operations
 
                 //loop thru BOM rows and build BOM models
                 int i = startRow;
-                string qString = wks.Cells[i, startCol].Value.ToString();
+                //bool ccNull = string.IsNullOrEmpty(wks.Cells[i, startCol].Value?.ToString());
+                var qString = wks.Cells[i, startCol].Value.ToString();
                 while (qString != null)
                 {
                     BOM_Model model = new BOM_Model();
@@ -308,7 +309,7 @@ namespace DesignDB_Library.Operations
         private static Excel.Range findHeaderRow(Excel.Application xlApp)
         {
             wks = xlApp.ActiveSheet;
-            Excel.Range range =  wks.get_Range("A4:Z7");
+            Excel.Range range =  wks.get_Range("A4:AZ7");
             Excel.Range result = range.Find("Quantity");
             
             return result;

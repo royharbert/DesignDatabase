@@ -30,8 +30,8 @@ namespace DesignDB_UI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtPID = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cboMSO = new System.Windows.Forms.ComboBox();
@@ -124,6 +124,10 @@ namespace DesignDB_UI
             this.dtpEnd = new System.Windows.Forms.DateTimePicker();
             this.dtpStart = new System.Windows.Forms.DateTimePicker();
             this.commonBEDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.rtbContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.miCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.miPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.ddContextMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachments)).BeginInit();
             this.dtpContextMenu.SuspendLayout();
@@ -136,6 +140,7 @@ namespace DesignDB_UI
             this.tableLayoutPanel1.SuspendLayout();
             this.gbDateRange.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.commonBEDataSetBindingSource)).BeginInit();
+            this.rtbContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtPID
@@ -874,6 +879,7 @@ namespace DesignDB_UI
             // 
             // rtbArchDetails
             // 
+            this.rtbArchDetails.ContextMenuStrip = this.rtbContextMenu;
             this.rtbArchDetails.Location = new System.Drawing.Point(3, 23);
             this.rtbArchDetails.Name = "rtbArchDetails";
             this.rtbArchDetails.Size = new System.Drawing.Size(371, 248);
@@ -904,6 +910,7 @@ namespace DesignDB_UI
             // 
             // rtbComments
             // 
+            this.rtbComments.ContextMenuStrip = this.rtbContextMenu;
             this.rtbComments.Location = new System.Drawing.Point(3, 338);
             this.rtbComments.Name = "rtbComments";
             this.rtbComments.Size = new System.Drawing.Size(371, 248);
@@ -1091,24 +1098,24 @@ namespace DesignDB_UI
             this.dgvAttachments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvAttachments.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvAttachments.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvAttachments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tlpAttachment.SetColumnSpan(this.dgvAttachments, 4);
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvAttachments.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAttachments.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvAttachments.Location = new System.Drawing.Point(3, 3);
             this.dgvAttachments.MultiSelect = false;
             this.dgvAttachments.Name = "dgvAttachments";
@@ -1463,7 +1470,7 @@ namespace DesignDB_UI
             this.gbDateRange.Controls.Add(this.dtpEnd);
             this.gbDateRange.Controls.Add(this.dtpStart);
             this.gbDateRange.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbDateRange.Location = new System.Drawing.Point(552, 656);
+            this.gbDateRange.Location = new System.Drawing.Point(750, 621);
             this.gbDateRange.Name = "gbDateRange";
             this.gbDateRange.Size = new System.Drawing.Size(437, 88);
             this.gbDateRange.TabIndex = 209;
@@ -1519,13 +1526,43 @@ namespace DesignDB_UI
             this.dtpStart.Size = new System.Drawing.Size(259, 24);
             this.dtpStart.TabIndex = 0;
             // 
+            // rtbContextMenu
+            // 
+            this.rtbContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miCopy,
+            this.miCut,
+            this.miPaste});
+            this.rtbContextMenu.Name = "rtbContextMenu";
+            this.rtbContextMenu.Size = new System.Drawing.Size(103, 70);
+            // 
+            // miCopy
+            // 
+            this.miCopy.Name = "miCopy";
+            this.miCopy.Size = new System.Drawing.Size(102, 22);
+            this.miCopy.Text = "Copy";
+            this.miCopy.Click += new System.EventHandler(this.miCopy_Click);
+            // 
+            // miCut
+            // 
+            this.miCut.Name = "miCut";
+            this.miCut.Size = new System.Drawing.Size(102, 22);
+            this.miCut.Text = "Cut";
+            this.miCut.Click += new System.EventHandler(this.miCut_Click);
+            // 
+            // miPaste
+            // 
+            this.miPaste.Name = "miPaste";
+            this.miPaste.Size = new System.Drawing.Size(102, 22);
+            this.miPaste.Text = "Paste";
+            this.miPaste.Click += new System.EventHandler(this.miPaste_Click);
+            // 
             // frmRequests
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(1508, 956);
+            this.ClientSize = new System.Drawing.Size(1508, 990);
             this.Controls.Add(this.gbDateRange);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.tlpSearch);
@@ -1562,6 +1599,7 @@ namespace DesignDB_UI
             this.gbDateRange.ResumeLayout(false);
             this.gbDateRange.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.commonBEDataSetBindingSource)).EndInit();
+            this.rtbContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1660,5 +1698,9 @@ namespace DesignDB_UI
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.DateTimePicker dtpEnd;
         private System.Windows.Forms.DateTimePicker dtpStart;
+        private System.Windows.Forms.ContextMenuStrip rtbContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem miCopy;
+        private System.Windows.Forms.ToolStripMenuItem miCut;
+        private System.Windows.Forms.ToolStripMenuItem miPaste;
     }
 }

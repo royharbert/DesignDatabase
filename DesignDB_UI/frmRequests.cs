@@ -1300,6 +1300,60 @@ namespace DesignDB_UI
             cbo.SelectedIndex = -1;
         }
 
+        private void miCopy_Click(object sender, EventArgs e)
+        {
+            // Try to cast the sender to a ToolStripItem
+            ToolStripItem menuItem = sender as ToolStripItem;
+            if (menuItem != null)
+            {
+                // Retrieve the ContextMenuStrip that owns this ToolStripItem
+                ContextMenuStrip owner = menuItem.Owner as ContextMenuStrip;
+                if (owner != null)
+                {
+                    // Get the control that is displaying this context menu
+                    Control sourceControl = owner.SourceControl;
+                    RichTextBox rtb = (RichTextBox)sourceControl;
+                    rtb.Copy();
+                }
+            }
+        }
+
+        private void miCut_Click(object sender, EventArgs e)
+        {
+            // Try to cast the sender to a ToolStripItem
+            ToolStripItem menuItem = sender as ToolStripItem;
+            if (menuItem != null)
+            {
+                // Retrieve the ContextMenuStrip that owns this ToolStripItem
+                ContextMenuStrip owner = menuItem.Owner as ContextMenuStrip;
+                if (owner != null)
+                {
+                    // Get the control that is displaying this context menu
+                    Control sourceControl = owner.SourceControl;
+                    RichTextBox rtb = (RichTextBox)sourceControl;
+                    rtb.Cut();
+                }
+            }
+        }
+
+        private void miPaste_Click(object sender, EventArgs e)
+        {
+            // Try to cast the sender to a ToolStripItem
+            ToolStripItem menuItem = sender as ToolStripItem;
+            if (menuItem != null)
+            {
+                // Retrieve the ContextMenuStrip that owns this ToolStripItem
+                ContextMenuStrip owner = menuItem.Owner as ContextMenuStrip;
+                if (owner != null)
+                {
+                    // Get the control that is displaying this context menu
+                    Control sourceControl = owner.SourceControl;
+                    RichTextBox rtb = (RichTextBox)sourceControl;
+                    rtb.Paste();
+                }
+            }
+        }
+
         private void clearDateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DateTimePicker dtp = (DateTimePicker)dtpContextMenu.SourceControl;
