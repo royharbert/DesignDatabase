@@ -166,7 +166,16 @@ namespace DesignDB_Library.Operations
                 //loop thru BOM rows and build BOM models
                 int i = startRow;
                 //bool ccNull = string.IsNullOrEmpty(wks.Cells[i, startCol].Value?.ToString());
-                var qString = wks.Cells[i, startCol].Value.ToString();
+                string qString = "";
+                try
+                {
+                    qString = wks.Cells[i, startCol].Value;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
                 while (qString != null)
                 {
                     BOM_Model model = new BOM_Model();
