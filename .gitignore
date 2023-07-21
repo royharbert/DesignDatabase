@@ -14,3 +14,4 @@
 /Releases/Setup.exe
 /Releases/Setup.msi
 *.nupkg
+/Releases/RELEASES
