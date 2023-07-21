@@ -173,8 +173,7 @@ namespace DesignDB_Library.Operations
                 }
                 catch (Exception)
                 {
-
-                    throw;
+                    
                 }
                 while (qString != null)
                 {
