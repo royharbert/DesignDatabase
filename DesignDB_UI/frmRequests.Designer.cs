@@ -84,6 +84,10 @@ namespace DesignDB_UI
             this.txtTotalHours = new System.Windows.Forms.TextBox();
             this.label27 = new System.Windows.Forms.Label();
             this.rtbArchDetails = new System.Windows.Forms.RichTextBox();
+            this.rtbContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.miCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.miPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.label28 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.rtbComments = new System.Windows.Forms.RichTextBox();
@@ -124,11 +128,8 @@ namespace DesignDB_UI
             this.dtpEnd = new System.Windows.Forms.DateTimePicker();
             this.dtpStart = new System.Windows.Forms.DateTimePicker();
             this.commonBEDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.rtbContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.miCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.miCut = new System.Windows.Forms.ToolStripMenuItem();
-            this.miPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.ddContextMenu.SuspendLayout();
+            this.rtbContextMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachments)).BeginInit();
             this.dtpContextMenu.SuspendLayout();
             this.tlpLeft.SuspendLayout();
@@ -140,7 +141,6 @@ namespace DesignDB_UI
             this.tableLayoutPanel1.SuspendLayout();
             this.gbDateRange.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.commonBEDataSetBindingSource)).BeginInit();
-            this.rtbContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtPID
@@ -890,6 +890,36 @@ namespace DesignDB_UI
             this.rtbArchDetails.Enter += new System.EventHandler(this.rtbArchDetails_Enter);
             this.rtbArchDetails.Leave += new System.EventHandler(this.rtbArchDetails_Leave);
             // 
+            // rtbContextMenu
+            // 
+            this.rtbContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miCopy,
+            this.miCut,
+            this.miPaste});
+            this.rtbContextMenu.Name = "rtbContextMenu";
+            this.rtbContextMenu.Size = new System.Drawing.Size(103, 70);
+            // 
+            // miCopy
+            // 
+            this.miCopy.Name = "miCopy";
+            this.miCopy.Size = new System.Drawing.Size(102, 22);
+            this.miCopy.Text = "Copy";
+            this.miCopy.Click += new System.EventHandler(this.miCopy_Click);
+            // 
+            // miCut
+            // 
+            this.miCut.Name = "miCut";
+            this.miCut.Size = new System.Drawing.Size(102, 22);
+            this.miCut.Text = "Cut";
+            this.miCut.Click += new System.EventHandler(this.miCut_Click);
+            // 
+            // miPaste
+            // 
+            this.miPaste.Name = "miPaste";
+            this.miPaste.Size = new System.Drawing.Size(102, 22);
+            this.miPaste.Text = "Paste";
+            this.miPaste.Click += new System.EventHandler(this.miPaste_Click);
+            // 
             // label28
             // 
             this.label28.AutoSize = true;
@@ -1470,7 +1500,7 @@ namespace DesignDB_UI
             this.gbDateRange.Controls.Add(this.dtpEnd);
             this.gbDateRange.Controls.Add(this.dtpStart);
             this.gbDateRange.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbDateRange.Location = new System.Drawing.Point(750, 621);
+            this.gbDateRange.Location = new System.Drawing.Point(536, 603);
             this.gbDateRange.Name = "gbDateRange";
             this.gbDateRange.Size = new System.Drawing.Size(437, 88);
             this.gbDateRange.TabIndex = 209;
@@ -1526,43 +1556,13 @@ namespace DesignDB_UI
             this.dtpStart.Size = new System.Drawing.Size(259, 24);
             this.dtpStart.TabIndex = 0;
             // 
-            // rtbContextMenu
-            // 
-            this.rtbContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miCopy,
-            this.miCut,
-            this.miPaste});
-            this.rtbContextMenu.Name = "rtbContextMenu";
-            this.rtbContextMenu.Size = new System.Drawing.Size(103, 70);
-            // 
-            // miCopy
-            // 
-            this.miCopy.Name = "miCopy";
-            this.miCopy.Size = new System.Drawing.Size(102, 22);
-            this.miCopy.Text = "Copy";
-            this.miCopy.Click += new System.EventHandler(this.miCopy_Click);
-            // 
-            // miCut
-            // 
-            this.miCut.Name = "miCut";
-            this.miCut.Size = new System.Drawing.Size(102, 22);
-            this.miCut.Text = "Cut";
-            this.miCut.Click += new System.EventHandler(this.miCut_Click);
-            // 
-            // miPaste
-            // 
-            this.miPaste.Name = "miPaste";
-            this.miPaste.Size = new System.Drawing.Size(102, 22);
-            this.miPaste.Text = "Paste";
-            this.miPaste.Click += new System.EventHandler(this.miPaste_Click);
-            // 
             // frmRequests
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(1508, 990);
+            this.ClientSize = new System.Drawing.Size(1508, 857);
             this.Controls.Add(this.gbDateRange);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.tlpSearch);
@@ -1582,6 +1582,7 @@ namespace DesignDB_UI
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmRequests_FormClosing);
             this.Move += new System.EventHandler(this.frmRequests_Move);
             this.ddContextMenu.ResumeLayout(false);
+            this.rtbContextMenu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAttachments)).EndInit();
             this.dtpContextMenu.ResumeLayout(false);
             this.tlpLeft.ResumeLayout(false);
@@ -1599,7 +1600,6 @@ namespace DesignDB_UI
             this.gbDateRange.ResumeLayout(false);
             this.gbDateRange.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.commonBEDataSetBindingSource)).EndInit();
-            this.rtbContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
