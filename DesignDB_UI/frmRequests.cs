@@ -529,7 +529,6 @@ namespace DesignDB_UI
                 default:
                     break;
             }
-            txtSearch.Clear();
 
 
         }
@@ -690,17 +689,6 @@ namespace DesignDB_UI
             }
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            changeMode(Mode.Edit);
-            //GV.MODE = Mode.Edit;
-            string search = '%' + txtSearch.Text + '%';
-            List<RequestModel> rm = GlobalConfig.Connection.GetRequestByPID(search).ToList();
-            frmMainMenu.ManageSearchResults(rm);
-            insertData(rm[0]);
-            setButtonDisplay();
-            formDirty = false;
-        }
 
         private void btnDone_Click(object sender, EventArgs e)
         {
@@ -1204,7 +1192,6 @@ namespace DesignDB_UI
                 //GV.MODE = Mode.Search;
                 changeMode(Mode.SearchFields);
                 btnSearchFields.Text = "Search";
-                btnSearch.Visible = true;
                 searchReset();
             }
         }
@@ -1368,16 +1355,16 @@ namespace DesignDB_UI
                 btnSearchFields.Text = "Search";
             }
 
-            if (GV.MODE == Mode.SearchFields)
-            {
-                gbDateRange.Visible = true;
-                tlpSearch.Visible = false;
-            }
-            else
-            {
-                gbDateRange.Visible = false;
-                tlpSearch.Visible = true;
-            }
+            //if (GV.MODE == Mode.SearchFields)
+            //{
+            //    gbDateRange.Visible = true;
+            //    tlpSearch.Visible = false;
+            //}
+            //else
+            //{
+            //    gbDateRange.Visible = false;
+            //    tlpSearch.Visible = true;
+            //}
             this.Text = "Design Request - Mode: " + GV.MODE;
             
             //MakeActiveDependantLists();
@@ -1409,11 +1396,10 @@ namespace DesignDB_UI
             switch (GV.MODE)
             {
                 case Mode.Search:
-                    tlpSearch.Visible = false;
+                case Mode.SearchFields:
                     gbDateRange.Visible = true;
                     break;
                 default:
-                    tlpSearch.Visible = true;
                     gbDateRange.Visible = false;
                     break;
             }
@@ -1736,11 +1722,12 @@ namespace DesignDB_UI
             switch (GV.MODE)
             {
                 case Mode.Search:
-                    tlpSearch.Visible = false;
+                case Mode.SearchFields:
+                    //tlpSearch.Visible = false;
                     gbDateRange.Visible = true;
                     break;
                 default:
-                    tlpSearch.Visible = true;
+                    //tlpSearch.Visible = true;
                     gbDateRange.Visible = false;
                     break;
             }
