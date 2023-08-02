@@ -11,3 +11,7 @@
 /DesignDB_UI/obj/Debug/DesignDB_UI.exe.manifest
 /DesignDB_UI/obj/Debug/DesignDB_UI.csproj.AssemblyReference.cache
 /.vs/DesignDB_Library/v17/.suo
+/Releases/Setup.exe
+/Releases/Setup.msi
+*.nupkg
+/Releases/RELEASES
