@@ -1397,10 +1397,8 @@ namespace DesignDB_UI
             {
                 case Mode.Search:
                 case Mode.SearchFields:
-                    gbDateRange.Visible = true;
                     break;
                 default:
-                    gbDateRange.Visible = false;
                     break;
             }
             Application.DoEvents();
@@ -1724,11 +1722,9 @@ namespace DesignDB_UI
                 case Mode.Search:
                 case Mode.SearchFields:
                     //tlpSearch.Visible = false;
-                    gbDateRange.Visible = true;
                     break;
                 default:
                     //tlpSearch.Visible = true;
-                    gbDateRange.Visible = false;
                     break;
             }
         }

@@ -51,17 +51,20 @@ namespace DesignDB_Library.Operations
                 string fileName = getBOM(request);
                 if (fileName != null)
                 {
-                    products = processBOM(fileName, request.ProjectID, products);
-                    pb.PerformStep();
-                    dgv.Rows[row].Selected = true;
-                    if (recordsProcessed > 0)
+                    if (request.QuoteType != "Playbook")
                     {
-                        dgv.Rows[recordsProcessed - 1].Selected = false;
-                    }                    
-                    
-                    recordsProcessed++;
-                    pBox.Text = recordsProcessed.ToString();
-                    Application.DoEvents();
+                        products = processBOM(fileName, request.ProjectID, products);
+                        pb.PerformStep();
+                        dgv.Rows[row].Selected = true;
+                        if (recordsProcessed > 0)
+                        {
+                            dgv.Rows[recordsProcessed - 1].Selected = false;
+                        }
+
+                        recordsProcessed++;
+                        pBox.Text = recordsProcessed.ToString();
+                        Application.DoEvents(); 
+                    }
                 }
                 else
                 {
