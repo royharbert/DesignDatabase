@@ -1143,7 +1143,8 @@ namespace DesignDB_UI
                 checkForSave();
             }
             dropHandlers();
-            GV.REQFORM = null;
+            e.Cancel = true;
+            this.Hide();
         }
 
         private void btnRestore_Click(object sender, EventArgs e)
@@ -1712,7 +1713,9 @@ namespace DesignDB_UI
             dtpResetForced(txtDateAssigned);
             unlockTLP(true);
             dgvAttachments.DataSource = "";
-            formDirty = false;            
+            formDirty = false;
+            ckFilter.Checked = false;
+
         }
 
         public void setDateRangeControls()
@@ -1748,5 +1751,19 @@ namespace DesignDB_UI
             prepFormForTask();
         }
 
+        private void dtpStart_ValueChanged(object sender, EventArgs e)
+        {
+            ckFilter.Checked = true;
+        }
+
+        private void dtpEnd_ValueChanged(object sender, EventArgs e)
+        {
+            ckFilter.Checked = true;
+        }
+
+        private void frmRequests_Load(object sender, EventArgs e)
+        {
+            dgvAttachments.DataSource = null;
+        }
     }   
 }
