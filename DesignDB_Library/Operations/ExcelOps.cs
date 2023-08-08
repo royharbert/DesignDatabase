@@ -32,7 +32,7 @@ namespace DesignDB_Library.Operations
 
             //Place column headings
             wks.Cells[2, 1].Value = "Salesperson";
-            wks.Cells[2, 2].Value = "Total $ *";
+            wks.Cells[2, 2].Value = "Total $";
             wks.Cells[2, 3].Value = "Average $";
             wks.Cells[2, 4].Value = "Total Count";
             wks.Cells[2, 5].Value = "% of Total Value";
@@ -86,8 +86,15 @@ namespace DesignDB_Library.Operations
                 row++;
             }
             int categoryStartRow = row;
-            Excel.Range decRange = wks.Range[wks.Cells[2, 5], wks.Cells[row, 5]];
-            decRange.NumberFormat = "###.0%";
+                Excel.Range decRange = wks.Range[wks.Cells[2, 5], wks.Cells[row, 5]];
+            if (!customFormat)
+            {
+                decRange.NumberFormat = "###%"; 
+            }
+            else
+            {
+                decRange.Value = 100*Math.Round(decRange.Value, MidpointRounding.ToEven)/100;
+            }
 
             Excel.Range currencyRange = wks.Range[wks.Cells[2, 2], wks.Cells[row, 3]];
             FormatExcelRangeAsCurrency(wks, currencyRange);
@@ -117,7 +124,7 @@ namespace DesignDB_Library.Operations
             wks.Cells[row, 16].Value = "Nov";
             wks.Cells[row, 17].Value = "Dec";
             wks.Cells[row, 18].Value = "Current Week " + startDate.ToShortDateString() + " " + endDate.ToShortDateString();
-            //wks.Cells[row, 19].Value = "TOTAL";
+            //wks.Cells[row, 19].Value = "Total";
             wks.Columns[1].ColumnWidth = 28;
 
             header = wks.Range[wks.Cells[categoryStartRow + 2, 1], wks.Cells[row, 18]];
@@ -149,8 +156,8 @@ namespace DesignDB_Library.Operations
                 //wks.Cells[row, 19] = model.Total;
                 row++; 
             }
-            decRange = wks.Range[wks.Cells[categoryStartRow, 5], wks.Cells[row, 5]];
-            decRange.NumberFormat = "###.0%";
+            //decRange = wks.Range[wks.Cells[categoryStartRow, 5], wks.Cells[row, 5]];
+            //decRange.NumberFormat = "###%";
 
             currencyRange = wks.Range[wks.Cells[categoryStartRow, 2], wks.Cells[row, 3]];
             FormatExcelRangeAsCurrency(wks, currencyRange);
