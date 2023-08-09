@@ -301,7 +301,7 @@ namespace DesignDB_Library.Operations
                 }
             }
             categoryReport = categoryReport.OrderByDescending(x => x.TotalDollars).ToList();
-            categorySummary.MSO = "TOTAL";
+            categorySummary.MSO = "Total";
             categorySummary.TotalRequests = requests.Count;
             categorySummary.AverageDollarsPerRequest=categorySummary.TotalDollars/categorySummary.TotalRequests;
             categorySummary.PctOfTotal = categoryReport.Sum(x => x.PctOfTotal); 
