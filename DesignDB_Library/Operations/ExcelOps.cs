@@ -28,6 +28,7 @@ namespace DesignDB_Library.Operations
             Excel.Application xlApp = makeExcelApp();
             xlApp.Workbooks.Add();
             Excel.Worksheet wks = xlApp.ActiveSheet;
+            xlApp.ActiveWindow.Zoom = 80;
             xlApp.Visible = true;
 
             //Place column headings
@@ -69,7 +70,16 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 2] = model.CurrentYTD_Value;
                 wks.Cells[row, 3] = model.AverageDollars;
                 wks.Cells[row, 4] = model.CurrentYear_Count;
-                wks.Cells[row, 5] = model.PctTotalValue;
+                if (customFormat)
+                {
+                    model.PctTotalValue = 100 * model.PctTotalValue;
+                    wks.Cells[row, 5] = Math.Round(model.PctTotalValue);
+                }
+                else
+                {
+                    wks.Cells[row, 5] =model.PctTotalValue;
+                }
+                //wks.Cells[row, 5] = model.PctTotalValue;
                 wks.Cells[row, 6] = model.JanProjects;
                 wks.Cells[row, 7] = model.FebProjects;
                 wks.Cells[row, 8] = model.MarProjects;
@@ -87,14 +97,20 @@ namespace DesignDB_Library.Operations
             }
             sectionArray[0, 1] = row - 1;
             int categoryStartRow = row;
-                Excel.Range decRange = wks.Range[wks.Cells[2, 5], wks.Cells[row, 5]];
+            //Excel.Range decRange = wks.Range[wks.Cells[2, 5], wks.Cells[row, 5]];
+            Excel.Range decRange = wks.Range[wks.Cells[3, 5], wks.Cells[row - 1, 5]];
+
             if (!customFormat)
             {
-                decRange.NumberFormat = "###%"; 
+                decRange.NumberFormat = "###.#%"; 
             }
             else
             {
-                decRange.Value = 100*Math.Round(decRange.Value, MidpointRounding.ToEven)/100;
+                if (row <= sectionArray[0,1])
+                {
+                    decRange.Value = decRange.Value / 100;
+                    decRange.NumberFormat = "###%";
+                }
             }
 
             Excel.Range currencyRange = wks.Range[wks.Cells[2, 2], wks.Cells[row, 3]];
@@ -412,13 +428,12 @@ namespace DesignDB_Library.Operations
             }
             sectionArray[5, 1] = row - 1;
             Excel.Range pctRange = wks.Range[wks.Cells[startRow + 2, 3], wks.Cells[row - 2, 5]];
-            //pctRange.NumberFormat = "##.00%";
             formatNumbers(pctRange, customFormat, "#0.00%", "#0%");
-            //wks.Cells[row - 1, 2].NumberFormat = "##%";
             Excel.Range pctSummary = wks.Range[wks.Cells[row - 1, 3], wks.Cells[row - 1, 5]];
             formatNumbers(pctSummary, customFormat, "#0.00%", "#0%");
             Excel.Range boldRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row, 5]];
             boldRange.Font.Bold = true;
+            
         }
 
             private static void FormatExcelRangeAsCurrency(Excel.Worksheet wks, Excel.Range range)
