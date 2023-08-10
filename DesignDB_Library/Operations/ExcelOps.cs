@@ -72,13 +72,12 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 4] = model.CurrentYear_Count;
                 if (customFormat)
                 {
-                    object pct = 0;
-                    wks.Cells[row, 5].NumberFormat = "###%";
-                    pct = wks.Cells[row, 5];
-                    pct = 100 * (decimal)pct;
+                    decimal pct = 0;
+                    model.PctTotalValue = 100 * model.PctTotalValue;
+                    pct = Math.Round(model.PctTotalValue);
+                    pct = pct / 100;
                     wks.Cells[row, 5] = pct;
-                    wks.Cells[row,5] = Math.Round(model.PctTotalValue);
-
+                    wks.Cells[row, 5].NumberFormat = "###%";
                 }
                 else
                 {
