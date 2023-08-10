@@ -83,7 +83,8 @@ namespace DesignDB_Library.Operations
                     List<RequestModel> salesRequests = requests.Where(x => x.DesignRequestor == name &&
                         x.AwardStatus != "Canceled").ToList();
                     salesRequests = salesRequests.OrderBy(x => x.BOM_Value).ToList();
-                    if (salesRequests.Count > 0)
+
+                    if(salesRequests.Count > 0)
                     {
                         Report_SalesProjectValuesModel model = new Report_SalesProjectValuesModel();
                         accumulator.CurrentYear_Count = requests.Count;
