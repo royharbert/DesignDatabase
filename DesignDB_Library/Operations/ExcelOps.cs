@@ -72,12 +72,19 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 4] = model.CurrentYear_Count;
                 if (customFormat)
                 {
-                    model.PctTotalValue = 100 * model.PctTotalValue;
-                    wks.Cells[row, 5] = Math.Round(model.PctTotalValue);
+                    object pct = 0;
+                    wks.Cells[row, 5].NumberFormat = "###%";
+                    pct = wks.Cells[row, 5];
+                    pct = 100 * (decimal)pct;
+                    wks.Cells[row, 5] = pct;
+                    wks.Cells[row,5] = Math.Round(model.PctTotalValue);
+
                 }
                 else
                 {
                     wks.Cells[row, 5] =model.PctTotalValue;
+                    wks.Cells [row, 5].NumberFormat = "###.#%";
+
                 }
                 //wks.Cells[row, 5] = model.PctTotalValue;
                 wks.Cells[row, 6] = model.JanProjects;
@@ -100,18 +107,6 @@ namespace DesignDB_Library.Operations
             //Excel.Range decRange = wks.Range[wks.Cells[2, 5], wks.Cells[row, 5]];
             Excel.Range decRange = wks.Range[wks.Cells[3, 5], wks.Cells[row - 1, 5]];
 
-            if (!customFormat)
-            {
-                decRange.NumberFormat = "###.#%"; 
-            }
-            else
-            {
-                if (row <= sectionArray[0,1])
-                {
-                    decRange.Value = decRange.Value / 100;
-                    decRange.NumberFormat = "###%";
-                }
-            }
 
             Excel.Range currencyRange = wks.Range[wks.Cells[2, 2], wks.Cells[row, 3]];
             //FormatExcelRangeAsCurrency(wks, currencyRange);
