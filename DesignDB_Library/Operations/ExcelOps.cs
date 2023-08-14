@@ -68,24 +68,22 @@ namespace DesignDB_Library.Operations
             {
                 wks.Cells[row, 1] = model.SalesPerson;
                 wks.Cells[row, 2] = model.CurrentYTD_Value;
+
                 wks.Cells[row, 3] = model.AverageDollars;
                 wks.Cells[row, 4] = model.CurrentYear_Count;
-                if (customFormat)
-                {
-                    decimal pct = 0;
-                    model.PctTotalValue = 100 * model.PctTotalValue;
-                    pct = Math.Round(model.PctTotalValue);
-                    pct = pct / 100;
-                    wks.Cells[row, 5] = pct;
-                    wks.Cells[row, 5].NumberFormat = "###%";
-                }
-                else
-                {
-                    wks.Cells[row, 5] =model.PctTotalValue;
-                    wks.Cells [row, 5].NumberFormat = "###.#%";
-
-                }
-                //wks.Cells[row, 5] = model.PctTotalValue;
+                wks.Cells[row, 5] = model.PctTotalValue;
+                //*
+               
+                /*/
+                decimal pct = 0;
+                model.PctTotalValue = 100 * model.PctTotalValue;
+                pct = Math.Round(model.PctTotalValue);
+                pct = pct / 100;
+                wks.Cells[row, 5] = pct;
+                wks.Cells[row, 5].NumberFormat = "###%";
+            }
+                //*/
+               
                 wks.Cells[row, 6] = model.JanProjects;
                 wks.Cells[row, 7] = model.FebProjects;
                 wks.Cells[row, 8] = model.MarProjects;
@@ -103,13 +101,13 @@ namespace DesignDB_Library.Operations
             }
             sectionArray[0, 1] = row - 1;
             int categoryStartRow = row;
-            //Excel.Range decRange = wks.Range[wks.Cells[2, 5], wks.Cells[row, 5]];
-            Excel.Range decRange = wks.Range[wks.Cells[3, 5], wks.Cells[row - 1, 5]];
+            int[] bounds = prepareRangeForRounding(wks, 0,sectionArray[0, 0] + 2, sectionArray[0, 1], 2, 3);
+            setDollarDecimalPlaces(wks, 0, bounds);
+            bounds = prepareRangeForRounding(wks, 0, sectionArray[0, 0] + 2, sectionArray[0, 1], 5, 5);
+            setPercentDecimalPlaces(wks, 0, bounds);
 
-
-            Excel.Range currencyRange = wks.Range[wks.Cells[2, 2], wks.Cells[row, 3]];
-            //FormatExcelRangeAsCurrency(wks, currencyRange);
-            formatNumbers(currencyRange, customFormat, "$###,###,###.00", "$###,###,###");
+            
+            
             Excel.Range summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 17]];
             summaryRange.Font.Bold = true;
 
@@ -136,9 +134,9 @@ namespace DesignDB_Library.Operations
             wks.Cells[row, 16].Value = "Nov";
             wks.Cells[row, 17].Value = "Dec";
             wks.Cells[row, 18].Value = "Current Week " + startDate.ToShortDateString() + " " + endDate.ToShortDateString();
-            //wks.Cells[row, 19].Value = "Total";
             wks.Columns[1].ColumnWidth = 28;
 
+            
             header = wks.Range[wks.Cells[categoryStartRow + 2, 1], wks.Cells[row, 18]];
             header.Font.Bold = true;
             header.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
@@ -168,12 +166,11 @@ namespace DesignDB_Library.Operations
                 //wks.Cells[row, 19] = model.Total;
                 row++; 
             }
-            //decRange = wks.Range[wks.Cells[categoryStartRow, 5], wks.Cells[row, 5]];
-            //decRange.NumberFormat = "###%";
-
-            currencyRange = wks.Range[wks.Cells[categoryStartRow, 2], wks.Cells[row, 3]];
-            //FormatExcelRangeAsCurrency(wks, currencyRange);
-            formatNumbers(currencyRange, customFormat, "$###,###,###.00", "$###,###,###");
+            sectionArray[1, 1] = row - 1;
+            bounds = prepareRangeForRounding(wks, 0, sectionArray[1, 0] + 3, sectionArray[1, 1], 2, 3);
+            setDollarDecimalPlaces(wks, 0, bounds);
+            bounds = prepareRangeForRounding(wks, 0, sectionArray[1, 0] + 3, sectionArray[1, 1], 5, 5);
+            setPercentDecimalPlaces(wks, 0, bounds);
             summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 18]];
             summaryRange.Font.Bold = true;
 
@@ -216,6 +213,24 @@ namespace DesignDB_Library.Operations
             }
             sectionArray[2, 1] = row;
 
+            bounds = prepareRangeForRounding(wks, 0, sectionArray[2, 0] + 4, sectionArray[2, 1], 2, 2);
+            setDollarDecimalPlaces(wks, 0, bounds);
+
+            bounds = prepareRangeForRounding(wks, 0, sectionArray[2, 0] + 4, sectionArray[2, 1], 4, 4);
+            setDollarDecimalPlaces(wks, 0, bounds);
+
+            bounds = prepareRangeForRounding(wks, 0, sectionArray[2, 0] + 4, sectionArray[2, 1], 6, 6);
+            setDollarDecimalPlaces(wks, 0, bounds);
+
+            bounds = prepareRangeForRounding(wks, 0, sectionArray[2, 0] + 4, sectionArray[2, 1], 8, 8);
+            setDollarDecimalPlaces(wks, 0, bounds);
+
+            bounds = prepareRangeForRounding(wks, 0, sectionArray[2, 0] + 4, sectionArray[2, 1], 10, 10);
+            setDollarDecimalPlaces(wks, 0, bounds);
+
+            bounds = prepareRangeForRounding(wks, 0, sectionArray[2, 0] + 4, sectionArray[2, 1], 12, 12);
+            setDollarDecimalPlaces(wks, 0, bounds);
+
             row = row + 5;
             categoryStartRow = row;
             sectionArray[3,0] = row - 1;
@@ -243,8 +258,6 @@ namespace DesignDB_Library.Operations
             wks.Cells[row, 20].Value = "Fiber Deep Dollars";
             wks.Cells[row, 21].Value = "Data Transport Dollars";
             wks.Cells[row, 22].Value = "Other Dollars";
-            //wks.Cells[row, 21].Value = "PEG Dollars";
-            //wks.Cells[row, 22].Value = "Commercial Dollars";
             wks.Cells[row, 23].Value = "Unassigned Dollars";
 
            
@@ -269,8 +282,6 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 11] = model.FiberDeep;
                 wks.Cells[row, 12] = model.DataTrans;
                 wks.Cells[row, 13] = model.Other;
-                //wks.Cells[row, 13] = model.PEG;
-                //wks.Cells[row, 14] = model.Commercial;
                 wks.Cells[row, 14] = model.Unassigned;
                 wks.Cells[row, 15] = model.HFCDollars;
                 wks.Cells[row, 16] = model.NodeSplitDollars;
@@ -280,8 +291,6 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 20] = model.FiberDeepDollars;
                 wks.Cells[row, 21] = model.DataTransportDollars;
                 wks.Cells[row, 22] = model.OtherDollars;
-                //wks.Cells[row, 21] = model.PEG_Dollars;
-                //wks.Cells[row, 22] = model.CommercialDollars;
                 wks.Cells[row, 23] = model.UnassignedDollars;
                 row++;
             }
@@ -291,18 +300,14 @@ namespace DesignDB_Library.Operations
             Excel.Range numRange = wks.Range[wks.Cells[categoryStartRow, 1], wks.Cells[row, 23]];
             summaryRange = wks.Range[wks.Cells[row-1, 1], wks.Cells[row-1, 23]];
             summaryRange.Font.Bold = true;
-            //numRange.NumberFormat = "0";
 
-            Excel.Range pctRange = wks.Range[wks.Cells[categoryStartRow + 1, 5], wks.Cells[row, 5]];
-            //pctRange.NumberFormat = "###.0%";
-            formatNumbers(pctRange, customFormat, "###.0%", "#0%");
-
-            currencyRange = wks.Range[wks.Cells[categoryStartRow, 2], wks.Cells[row, 3]];
-            //FormatExcelRangeAsCurrency(wks, currencyRange);
-            formatNumbers(currencyRange, customFormat, "$###,###,##0.00", "$###,###,###");
-            currencyRange = wks.Range[wks.Cells[categoryStartRow, 15], wks.Cells[row, 23]];
-            //FormatExcelRangeAsCurrency(wks, currencyRange);
-            formatNumbers(currencyRange, customFormat, "$###,###,##0.00", "$###,###,###");
+           
+            bounds = prepareRangeForRounding(wks, 0, sectionArray[3, 0] + 3, sectionArray[3, 1], 2, 3);
+            setDollarDecimalPlaces(wks, 0, bounds);
+            bounds = prepareRangeForRounding(wks, 0, sectionArray[3, 0] + 3, sectionArray[3, 1], 5, 5);
+            setPercentDecimalPlaces(wks, 0, bounds);
+            bounds = prepareRangeForRounding(wks, 0, sectionArray[3, 0] + 3, sectionArray[3, 1], 15, 23);
+            setDollarDecimalPlaces(wks, 0, bounds);;
 
             //openBySales
             row = row + 3;
@@ -374,13 +379,59 @@ namespace DesignDB_Library.Operations
             }
         }
 
-        private static int  placeAwardStatusData(List<RequestModel> status, Excel.Worksheet wks, int row, int col)
+        private static int placeAwardStatusData(List<RequestModel> status, Excel.Worksheet wks, int row, int col)
         {
             wks.Cells[row, col].value = status.Count;
             wks.Cells[row, col + 1].value = status.Sum(x => x.BOM_Value);
             wks.Cells[row, col + 1].NumberFormat = "$###,###,###.00";
             col = col + 2;
             return col;
+        }
+
+        private static int[] prepareRangeForRounding(Excel.Worksheet wks, int decimals, int startRow, int stopRow, int startCol,  int stopCol)
+        {
+            int[] bounds = {startRow, stopRow, startCol, stopCol};
+            decimal val;
+            for (int i = startRow; i <= stopRow; i++)
+            {
+                for (int j = startCol; j <= stopCol; j++)
+                {
+                    val = (decimal)wks.Cells[i, j].Value;
+                    val = val * 100;
+                    val = Math.Round(val, decimals);
+                    val = val / 100;
+                    wks.Cells[i, j].Value = val;
+                }
+            }
+            return bounds;
+        }
+
+        private static void setDollarDecimalPlaces(Excel.Worksheet wks, int decimalPlaces, int[] bounds)
+        {
+            string formatString = "$#,###,###,##0";
+            string decimalString = "";
+            if (decimalPlaces > 0)
+            {
+                decimalString = ".0" + new string('#', decimalPlaces) + decimalString;
+            }
+            Excel.Range  range= wks.Range[wks.Cells[bounds[0], bounds[2]], wks.Cells[bounds[1], bounds[3]]];
+            formatString = formatString + decimalString;
+            range.NumberFormat = formatString;
+        }
+
+        private static int[] setPercentDecimalPlaces(Excel.Worksheet wks, int decimalPlaces, int[] bounds)
+        {
+            Excel.Range range = wks.Range[wks.Cells[bounds[0], bounds[2]], wks.Cells[bounds[1], bounds[3]]];
+            string formatString = "##0";
+            string decimalString = "%";
+            if (decimalPlaces > 0)
+            {
+                decimalString = ".0" + new string('#', decimalPlaces) + decimalString; 
+            }
+
+            formatString = formatString + decimalString;
+            range.NumberFormat = formatString;
+            return bounds;
         }
 
         private static void makeTitle(Excel.Worksheet wks, int row, int rightmostCol, string title)
@@ -421,10 +472,10 @@ namespace DesignDB_Library.Operations
                 row++;
             }
             sectionArray[5, 1] = row - 1;
-            Excel.Range pctRange = wks.Range[wks.Cells[startRow + 2, 3], wks.Cells[row - 2, 5]];
-            formatNumbers(pctRange, customFormat, "#0.00%", "#0%");
-            Excel.Range pctSummary = wks.Range[wks.Cells[row - 1, 3], wks.Cells[row - 1, 5]];
-            formatNumbers(pctSummary, customFormat, "#0.00%", "#0%");
+
+            int[] bounds = prepareRangeForRounding(wks, 0, sectionArray[5, 0] + 3, sectionArray[5, 1], 3, 5);
+            setPercentDecimalPlaces(wks, 0, bounds);
+
             Excel.Range boldRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row, 5]];
             boldRange.Font.Bold = true;
             

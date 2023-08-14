@@ -455,13 +455,10 @@ namespace DesignDB_Library.Operations
                 }
             }
             priorityModels = priorityModels.OrderByDescending(x => x.TotalCount).ToList();
-            //priorityModels.Add(companyTotal);
+            priorityModels.Add(companyTotal);
             percentModel = new ReportSalesPriorityModel();
             percentModel.TotalCount = companyTotal.TotalCount;
-            //percentModel.P1Pct = companyTotal.P1Count / companyTotal.TotalCount;
-            //percentModel.P2Pct = companyTotal.P2Count / companyTotal.TotalCount;
-            //percentModel.P3Pct = companyTotal.P3Pct;
-            priorityModels.Add(percentModel);
+            //priorityModels.Add(percentModel);
 
             return priorityModels;
         }
