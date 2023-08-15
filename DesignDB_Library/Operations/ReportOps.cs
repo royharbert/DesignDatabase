@@ -72,7 +72,14 @@ namespace DesignDB_Library.Operations
                 //Design Requests by Salesperson/Month----------------------------------------------------------------------------------------------------
                 accumulator.CurrentYTD_Value = requestsDollars.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
                 accumulator.CurrentYear_Count = requests.Count;
-                accumulator.AverageDollars = accumulator.CurrentYTD_Value / accumulator.CurrentYear_Count;
+                if (accumulator.CurrentYear_Count > 0)
+                {
+                    accumulator.AverageDollars = accumulator.CurrentYTD_Value / accumulator.CurrentYear_Count; 
+                }
+                else
+                {
+                    accumulator.AverageDollars = 0;
+                }
 
                 //cycle through salespersons and accumulate numbers
                 foreach (SalespersonModel salespersonModel in salespersons)
@@ -283,7 +290,14 @@ namespace DesignDB_Library.Operations
             categoryReport = categoryReport.OrderByDescending(x => x.TotalDollars).ToList();
             categorySummary.MSO = "Total";
             categorySummary.TotalRequests = requests.Count;
-            categorySummary.AverageDollarsPerRequest=categorySummary.TotalDollars/categorySummary.TotalRequests;
+            if (categorySummary.TotalRequests > 0)
+            {
+                categorySummary.AverageDollarsPerRequest = categorySummary.TotalDollars / categorySummary.TotalRequests; 
+            }
+            else
+            {
+                categorySummary.AverageDollarsPerRequest = 0;
+            }
             categorySummary.PctOfTotal = categoryReport.Sum(x => x.PctOfTotal); 
             categorySummary.HFC= categoryReport.Sum(x => x.HFC);
             categorySummary.NodeSplit= categoryReport.Sum(x => x.NodeSplit);
@@ -556,7 +570,14 @@ namespace DesignDB_Library.Operations
                     result = result.OrderByDescending(x => x.CurrentYTD_Value).ToList();
                 }
             }
-            accumulatorModel.AverageDollars = accumulatorModel.CurrentYTD_Value / accumulatorModel.CurrentYear_Count;
+            if (accumulatorModel.CurrentYear_Count > 0)
+            {
+                accumulatorModel.AverageDollars = accumulatorModel.CurrentYTD_Value / accumulatorModel.CurrentYear_Count; 
+            }
+            else
+            {
+                accumulatorModel.AverageDollars = 0;
+            }
             result.Add(accumulatorModel);
             return result;
         }
