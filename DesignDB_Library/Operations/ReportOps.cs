@@ -60,11 +60,12 @@ namespace DesignDB_Library.Operations
             awardLists.Add(NoRequests);
             NoRequests = null;
 
+            List<RequestModel> msoRequests = new List<RequestModel>();
             //Filter out Canceled
             foreach ( var mso in msoModels)
             {
-                requests = requests.Where(x => x.MSO == mso.MSO).ToList();
-                requests = requests.Where(x => x.AwardStatus != "Canceled").ToList();
+                msoRequests = requests.Where(x => x.MSO == mso.MSO).ToList();
+                msoRequests = msoRequests.Where(x => x.AwardStatus != "Canceled").ToList();
 
                 //Don't include Canceled or Has revision in $ amounts
                 List<RequestModel> requestsDollars = requests.Where(x => x.AwardStatus != "HasRevision").ToList();
@@ -87,7 +88,7 @@ namespace DesignDB_Library.Operations
                     string name = salespersonModel.SalesPerson;
 
                     //preserve requests as unchanged, assign list to salesRequests for filtering
-                    List<RequestModel> salesRequests = requests.Where(x => x.DesignRequestor == name &&
+                    List<RequestModel> salesRequests = msoRequests.Where(x => x.DesignRequestor == name &&
                         x.AwardStatus != "Canceled").ToList();
                     salesRequests = salesRequests.OrderBy(x => x.BOM_Value).ToList();
 
@@ -172,7 +173,7 @@ namespace DesignDB_Library.Operations
                 }
                 projectRollup.Add(accumulator); 
 
-    }
+            }
             
 
 
