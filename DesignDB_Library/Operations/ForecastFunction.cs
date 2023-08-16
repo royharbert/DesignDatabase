@@ -51,17 +51,20 @@ namespace DesignDB_Library.Operations
                 string fileName = getBOM(request);
                 if (fileName != null)
                 {
-                    products = processBOM(fileName, request.ProjectID, products);
-                    pb.PerformStep();
-                    dgv.Rows[row].Selected = true;
-                    if (recordsProcessed > 0)
+                    if (request.QuoteType != "Playbook")
                     {
-                        dgv.Rows[recordsProcessed - 1].Selected = false;
-                    }                    
-                    
-                    recordsProcessed++;
-                    pBox.Text = recordsProcessed.ToString();
-                    Application.DoEvents();
+                        products = processBOM(fileName, request.ProjectID, products);
+                        pb.PerformStep();
+                        dgv.Rows[row].Selected = true;
+                        if (recordsProcessed > 0)
+                        {
+                            dgv.Rows[recordsProcessed - 1].Selected = false;
+                        }
+
+                        recordsProcessed++;
+                        pBox.Text = recordsProcessed.ToString();
+                        Application.DoEvents(); 
+                    }
                 }
                 else
                 {
@@ -165,7 +168,16 @@ namespace DesignDB_Library.Operations
 
                 //loop thru BOM rows and build BOM models
                 int i = startRow;
-                string qString = wks.Cells[i, startCol].Value.ToString();
+                //bool ccNull = string.IsNullOrEmpty(wks.Cells[i, startCol].Value?.ToString());
+                string qString = "";
+                try
+                {
+                    qString = wks.Cells[i, startCol].Value;
+                }
+                catch (Exception)
+                {
+                    
+                }
                 while (qString != null)
                 {
                     BOM_Model model = new BOM_Model();
@@ -308,7 +320,7 @@ namespace DesignDB_Library.Operations
         private static Excel.Range findHeaderRow(Excel.Application xlApp)
         {
             wks = xlApp.ActiveSheet;
-            Excel.Range range =  wks.get_Range("A4:Z7");
+            Excel.Range range =  wks.get_Range("A4:AZ7");
             Excel.Range result = range.Find("Quantity");
             
             return result;

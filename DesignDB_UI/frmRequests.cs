@@ -529,7 +529,6 @@ namespace DesignDB_UI
                 default:
                     break;
             }
-            txtSearch.Clear();
 
 
         }
@@ -690,17 +689,6 @@ namespace DesignDB_UI
             }
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            changeMode(Mode.Edit);
-            //GV.MODE = Mode.Edit;
-            string search = '%' + txtSearch.Text + '%';
-            List<RequestModel> rm = GlobalConfig.Connection.GetRequestByPID(search).ToList();
-            frmMainMenu.ManageSearchResults(rm);
-            insertData(rm[0]);
-            setButtonDisplay();
-            formDirty = false;
-        }
 
         private void btnDone_Click(object sender, EventArgs e)
         {
@@ -1207,7 +1195,6 @@ namespace DesignDB_UI
                 //GV.MODE = Mode.Search;
                 changeMode(Mode.SearchFields);
                 btnSearchFields.Text = "Search";
-                btnSearch.Visible = true;
                 searchReset();
             }
         }
@@ -1303,6 +1290,60 @@ namespace DesignDB_UI
             cbo.SelectedIndex = -1;
         }
 
+        private void miCopy_Click(object sender, EventArgs e)
+        {
+            // Try to cast the sender to a ToolStripItem
+            ToolStripItem menuItem = sender as ToolStripItem;
+            if (menuItem != null)
+            {
+                // Retrieve the ContextMenuStrip that owns this ToolStripItem
+                ContextMenuStrip owner = menuItem.Owner as ContextMenuStrip;
+                if (owner != null)
+                {
+                    // Get the control that is displaying this context menu
+                    Control sourceControl = owner.SourceControl;
+                    RichTextBox rtb = (RichTextBox)sourceControl;
+                    rtb.Copy();
+                }
+            }
+        }
+
+        private void miCut_Click(object sender, EventArgs e)
+        {
+            // Try to cast the sender to a ToolStripItem
+            ToolStripItem menuItem = sender as ToolStripItem;
+            if (menuItem != null)
+            {
+                // Retrieve the ContextMenuStrip that owns this ToolStripItem
+                ContextMenuStrip owner = menuItem.Owner as ContextMenuStrip;
+                if (owner != null)
+                {
+                    // Get the control that is displaying this context menu
+                    Control sourceControl = owner.SourceControl;
+                    RichTextBox rtb = (RichTextBox)sourceControl;
+                    rtb.Cut();
+                }
+            }
+        }
+
+        private void miPaste_Click(object sender, EventArgs e)
+        {
+            // Try to cast the sender to a ToolStripItem
+            ToolStripItem menuItem = sender as ToolStripItem;
+            if (menuItem != null)
+            {
+                // Retrieve the ContextMenuStrip that owns this ToolStripItem
+                ContextMenuStrip owner = menuItem.Owner as ContextMenuStrip;
+                if (owner != null)
+                {
+                    // Get the control that is displaying this context menu
+                    Control sourceControl = owner.SourceControl;
+                    RichTextBox rtb = (RichTextBox)sourceControl;
+                    rtb.Paste();
+                }
+            }
+        }
+
         private void clearDateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DateTimePicker dtp = (DateTimePicker)dtpContextMenu.SourceControl;
@@ -1317,16 +1358,16 @@ namespace DesignDB_UI
                 btnSearchFields.Text = "Search";
             }
 
-            if (GV.MODE == Mode.SearchFields)
-            {
-                gbDateRange.Visible = true;
-                tlpSearch.Visible = false;
-            }
-            else
-            {
-                gbDateRange.Visible = false;
-                tlpSearch.Visible = true;
-            }
+            //if (GV.MODE == Mode.SearchFields)
+            //{
+            //    gbDateRange.Visible = true;
+            //    tlpSearch.Visible = false;
+            //}
+            //else
+            //{
+            //    gbDateRange.Visible = false;
+            //    tlpSearch.Visible = true;
+            //}
             this.Text = "Design Request - Mode: " + GV.MODE;
             
             //MakeActiveDependantLists();
@@ -1358,12 +1399,9 @@ namespace DesignDB_UI
             switch (GV.MODE)
             {
                 case Mode.Search:
-                    tlpSearch.Visible = false;
-                    gbDateRange.Visible = true;
+                case Mode.SearchFields:
                     break;
                 default:
-                    tlpSearch.Visible = true;
-                    gbDateRange.Visible = false;
                     break;
             }
             Application.DoEvents();
@@ -1685,12 +1723,11 @@ namespace DesignDB_UI
             switch (GV.MODE)
             {
                 case Mode.Search:
-                    tlpSearch.Visible = false;
-                    gbDateRange.Visible = true;
+                case Mode.SearchFields:
+                    //tlpSearch.Visible = false;
                     break;
                 default:
-                    tlpSearch.Visible = true;
-                    gbDateRange.Visible = false;
+                    //tlpSearch.Visible = true;
                     break;
             }
         }
@@ -1713,5 +1750,6 @@ namespace DesignDB_UI
             GV.MODE = mode;
             prepFormForTask();
         }
+
     }   
 }
