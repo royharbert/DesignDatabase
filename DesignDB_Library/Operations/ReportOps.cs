@@ -327,10 +327,10 @@ namespace DesignDB_Library.Operations
 
             //Open Requests by salesperson
             List<RequestModel> openDesignBySales = GlobalConfig.Connection.GetOpenRequests();
-            if (msoModels != null)
-            {
-                openDesignBySales = openDesignBySales.Where(x => x.MSO == msoModels[0].MSO).ToList();
-            }
+            //if (msoModels != null)
+            //{
+            //    openDesignBySales = openDesignBySales.Where(x => x.MSO == .ToList();
+            //}
             OpenRequestsBySalesModel accumulatorModel = new OpenRequestsBySalesModel();
             accumulatorModel.Salesperson = "Total";
             foreach (SalespersonModel salesperson in salespersons)
