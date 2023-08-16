@@ -12,11 +12,26 @@ namespace DesignDB_Library.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
+        public void MSO_Update(MSO_Model model)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@MSO", model.MSO, DbType.String);
+                p.Add("@TLA", model.Abbreviation, DbType.String);
+                p.Add("@Tier", model.Tier, DbType.Int16);
+                p.Add("@Active", model.Active, DbType.Boolean);
+                p.Add("@ID", model.ID, DbType.Int32);
+
+                connection.Execute("dbo.spMSO_Update", p,
+                    commandType: CommandType.StoredProcedure);
+            }
+        }
         public List<RequestModel>GetRequestsDeleted()
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
-                List<RequestModel> output = connection.Query<RequestModel>("spRecordsDeleted",
+                List<RequestModel> output = connection.Query<RequestModel>("spMSO_Update",
                     commandType: CommandType.StoredProcedure).ToList();
                 return output;
             }
@@ -72,7 +87,7 @@ namespace DesignDB_Library.DataAccess
                 return list;
             }
         }
-        public void MSO_Add(string MSO_Name, string TLA, bool Active)
+        public void MSO_Add(string MSO_Name, string TLA, bool Active, int Tier)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
@@ -80,6 +95,7 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@MSO_Name", MSO_Name, DbType.String);
                 p.Add("@TLA", TLA, DbType.String);
                 p.Add("@Active", Active, DbType.Boolean);
+                p.Add("@Tier", Tier, DbType.Int16);
                 connection.Execute("dbo.spMSO_Add", p, commandType: CommandType.StoredProcedure);
             }
         }

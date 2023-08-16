@@ -9,6 +9,7 @@ namespace DesignDB_Library.DataAccess
 {
     public interface IDataConnection
     {
+        void MSO_Update(MSO_Model model);
         List<RequestModel> DateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate);
         List<RequestModel> GetRequestsDeleted();
         List<RequestModelReport> ReportDateRangeSearch_Unfiltered_Pending_HasRevision(DateTime StartDate, DateTime EndDate,
@@ -16,7 +17,7 @@ namespace DesignDB_Library.DataAccess
         List<T> GenericConditionalGetAll<T>(string tableName, string conditionColumn, string condition, string orderByField = "");
         void FE_CRUD(FE_Model model, char action);
         List<T> GetItemByColumn<T>(string tableName, string columnName, string stringValue, int intValue = -1);
-        void MSO_Add(string MSO_Name, string TLA, bool Active);
+        void MSO_Add(string MSO_Name, string TLA, bool Active, int tier);
         void ToggleActiveStatus(string tableName, string activeColumnName, int Idx, string idxName);
         bool GetCurrentActivityStatus(string tableName, string activeColumnName, int Idx, string idxName);
         List<T> GenericGetAll<T>(string tableName, string OorderByField = "");

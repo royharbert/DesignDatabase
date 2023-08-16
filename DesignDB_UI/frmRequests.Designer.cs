@@ -30,8 +30,8 @@ namespace DesignDB_UI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtPID = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cboMSO = new System.Windows.Forms.ComboBox();
@@ -114,7 +114,6 @@ namespace DesignDB_UI
             this.btnRestore = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.commonBEDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.gbDateRange = new System.Windows.Forms.GroupBox();
             this.ckFilter = new System.Windows.Forms.CheckBox();
             this.label31 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
@@ -130,7 +129,6 @@ namespace DesignDB_UI
             this.tlpBottom.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.commonBEDataSetBindingSource)).BeginInit();
-            this.gbDateRange.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtPID
@@ -1053,24 +1051,24 @@ namespace DesignDB_UI
             this.dgvAttachments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvAttachments.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvAttachments.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dgvAttachments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tlpAttachment.SetColumnSpan(this.dgvAttachments, 4);
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvAttachments.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAttachments.DefaultCellStyle = dataGridViewCellStyle8;
             this.dgvAttachments.Location = new System.Drawing.Point(3, 3);
             this.dgvAttachments.MultiSelect = false;
             this.dgvAttachments.Name = "dgvAttachments";
@@ -1398,30 +1396,14 @@ namespace DesignDB_UI
             this.tableLayoutPanel1.Size = new System.Drawing.Size(665, 50);
             this.tableLayoutPanel1.TabIndex = 75;
             // 
-            // gbDateRange
-            // 
-            this.gbDateRange.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.gbDateRange.Controls.Add(this.ckFilter);
-            this.gbDateRange.Controls.Add(this.label31);
-            this.gbDateRange.Controls.Add(this.label32);
-            this.gbDateRange.Controls.Add(this.dtpEnd);
-            this.gbDateRange.Controls.Add(this.dtpStart);
-            this.gbDateRange.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbDateRange.Location = new System.Drawing.Point(567, 669);
-            this.gbDateRange.Name = "gbDateRange";
-            this.gbDateRange.Size = new System.Drawing.Size(437, 88);
-            this.gbDateRange.TabIndex = 209;
-            this.gbDateRange.TabStop = false;
-            this.gbDateRange.Text = "Optional Date Range Filter";
-            // 
             // ckFilter
             // 
             this.ckFilter.AutoSize = true;
             this.ckFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ckFilter.Location = new System.Drawing.Point(6, 37);
+            this.ckFilter.Location = new System.Drawing.Point(554, 697);
             this.ckFilter.Name = "ckFilter";
             this.ckFilter.Size = new System.Drawing.Size(83, 22);
-            this.ckFilter.TabIndex = 4;
+            this.ckFilter.TabIndex = 80;
             this.ckFilter.Text = "Filter On";
             this.ckFilter.UseVisualStyleBackColor = true;
             // 
@@ -1429,10 +1411,10 @@ namespace DesignDB_UI
             // 
             this.label31.AutoSize = true;
             this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label31.Location = new System.Drawing.Point(93, 62);
+            this.label31.Location = new System.Drawing.Point(641, 722);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(69, 18);
-            this.label31.TabIndex = 3;
+            this.label31.TabIndex = 79;
             this.label31.Text = "End Date";
             this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -1440,28 +1422,30 @@ namespace DesignDB_UI
             // 
             this.label32.AutoSize = true;
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label32.Location = new System.Drawing.Point(88, 28);
+            this.label32.Location = new System.Drawing.Point(636, 688);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(74, 18);
-            this.label32.TabIndex = 2;
+            this.label32.TabIndex = 78;
             this.label32.Text = "Start Date";
             this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // dtpEnd
             // 
             this.dtpEnd.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpEnd.Location = new System.Drawing.Point(166, 58);
+            this.dtpEnd.Location = new System.Drawing.Point(714, 718);
             this.dtpEnd.Name = "dtpEnd";
             this.dtpEnd.Size = new System.Drawing.Size(259, 24);
-            this.dtpEnd.TabIndex = 1;
+            this.dtpEnd.TabIndex = 77;
+            this.dtpEnd.ValueChanged += new System.EventHandler(this.dtpEnd_ValueChanged);
             // 
             // dtpStart
             // 
             this.dtpStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpStart.Location = new System.Drawing.Point(166, 28);
+            this.dtpStart.Location = new System.Drawing.Point(714, 688);
             this.dtpStart.Name = "dtpStart";
             this.dtpStart.Size = new System.Drawing.Size(259, 24);
-            this.dtpStart.TabIndex = 0;
+            this.dtpStart.TabIndex = 76;
+            this.dtpStart.ValueChanged += new System.EventHandler(this.dtpStart_ValueChanged);
             // 
             // frmRequests
             // 
@@ -1470,7 +1454,11 @@ namespace DesignDB_UI
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(1508, 922);
-            this.Controls.Add(this.gbDateRange);
+            this.Controls.Add(this.ckFilter);
+            this.Controls.Add(this.label31);
+            this.Controls.Add(this.label32);
+            this.Controls.Add(this.dtpEnd);
+            this.Controls.Add(this.dtpStart);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.tlpBottom);
             this.Controls.Add(this.tlpAttachment);
@@ -1501,9 +1489,8 @@ namespace DesignDB_UI
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.commonBEDataSetBindingSource)).EndInit();
-            this.gbDateRange.ResumeLayout(false);
-            this.gbDateRange.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1591,7 +1578,6 @@ namespace DesignDB_UI
         private System.Windows.Forms.ToolStripMenuItem clearValueToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip dtpContextMenu;
         private System.Windows.Forms.ToolStripMenuItem clearDateToolStripMenuItem;
-        private System.Windows.Forms.GroupBox gbDateRange;
         private System.Windows.Forms.CheckBox ckFilter;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label32;

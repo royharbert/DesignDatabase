@@ -581,7 +581,7 @@ namespace DesignDB_UI
         private void btnMSO_Click(object sender, EventArgs e)
         {
             GV.MODE = Mode.MSO_Maintenance;
-            Form msoForm = new frmMSO();
+            Form msoForm = new frmMSO_Add();
             FC.SetFormPosition(msoForm);
             msoForm.Show();
         }

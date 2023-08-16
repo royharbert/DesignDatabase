@@ -1751,5 +1751,14 @@ namespace DesignDB_UI
             prepFormForTask();
         }
 
+        private void dtpStart_ValueChanged(object sender, EventArgs e)
+        {
+            ckFilter.Checked = true;
+        }
+
+        private void dtpEnd_ValueChanged(object sender, EventArgs e)
+        {
+            ckFilter.Checked = true;
+        }
     }   
 }

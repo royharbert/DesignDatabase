@@ -36,6 +36,8 @@ namespace DesignDB_UI
         MSO_Maintenance,
         ReviewerMaintenance,
         DesignerMaintenance,
+        AddMSO,
+        EditMSO,
         None
     }
     
