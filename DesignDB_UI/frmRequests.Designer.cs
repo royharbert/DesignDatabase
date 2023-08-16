@@ -87,9 +87,6 @@ namespace DesignDB_UI
             this.label28 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.rtbComments = new System.Windows.Forms.RichTextBox();
-            this.txtSearch = new System.Windows.Forms.TextBox();
-            this.label30 = new System.Windows.Forms.Label();
-            this.btnSearch = new System.Windows.Forms.Button();
             this.btnDone = new System.Windows.Forms.Button();
             this.btnAddAtt = new System.Windows.Forms.Button();
             this.btnRemoveAtt = new System.Windows.Forms.Button();
@@ -115,7 +112,6 @@ namespace DesignDB_UI
             this.tlpBottom = new System.Windows.Forms.TableLayoutPanel();
             this.btnSearchFields = new System.Windows.Forms.Button();
             this.btnRestore = new System.Windows.Forms.Button();
-            this.tlpSearch = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.commonBEDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.gbDateRange = new System.Windows.Forms.GroupBox();
@@ -132,7 +128,6 @@ namespace DesignDB_UI
             this.tlpRight.SuspendLayout();
             this.tlpAttachment.SuspendLayout();
             this.tlpBottom.SuspendLayout();
-            this.tlpSearch.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.commonBEDataSetBindingSource)).BeginInit();
             this.gbDateRange.SuspendLayout();
@@ -914,39 +909,6 @@ namespace DesignDB_UI
             this.rtbComments.Enter += new System.EventHandler(this.rtbComments_Enter);
             this.rtbComments.Leave += new System.EventHandler(this.rtbComments_Leave);
             // 
-            // txtSearch
-            // 
-            this.txtSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tlpSearch.SetColumnSpan(this.txtSearch, 2);
-            this.txtSearch.Location = new System.Drawing.Point(191, 3);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(372, 22);
-            this.txtSearch.TabIndex = 60;
-            this.txtSearch.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
-            // 
-            // label30
-            // 
-            this.label30.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(30, 1);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(155, 32);
-            this.label30.TabIndex = 61;
-            this.label30.Text = "All or part of Project ID to Search";
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnSearch.Location = new System.Drawing.Point(191, 37);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(169, 29);
-            this.btnSearch.TabIndex = 62;
-            this.btnSearch.Text = "Find Project";
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            // 
             // btnDone
             // 
             this.btnDone.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -1422,24 +1384,6 @@ namespace DesignDB_UI
             this.btnRestore.UseVisualStyleBackColor = true;
             this.btnRestore.Click += new System.EventHandler(this.btnRestore_Click);
             // 
-            // tlpSearch
-            // 
-            this.tlpSearch.ColumnCount = 3;
-            this.tlpSearch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tlpSearch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tlpSearch.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tlpSearch.Controls.Add(this.txtSearch, 1, 0);
-            this.tlpSearch.Controls.Add(this.label30, 0, 0);
-            this.tlpSearch.Controls.Add(this.btnSearch, 1, 1);
-            this.tlpSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tlpSearch.Location = new System.Drawing.Point(519, 676);
-            this.tlpSearch.Name = "tlpSearch";
-            this.tlpSearch.RowCount = 2;
-            this.tlpSearch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpSearch.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpSearch.Size = new System.Drawing.Size(566, 69);
-            this.tlpSearch.TabIndex = 74;
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
@@ -1463,7 +1407,7 @@ namespace DesignDB_UI
             this.gbDateRange.Controls.Add(this.dtpEnd);
             this.gbDateRange.Controls.Add(this.dtpStart);
             this.gbDateRange.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbDateRange.Location = new System.Drawing.Point(548, 651);
+            this.gbDateRange.Location = new System.Drawing.Point(567, 669);
             this.gbDateRange.Name = "gbDateRange";
             this.gbDateRange.Size = new System.Drawing.Size(437, 88);
             this.gbDateRange.TabIndex = 209;
@@ -1528,7 +1472,6 @@ namespace DesignDB_UI
             this.ClientSize = new System.Drawing.Size(1508, 922);
             this.Controls.Add(this.gbDateRange);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.tlpSearch);
             this.Controls.Add(this.tlpBottom);
             this.Controls.Add(this.tlpAttachment);
             this.Controls.Add(this.tlpRight);
@@ -1555,8 +1498,6 @@ namespace DesignDB_UI
             this.tlpRight.PerformLayout();
             this.tlpAttachment.ResumeLayout(false);
             this.tlpBottom.ResumeLayout(false);
-            this.tlpSearch.ResumeLayout(false);
-            this.tlpSearch.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.commonBEDataSetBindingSource)).EndInit();
@@ -1622,9 +1563,6 @@ namespace DesignDB_UI
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.RichTextBox rtbComments;
-        private System.Windows.Forms.TextBox txtSearch;
-        private System.Windows.Forms.Label label30;
-        private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Button btnDone;
         private System.Windows.Forms.Button btnAddAtt;
         private System.Windows.Forms.Button btnRemoveAtt;
@@ -1644,7 +1582,6 @@ namespace DesignDB_UI
         private System.Windows.Forms.TableLayoutPanel tlpLeft;
         private System.Windows.Forms.TableLayoutPanel tlpCenterTop;
         private System.Windows.Forms.TableLayoutPanel tlpRight;
-        private System.Windows.Forms.TableLayoutPanel tlpSearch;
         private System.Windows.Forms.TableLayoutPanel tlpAttachment;
         private System.Windows.Forms.TableLayoutPanel tlpBottom;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
