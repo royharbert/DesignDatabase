@@ -18,18 +18,22 @@ namespace DesignDB_Library.Operations
         public static void PlaceRollupInExcel(DateTime startDate, DateTime endDate, List<OpenRequestsBySalesModel> openBySales, 
             List<ReportCategoryMSOModel> categories, List<Report_SalesProjectValuesModel> requests, 
             List<ReportSalesPriorityModel> priorityList, decimal bomTotal, List<Report_SalesProjectValuesModel> msoSummary, List<MSO_Model> msoModels,
-            List<List<RequestModel>> awards)
+            List<List<RequestModel>> awards, bool customFormat = false)
         {
+            int[,] sectionArray = new int[6,2];
             int row = 1;
+            sectionArray[0,0] = 1;
+            
 
             Excel.Application xlApp = makeExcelApp();
             xlApp.Workbooks.Add();
             Excel.Worksheet wks = xlApp.ActiveSheet;
+            xlApp.ActiveWindow.Zoom = 80;
             xlApp.Visible = true;
 
             //Place column headings
             wks.Cells[2, 1].Value = "Salesperson";
-            wks.Cells[2, 2].Value = "Total $ *";
+            wks.Cells[2, 2].Value = "Total $";
             wks.Cells[2, 3].Value = "Average $";
             wks.Cells[2, 4].Value = "Total Count";
             wks.Cells[2, 5].Value = "% of Total Value";
@@ -64,9 +68,22 @@ namespace DesignDB_Library.Operations
             {
                 wks.Cells[row, 1] = model.SalesPerson;
                 wks.Cells[row, 2] = model.CurrentYTD_Value;
+
                 wks.Cells[row, 3] = model.AverageDollars;
                 wks.Cells[row, 4] = model.CurrentYear_Count;
                 wks.Cells[row, 5] = model.PctTotalValue;
+                //*
+               
+                /*/
+                decimal pct = 0;
+                model.PctTotalValue = 100 * model.PctTotalValue;
+                pct = Math.Round(model.PctTotalValue);
+                pct = pct / 100;
+                wks.Cells[row, 5] = pct;
+                wks.Cells[row, 5].NumberFormat = "###%";
+            }
+                //*/
+               
                 wks.Cells[row, 6] = model.JanProjects;
                 wks.Cells[row, 7] = model.FebProjects;
                 wks.Cells[row, 8] = model.MarProjects;
@@ -82,17 +99,17 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 18] = model.Weekly;
                 row++;
             }
+            sectionArray[0, 1] = row - 1;
             int categoryStartRow = row;
-            Excel.Range decRange = wks.Range[wks.Cells[2, 5], wks.Cells[row, 5]];
-            decRange.NumberFormat = "###.0%";
+            setDollarDecimalPlaces(wks, 0, sectionArray[0, 0] + 2, sectionArray[0, 1], 2, 3);
+            setPercentDecimalPlaces(wks, 0, sectionArray[0, 0] + 2, sectionArray[0, 1], 5, 5);
 
-            Excel.Range currencyRange = wks.Range[wks.Cells[2, 2], wks.Cells[row, 3]];
-            FormatExcelRangeAsCurrency(wks, currencyRange);
             Excel.Range summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 17]];
             summaryRange.Font.Bold = true;
 
             //Monthly MSO Summary
             row = row + 3;
+            sectionArray[1,0] = row - 1;
             makeTitle(wks, row, 18, "Requests by MSO/Month");
             row++;
             wks.Cells[row, 1].Value = "MSO";
@@ -113,9 +130,9 @@ namespace DesignDB_Library.Operations
             wks.Cells[row, 16].Value = "Nov";
             wks.Cells[row, 17].Value = "Dec";
             wks.Cells[row, 18].Value = "Current Week " + startDate.ToShortDateString() + " " + endDate.ToShortDateString();
-            //wks.Cells[row, 19].Value = "TOTAL";
             wks.Columns[1].ColumnWidth = 28;
 
+            
             header = wks.Range[wks.Cells[categoryStartRow + 2, 1], wks.Cells[row, 18]];
             header.Font.Bold = true;
             header.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
@@ -142,19 +159,18 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 16] = model.NovProjects;
                 wks.Cells[row, 17] = model.DecProjects;
                 wks.Cells[row, 18] = model.Weekly;
-                //wks.Cells[row, 19] = model.Total;
                 row++; 
             }
-            decRange = wks.Range[wks.Cells[categoryStartRow, 5], wks.Cells[row, 5]];
-            decRange.NumberFormat = "###.0%";
-
-            currencyRange = wks.Range[wks.Cells[categoryStartRow, 2], wks.Cells[row, 3]];
-            FormatExcelRangeAsCurrency(wks, currencyRange);
+            sectionArray[1, 1] = row - 1;
+            
+            setDollarDecimalPlaces(wks, 0, sectionArray[1, 0] + 3, sectionArray[1, 1], 2, 3);
+            setPercentDecimalPlaces(wks, 0, sectionArray[1, 0] + 3, sectionArray[1, 1], 5, 5);
             summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 18]];
             summaryRange.Font.Bold = true;
 
 
             row = row + 3;
+            sectionArray[2,0] = row - 1;
             makeTitle(wks, row,12,"Award Status Summary");
             categoryStartRow = row;
             header = wks.Range[wks.Cells[categoryStartRow - 1, 1], wks.Cells[row, 12]];
@@ -189,9 +205,18 @@ namespace DesignDB_Library.Operations
                 List<RequestModel> status = awards[i];
                 col = placeAwardStatusData(status, wks, row, col); 
             }
+            sectionArray[2, 1] = row;
+
+            setDollarDecimalPlaces(wks, 0, sectionArray[2, 0] + 4, sectionArray[2, 1], 2, 2);
+            setDollarDecimalPlaces(wks, 0, sectionArray[2, 0] + 4, sectionArray[2, 1], 4, 4);
+            setDollarDecimalPlaces(wks, 0, sectionArray[2, 0] + 4, sectionArray[2, 1], 6, 6);
+            setDollarDecimalPlaces(wks, 0, sectionArray[2, 0] + 4, sectionArray[2, 1], 8, 8);
+            setDollarDecimalPlaces(wks, 0, sectionArray[2, 0] + 4, sectionArray[2, 1], 10, 10);
+            setDollarDecimalPlaces(wks, 0, sectionArray[2, 0] + 4, sectionArray[2, 1], 12, 12);
 
             row = row + 5;
             categoryStartRow = row;
+            sectionArray[3,0] = row - 1;
             makeTitle(wks, row, 21, "Design Requests by MSO/Category");
             row++;
             wks.Cells[row, 1].Value = "MSO";
@@ -216,8 +241,6 @@ namespace DesignDB_Library.Operations
             wks.Cells[row, 20].Value = "Fiber Deep Dollars";
             wks.Cells[row, 21].Value = "Data Transport Dollars";
             wks.Cells[row, 22].Value = "Other Dollars";
-            //wks.Cells[row, 21].Value = "PEG Dollars";
-            //wks.Cells[row, 22].Value = "Commercial Dollars";
             wks.Cells[row, 23].Value = "Unassigned Dollars";
 
            
@@ -242,8 +265,6 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 11] = model.FiberDeep;
                 wks.Cells[row, 12] = model.DataTrans;
                 wks.Cells[row, 13] = model.Other;
-                //wks.Cells[row, 13] = model.PEG;
-                //wks.Cells[row, 14] = model.Commercial;
                 wks.Cells[row, 14] = model.Unassigned;
                 wks.Cells[row, 15] = model.HFCDollars;
                 wks.Cells[row, 16] = model.NodeSplitDollars;
@@ -253,28 +274,24 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 20] = model.FiberDeepDollars;
                 wks.Cells[row, 21] = model.DataTransportDollars;
                 wks.Cells[row, 22] = model.OtherDollars;
-                //wks.Cells[row, 21] = model.PEG_Dollars;
-                //wks.Cells[row, 22] = model.CommercialDollars;
                 wks.Cells[row, 23] = model.UnassignedDollars;
                 row++;
             }
+            sectionArray[3, 1] = row - 1;
 
 
             Excel.Range numRange = wks.Range[wks.Cells[categoryStartRow, 1], wks.Cells[row, 23]];
             summaryRange = wks.Range[wks.Cells[row-1, 1], wks.Cells[row-1, 23]];
             summaryRange.Font.Bold = true;
-            //numRange.NumberFormat = "0";
 
-            Excel.Range pctRange = wks.Range[wks.Cells[categoryStartRow + 1, 5], wks.Cells[row, 5]];
-            pctRange.NumberFormat = "###.0%";
+            setDollarDecimalPlaces(wks, 0, sectionArray[3, 0] + 3, sectionArray[3, 1], 2, 3);
+            setDollarDecimalPlaces(wks, 0, sectionArray[3, 0] + 3, sectionArray[3, 1], 15, 23);
 
-            currencyRange = wks.Range[wks.Cells[categoryStartRow, 2], wks.Cells[row, 3]];
-            FormatExcelRangeAsCurrency(wks, currencyRange);
-            currencyRange = wks.Range[wks.Cells[categoryStartRow, 15], wks.Cells[row, 23]];
-            FormatExcelRangeAsCurrency(wks, currencyRange);
+            setPercentDecimalPlaces(wks, 0, sectionArray[3, 0] + 3, sectionArray[3, 1], 5, 5);
 
             //openBySales
             row = row + 3;
+            sectionArray[4,1] = row - 1;
             makeTitle(wks, row, 14, "Open Design Requests by Salesperson/Month");
             row++;
             int openStartRow = row - 1;
@@ -317,20 +334,82 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 14] = model.Dec;
                 row++;
             }
+            sectionArray[4, 1] = row - 1;
             summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 14]];
             summaryRange.Font.Bold = true;
-            InsertPriorityDataIntoWorksheet(wks, row + 2, priorityList, msoModels);
+            InsertPriorityDataIntoWorksheet(wks, row + 2, priorityList, msoModels, sectionArray, customFormat);
+            if (customFormat)
+            {
+                Excel.Range delRange = wks.Range[wks.Cells[sectionArray[2,0], 22], wks.Cells[sectionArray[3,0] - 1, 22]];
+                delRange.EntireRow.Delete(Type.Missing);
+            }
 
             releaseObject(xlApp);
         }
 
-        private static int  placeAwardStatusData(List<RequestModel> status, Excel.Worksheet wks, int row, int col)
+        private static int placeAwardStatusData(List<RequestModel> status, Excel.Worksheet wks, int row, int col)
         {
             wks.Cells[row, col].value = status.Count;
             wks.Cells[row, col + 1].value = status.Sum(x => x.BOM_Value);
-            wks.Cells[row, col + 1].NumberFormat = "$###,###,###.00";
+            //wks.Cells[row, col + 1].NumberFormat = "$###,###,###.00";
             col = col + 2;
             return col;
+        }
+
+        private static void setDollarDecimalPlaces(Excel.Worksheet wks, int decimals, int startRow, int stopRow, int startCol, int stopCol)
+        {
+            int[] bounds = { startRow, stopRow, startCol, stopCol };
+            decimal val;
+            for (int i = startRow; i <= stopRow; i++)
+            {
+                for (int j = startCol; j <= stopCol; j++)
+                {
+                    val = (decimal)wks.Cells[i, j].Value;
+                    val = val * 100;
+                    val = Math.Round(val, decimals);
+                    val = val / 100;
+                    wks.Cells[i, j].Value = val;
+                }
+
+                string formatString = "$#,###,###,##0";
+                string decimalString = "";
+                if (decimals > 0)
+                {
+                    decimalString = ".0" + new string('#', decimals) + decimalString;
+                }
+                Excel.Range range = wks.Range[wks.Cells[bounds[0], bounds[2]], wks.Cells[bounds[1], bounds[3]]];
+                formatString = formatString + decimalString;
+                range.NumberFormat = formatString;
+            }
+        }
+
+        private static void setPercentDecimalPlaces(Excel.Worksheet wks, int decimals, int startRow, int stopRow, int startCol, int stopCol)
+        {
+            int[] bounds = { startRow, stopRow, startCol, stopCol };
+            decimal val;
+            for (int i = startRow; i <= stopRow; i++)
+            {
+                for (int j = startCol; j <= stopCol; j++)
+                {
+                    val = (decimal)wks.Cells[i, j].Value;
+                    val = val * 100;
+                    val = Math.Round(val, decimals);
+                    val = val / 100;
+                    wks.Cells[i, j].Value = val;
+                }
+            }
+
+
+            Excel.Range range = wks.Range[wks.Cells[bounds[0], bounds[2]], wks.Cells[bounds[1], bounds[3]]];
+            string formatString = "##0";
+            string decimalString = "%";
+            if (decimals > 0)
+            {
+                decimalString = ".0" + new string('#', decimals) + decimalString;
+            }
+
+            formatString = formatString + decimalString;
+            range.NumberFormat = formatString;
         }
 
         private static void makeTitle(Excel.Worksheet wks, int row, int rightmostCol, string title)
@@ -342,9 +421,12 @@ namespace DesignDB_Library.Operations
             range.Cells.HorizontalAlignment = HorizontalAlignment.Center;
             range.Cells.Merge();
         }
-        private static void InsertPriorityDataIntoWorksheet(Excel.Worksheet wks, int startRow, List<ReportSalesPriorityModel> list, List<MSO_Model> MSO_model)
+
+        private static void InsertPriorityDataIntoWorksheet(Excel.Worksheet wks, int startRow, List<ReportSalesPriorityModel> list, 
+            List<MSO_Model> MSO_model, int[,] sectionArray, bool customFormat)
         {
             int row = startRow;
+            sectionArray[5,0] = row - 1;
             makeTitle(wks, row, 5, "Design Requests by Salesperson/Priority");
             row++;
             Excel.Range header3 = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row, 5]];
@@ -368,17 +450,15 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 5].Value = model.P3Pct;
                 row++;
             }
-            Excel.Range pctRange = wks.Range[wks.Cells[startRow + 2, 3], wks.Cells[row - 1, 5]];
-            pctRange.NumberFormat = "##.00%";
-            wks.Cells[row - 1, 2].NumberFormat = "##%";
+            sectionArray[5, 1] = row - 1;
+
+            setPercentDecimalPlaces(wks, 0, sectionArray[5, 0] + 3, sectionArray[5, 1], 3, 5);
+
             Excel.Range boldRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row, 5]];
             boldRange.Font.Bold = true;
+            
         }
-
-            private static void FormatExcelRangeAsCurrency(Excel.Worksheet wks, Excel.Range range)
-        {   
-            range.NumberFormat = "$###,###,###.00";            
-        }
+                    
         public static void PlaceDDListInExcel(List<List<(string Field, bool Active)>> ddList)
         {
             Excel.Application xlApp = makeExcelApp();
