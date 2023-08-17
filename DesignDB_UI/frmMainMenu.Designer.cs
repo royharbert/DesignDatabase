@@ -65,10 +65,11 @@ namespace DesignDB_UI
             this.btnSalespersonMaint = new System.Windows.Forms.Button();
             this.btnFE_Maintenance = new System.Windows.Forms.Button();
             this.btnDeleteRecord = new System.Windows.Forms.Button();
+            this.btnDeletedRecords = new System.Windows.Forms.Button();
             this.rdoSandbox = new System.Windows.Forms.RadioButton();
             this.rdoLive = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnDeletedRecords = new System.Windows.Forms.Button();
+            this.btnBookingsBOM = new System.Windows.Forms.Button();
             this.tlpMain.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -480,6 +481,7 @@ namespace DesignDB_UI
             this.tlpMain.Controls.Add(this.btnUndelete, 2, 7);
             this.tlpMain.Controls.Add(this.btnDeleteRecord, 2, 6);
             this.tlpMain.Controls.Add(this.btnDeletedRecords, 2, 5);
+            this.tlpMain.Controls.Add(this.btnBookingsBOM, 3, 7);
             this.tlpMain.Location = new System.Drawing.Point(12, 150);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 10;
@@ -671,6 +673,18 @@ namespace DesignDB_UI
             this.btnDeleteRecord.UseVisualStyleBackColor = false;
             this.btnDeleteRecord.Click += new System.EventHandler(this.btnDeleteRecord_Click);
             // 
+            // btnDeletedRecords
+            // 
+            this.btnDeletedRecords.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnDeletedRecords.Location = new System.Drawing.Point(315, 258);
+            this.btnDeletedRecords.Name = "btnDeletedRecords";
+            this.btnDeletedRecords.Size = new System.Drawing.Size(266, 44);
+            this.btnDeletedRecords.TabIndex = 43;
+            this.btnDeletedRecords.Tag = "3";
+            this.btnDeletedRecords.Text = "Deleted Records";
+            this.btnDeletedRecords.UseVisualStyleBackColor = false;
+            this.btnDeletedRecords.Click += new System.EventHandler(this.btnDeletedRecords_Click);
+            // 
             // rdoSandbox
             // 
             this.rdoSandbox.AutoSize = true;
@@ -720,17 +734,21 @@ namespace DesignDB_UI
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1165, 33);
             this.tableLayoutPanel2.TabIndex = 32;
             // 
-            // btnDeletedRecords
+            // btnBookingsBOM
             // 
-            this.btnDeletedRecords.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btnDeletedRecords.Location = new System.Drawing.Point(315, 258);
-            this.btnDeletedRecords.Name = "btnDeletedRecords";
-            this.btnDeletedRecords.Size = new System.Drawing.Size(266, 44);
-            this.btnDeletedRecords.TabIndex = 43;
-            this.btnDeletedRecords.Tag = "3";
-            this.btnDeletedRecords.Text = "Deleted Records";
-            this.btnDeletedRecords.UseVisualStyleBackColor = false;
-            this.btnDeletedRecords.Click += new System.EventHandler(this.btnDeletedRecords_Click);
+            this.btnBookingsBOM.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBookingsBOM.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnBookingsBOM.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnBookingsBOM.Location = new System.Drawing.Point(587, 360);
+            this.btnBookingsBOM.Name = "btnBookingsBOM";
+            this.btnBookingsBOM.Size = new System.Drawing.Size(266, 45);
+            this.btnBookingsBOM.TabIndex = 44;
+            this.btnBookingsBOM.Tag = "3";
+            this.btnBookingsBOM.Text = "Bookings - BOM";
+            this.btnBookingsBOM.UseVisualStyleBackColor = false;
+            this.btnBookingsBOM.Click += new System.EventHandler(this.btnBookingsBOM_Click);
             // 
             // frmMainMenu
             // 
@@ -802,5 +820,6 @@ namespace DesignDB_UI
         private System.Windows.Forms.Button btnReviewMaint;
         private System.Windows.Forms.Button btnPrjBySales;
         private System.Windows.Forms.Button btnDeletedRecords;
+        private System.Windows.Forms.Button btnBookingsBOM;
     }
 }

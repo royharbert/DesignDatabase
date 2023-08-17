@@ -9,6 +9,7 @@ namespace DesignDB_Library.DataAccess
 {
     public interface IDataConnection
     {
+        string getFullStateFromAbbreviation(string abb);
         void MSO_Update(MSO_Model model);
         List<RequestModel> DateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate);
         List<RequestModel> GetRequestsDeleted();

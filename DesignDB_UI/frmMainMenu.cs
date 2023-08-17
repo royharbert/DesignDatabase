@@ -613,6 +613,12 @@ namespace DesignDB_UI
             frmMultiResult resultsForm = new frmMultiResult(deletedRequests);
             resultsForm.Show();
         }
+
+        private void btnBookingsBOM_Click(object sender, EventArgs e)
+        {
+            frmBOM_Bookings bookings  = new frmBOM_Bookings();
+            bookings.Show();
+        }
     }
 }
 

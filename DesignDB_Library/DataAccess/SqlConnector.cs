@@ -12,6 +12,22 @@ namespace DesignDB_Library.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
+        public string getFullStateFromAbbreviation(string abb)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@St", abb, DbType.String);
+
+                List<string> output = connection.Query<string>("dbo.spStateFullFromAbbreviation", p,
+                    commandType: CommandType.StoredProcedure).ToList();
+                if (output.Count > 0)
+                {
+                    return output[0]; 
+                }
+                return "No Match";
+            }
+        }
         public void MSO_Update(MSO_Model model)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
