@@ -51,6 +51,7 @@ namespace DesignDB_UI
             this.dgvResults.Margin = new System.Windows.Forms.Padding(4);
             this.dgvResults.Name = "dgvResults";
             this.dgvResults.ReadOnly = true;
+            this.dgvResults.RowHeadersWidth = 51;
             this.dgvResults.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvResults.Size = new System.Drawing.Size(1059, 865);
             this.dgvResults.TabIndex = 0;
@@ -88,7 +89,7 @@ namespace DesignDB_UI
             // 
             this.txtRecordsReturned.Location = new System.Drawing.Point(50, 919);
             this.txtRecordsReturned.Name = "txtRecordsReturned";
-            this.txtRecordsReturned.Size = new System.Drawing.Size(70, 21);
+            this.txtRecordsReturned.Size = new System.Drawing.Size(70, 24);
             this.txtRecordsReturned.TabIndex = 9;
             // 
             // label1
@@ -96,7 +97,7 @@ namespace DesignDB_UI
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(31, 901);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(107, 15);
+            this.label1.Size = new System.Drawing.Size(129, 18);
             this.label1.TabIndex = 10;
             this.label1.Text = "Records Returned";
             // 
@@ -105,7 +106,7 @@ namespace DesignDB_UI
             this.lblRecordsProcessed.AutoSize = true;
             this.lblRecordsProcessed.Location = new System.Drawing.Point(157, 901);
             this.lblRecordsProcessed.Name = "lblRecordsProcessed";
-            this.lblRecordsProcessed.Size = new System.Drawing.Size(114, 15);
+            this.lblRecordsProcessed.Size = new System.Drawing.Size(141, 18);
             this.lblRecordsProcessed.TabIndex = 12;
             this.lblRecordsProcessed.Text = "Records Processed";
             this.lblRecordsProcessed.Visible = false;
@@ -114,7 +115,7 @@ namespace DesignDB_UI
             // 
             this.txtRecordsProcessed.Location = new System.Drawing.Point(176, 919);
             this.txtRecordsProcessed.Name = "txtRecordsProcessed";
-            this.txtRecordsProcessed.Size = new System.Drawing.Size(70, 21);
+            this.txtRecordsProcessed.Size = new System.Drawing.Size(70, 24);
             this.txtRecordsProcessed.TabIndex = 11;
             this.txtRecordsProcessed.Visible = false;
             // 
@@ -127,10 +128,9 @@ namespace DesignDB_UI
             // 
             // frmMultiResult
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1072, 959);
-            this.ControlBox = false;
             this.Controls.Add(this.pbProgress);
             this.Controls.Add(this.lblRecordsProcessed);
             this.Controls.Add(this.txtRecordsProcessed);

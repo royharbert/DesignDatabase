@@ -38,13 +38,15 @@ namespace DesignDB_UI
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSelectAll = new System.Windows.Forms.Button();
             this.btnDeselect = new System.Windows.Forms.Button();
+            this.rdo_Normal = new System.Windows.Forms.RadioButton();
+            this.rdo_Custom = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // lbMSO
             // 
             this.lbMSO.FormattingEnabled = true;
             this.lbMSO.ItemHeight = 20;
-            this.lbMSO.Location = new System.Drawing.Point(141, 148);
+            this.lbMSO.Location = new System.Drawing.Point(196, 138);
             this.lbMSO.Name = "lbMSO";
             this.lbMSO.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
             this.lbMSO.Size = new System.Drawing.Size(279, 604);
@@ -124,6 +126,30 @@ namespace DesignDB_UI
             this.btnDeselect.UseVisualStyleBackColor = true;
             this.btnDeselect.Click += new System.EventHandler(this.btnDeselect_Click);
             // 
+            // rdo_Normal
+            // 
+            this.rdo_Normal.AutoSize = true;
+            this.rdo_Normal.Location = new System.Drawing.Point(32, 161);
+            this.rdo_Normal.Name = "rdo_Normal";
+            this.rdo_Normal.Size = new System.Drawing.Size(132, 24);
+            this.rdo_Normal.TabIndex = 11;
+            this.rdo_Normal.TabStop = true;
+            this.rdo_Normal.Text = "Normal Format";
+            this.rdo_Normal.UseVisualStyleBackColor = true;
+            this.rdo_Normal.CheckedChanged += new System.EventHandler(this.rdo_Normal_CheckedChanged);
+            // 
+            // rdo_Custom
+            // 
+            this.rdo_Custom.AutoSize = true;
+            this.rdo_Custom.Location = new System.Drawing.Point(32, 191);
+            this.rdo_Custom.Name = "rdo_Custom";
+            this.rdo_Custom.Size = new System.Drawing.Size(137, 24);
+            this.rdo_Custom.TabIndex = 12;
+            this.rdo_Custom.TabStop = true;
+            this.rdo_Custom.Text = "Custom Format";
+            this.rdo_Custom.UseVisualStyleBackColor = true;
+            this.rdo_Custom.CheckedChanged += new System.EventHandler(this.rdo_Custom_CheckedChanged);
+            // 
             // frmDateMSO_Picker
             // 
             this.AcceptButton = this.btnGo;
@@ -132,6 +158,8 @@ namespace DesignDB_UI
             this.BackColor = System.Drawing.Color.DimGray;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(573, 867);
+            this.Controls.Add(this.rdo_Custom);
+            this.Controls.Add(this.rdo_Normal);
             this.Controls.Add(this.btnDeselect);
             this.Controls.Add(this.btnSelectAll);
             this.Controls.Add(this.btnCancel);
@@ -163,5 +191,7 @@ namespace DesignDB_UI
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnSelectAll;
         private System.Windows.Forms.Button btnDeselect;
+        private System.Windows.Forms.RadioButton rdo_Normal;
+        private System.Windows.Forms.RadioButton rdo_Custom;
     }
 }

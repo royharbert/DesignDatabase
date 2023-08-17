@@ -18,11 +18,12 @@ namespace DesignDB_UI
         public event EventHandler<CancelEventArgs> PickerCanceled;
 
         bool allSelected;
+        bool CustomFormat = false;
         public frmDateMSO_Picker(bool rollupVisible = false)
         {
             InitializeComponent();
             GV.PickerForm = this;
-            //this.BringToFront();
+            rdo_Normal.Checked = true;
             if (GV.MODE == Mode.Report_Rollup)
             {
                 lbMSO.SelectionMode = SelectionMode.One;
@@ -71,44 +72,23 @@ namespace DesignDB_UI
         {
             List<MSO_Model> msoList = new List<MSO_Model>();
             DataReadyEventArgs args = new DataReadyEventArgs();
-            if (GV.MODE!=Mode.Report_Rollup)
+            GlobalConfig.Connection.ClearTable("tblSnapshotMSO_S");
+            foreach (MSO_Model model in lbMSO.SelectedItems)
             {
-                if (!allSelected)
-                {
-                    GlobalConfig.Connection.ClearTable("tblSnapshotMSO_S");
-                    foreach (MSO_Model model in lbMSO.SelectedItems)
-                    {
-                        msoList.Add(model);
-                        GlobalConfig.Connection.UpdateSnapshotMSO_s(model.MSO);
-                    }
-                }
-                else
-                {
-                    msoList = GlobalConfig.Connection.GetAllMSO();
-                }
-            }
-            
-
-            if (GV.MODE == Mode.Report_Rollup)
-            {
-                if (lbMSO.SelectedItems.Count == 1)
-                {
-                    if (!allSelected)
-                    {                        
-                        msoList.Add(lbMSO.SelectedItem as MSO_Model); 
-                    }
-                }
-                else
-                {
-                    if (allSelected)
-                    {
-                        msoList = null; 
-                    }
-                }
+                msoList.Add(model);
+                GlobalConfig.Connection.UpdateSnapshotMSO_s(model.MSO);
             }
             args.MSO_s = msoList;
             args.StartDate = dtpStart.Value;
             args.EndDate = dtpStop.Value;
+            if (CustomFormat)
+            {
+                args.CustomFormat = true;
+            }
+            else
+            {
+                args.CustomFormat = false;
+            }
             this.Hide();
             allSelected = false;
             DataReadyEvent?.Invoke(this, args);
@@ -151,6 +131,22 @@ namespace DesignDB_UI
             lbMSO.ClearSelected();
             allSelected  = false;
         }
+
+        private void rdo_Normal_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdo_Normal.Checked)
+            {
+                CustomFormat = false;
+            }
+        }
+
+        private void rdo_Custom_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rdo_Custom.Checked)
+            {
+                CustomFormat = true;
+            }
+        }
     }
 
     public class DataReadyEventArgs : EventArgs
@@ -158,6 +154,7 @@ namespace DesignDB_UI
             public List<MSO_Model> MSO_s { get; set; }
             public DateTime StartDate { get; set; }
             public DateTime EndDate { get; set; }
-        }
+            public bool CustomFormat { get; set; }
+    }
 }
 

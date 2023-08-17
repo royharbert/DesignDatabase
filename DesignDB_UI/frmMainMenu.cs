@@ -22,8 +22,10 @@ namespace DesignDB_UI
 
         private bool formLoading = false;
         private bool operationCanceled = false;     //flag to indicate cancel of operation
+        private bool CustomFormat = false;
         private DateTime startDate;
         private DateTime endDate;
+
 
         public frmMainMenu()
         {
@@ -115,14 +117,16 @@ namespace DesignDB_UI
         {
             if (GlobalConfig.DatabaseMode == DatabaseType.Live)
             {
-                using (var manager = new UpdateManager(@"\\USCA5PDBATDGS01\Databases\ProgramUpdates"))
+                using (var manager = new UpdateManager(@"\\USCA5PDBATDGS01\Databases\ProgramUpdates\UpdateTest"))
+                //using (var manager = new UpdateManager(@"\\USCA5PDBATDGS01\Databases\ProgramUpdates"))
                 {
                     await manager.UpdateApp();
                 }
             }
             else
             {
-                using (var manager = new UpdateManager(@"C:\Users\rharbert\OneDrive - CommScope\SQLDB\Squirrel"))
+                //using (var manager = new UpdateManager(@"C:\Users\rharbert\OneDrive - CommScope\SQLDB\Squirrel"))
+                using (var manager = new UpdateManager(@"\\USCA5PDBATDGS01\Databases\ProgramUpdates\UpdateTest"))
                 {
                     await manager.UpdateApp();
                 }
@@ -378,18 +382,10 @@ namespace DesignDB_UI
                 case Mode.Report_Rollup:
                     startDate = e.StartDate;
                     endDate = e.EndDate;
-                    if (e.MSO_s == null)
-                    {
-                        ReportOps.DoRollup(startDate, endDate); 
-                    }
-                    else
-                    {
-                        if (e.MSO_s.Count == 1)
-                        {
-                            
-                        }
-                        ReportOps.DoRollup(startDate, endDate, e.MSO_s);                    }
+                    CustomFormat = e.CustomFormat;
+                    ReportOps.DoRollup(startDate, endDate, e.MSO_s, CustomFormat); 
                     break;
+        
                 case Mode.Report_CatMSO:
                     List<ReportCategoryMSOModel> categoryReport = ReportOps.
                         reportCategoryMSOs(e.MSO_s, e.StartDate, e.EndDate);
@@ -400,21 +396,21 @@ namespace DesignDB_UI
                 case Mode.Report_Snapshot:
                     List<SnapshotModel> report = ReportOps.GenerateSnapshotReport
                         (e.MSO_s, e.StartDate, e.EndDate);
-                    break;
+            break;
                 case Mode.Report_AvgCompletion:
                     //List<CompletionTimeModel> completionReport = ReportOps.GenerateCompletionTimeSummary
                     //    (e.StartDate, e.EndDate, e.MSO_s);
                     break;
                 case Mode.Report_ByPriority:
                     startDate = e.StartDate;
-                    endDate = e.EndDate;
-                    List<ReportSalesPriorityModel> PriorityReport = ReportOps.GenerateSalesSummary(startDate, endDate);
-                    frmReportSalesPriiority frmReportSalesPriiority = new frmReportSalesPriiority();
-                    frmReportSalesPriiority.Report = PriorityReport;
-                    frmReportSalesPriiority.Visible = true;
-                    frmReportSalesPriiority.Show();
-                    frmReportSalesPriiority.TopMost = true;
-                    break;
+            endDate = e.EndDate;
+            List<ReportSalesPriorityModel> PriorityReport = ReportOps.GenerateSalesSummary(startDate, endDate);
+            frmReportSalesPriiority frmReportSalesPriiority = new frmReportSalesPriiority();
+            frmReportSalesPriiority.Report = PriorityReport;
+            frmReportSalesPriiority.Visible = true;
+            frmReportSalesPriiority.Show();
+            frmReportSalesPriiority.TopMost = true;
+            break;
                 case Mode.Report_DesignerLoadReport:
                     break;
                 case Mode.Report_Overdue:
@@ -423,9 +419,10 @@ namespace DesignDB_UI
                     break;
                 case Mode.None:
                     break;
-                default:
+            default:
                     break;
-            }
+        }
+        
         }
 
         private void frmMainMenu_Activated(object sender, EventArgs e)
