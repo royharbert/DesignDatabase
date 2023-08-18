@@ -19,6 +19,7 @@ namespace DesignDB_Library.Operations
         {
             startDate = startDate.Date;
             endDate = endDate.Date;
+            List<SalespersonModel> reportSPM = new List<SalespersonModel>();
             List<Report_SalesProjectValuesModel> projectRollup = new List<Report_SalesProjectValuesModel>();
             List<ReportCategoryMSOModel> categoryReport = new List<ReportCategoryMSOModel>();
             List<OpenRequestsBySalesModel> openRequestsBySales = new List<OpenRequestsBySalesModel>();
@@ -85,7 +86,9 @@ namespace DesignDB_Library.Operations
                 //cycle through salespersons and accumulate numbers
                 foreach (SalespersonModel salespersonModel in salespersons)
                 {
+                    reportSPM.Clear();
                     string name = salespersonModel.SalesPerson;
+                    
 
                     //preserve requests as unchanged, assign list to salesRequests for filtering
                     List<RequestModel> salesRequests = msoRequests.Where(x => x.DesignRequestor == name &&
@@ -94,6 +97,7 @@ namespace DesignDB_Library.Operations
 
                     if(salesRequests.Count > 0)
                     {
+                        reportSPM.Add(salespersonModel);
                         Report_SalesProjectValuesModel model = new Report_SalesProjectValuesModel();
                         accumulator.CurrentYear_Count = requests.Count;
                         model.SalesPerson = name;
@@ -413,7 +417,7 @@ namespace DesignDB_Library.Operations
                 accumulator.CurrentYTD_Value, msoSummary, msoModels, awardLists, CustomFormat);
         }
 
-        public static List<ReportSalesPriorityModel> ReportBySalesPriority(List<RequestModel> requests, List<SalespersonModel> salesPeople, List<MSO_Model> msoList)
+        public static List<ReportSalesPriorityModel> ReportBySalesPriority(List<RequestModel> requests, List<SalespersonModel> reportSPM, List<MSO_Model> msoList)
         {
             List<ReportSalesPriorityModel> priorityModels = new List<ReportSalesPriorityModel>();
             ReportSalesPriorityModel companyTotal = new ReportSalesPriorityModel();
@@ -427,7 +431,7 @@ namespace DesignDB_Library.Operations
             }
             ReportSalesPriorityModel percentModel = new ReportSalesPriorityModel();
             percentModel.SalesPerson = "Total Requests/% of Total";
-            foreach (var person in salesPeople)
+            foreach (var person in reportSPM)
             {
                 string name = person.SalesPerson;
                 List<RequestModel> FilteredRequests = requests;
