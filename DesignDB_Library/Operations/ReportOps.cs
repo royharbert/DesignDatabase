@@ -171,7 +171,10 @@ namespace DesignDB_Library.Operations
                             accumulator.Total++;
                         }
                         model.AverageDollars = model.CurrentYTD_Value / model.CurrentYear_Count;
-                        model.PctTotalValue = model.CurrentYTD_Value / accumulator.CurrentYTD_Value;
+                        if (accumulator.CurrentYTD_Value > 0)
+                        {
+                            model.PctTotalValue = model.CurrentYTD_Value / accumulator.CurrentYTD_Value; 
+                        }
                         accumulator.PctTotalValue = 1;
                         projectRollup.Add(model);
                         projectRollup = projectRollup.OrderByDescending(x => x.CurrentYTD_Value).ToList();
