@@ -85,7 +85,7 @@ namespace DesignDB_Library.Operations
                     accumulator.AverageDollars = 0;
                 }
 
-                reportSPM.Clear();
+                //reportSPM.Clear();
                 //cycle through salespersons and accumulate numbers
                 foreach (SalespersonModel salespersonModel in salespersons)
                 {
@@ -341,76 +341,80 @@ namespace DesignDB_Library.Operations
             //}
             OpenRequestsBySalesModel accumulatorModel = new OpenRequestsBySalesModel();
             accumulatorModel.Salesperson = "Total";
-            foreach (SalespersonModel salesperson in salespersons)
-            {                
-                List<RequestModel> openRequests = openDesignBySales;
-                string person = salesperson.SalesPerson;
-                OpenRequestsBySalesModel openModel = new OpenRequestsBySalesModel();
-                openModel.Salesperson = person;
-                openRequests = (List<RequestModel>)openRequests.Where(x => x.DesignRequestor == person).ToList();
-                if (openRequests.Count > 0)
+            foreach (var mso in msoModels)
+            {
+                foreach (SalespersonModel salesperson in reportSPM)
                 {
-                    foreach (var request in openRequests)
+                    List<RequestModel> openRequests = openDesignBySales.Where(x => x.DesignRequestor == salesperson.SalesPerson && x.MSO == mso.MSO).ToList();
+                    string person = salesperson.SalesPerson;
+                    OpenRequestsBySalesModel openModel = new OpenRequestsBySalesModel();
+                    openModel.Salesperson = person;
+                    openRequests = (List<RequestModel>)openRequests.Where(x => x.DesignRequestor == person).ToList();
+                    if (openRequests.Count > 0)
                     {
-                        int mAssigned = request.DateAssigned.Month;
-                        switch (mAssigned)
+                        foreach (var request in openRequests)
                         {
-                            case 1:
-                                openModel.Jan++;
-                                accumulatorModel.Jan++;
-                                break;
-                            case 2:
-                                openModel.Feb++;
-                                accumulatorModel.Feb++;
-                                break;
-                            case 3:
-                                openModel.Mar++;
-                                accumulatorModel.Mar++;
-                                break;
-                            case 4:
-                                openModel.Apr++;
-                                accumulatorModel.Apr++;
-                                break;
-                            case 5:
-                                openModel.May++;
-                                accumulatorModel.May++;
-                                break;
-                            case 6:
-                                openModel.Jun++;
-                                accumulatorModel.Jun++;
-                                break;
-                            case 7:
-                                openModel.Jul++;
-                                accumulatorModel.Jul++;
-                                break;
-                            case 8:
-                                openModel.Aug++;
-                                accumulatorModel.Aug++;
-                                break;
-                            case 9:
-                                openModel.Sep++;
-                                accumulatorModel.Sep++;
-                                break;
-                            case 10:
-                                openModel.Oct++;
-                                accumulatorModel.Oct++;
-                                break;
-                            case 11:
-                                openModel.Nov++;
-                                accumulatorModel.Nov++;
-                                break;
-                            case 12:
-                                openModel.Dec++;
-                                accumulatorModel.Dec++;
-                                break;
-                            default:
-                                break;
+                            int mAssigned = request.DateAssigned.Month;
+                            switch (mAssigned)
+                            {
+                                case 1:
+                                    openModel.Jan++;
+                                    accumulatorModel.Jan++;
+                                    break;
+                                case 2:
+                                    openModel.Feb++;
+                                    accumulatorModel.Feb++;
+                                    break;
+                                case 3:
+                                    openModel.Mar++;
+                                    accumulatorModel.Mar++;
+                                    break;
+                                case 4:
+                                    openModel.Apr++;
+                                    accumulatorModel.Apr++;
+                                    break;
+                                case 5:
+                                    openModel.May++;
+                                    accumulatorModel.May++;
+                                    break;
+                                case 6:
+                                    openModel.Jun++;
+                                    accumulatorModel.Jun++;
+                                    break;
+                                case 7:
+                                    openModel.Jul++;
+                                    accumulatorModel.Jul++;
+                                    break;
+                                case 8:
+                                    openModel.Aug++;
+                                    accumulatorModel.Aug++;
+                                    break;
+                                case 9:
+                                    openModel.Sep++;
+                                    accumulatorModel.Sep++;
+                                    break;
+                                case 10:
+                                    openModel.Oct++;
+                                    accumulatorModel.Oct++;
+                                    break;
+                                case 11:
+                                    openModel.Nov++;
+                                    accumulatorModel.Nov++;
+                                    break;
+                                case 12:
+                                    openModel.Dec++;
+                                    accumulatorModel.Dec++;
+                                    break;
+                                default:
+                                    break;
+                            }
+                            openModel.Count++;
+                            accumulatorModel.Count++;
                         }
-                        openModel.Count++;
-                        accumulatorModel.Count++;
-                    }                        
-                    openRequestsBySales.Add(openModel);
-                    openRequestsBySales = openRequestsBySales.OrderByDescending(x => x.Count).ToList();
+                        openRequestsBySales.Add(openModel);
+                        openRequestsBySales = openRequestsBySales.OrderByDescending(x => x.Count).ToList();
+                    }
+
                 }
             }
             
