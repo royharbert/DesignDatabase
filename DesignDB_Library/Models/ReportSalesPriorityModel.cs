@@ -16,6 +16,8 @@ namespace DesignDB_Library.Models
         [ExcelExportPropertyAttribute]
         public string SalesPerson { get; set; }
         [ExcelExportPropertyAttribute]
+        public string MSO { get; set; }
+        [ExcelExportPropertyAttribute]
         public decimal P1Count { get; set; }
         [ExcelExportPropertyAttribute]
         public decimal  P1Dollars { get; set; }

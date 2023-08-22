@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Interop.Excel;
 using Mono.Cecil.Cil;
+using System.Diagnostics;
 
 namespace DesignDB_Library.Operations
 {
@@ -19,7 +20,10 @@ namespace DesignDB_Library.Operations
         {
             startDate = startDate.Date;
             endDate = endDate.Date;
+            // model to collect salespersons with requests
             List<SalespersonModel> reportSPM = new List<SalespersonModel>();
+
+
             List<Report_SalesProjectValuesModel> projectRollup = new List<Report_SalesProjectValuesModel>();
             List<ReportCategoryMSOModel> categoryReport = new List<ReportCategoryMSOModel>();
             List<OpenRequestsBySalesModel> openRequestsBySales = new List<OpenRequestsBySalesModel>();
@@ -30,7 +34,6 @@ namespace DesignDB_Library.Operations
 
             //MAKE LISTS OF MSO'S, SALESPERSONS AND REQUESTS ELSE REQUESTS WILL CONTAIN RECORDS OF ONLY SELECTED MSO'S  
             //Get all requests YTD
-            //if msoModels is null, then list will contain requests from all MSO's
             List<RequestModel> requests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(NewYearsDay, NewYearsEve);
             
             //get list of salespersons and MSO's
@@ -40,8 +43,6 @@ namespace DesignDB_Library.Operations
             //initialize model to hold total report values
             Report_SalesProjectValuesModel accumulator = new Report_SalesProjectValuesModel();
             accumulator.SalesPerson = "Total";
-
-            //eliminate cancels, has revision and no
             List<List<RequestModel>> awardLists = new List<List<RequestModel>>();
             List<ReportSalesPriorityModel> priorityReport = new List<ReportSalesPriorityModel>();
             List <RequestModel> Pending = requests.Where(r => r.AwardStatus == "Pending").ToList();
@@ -65,10 +66,10 @@ namespace DesignDB_Library.Operations
 
             List<RequestModel> msoRequests = new List<RequestModel>();
             //Filter out Canceled
-            foreach ( var mso in msoModels)
+            foreach (var mso in msoModels)
             {
                 msoRequests = requests.Where(x => x.MSO == mso.MSO).ToList();
-                msoRequests = msoRequests.Where(x => x.AwardStatus != "Canceled").ToList();
+                msoRequests = /*mso*/requests.Where(x => x.AwardStatus != "Canceled").ToList();
 
                 //Don't include Canceled or Has revision in $ amounts
                 List<RequestModel> requestsDollars = msoRequests.Where(x => x.AwardStatus != "HasRevision").ToList();
@@ -78,7 +79,7 @@ namespace DesignDB_Library.Operations
                 accumulator.CurrentYear_Count = msoRequests.Count;
                 if (accumulator.CurrentYear_Count > 0)
                 {
-                    accumulator.AverageDollars = accumulator.CurrentYTD_Value / accumulator.CurrentYear_Count; 
+                    accumulator.AverageDollars = accumulator.CurrentYTD_Value / accumulator.CurrentYear_Count;
                 }
                 else
                 {
@@ -90,14 +91,14 @@ namespace DesignDB_Library.Operations
                 foreach (SalespersonModel salespersonModel in salespersons)
                 {
                     string name = salespersonModel.SalesPerson;
-                    
+
 
                     //preserve requests as unchanged, assign list to salesRequests for filtering
                     List<RequestModel> salesRequests = msoRequests.Where(x => x.DesignRequestor == name &&
                         x.AwardStatus != "Canceled" && x.MSO == mso.MSO).ToList();
                     salesRequests = salesRequests.OrderBy(x => x.BOM_Value).ToList();
 
-                    if(salesRequests.Count > 0)
+                    if (salesRequests.Count > 0)
                     {
                         reportSPM.Add(salespersonModel);
                         Report_SalesProjectValuesModel model = new Report_SalesProjectValuesModel();
@@ -107,6 +108,7 @@ namespace DesignDB_Library.Operations
                         model.CurrentYear_Count = salesRequests.Count;
                         foreach (var request in salesRequests)
                         {
+                            model.MSO = request.MSO;
                             if (request.DateAssigned.Date >= (startDate) && request.DateAssigned.Date <= endDate)
                             {
                                 model.Weekly++;
@@ -173,18 +175,21 @@ namespace DesignDB_Library.Operations
                         model.AverageDollars = model.CurrentYTD_Value / model.CurrentYear_Count;
                         if (accumulator.CurrentYTD_Value > 0)
                         {
-                            model.PctTotalValue = model.CurrentYTD_Value / accumulator.CurrentYTD_Value; 
+                            model.PctTotalValue = model.CurrentYTD_Value / accumulator.CurrentYTD_Value;
                         }
                         accumulator.PctTotalValue = 1;
                         projectRollup.Add(model);
                         projectRollup = projectRollup.OrderByDescending(x => x.CurrentYTD_Value).ToList();
                     }
                 }
-                projectRollup.Add(accumulator); 
-
-                priorityReport = ReportBySalesPriority(requests, reportSPM, mso);
-                finalPriority.AddRange(priorityReport);
             }
+
+                //priorityReport = ReportBySalesPriority(requests, reportSPM, mso);
+                //finalPriority.AddRange(priorityReport);
+            
+            
+            projectRollup.Add(accumulator);  
+            
             
 
 
@@ -423,38 +428,49 @@ namespace DesignDB_Library.Operations
             
             openRequestsBySales.Add(accumulatorModel);
             List<Report_SalesProjectValuesModel> msoSummary = MonthlyMSO_Summary(msoModels, requests, startDate, endDate);
-            ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, categoryReport, projectRollup, finalPriority, 
+            List<ReportSalesPriorityModel> prioritySummary = ReportBySalesPriority(requests, reportSPM, msoModels);
+            ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, categoryReport, projectRollup, prioritySummary, 
                 accumulator.CurrentYTD_Value, msoSummary, msoModels, awardLists, CustomFormat);
         }
-        public static List<ReportSalesPriorityModel> ReportBySalesPriority(List<RequestModel> requests, List<SalespersonModel> reportSPM,MSO_Model  mso)
-        //public static List<ReportSalesPriorityModel> ReportBySalesPriority(List<RequestModel> requests, List<SalespersonModel> reportSPM, List<MSO_Model> msoList)
+        //public static List<ReportSalesPriorityModel> ReportBySalesPriority(List<RequestModel> requests, List<SalespersonModel> reportSPM,MSO_Model  mso)
+        public static List<ReportSalesPriorityModel> ReportBySalesPriority(List<RequestModel> requests, List<SalespersonModel> reportSPM, List<MSO_Model> msoList)
         {
             List<ReportSalesPriorityModel> priorityModels = new List<ReportSalesPriorityModel>();
             ReportSalesPriorityModel companyTotal = new ReportSalesPriorityModel();
-            //if (msoList.Count >1)
-            //{
-            //    companyTotal.SalesPerson = "Total";
-            //}
-            //else
-            //{
-                companyTotal.SalesPerson = mso.MSO + " Total";
-            //}
+            
             List<RequestModel> msoRequests = new List<RequestModel>();
             ReportSalesPriorityModel percentModel = new ReportSalesPriorityModel();
             percentModel.SalesPerson = "Total Requests/% of Total";
-            //foreach (var mso in msoList)
-            //{
+            foreach (var mso in msoList)
+            {
+                if (msoList.Count > 1)
+                {
+                    companyTotal.SalesPerson = "Total";
+                }
+                else
+                {
+                    companyTotal.SalesPerson = mso.MSO + " Total";
+                }
                 msoRequests.Clear();
                 msoRequests = requests.Where(x => x.MSO == mso.MSO && x.AwardStatus != "Canceled").ToList();
                 foreach (var person in reportSPM)
                 {
                     string name = person.SalesPerson;
-                    List<RequestModel> FilteredRequests = requests.Where(x => x.DesignRequestor == name).ToList(); ;
+                    List<RequestModel> FilteredRequests = msoRequests.Where(x => x.DesignRequestor == name && x.MSO == mso.MSO).ToList();
+
+                    //foreach (var filteredRequest in FilteredRequests)
+                    //{
+                    //    if (filteredRequest.DesignRequestor == "Christopher Skarica")
+                    //    {
+                    //        Debug.Print(filteredRequest.ProjectID); 
+                    //    }
+                    //}
                     //FilteredRequests = FilteredRequests
                     if (FilteredRequests.Count > 0)
                     {
                         ReportSalesPriorityModel model = new ReportSalesPriorityModel();
                         model.SalesPerson = name;
+                        model.MSO = mso.MSO;
                         foreach (var filteredRequest in FilteredRequests)
                         {
                             switch (filteredRequest.Pty)
@@ -487,12 +503,12 @@ namespace DesignDB_Library.Operations
                         }
                         priorityModels.Add(model);
                     }
-                
+                }
             }
             priorityModels = priorityModels.OrderByDescending(x => x.TotalCount).ToList();
             priorityModels.Add(companyTotal);
-            percentModel = new ReportSalesPriorityModel();
-            percentModel.TotalCount = companyTotal.TotalCount;
+            //percentModel = new ReportSalesPriorityModel();
+            //percentModel.TotalCount = companyTotal.TotalCount;
             //priorityModels.Add(percentModel);
 
             return priorityModels;

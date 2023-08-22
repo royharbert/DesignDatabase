@@ -33,31 +33,32 @@ namespace DesignDB_Library.Operations
 
             //Place column headings
             wks.Cells[2, 1].Value = "Salesperson";
-            wks.Cells[2, 2].Value = "Total $";
-            wks.Cells[2, 3].Value = "Average $";
-            wks.Cells[2, 4].Value = "Total Count";
-            wks.Cells[2, 5].Value = "% of Total Value";
-            wks.Cells[2, 6].Value = "Jan";
-            wks.Cells[2, 7].Value = "Feb";
-            wks.Cells[2, 8].Value = "Mar";
-            wks.Cells[2, 9].Value = "Apr";
-            wks.Cells[2, 10].Value = "May";
-            wks.Cells[2, 11].Value = "Jun";
-            wks.Cells[2, 12].Value = "Jul";
-            wks.Cells[2, 13].Value = "Aug";
-            wks.Cells[2, 14].Value = "Sep";
-            wks.Cells[2, 15].Value = "Oct";
-            wks.Cells[2, 16].Value = "Nov";
-            wks.Cells[2, 17].Value = "Dec";
-            wks.Cells[2, 18].Value = "Current Week " + startDate.ToShortDateString() + " " + endDate.ToShortDateString();
+            wks.Cells[2, 2].Value = "MSO";
+            wks.Cells[2, 3].Value = "Total $";
+            wks.Cells[2, 4].Value = "Average $";
+            wks.Cells[2, 5].Value = "Total Count";
+            wks.Cells[2, 6].Value = "% of Total Value";
+            wks.Cells[2, 7].Value = "Jan";
+            wks.Cells[2, 8].Value = "Feb";
+            wks.Cells[2, 9].Value = "Mar";
+            wks.Cells[2, 10].Value = "Apr";
+            wks.Cells[2, 11].Value = "May";
+            wks.Cells[2, 12].Value = "Jun";
+            wks.Cells[2, 13].Value = "Jul";
+            wks.Cells[2, 14].Value = "Aug";
+            wks.Cells[2, 15].Value = "Sep";
+            wks.Cells[2, 16].Value = "Oct";
+            wks.Cells[2, 17].Value = "Nov";
+            wks.Cells[2, 18].Value = "Dec";
+            wks.Cells[2, 19].Value = "Current Week " + startDate.ToShortDateString() + " " + endDate.ToShortDateString();
                 
             wks.Columns[1].ColumnWidth = 28;
             wks.get_Range("B:C").ColumnWidth = 20;
             wks.get_Range("D:Z").ColumnWidth=15;
 
-            makeTitle(wks, 1, 18, "Design Requests by Salesperson/Month");
+            makeTitle(wks, 1, 19, "Design Requests by Salesperson/Month");
             
-            Excel.Range header = wks.get_Range("A1:R2");
+            Excel.Range header = wks.get_Range("A1:S2");
             header.Font.Bold = true;
             header.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             header.Interior.Color = ColorTranslator.ToOle(System.Drawing.Color.LightSkyBlue);
@@ -67,44 +68,32 @@ namespace DesignDB_Library.Operations
             foreach (var model in requests)
             {
                 wks.Cells[row, 1] = model.SalesPerson;
-                wks.Cells[row, 2] = model.CurrentYTD_Value;
-
-                wks.Cells[row, 3] = model.AverageDollars;
-                wks.Cells[row, 4] = model.CurrentYear_Count;
-                wks.Cells[row, 5] = model.PctTotalValue;
-                //*
-               
-                /*/
-                decimal pct = 0;
-                model.PctTotalValue = 100 * model.PctTotalValue;
-                pct = Math.Round(model.PctTotalValue);
-                pct = pct / 100;
-                wks.Cells[row, 5] = pct;
-                wks.Cells[row, 5].NumberFormat = "###%";
-            }
-                //*/
-               
-                wks.Cells[row, 6] = model.JanProjects;
-                wks.Cells[row, 7] = model.FebProjects;
-                wks.Cells[row, 8] = model.MarProjects;
-                wks.Cells[row, 9] = model.AprProjects;
-                wks.Cells[row, 10] = model.MayProjects;
-                wks.Cells[row, 11] = model.JunProjects;
-                wks.Cells[row, 12] = model.JulProjects;
-                wks.Cells[row, 13] = model.AugProjects;
-                wks.Cells[row, 14] = model.SepProjects;
-                wks.Cells[row, 15] = model.OctProjects;
-                wks.Cells[row, 16] = model.NovProjects;
-                wks.Cells[row, 17] = model.DecProjects;
-                wks.Cells[row, 18] = model.Weekly;
+                wks.Cells[row, 2] = model.MSO;
+                wks.Cells[row, 3] = model.CurrentYTD_Value;
+                wks.Cells[row, 4] = model.AverageDollars;
+                wks.Cells[row, 5] = model.CurrentYear_Count;
+                wks.Cells[row, 6] = model.PctTotalValue;               
+                wks.Cells[row, 7] = model.JanProjects;
+                wks.Cells[row, 8] = model.FebProjects;
+                wks.Cells[row, 9] = model.MarProjects;
+                wks.Cells[row, 10] = model.AprProjects;
+                wks.Cells[row, 11] = model.MayProjects;
+                wks.Cells[row, 12] = model.JunProjects;
+                wks.Cells[row, 13] = model.JulProjects;
+                wks.Cells[row, 14] = model.AugProjects;
+                wks.Cells[row, 15] = model.SepProjects;
+                wks.Cells[row, 16] = model.OctProjects;
+                wks.Cells[row, 17] = model.NovProjects;
+                wks.Cells[row, 18] = model.DecProjects;
+                wks.Cells[row, 19] = model.Weekly;
                 row++;
             }
             sectionArray[0, 1] = row - 1;
             int categoryStartRow = row;
-            setDollarDecimalPlaces(wks, 0, sectionArray[0, 0] + 2, sectionArray[0, 1], 2, 3);
-            setPercentDecimalPlaces(wks, 0, sectionArray[0, 0] + 2, sectionArray[0, 1], 5, 5);
+            setDollarDecimalPlaces(wks, 0, sectionArray[0, 0] + 2, sectionArray[0, 1], 3, 4);
+            setPercentDecimalPlaces(wks, 0, sectionArray[0, 0] + 2, sectionArray[0, 1], 6, 6);
 
-            Excel.Range summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 17]];
+            Excel.Range summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 19]];
             summaryRange.Font.Bold = true;
 
             //Monthly MSO Summary
@@ -429,30 +418,32 @@ namespace DesignDB_Library.Operations
             sectionArray[5,0] = row - 1;
             makeTitle(wks, row, 5, "Design Requests by Salesperson/Priority");
             row++;
-            Excel.Range header3 = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row, 5]];
+            Excel.Range header3 = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row, 6]];
             header3.Font.Bold = true;
             header3.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             header3.Interior.Color = ColorTranslator.ToOle(System.Drawing.Color.LightSkyBlue);
             header3.WrapText = true;
 
             wks.Cells[row, 1].Value = "Sales Person";
-            wks.Cells[row, 2].Value = "Total";
-            wks.Cells[row, 3].Value = "P1";
-            wks.Cells[row, 4].Value = "P2";
-            wks.Cells[row, 5].Value = "P3";
+            wks.Cells[row, 2].Value = "MSO";
+            wks.Cells[row, 3].Value = "Total";
+            wks.Cells[row, 4].Value = "P1";
+            wks.Cells[row, 5].Value = "P2";
+            wks.Cells[row, 6].Value = "P3";
             row++;
             foreach (var model in list)
             {
                 wks.Cells[row, 1].Value = model.SalesPerson;
-                wks.Cells[row, 2].Value = model.TotalCount;
-                wks.Cells[row, 3].Value = model.P1Pct;
-                wks.Cells[row, 4].Value = model.P2Pct;
-                wks.Cells[row, 5].Value = model.P3Pct;
+                wks.Cells[row, 2].Value = model.MSO;
+                wks.Cells[row, 3].Value = model.TotalCount;
+                wks.Cells[row, 4].Value = model.P1Pct;
+                wks.Cells[row, 5].Value = model.P2Pct;
+                wks.Cells[row, 6].Value = model.P3Pct;
                 row++;
             }
             sectionArray[5, 1] = row - 1;
 
-            setPercentDecimalPlaces(wks, 0, sectionArray[5, 0] + 3, sectionArray[5, 1], 3, 5);
+            setPercentDecimalPlaces(wks, 0, sectionArray[5, 0] + 3, sectionArray[5, 1], 4, 6);
 
             Excel.Range boldRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row, 5]];
             boldRange.Font.Bold = true;
