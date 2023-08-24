@@ -49,5 +49,27 @@ namespace DesignDB_Library.Models
         public int Weekly { get; set; }
         [ExcelExportPropertyAttribute]
         public int Total { get; set; }
+
+        public void Clear()
+        {
+            this.SalesPerson = "";
+            this.MSO = "";
+            this.CurrentYTD_Value = 0;
+            this.AverageDollars = 0;
+            this.CurrentYear_Count = 0;
+            this.PctTotalValue = 0;
+            this.JanProjects = 0;
+            this.FebProjects = 0;
+            this.MarProjects = 0;
+            this.AprProjects = 0;
+            this.MayProjects = 0;
+            this.JunProjects = 0;
+            this.JulProjects = 0;
+            this.AugProjects = 0;
+            this.SepProjects = 0;
+            this.OctProjects = 0;
+            this.NovProjects = 0;
+            this.DecProjects = 0;
+        }
     }
 }
