@@ -205,6 +205,7 @@ namespace DesignDB_Library.Operations
                         if (request.DateAssigned >= startDate && request.DateAssigned <= endDate)
                         {
                             model.Weekly++;
+                            accumulatedValues.Weekly++;
                         }
                         model.CurrentYear_Count = msoRequests.Count;
                         model.CurrentYTD_Value = msoRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
@@ -556,13 +557,13 @@ namespace DesignDB_Library.Operations
             ReportSalesPriorityModel model = new ReportSalesPriorityModel();
 
             //List<RequestModel> msoRequests = new List<RequestModel>();
+            List<RequestModel> filteredRequests = new List<RequestModel>();
             foreach (var person in salesPersons)
             {                
                 //msoRequests.Clear();
                 foreach (var mso in msoList)
-                {                    
-                    List<RequestModel> filteredRequests = requests.Where(x => x.DesignRequestor == person.SalesPerson
-                        && x.MSO == mso.MSO).ToList();
+                { 
+                    filteredRequests = requests.Where(x => x.DesignRequestor == person.SalesPerson && x.MSO == mso.MSO).ToList();
                     if (filteredRequests.Count > 0)
                     {
                         model = new ReportSalesPriorityModel();
@@ -898,6 +899,7 @@ namespace DesignDB_Library.Operations
             {
                 sum = sum + request.BOM_Value;
             }
+
             return sum;
         }
 
