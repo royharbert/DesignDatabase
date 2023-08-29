@@ -39,7 +39,7 @@ namespace DesignDB_Library.Operations
             List<Report_SalesProjectValuesModel> salesProjects = DesignRequestsBySalespersonPerMonth(allNonCanceledlRequests, 
                 allSalesPersons, msoModels, startDate, endDate);
             List<Report_SalesProjectValuesModel> monthlyMSO_Summary = MonthlyMSO_Summary(msoModels, allNonCanceledlRequests, startDate, endDate);
-                List<List<RequestModel>> awardStatusSummary = AwardStatusSummary(allNonCanceledlRequests);
+            List<List<RequestModel>> awardStatusSummary = AwardStatusSummary(allNonCanceledlRequests);
             List<ReportCategoryMSOModel> mso_RequestsByCategory = MSO_RequestsByCategory(allNonCanceledlRequests, msoModels);
             List<OpenRequestsBySalesModel> openRequestsBySales = OpenRequestsBySales(includedSalesPersons, msoModels);
             List<ReportSalesPriorityModel> priorityModelSummary = PriorityModelSummary(allNonCanceledlRequests, includedSalesPersons, msoModels);
@@ -613,9 +613,7 @@ namespace DesignDB_Library.Operations
             
 
             return priorityModels;
-        }
-
-     
+        }     
 
         public static List<List<(string Field, bool Active)>> CollectDropDownLists(TableLayoutPanel BoxForm)
         {
