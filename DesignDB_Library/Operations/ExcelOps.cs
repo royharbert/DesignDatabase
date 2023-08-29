@@ -281,7 +281,7 @@ namespace DesignDB_Library.Operations
             //openBySales
             row = row + 3;
             sectionArray[4,1] = row - 1;
-            makeTitle(wks, row, 15, "Open Design Requests by Salesperson/Month");
+            makeTitle(wks, row, 14, "Open Design Requests by Salesperson/Month");
             row++;
             int openStartRow = row - 1;
             Excel.Range header3 = wks.Range[wks.Cells[openStartRow, 1], wks.Cells[row, 15]];
@@ -326,7 +326,7 @@ namespace DesignDB_Library.Operations
                 row++;
             }
             sectionArray[4, 1] = row - 1;
-            summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 14]];
+            summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 15]];
             summaryRange.Font.Bold = true;
             InsertPriorityDataIntoWorksheet(wks, row + 2, priorityList, msoModels, sectionArray, customFormat);
             if (customFormat)
