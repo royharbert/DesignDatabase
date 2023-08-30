@@ -127,12 +127,12 @@ namespace DesignDB_Library.Operations
             }
             sectionArray[2, 1] = row;
 
-            setDollarDecimalPlaces(wks, 0, sectionArray[2, 0] + 4, sectionArray[2, 1], 2, 2);
-            setDollarDecimalPlaces(wks, 0, sectionArray[2, 0] + 4, sectionArray[2, 1], 4, 4);
-            setDollarDecimalPlaces(wks, 0, sectionArray[2, 0] + 4, sectionArray[2, 1], 6, 6);
-            setDollarDecimalPlaces(wks, 0, sectionArray[2, 0] + 4, sectionArray[2, 1], 8, 8);
-            setDollarDecimalPlaces(wks, 0, sectionArray[2, 0] + 4, sectionArray[2, 1], 10, 10);
-            setDollarDecimalPlaces(wks, 0, sectionArray[2, 0] + 4, sectionArray[2, 1], 12, 12);
+            setDollarDecimalPlaces(wks, 0, sectionArray[2, 0] + 3, sectionArray[2, 1], 2, 2);
+            setDollarDecimalPlaces(wks, 0, sectionArray[2, 0] + 3, sectionArray[2, 1], 4, 4);
+            setDollarDecimalPlaces(wks, 0, sectionArray[2, 0] + 3, sectionArray[2, 1], 6, 6);
+            setDollarDecimalPlaces(wks, 0, sectionArray[2, 0] + 3, sectionArray[2, 1], 8, 8);
+            setDollarDecimalPlaces(wks, 0, sectionArray[2, 0] + 3, sectionArray[2, 1], 10, 10);
+            setDollarDecimalPlaces(wks, 0, sectionArray[2, 0] + 3, sectionArray[2, 1], 12, 12);
 
             row = row + 3;
             categoryStartRow = row;
