@@ -327,21 +327,7 @@ namespace DesignDB_Library.Operations
             string[] columnHeaaders = { "Sales Person", "MSO", "Total", "P1", "P2", "P3" };
             row = makeTitle(wks, row, 6, "Design Requests by Salesperson/Priority", columnHeaaders);
             sectionArray[5,0] = row - 1;
-            //makeTitle(wks, row, 5, "Design Requests by Salesperson/Priority");
-            //row++;
-            //Excel.Range header3 = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row, 6]];
-            //header3.Font.Bold = true;
-            //header3.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
-            //header3.Interior.Color = ColorTranslator.ToOle(System.Drawing.Color.LightSkyBlue);
-            //header3.WrapText = true;
-
-            //wks.Cells[row, 1].Value = "Sales Person";
-            //wks.Cells[row, 2].Value = "MSO";
-            //wks.Cells[row, 3].Value = "Total";
-            //wks.Cells[row, 4].Value = "P1";
-            //wks.Cells[row, 5].Value = "P2";
-            //wks.Cells[row, 6].Value = "P3";
-            //row++;
+        
             foreach (var model in list)
             {
                 wks.Cells[row, 1].Value = model.SalesPerson;

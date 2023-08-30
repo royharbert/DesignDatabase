@@ -12,25 +12,11 @@ namespace DesignDB_Library.Models
     /// </summary>
     public class RequestModel        
     {
-        private string msoString;
         public int ID { get; set; }
         [ExcelExportPropertyAttribute]
         public string ProjectID { get; set; }
         [ExcelExportPropertyAttribute]
         public string MSO { get; set; }
-        //public string MSO
-        //{
-        //    get
-        //    {
-        //        return msoString;
-        //    }
-        //    set
-        //    {
-        //        msoString = value;
-        //        List<MSO_Model> msoList = GlobalConfig.Connection.GetItemByColumn<MSO_Model>("tblMSO", "MSO", msoString);
-        //        msoModel = msoList[0];
-        //    }
-        //}
         [ExcelExportPropertyAttribute]
         public string Cust { get; set; }
         [ExcelExportPropertyAttribute]
