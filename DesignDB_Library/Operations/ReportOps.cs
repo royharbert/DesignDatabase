@@ -32,17 +32,28 @@ namespace DesignDB_Library.Operations
             //Collect YTD requests
             List<RequestModel> allRequests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(NewYearsDay, NewYearsEve);
             //Filter out Canceled
-            List<RequestModel> allNonCanceledlRequests = allRequests.Where(x => x.AwardStatus != "Canceled" && x.QuoteType != "Playbook").ToList();
+            List<RequestModel> allNonCanceledlRequests = allRequests.Where(x => x.AwardStatus != "Canceled").ToList();
+            List<RequestModel> filteredRequests = FilterRequestListForMSO(allNonCanceledlRequests, msoModels);
 
 
-
-            List<Report_SalesProjectValuesModel> salesProjects = DesignRequestsBySalespersonPerMonth(allNonCanceledlRequests, 
+            //Section 1
+            List<Report_SalesProjectValuesModel> salesProjects = DesignRequestsBySalespersonPerMonth(filteredRequests, 
                 allSalesPersons, msoModels, startDate, endDate);
-            List<Report_SalesProjectValuesModel> monthlyMSO_Summary = MonthlyMSO_Summary(msoModels, allNonCanceledlRequests, startDate, endDate);
-            List<List<RequestModel>> awardStatusSummary = AwardStatusSummary(allNonCanceledlRequests);
-            List<ReportCategoryMSOModel> mso_RequestsByCategory = MSO_RequestsByCategory(allNonCanceledlRequests, msoModels);
+
+            //Section 2
+            List<Report_SalesProjectValuesModel> monthlyMSO_Summary = MonthlyMSO_Summary(msoModels, filteredRequests, startDate, endDate);
+
+            //Section 3
+            List<List<RequestModel>> awardStatusSummary = AwardStatusSummary(filteredRequests, msoModels);
+
+            //Section 4
+            List<ReportCategoryMSOModel> mso_RequestsByCategory = MSO_RequestsByCategory(filteredRequests, msoModels);
+
+            //Section 5
             List<OpenRequestsBySalesModel> openRequestsBySales = OpenRequestsBySales(includedSalesPersons, msoModels);
-            List<ReportSalesPriorityModel> priorityModelSummary = PriorityModelSummary(allNonCanceledlRequests, includedSalesPersons, msoModels);
+
+            //Section 6
+            List<ReportSalesPriorityModel> priorityModelSummary = PriorityModelSummary(filteredRequests, includedSalesPersons, msoModels);
 
 
 
@@ -51,7 +62,18 @@ namespace DesignDB_Library.Operations
                 monthlyMSO_Summary, msoModels, awardStatusSummary, CustomFormat);
         }
 
-        public static List<Report_SalesProjectValuesModel> DesignRequestsBySalespersonPerMonth(List<RequestModel> allNonCanceledRequests, 
+        private static List<RequestModel> FilterRequestListForMSO(List<RequestModel> requestList, List<MSO_Model> msoList)
+        {
+            List<RequestModel> returnList = new List<RequestModel>();
+
+            foreach (var mso in msoList)
+            {
+                returnList.AddRange(requestList.Where(x => x.MSO == mso.MSO).ToList());
+            }
+            return returnList;
+        }
+
+        public static List<Report_SalesProjectValuesModel> DesignRequestsBySalespersonPerMonth(List<RequestModel> requestList, 
             List<SalespersonModel> allSalesPersons, List<MSO_Model> msoList, DateTime startDate, DateTime endDate)
         { 
             //List to collect individual details
@@ -62,8 +84,10 @@ namespace DesignDB_Library.Operations
 
             //place totals in accumulatedRequestValues
             accumulatedRequestData.SalesPerson = "Total";
-            accumulatedRequestData.CurrentYTD_Value = allNonCanceledRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
-            accumulatedRequestData.CurrentYear_Count = allNonCanceledRequests.Count;
+            //List<RequestModel> filteredRequests = FilterRequestListForMSO(allNonCanceledRequests, msoList);
+            
+            accumulatedRequestData.CurrentYTD_Value = requestList.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
+            accumulatedRequestData.CurrentYear_Count = requestList.Count;
             accumulatedRequestData.PctTotalValue = 1;
 
             //Get BOM value for all requests
@@ -82,7 +106,7 @@ namespace DesignDB_Library.Operations
             foreach (var mso in msoList)
             {
                 msoRequests.Clear();
-                msoRequests = allNonCanceledRequests.Where(x => x.MSO == mso.MSO).ToList();
+                msoRequests = requestList.Where(x => x.MSO == mso.MSO).ToList();
                 foreach (var salesPerson in allSalesPersons)
                 {
                     //Model to collect single salesperson's requests
@@ -180,13 +204,14 @@ namespace DesignDB_Library.Operations
             return collectionIndividualRequests;
         }
 
-        private static List<Report_SalesProjectValuesModel> MonthlyMSO_Summary(List<MSO_Model> msoList, List<RequestModel> AllRequests, DateTime startDate,
+        private static List<Report_SalesProjectValuesModel> MonthlyMSO_Summary(List<MSO_Model> msoList, List<RequestModel> requestList, DateTime startDate,
             DateTime endDate)
         {
             Report_SalesProjectValuesModel accumulatedValues = new Report_SalesProjectValuesModel();
             accumulatedValues.SalesPerson = "Total";
-            accumulatedValues.CurrentYTD_Value = AllRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
-            accumulatedValues.CurrentYear_Count = AllRequests.Count;
+            //List<RequestModel> filteredRequests = FilterRequestListForMSO(allNonCanceledRequests, msoList);
+            accumulatedValues.CurrentYTD_Value = requestList.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
+            accumulatedValues.CurrentYear_Count = requestList.Count;
             accumulatedValues.AverageDollars = accumulatedValues.CurrentYTD_Value / accumulatedValues.CurrentYear_Count;
             accumulatedValues.PctTotalValue = 1;
             List<Report_SalesProjectValuesModel> monthlyMSO_Summary = new List<Report_SalesProjectValuesModel>();
@@ -196,7 +221,7 @@ namespace DesignDB_Library.Operations
                 Report_SalesProjectValuesModel model = new Report_SalesProjectValuesModel();
 
                 model.SalesPerson = mso.MSO;
-                List<RequestModel> msoRequests = AllRequests.Where(x => x.MSO == mso.MSO).ToList();
+                List<RequestModel> msoRequests = requestList.Where(x => x.MSO == mso.MSO).ToList();
                 if (msoRequests.Count > 0)
                 {
                     foreach (var request in msoRequests)
@@ -287,7 +312,7 @@ namespace DesignDB_Library.Operations
             return monthlyMSO_Summary;
         }
 
-        private static List<ReportCategoryMSOModel> MSO_RequestsByCategory(List<RequestModel> allRequests, List<MSO_Model> msos)
+        private static List<ReportCategoryMSOModel> MSO_RequestsByCategory(List<RequestModel> requestList, List<MSO_Model> msoList)
         {
             //Create list for company totals
             List<ReportCategoryMSOModel> companySummary  = new List<ReportCategoryMSOModel>();
@@ -295,16 +320,16 @@ namespace DesignDB_Library.Operations
             //Create model to summarize totals
             ReportCategoryMSOModel accumulatedCategorySummary = new ReportCategoryMSOModel();
 
-
-            accumulatedCategorySummary.TotalDollars = allRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
-            accumulatedCategorySummary.TotalRequests = allRequests.Count;
-            accumulatedCategorySummary.AverageDollarsPerRequest = accumulatedCategorySummary.TotalDollars / allRequests.Count;
+            //List<RequestModel> filteredRequests = FilterRequestListForMSO(allNonCanceledRequests, msoList);
+            accumulatedCategorySummary.TotalDollars = requestList.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
+            accumulatedCategorySummary.TotalRequests = requestList.Count;
+            accumulatedCategorySummary.AverageDollarsPerRequest = accumulatedCategorySummary.TotalDollars / requestList.Count;
             accumulatedCategorySummary.PctOfTotal = 1;
-            foreach (var mso in msos)
+            foreach (var mso in msoList)
             {
+                List<RequestModel> msoRequests = requestList.Where(x => x.MSO == mso.MSO).ToList();
                 ReportCategoryMSOModel individualLine = new ReportCategoryMSOModel();
                 individualLine.MSO = mso.MSO;
-                List<RequestModel> msoRequests = allRequests.Where(x => x.MSO == mso.MSO).ToList();
                 if (msoRequests.Count > 0)
                 {
                     individualLine.MSO = mso.MSO;
@@ -391,25 +416,27 @@ namespace DesignDB_Library.Operations
             return companySummary;
         }
 
-        private static List<List<RequestModel>> AwardStatusSummary(List<RequestModel> allNonCanceledlRequests)
+        private static List<List<RequestModel>> AwardStatusSummary(List<RequestModel> allNonCanceledRequests, List<MSO_Model> msoList)
         {
             List<List<RequestModel>> awardLists = new List<List<RequestModel>>();
-            List<RequestModel> Pending = allNonCanceledlRequests.Where(r => r.AwardStatus == "Pending").ToList();
+            List<RequestModel> filteredRequests = FilterRequestListForMSO(allNonCanceledRequests, msoList);
+
+            List<RequestModel> Pending = filteredRequests.Where(r => r.AwardStatus == "Pending").ToList();
             awardLists.Add(Pending);
             Pending = null;
-            List<RequestModel> HasRevision = allNonCanceledlRequests.Where(r => r.AwardStatus == "Has Revision").ToList();
+            List<RequestModel> HasRevision = filteredRequests.Where(r => r.AwardStatus == "Has Revision").ToList();
             awardLists.Add(HasRevision);
             HasRevision = null;
-            List<RequestModel> Cancels = allNonCanceledlRequests.Where(r => r.AwardStatus == "Canceled").ToList();
+            List<RequestModel> Cancels = filteredRequests.Where(r => r.AwardStatus == "Canceled").ToList();
             awardLists.Add(Cancels);
             Cancels = null;
-            List<RequestModel> Inactive = allNonCanceledlRequests.Where(r => r.AwardStatus == "Inactive").ToList();
+            List<RequestModel> Inactive = filteredRequests.Where(r => r.AwardStatus == "Inactive").ToList();
             awardLists.Add(Inactive);
             Inactive = null;
-            List<RequestModel> YesRequests = allNonCanceledlRequests.Where(r => r.AwardStatus == "Yes").ToList();
+            List<RequestModel> YesRequests = filteredRequests.Where(r => r.AwardStatus == "Yes").ToList();
             awardLists.Add(YesRequests);
             YesRequests = null;
-            List<RequestModel> NoRequests = allNonCanceledlRequests.Where(r => r.AwardStatus == "No").ToList();
+            List<RequestModel> NoRequests = filteredRequests.Where(r => r.AwardStatus == "No").ToList();
             awardLists.Add(NoRequests);
             NoRequests = null;
 
@@ -429,9 +456,10 @@ namespace DesignDB_Library.Operations
 
             //Retrieve all open Requests
             List<RequestModel> openRequests = GlobalConfig.Connection.GetOpenRequests();
+            List<RequestModel> filteredRequests = FilterRequestListForMSO(openRequests, msoList);
 
             //Place total open requests in company summary
-            companySummary.Count = openRequests.Count;
+            companySummary.Count = filteredRequests.Count;
 
             //remove duplicate salespersons
             salesPersons = salesPersons.Distinct().ToList();
@@ -440,7 +468,7 @@ namespace DesignDB_Library.Operations
             foreach (var salesperson in salesPersons)
             {
                 //Create list of open requests from current salesperson
-                List<RequestModel> personRequests = openRequests.Where(x => x.DesignRequestor == salesperson.SalesPerson).ToList();
+                List<RequestModel> personRequests = filteredRequests.Where(x => x.DesignRequestor == salesperson.SalesPerson).ToList();
 
                 if (personRequests.Count > 0)
                 {

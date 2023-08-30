@@ -45,26 +45,26 @@ namespace DesignDB_Library.Operations
             int recordsProcessed = 0;            
             pBox.Text = recordsProcessed.ToString();            
             List<BOM_Model> products = new List<BOM_Model>();
+
+            //Filter out Canceled and playbook requests
+            requests = requests.Where(x => x.AwardStatus != "Canceled" &&  x.QuoteType != "Playbook").ToList();
             foreach (RequestModel request in requests)
             {
                 int row = 0;
                 string fileName = getBOM(request);
                 if (fileName != null)
-                {
-                    if (request.QuoteType != "Playbook")
+                {                    
+                    products = processBOM(fileName, request.ProjectID, products);
+                    pb.PerformStep();
+                    dgv.Rows[row].Selected = true;
+                    if (recordsProcessed > 0)
                     {
-                        products = processBOM(fileName, request.ProjectID, products);
-                        pb.PerformStep();
-                        dgv.Rows[row].Selected = true;
-                        if (recordsProcessed > 0)
-                        {
-                            dgv.Rows[recordsProcessed - 1].Selected = false;
-                        }
-
-                        recordsProcessed++;
-                        pBox.Text = recordsProcessed.ToString();
-                        Application.DoEvents(); 
+                        dgv.Rows[recordsProcessed - 1].Selected = false;
                     }
+
+                    recordsProcessed++;
+                    pBox.Text = recordsProcessed.ToString();
+                    Application.DoEvents();                     
                 }
                 else
                 {
