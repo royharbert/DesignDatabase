@@ -11,6 +11,7 @@ using Microsoft.Office.Interop.Excel;
 using Mono.Cecil.Cil;
 using System.Diagnostics;
 using StyleCop;
+using NuGet;
 
 namespace DesignDB_Library.Operations
 {
@@ -33,46 +34,38 @@ namespace DesignDB_Library.Operations
             List<RequestModel> allRequests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(NewYearsDay, NewYearsEve);
             //Filter out Canceled
             List<RequestModel> allNonCanceledlRequests = allRequests.Where(x => x.AwardStatus != "Canceled").ToList();
-            List<RequestModel> filteredRequests = FilterRequestListForMSO(allNonCanceledlRequests, msoModels);
+
+            //List<RequestModel> filteredRequests = FilterRequestListForMSO(allNonCanceledlRequests, msoModels);
 
 
             //Section 1
-            List<Report_SalesProjectValuesModel> salesProjects = DesignRequestsBySalespersonPerMonth(filteredRequests, 
+            List<Report_SalesProjectValuesModel> salesProjects = DesignRequestsBySalespersonPerMonth(allNonCanceledlRequests, 
                 allSalesPersons, msoModels, startDate, endDate);
 
             //Section 2
-            List<Report_SalesProjectValuesModel> monthlyMSO_Summary = MonthlyMSO_Summary(msoModels, filteredRequests, startDate, endDate);
+            List<Report_SalesProjectValuesModel> monthlyMSO_Summary = MonthlyMSO_Summary(msoModels, allNonCanceledlRequests, startDate, endDate);
 
             //Section 3
-            List<List<RequestModel>> awardStatusSummary = AwardStatusSummary(filteredRequests, msoModels);
+            List<AwardStatusModel> awardStatusSummary = AwardStatusSummary(allNonCanceledlRequests, msoModels);
 
             //Section 4
-            List<ReportCategoryMSOModel> mso_RequestsByCategory = MSO_RequestsByCategory(filteredRequests, msoModels);
+            List<ReportCategoryMSOModel> mso_RequestsByCategory = MSO_RequestsByCategory(allNonCanceledlRequests, msoModels);
 
             //Section 5
             List<OpenRequestsBySalesModel> openRequestsBySales = OpenRequestsBySales(includedSalesPersons, msoModels);
 
             //Section 6
-            List<ReportSalesPriorityModel> priorityModelSummary = PriorityModelSummary(filteredRequests, includedSalesPersons, msoModels);
-
+            //*
+            List<ReportSalesPriorityModel> priorityModelSummary = PriorityModelSummaryNoMS0(allNonCanceledlRequests, includedSalesPersons, msoModels);
+            /*/
+            List<ReportSalesPriorityModel> priorityModelSummary = PriorityModelSummary(allNonCanceledlRequests, includedSalesPersons, msoModels);
+            //*/
 
 
             ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, mso_RequestsByCategory, salesProjects, 
                 priorityModelSummary, allNonCanceledlRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value), 
                 monthlyMSO_Summary, msoModels, awardStatusSummary, CustomFormat);
         }
-
-        private static List<RequestModel> FilterRequestListForMSO(List<RequestModel> requestList, List<MSO_Model> msoList)
-        {
-            List<RequestModel> returnList = new List<RequestModel>();
-
-            foreach (var mso in msoList)
-            {
-                returnList.AddRange(requestList.Where(x => x.MSO == mso.MSO).ToList());
-            }
-            return returnList;
-        }
-
         public static List<Report_SalesProjectValuesModel> DesignRequestsBySalespersonPerMonth(List<RequestModel> requestList, 
             List<SalespersonModel> allSalesPersons, List<MSO_Model> msoList, DateTime startDate, DateTime endDate)
         { 
@@ -209,7 +202,6 @@ namespace DesignDB_Library.Operations
         {
             Report_SalesProjectValuesModel accumulatedValues = new Report_SalesProjectValuesModel();
             accumulatedValues.SalesPerson = "Total";
-            //List<RequestModel> filteredRequests = FilterRequestListForMSO(allNonCanceledRequests, msoList);
             accumulatedValues.CurrentYTD_Value = requestList.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
             accumulatedValues.CurrentYear_Count = requestList.Count;
             accumulatedValues.AverageDollars = accumulatedValues.CurrentYTD_Value / accumulatedValues.CurrentYear_Count;
@@ -319,6 +311,7 @@ namespace DesignDB_Library.Operations
 
             //Create model to summarize totals
             ReportCategoryMSOModel accumulatedCategorySummary = new ReportCategoryMSOModel();
+            accumulatedCategorySummary.MSO = "Total";
 
             //List<RequestModel> filteredRequests = FilterRequestListForMSO(allNonCanceledRequests, msoList);
             accumulatedCategorySummary.TotalDollars = requestList.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
@@ -416,33 +409,66 @@ namespace DesignDB_Library.Operations
             return companySummary;
         }
 
-        private static List<List<RequestModel>> AwardStatusSummary(List<RequestModel> allNonCanceledRequests, List<MSO_Model> msoList)
+        private static List<AwardStatusModel> AwardStatusSummary(List<RequestModel> requestList, List<MSO_Model> msoList)
         {
-            List<List<RequestModel>> awardLists = new List<List<RequestModel>>();
-            List<RequestModel> filteredRequests = FilterRequestListForMSO(allNonCanceledRequests, msoList);
+            List<AwardStatusModel> awardModels= new List<AwardStatusModel>();
+            AwardStatusModel summaryLine = new AwardStatusModel();
+            List<MSO_Model> activeMSOs = new List<MSO_Model>();
+            summaryLine.MSO = "Total";
+            foreach (var mso in msoList)
+            {
+                List<RequestModel> requests = requestList.Where(x => x.MSO == mso.MSO).ToList();
+                if (requests.Count > 0)
+                {
+                    activeMSOs.Add(mso);
+                    AwardStatusModel msoAwardStatus = new AwardStatusModel();
+                    msoAwardStatus.MSO = mso.MSO;
+                    List<RequestModel> msoRequests = requestList.Where(x => x.MSO == mso.MSO).ToList();
+                    msoAwardStatus.PendingCount = msoRequests.Where(x => x.AwardStatus == "Pending").ToList().Count;
+                    msoAwardStatus.PendingDollars = msoRequests.Where(x => x.AwardStatus == "Pending").ToList().Sum(x => x.BOM_Value);
+                    msoAwardStatus.TotalCount = msoAwardStatus.TotalCount + msoAwardStatus.PendingCount;
 
-            List<RequestModel> Pending = filteredRequests.Where(r => r.AwardStatus == "Pending").ToList();
-            awardLists.Add(Pending);
-            Pending = null;
-            List<RequestModel> HasRevision = filteredRequests.Where(r => r.AwardStatus == "Has Revision").ToList();
-            awardLists.Add(HasRevision);
-            HasRevision = null;
-            List<RequestModel> Cancels = filteredRequests.Where(r => r.AwardStatus == "Canceled").ToList();
-            awardLists.Add(Cancels);
-            Cancels = null;
-            List<RequestModel> Inactive = filteredRequests.Where(r => r.AwardStatus == "Inactive").ToList();
-            awardLists.Add(Inactive);
-            Inactive = null;
-            List<RequestModel> YesRequests = filteredRequests.Where(r => r.AwardStatus == "Yes").ToList();
-            awardLists.Add(YesRequests);
-            YesRequests = null;
-            List<RequestModel> NoRequests = filteredRequests.Where(r => r.AwardStatus == "No").ToList();
-            awardLists.Add(NoRequests);
-            NoRequests = null;
+                    msoAwardStatus.HasRevisionCount = msoRequests.Where(x => x.AwardStatus == "Has Revision").ToList().Count;
+                    msoAwardStatus.HasRevisionDollars = msoRequests.Where(x => x.AwardStatus == "Has Revision").ToList().Sum(x => x.BOM_Value);
+                    msoAwardStatus.TotalCount = msoAwardStatus.TotalCount + msoAwardStatus.HasRevisionCount;
 
-            return awardLists;
+                    msoAwardStatus.CanceledCount = msoRequests.Where(x => x.AwardStatus == "Canceled").ToList().Count;
+                    msoAwardStatus.CanceledDollars = msoRequests.Where(x => x.AwardStatus == "Canceled").ToList().Sum(x => x.BOM_Value);
+                    msoAwardStatus.TotalCount = msoAwardStatus.TotalCount + msoAwardStatus.CanceledCount;
+
+                    msoAwardStatus.InactiveCount = msoRequests.Where(x => x.AwardStatus == "Inactive").ToList().Count;
+                    msoAwardStatus.HasRevisionDollars = msoRequests.Where(x => x.AwardStatus == "Inactive").ToList().Sum(x => x.BOM_Value);
+                    msoAwardStatus.TotalCount = msoAwardStatus.TotalCount + msoAwardStatus.InactiveCount;
+
+                    msoAwardStatus.YesCount = msoRequests.Where(x => x.AwardStatus == "Yes").ToList().Count;
+                    msoAwardStatus.YesDollars = msoRequests.Where(x => x.AwardStatus == "Yes").ToList().Sum(x => x.BOM_Value);
+                    msoAwardStatus.TotalCount = msoAwardStatus.TotalCount + msoAwardStatus.YesCount;
+
+                    msoAwardStatus.NoCount = msoRequests.Where(x => x.AwardStatus == "No").ToList().Count;
+                    msoAwardStatus.NoDollars = msoRequests.Where(x => x.AwardStatus == "No").ToList().Sum(x => x.BOM_Value);
+                    msoAwardStatus.TotalCount = msoAwardStatus.TotalCount + msoAwardStatus.NoCount;
+
+                    summaryLine.PendingCount = summaryLine.PendingCount + msoAwardStatus.PendingCount;
+                    summaryLine.PendingDollars = summaryLine.PendingDollars + msoAwardStatus.PendingDollars;
+                    summaryLine.HasRevisionCount = summaryLine.HasRevisionCount + msoAwardStatus.HasRevisionCount;
+                    summaryLine.HasRevisionDollars = summaryLine.HasRevisionDollars + msoAwardStatus.HasRevisionDollars;
+                    summaryLine.CanceledCount = summaryLine.CanceledCount + msoAwardStatus.CanceledCount;
+                    summaryLine.CanceledDollars = summaryLine.CanceledDollars + msoAwardStatus.CanceledDollars;
+                    summaryLine.InactiveCount = summaryLine.InactiveCount + msoAwardStatus.InactiveCount;
+                    summaryLine.InactiveDollars = summaryLine.InactiveDollars + msoAwardStatus.InactiveDollars;
+                    summaryLine.YesCount = summaryLine.YesCount + msoAwardStatus.YesCount;
+                    summaryLine.YesDollars = summaryLine.YesDollars + msoAwardStatus.YesDollars;
+                    summaryLine.NoCount = summaryLine.NoCount + msoAwardStatus.NoCount;
+                    summaryLine.NoDollars = summaryLine.NoDollars + msoAwardStatus.NoDollars;
+
+                    awardModels.Add(msoAwardStatus);
+                } 
+            }
+            awardModels = awardModels.OrderByDescending(x => x.PendingCount).ToList();
+            awardModels.Add(summaryLine);
+
+            return awardModels;
         }
-
         private static List<OpenRequestsBySalesModel> OpenRequestsBySales(List<SalespersonModel> salesPersons, List<MSO_Model> msoList)
         {
             //Create list to hold final values
@@ -456,10 +482,10 @@ namespace DesignDB_Library.Operations
 
             //Retrieve all open Requests
             List<RequestModel> openRequests = GlobalConfig.Connection.GetOpenRequests();
-            List<RequestModel> filteredRequests = FilterRequestListForMSO(openRequests, msoList);
+            //List<RequestModel> filteredRequests = FilterRequestListForMSO(openRequests, msoList);
 
             //Place total open requests in company summary
-            companySummary.Count = filteredRequests.Count;
+            companySummary.Count = openRequests.Count;
 
             //remove duplicate salespersons
             salesPersons = salesPersons.Distinct().ToList();
@@ -468,7 +494,7 @@ namespace DesignDB_Library.Operations
             foreach (var salesperson in salesPersons)
             {
                 //Create list of open requests from current salesperson
-                List<RequestModel> personRequests = filteredRequests.Where(x => x.DesignRequestor == salesperson.SalesPerson).ToList();
+                List<RequestModel> personRequests = openRequests.Where(x => x.DesignRequestor == salesperson.SalesPerson).ToList();
 
                 if (personRequests.Count > 0)
                 {
@@ -568,7 +594,8 @@ namespace DesignDB_Library.Operations
             return accumulatedOpenSummary;
         }
 
-        private static List<ReportSalesPriorityModel> PriorityModelSummary(List<RequestModel> requests, List<SalespersonModel> salesPersons, 
+        /*
+        private static List<ReportSalesPriorityModel> PriorityModelSummary(List<RequestModel> requests, List<SalespersonModel> salesPersons,
             List<MSO_Model> msoList)
         {
             //Eliminate dups in salespersons list
@@ -579,6 +606,7 @@ namespace DesignDB_Library.Operations
 
             //Create priority model to hold accumulated totals and place total count in model
             ReportSalesPriorityModel companyTotal = new ReportSalesPriorityModel();
+            companyTotal.SalesPerson = "Total";
             companyTotal.TotalCount = requests.Count;
 
             //Create model in appropriate scope
@@ -587,10 +615,10 @@ namespace DesignDB_Library.Operations
             //List<RequestModel> msoRequests = new List<RequestModel>();
             List<RequestModel> filteredRequests = new List<RequestModel>();
             foreach (var person in salesPersons)
-            {                
+            {
                 //msoRequests.Clear();
                 foreach (var mso in msoList)
-                { 
+                {
                     filteredRequests = requests.Where(x => x.DesignRequestor == person.SalesPerson && x.MSO == mso.MSO).ToList();
                     if (filteredRequests.Count > 0)
                     {
@@ -628,21 +656,96 @@ namespace DesignDB_Library.Operations
                                         break;
                                 }
                             }
-                        } 
+                        }
                         priorityModels.Add(model);
-                    }  
-                } 
-                
-            }           
+                    }
+                }
+
+            }
             priorityModels = priorityModels.OrderByDescending(x => x.TotalCount).ToList();
             priorityModels.Add(companyTotal);
 
             //Insert company total %
-            
+
 
             return priorityModels;
-        }     
+        }
+        /*/
 
+        //Switch to NoMSO version in ExcelOps
+        private static List<ReportSalesPriorityModel> PriorityModelSummaryNoMS0(List<RequestModel> requests, List<SalespersonModel> salesPersons,
+            List<MSO_Model> msoList)
+        {
+            //Eliminate dups in salespersons list
+            salesPersons = salesPersons.Distinct().ToList();
+
+            //Create list of priority models to hold data
+            List<ReportSalesPriorityModel> priorityModels = new List<ReportSalesPriorityModel>();
+
+            //Create priority model to hold accumulated totals and place total count in model
+            ReportSalesPriorityModel companyTotal = new ReportSalesPriorityModel();
+            companyTotal.SalesPerson = "Total";
+            companyTotal.TotalCount = requests.Count;
+
+            //Create model in appropriate scope
+            ReportSalesPriorityModel model = new ReportSalesPriorityModel();
+
+            //List<RequestModel> msoRequests = new List<RequestModel>();
+            List<RequestModel> filteredRequests = new List<RequestModel>();
+            foreach (var person in salesPersons)
+            {
+
+                filteredRequests = requests.Where(x => x.DesignRequestor == person.SalesPerson).ToList();
+                if (filteredRequests.Count > 0)
+                {
+                    model = new ReportSalesPriorityModel();
+                    model.SalesPerson = person.SalesPerson;
+                    foreach (var filteredRequest in filteredRequests)
+                    {
+                        
+                            switch (filteredRequest.Pty)
+                            {
+                                case "P1":
+                                    model.P1Count++;
+                                    model.P1Dollars = model.P1Dollars + filteredRequest.BOM_Value;
+                                    model.TotalCount++;
+                                    companyTotal.P1Count++;
+                                    companyTotal.P1Dollars = companyTotal.P1Dollars = filteredRequest.BOM_Value;
+                                    break;
+                                case "P2":
+                                    model.P2Count++;
+                                    model.P2Dollars = model.P2Dollars + filteredRequest.BOM_Value;
+                                    model.TotalCount++;
+                                    companyTotal.P2Count++;
+                                    companyTotal.P2Dollars = companyTotal.P2Dollars = filteredRequest.BOM_Value;
+                                    break;
+                                case "P3":
+                                    model.P3Count++;
+                                    model.P3Dollars = model.P3Dollars + filteredRequest.BOM_Value;
+                                    model.TotalCount++;
+                                    companyTotal.P3Count++;
+                                    companyTotal.P3Dollars = companyTotal.P3Dollars = filteredRequest.BOM_Value;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        
+                    }
+                    priorityModels.Add(model);
+                }
+                
+
+            }
+            priorityModels = priorityModels.OrderByDescending(x => x.TotalCount).ToList();
+            priorityModels.Add(companyTotal);
+
+            //Insert company total %
+
+
+            return priorityModels;
+
+        }
+        //*/
         public static List<List<(string Field, bool Active)>> CollectDropDownLists(TableLayoutPanel BoxForm)
         {
             List<List<(string, bool)>> BoxData = new List<List<(string, bool)>>();

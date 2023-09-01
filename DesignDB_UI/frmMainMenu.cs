@@ -604,8 +604,8 @@ namespace DesignDB_UI
         {
             GV.MODE = Mode.Report_Rollup;
             //frmDateMSO_Picker.Height = 175;
-            frmDateMSO_Picker.Show();       
-
+            frmDateMSO_Picker.Show();
+            frmDateMSO_Picker.Text = "Design Rollup";
         }
 
         private void btnDeletedRecords_Click(object sender, EventArgs e)
