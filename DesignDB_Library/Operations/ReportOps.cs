@@ -596,7 +596,7 @@ namespace DesignDB_Library.Operations
                             } 
                         }
                     }
-                    accumulatedOpenSummary.Add(lineEntry); Next meeting we should review the changes
+                    accumulatedOpenSummary.Add(lineEntry); 
                 }
             }
             accumulatedOpenSummary = accumulatedOpenSummary.OrderByDescending(x => x.Count).ToList();
