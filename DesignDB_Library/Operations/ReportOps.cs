@@ -20,36 +20,55 @@ namespace DesignDB_Library.Operations
     {
         //create list of salespersons in this report
         static List<SalespersonModel> includedSalesPersons = new List<SalespersonModel>();
-        public static void RollupReport(DateTime startDate, DateTime endDate, List<MSO_Model> msoModels, bool CustomFormat = false)
+        public static void RollupReport(DateTime startDate, DateTime endDate, List<MSO_Model> msoModels, List<string> regionQuery, 
+            bool CustomFormat = false)
         {
             startDate = startDate.Date;
             endDate = endDate.Date;
             int curYear = startDate.Year;
             DateTime NewYearsDay = new DateTime(curYear, 1, 1);
             DateTime NewYearsEve = new DateTime(curYear, 12, 31);
+            includedSalesPersons = new List<SalespersonModel>();
 
+            
             //Collect all salespersons
             List<SalespersonModel> allSalesPersons = GlobalConfig.Connection.GenericGetAll<SalespersonModel>("tblSalespersons", "SalesPerson");
             //Collect YTD requests
             List<RequestModel> allRequests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(NewYearsDay, NewYearsEve);
             //Filter out Canceled
             List<RequestModel> allNonCanceledlRequests = allRequests.Where(x => x.AwardStatus != "Canceled").ToList();
+            //Filter to selected MSO's
+            //Filter nonCanceled requests by MSO
+            List<RequestModel> msoFilteredRequests = new List<RequestModel>();
+            foreach (var mso in msoModels)
+            {
+                msoFilteredRequests.AddRange(allNonCanceledlRequests.Where(x => x.MSO == mso.MSO).ToList());
+            }
+            allNonCanceledlRequests = msoFilteredRequests;
 
-            //List<RequestModel> filteredRequests = FilterRequestListForMSO(allNonCanceledlRequests, msoModels);
-
+            if (regionQuery.Count > 0)
+            {
+                List<RequestModel> regionRequest = new List<RequestModel>();
+                foreach(string region in regionQuery)
+                {
+                    regionRequest.AddRange(allNonCanceledlRequests.Where(x => x.Region == region));
+                }
+               
+                allNonCanceledlRequests = regionRequest;
+            }
 
             //Section 1
-            List<Report_SalesProjectValuesModel> salesProjects = DesignRequestsBySalespersonPerMonth(allNonCanceledlRequests, 
-                allSalesPersons, msoModels, startDate, endDate);
+            List<Report_SalesProjectValuesModel> monthlyMSO_Summary = MonthlyMSO_Summary(msoModels, allNonCanceledlRequests, startDate, endDate);
 
             //Section 2
-            List<Report_SalesProjectValuesModel> monthlyMSO_Summary = MonthlyMSO_Summary(msoModels, allNonCanceledlRequests, startDate, endDate);
+            List<ReportCategoryMSOModel> mso_RequestsByCategory = MSO_RequestsByCategory(allNonCanceledlRequests, msoModels);
 
             //Section 3
             List<AwardStatusModel> awardStatusSummary = AwardStatusSummary(allNonCanceledlRequests, msoModels);
 
             //Section 4
-            List<ReportCategoryMSOModel> mso_RequestsByCategory = MSO_RequestsByCategory(allNonCanceledlRequests, msoModels);
+            List<Report_SalesProjectValuesModel> salesProjects = DesignRequestsBySalespersonPerMonth(allNonCanceledlRequests, 
+                allSalesPersons, msoModels, startDate, endDate);
 
             //Section 5
             List<OpenRequestsBySalesModel> openRequestsBySales = OpenRequestsBySales(includedSalesPersons, msoModels);
@@ -61,10 +80,13 @@ namespace DesignDB_Library.Operations
             List<ReportSalesPriorityModel> priorityModelSummary = PriorityModelSummary(allNonCanceledlRequests, includedSalesPersons, msoModels);
             //*/
 
+            //Section 7
+            List<RollupCompletionTimeModel> CompletionTime = RollupCompletionTimeSummary(msoModels, allRequests);
+
 
             ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, mso_RequestsByCategory, salesProjects, 
                 priorityModelSummary, allNonCanceledlRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value), 
-                monthlyMSO_Summary, msoModels, awardStatusSummary, CustomFormat);
+                monthlyMSO_Summary, msoModels, awardStatusSummary, CompletionTime, CustomFormat);
         }
         public static List<Report_SalesProjectValuesModel> DesignRequestsBySalespersonPerMonth(List<RequestModel> requestList, 
             List<SalespersonModel> allSalesPersons, List<MSO_Model> msoList, DateTime startDate, DateTime endDate)
@@ -79,7 +101,7 @@ namespace DesignDB_Library.Operations
             accumulatedRequestData.SalesPerson = "Total";
             //List<RequestModel> filteredRequests = FilterRequestListForMSO(allNonCanceledRequests, msoList);
             
-            accumulatedRequestData.CurrentYTD_Value = requestList.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
+            accumulatedRequestData.CurrentYTD_Value = requestList.Where(x => x.AwardStatus != "Has Revision" && x.AwardStatus != "Canceled").Sum(x => x.BOM_Value);
             accumulatedRequestData.CurrentYear_Count = requestList.Count;
             accumulatedRequestData.PctTotalValue = 1;
 
@@ -194,6 +216,7 @@ namespace DesignDB_Library.Operations
             
             collectionIndividualRequests = collectionIndividualRequests.OrderByDescending(x => x.CurrentYTD_Value).ToList();
             collectionIndividualRequests.Add(accumulatedRequestData);
+
             return collectionIndividualRequests;
         }
 
@@ -474,7 +497,7 @@ namespace DesignDB_Library.Operations
             //Create list to hold final values
             List<OpenRequestsBySalesModel> accumulatedOpenSummary = new List<OpenRequestsBySalesModel>();
 
-            //Create list to accumulate Totals
+            //Create model to accumulate Totals
             OpenRequestsBySalesModel companySummary = new OpenRequestsBySalesModel();
 
             //Assign 'Total' SalesPerson attribute
@@ -482,11 +505,9 @@ namespace DesignDB_Library.Operations
 
             //Retrieve all open Requests
             List<RequestModel> openRequests = GlobalConfig.Connection.GetOpenRequests();
-            //List<RequestModel> filteredRequests = FilterRequestListForMSO(openRequests, msoList);
-
-            //Place total open requests in company summary
-            companySummary.Count = openRequests.Count;
-
+            //remove canceled
+            List<RequestModel> filteredRequests = openRequests.Where(x => x.AwardStatus != "Canceled" && x.AwardStatus != "Has Revision").ToList();
+           
             //remove duplicate salespersons
             salesPersons = salesPersons.Distinct().ToList();
             //Cycle through list of salespersons provided in input parameters
@@ -499,93 +520,83 @@ namespace DesignDB_Library.Operations
                 if (personRequests.Count > 0)
                 {
                     lineEntry = new OpenRequestsBySalesModel();
-                    //if salesperson has open requests - cycle through MSO's to match salesperson and MSO
-                    foreach (var mso in msoList)
+                    
+                    lineEntry.Salesperson = salesperson.SalesPerson;
+                    foreach (var request in personRequests)
                     {
-                        List<RequestModel> personMSO_Requests = personRequests.Where(x => x.MSO == mso.MSO).ToList();
-
-                        //if current MSO has requests from current requestor begin processing requests
-                        if (personMSO_Requests.Count > 0)
+                        //Place total count for salesperson/MSO pair in model
+                        lineEntry.Count = personRequests.Count;
+                        companySummary.Count ++;
+                        //Increment counts by month
+                        if (request.DesignRequestor == lineEntry.Salesperson)
                         {
-                            lineEntry = new OpenRequestsBySalesModel();
-                            lineEntry.Salesperson = salesperson.SalesPerson;
-                            lineEntry.MSO = mso.MSO; 
-                            foreach (var request in personRequests)
+                            switch (request.DateAssigned.Month)
                             {
-                                //Place total count for salesperson/MSO pair in model
-                                lineEntry.Count = personMSO_Requests.Count;
-                                //Increment counts by month
-                                if (request.DesignRequestor == lineEntry.Salesperson && request.MSO == lineEntry.MSO)
-                                {
-                                    switch (request.DateAssigned.Month)
-                                    {
-                                        case 1:
-                                            lineEntry.Jan++;
-                                            companySummary.Jan++;
-                                            break;
+                                case 1:
+                                    lineEntry.Jan++;
+                                    companySummary.Jan++;
+                                    break;
 
-                                        case 2:
-                                            lineEntry.Feb++;
-                                            companySummary.Feb++;
-                                            break;
+                                case 2:
+                                    lineEntry.Feb++;
+                                    companySummary.Feb++;
+                                    break;
 
-                                        case 3:
-                                            lineEntry.Mar++;
-                                            companySummary.Mar++;
-                                            break;
+                                case 3:
+                                    lineEntry.Mar++;
+                                    companySummary.Mar++;
+                                    break;
 
-                                        case 4:
-                                            lineEntry.Apr++;
-                                            companySummary.Apr++;
-                                            break;
+                                case 4:
+                                    lineEntry.Apr++;
+                                    companySummary.Apr++;
+                                    break;
 
-                                        case 5:
-                                            lineEntry.May++;
-                                            companySummary.May++;
-                                            break;
+                                case 5:
+                                    lineEntry.May++;
+                                    companySummary.May++;
+                                    break;
 
-                                        case 6:
-                                            lineEntry.Jun++;
-                                            companySummary.Jun++;
-                                            break;
+                                case 6:
+                                    lineEntry.Jun++;
+                                    companySummary.Jun++;
+                                    break;
 
-                                        case 7:
-                                            lineEntry.Jul++;
-                                            companySummary.Jul++;
-                                            break;
+                                case 7:
+                                    lineEntry.Jul++;
+                                    companySummary.Jul++;
+                                    break;
 
-                                        case 8:
-                                            lineEntry.Aug++;
-                                            companySummary.Aug++;
-                                            break;
+                                case 8:
+                                    lineEntry.Aug++;
+                                    companySummary.Aug++;
+                                    break;
 
-                                        case 9:
-                                            lineEntry.Sep++;
-                                            companySummary.Sep++;
-                                            break;
+                                case 9:
+                                    lineEntry.Sep++;
+                                    companySummary.Sep++;
+                                    break;
 
-                                        case 10:
-                                            lineEntry.Oct++;
-                                            companySummary.Oct++;
-                                            break;
+                                case 10:
+                                    lineEntry.Oct++;
+                                    companySummary.Oct++;
+                                    break;
 
-                                        case 11:
-                                            lineEntry.Nov++;
-                                            companySummary.Nov++;
-                                            break;
+                                case 11:
+                                    lineEntry.Nov++;
+                                    companySummary.Nov++;
+                                    break;
 
-                                        case 12:
-                                            lineEntry.Dec++;
-                                            companySummary.Dec++;
-                                            break;
-                                        default:
-                                            break;
-                                    } 
-                                }
-                            }
-                            accumulatedOpenSummary.Add(lineEntry);
+                                case 12:
+                                    lineEntry.Dec++;
+                                    companySummary.Dec++;
+                                    break;
+                                default:
+                                    break;
+                            } 
                         }
                     }
+                    accumulatedOpenSummary.Add(lineEntry); Next meeting we should review the changes
                 }
             }
             accumulatedOpenSummary = accumulatedOpenSummary.OrderByDescending(x => x.Count).ToList();
@@ -964,6 +975,49 @@ namespace DesignDB_Library.Operations
                     report.Add(cModel);
                 }
             }
+            return report;
+        }
+
+        public static List<RollupCompletionTimeModel> RollupCompletionTimeSummary(List<MSO_Model> msoList, 
+            List<RequestModel> allRequests)
+        {
+            DateTime emptyDate = new DateTime(1900,1,1);
+            List<RollupCompletionTimeModel> report = new List<RollupCompletionTimeModel>();
+            List<RequestModel> completedDesigns = allRequests.Where(x => x.DateCompleted != null && 
+                x.DateCompleted != emptyDate && x.AwardStatus != "Canceled").ToList();
+            RollupCompletionTimeModel summaryLine = new RollupCompletionTimeModel();
+
+            foreach (var mso in msoList)
+            {
+                List<RequestModel> msoCompletedDesigns = completedDesigns.Where(x => x.MSO == mso.MSO).ToList();
+                if (msoCompletedDesigns.Count > 0)
+                {
+                    RollupCompletionTimeModel lineEntry = new RollupCompletionTimeModel();
+                    lineEntry.MSO = mso.MSO;
+                    lineEntry.CompletedDesigns = msoCompletedDesigns.Count;
+                    double daysToComplete = 0;
+                    double daysFromAllInfo = 0;
+
+                    //Accumulate days from requests
+                    foreach (var request in msoCompletedDesigns)
+                    {
+                        double dtc = (request.DateCompleted - request.DateAssigned).TotalDays;
+                        double dai = (request.DateCompleted - request.DateAssigned).TotalDays;
+                        if (dtc >= 0 && dai > 0)
+                        {
+                            daysToComplete = daysToComplete + (request.DateCompleted - request.DateAssigned).TotalDays;
+                            daysFromAllInfo = daysFromAllInfo + (request.DateAllInfoReceived - request.DateAssigned).TotalDays;
+
+                        }
+                    }
+                    //Populate line entry model
+                    lineEntry.AvgDaysToComplete = (float)daysToComplete / lineEntry.CompletedDesigns;
+                    lineEntry.AvgDaysFromAllInfo = (float)daysFromAllInfo / lineEntry.CompletedDesigns;
+                    report.Add(lineEntry);
+                }
+            }
+            report = report.OrderByDescending(x => x.CompletedDesigns).ToList();
+            
             return report;
         }
 

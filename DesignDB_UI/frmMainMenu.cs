@@ -383,8 +383,7 @@ namespace DesignDB_UI
                     startDate = e.StartDate;
                     endDate = e.EndDate;
                     CustomFormat = e.CustomFormat;
-                    //ReportOps.DoRollup(startDate, endDate, e.MSO_s, CustomFormat); 
-                    ReportOps.RollupReport(startDate, endDate, e.MSO_s, CustomFormat);
+                    ReportOps.RollupReport(startDate, endDate, e.MSO_s, e.regionQuery,CustomFormat);
                     break;
         
                 case Mode.Report_CatMSO:
@@ -397,21 +396,21 @@ namespace DesignDB_UI
                 case Mode.Report_Snapshot:
                     List<SnapshotModel> report = ReportOps.GenerateSnapshotReport
                         (e.MSO_s, e.StartDate, e.EndDate);
-            break;
+                    break;
                 case Mode.Report_AvgCompletion:
                     //List<CompletionTimeModel> completionReport = ReportOps.GenerateCompletionTimeSummary
                     //    (e.StartDate, e.EndDate, e.MSO_s);
                     break;
                 case Mode.Report_ByPriority:
                     startDate = e.StartDate;
-            endDate = e.EndDate;
-            List<ReportSalesPriorityModel> PriorityReport = ReportOps.GenerateSalesSummary(startDate, endDate);
-            frmReportSalesPriiority frmReportSalesPriiority = new frmReportSalesPriiority();
-            frmReportSalesPriiority.Report = PriorityReport;
-            frmReportSalesPriiority.Visible = true;
-            frmReportSalesPriiority.Show();
-            frmReportSalesPriiority.TopMost = true;
-            break;
+                    endDate = e.EndDate;
+                    List<ReportSalesPriorityModel> PriorityReport = ReportOps.GenerateSalesSummary(startDate, endDate);
+                    frmReportSalesPriiority frmReportSalesPriiority = new frmReportSalesPriiority();
+                    frmReportSalesPriiority.Report = PriorityReport;
+                    frmReportSalesPriiority.Visible = true;
+                    frmReportSalesPriiority.Show();
+                    frmReportSalesPriiority.TopMost = true;
+                    break;
                 case Mode.Report_DesignerLoadReport:
                     break;
                 case Mode.Report_Overdue:

@@ -12,6 +12,18 @@ namespace DesignDB_Library.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
+        public List<MSO_Model> MSO_GetByTier(int tier)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@Tier", tier, DbType.Int16);
+
+                List<MSO_Model> output = connection.Query<MSO_Model>("dbo.spMSO_GetByTier", p,
+                    commandType: CommandType.StoredProcedure).ToList();
+                return output;
+            }
+        }
         public void MSO_Update(MSO_Model model)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))

@@ -120,6 +120,7 @@
     <Compile Include="Models\ReportSalesPriorityModel.cs" />
     <Compile Include="Models\Report_SalesProjectValuesModel.cs" />
     <Compile Include="Models\RequestModel.cs" />
+    <Compile Include="Models\RollupCompletionTimeModel.cs" />
     <Compile Include="Models\ScreenModel.cs" />
     <Compile Include="Operations\DesignerUpdate.cs" />
     <Compile Include="Operations\FilePicker.cs" />
