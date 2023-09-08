@@ -398,8 +398,8 @@ namespace DesignDB_UI
                         (e.MSO_s, e.StartDate, e.EndDate);
                     break;
                 case Mode.Report_AvgCompletion:
-                    //List<CompletionTimeModel> completionReport = ReportOps.GenerateCompletionTimeSummary
-                    //    (e.StartDate, e.EndDate, e.MSO_s);
+                    List<CompletionTimeModel> completionReport = ReportOps.DoCompletionTimeSummary
+                        (e.StartDate, e.EndDate, e.MSO_s);
                     break;
                 case Mode.Report_ByPriority:
                     startDate = e.StartDate;
@@ -408,6 +408,7 @@ namespace DesignDB_UI
                     frmReportSalesPriiority frmReportSalesPriiority = new frmReportSalesPriiority();
                     frmReportSalesPriiority.Report = PriorityReport;
                     frmReportSalesPriiority.Visible = true;
+                    
                     frmReportSalesPriiority.Show();
                     frmReportSalesPriiority.TopMost = true;
                     break;
@@ -467,6 +468,7 @@ namespace DesignDB_UI
         private void btnAvgComp_Click(object sender, EventArgs e)
         {
             GV.MODE = Mode.Report_AvgCompletion;
+            
             frmCompletionTimeReport frmCompletionTimeReport = new frmCompletionTimeReport();
             FC.SetFormPosition(frmCompletionTimeReport);
             GV.PickerForm.ShowDialog();
@@ -497,6 +499,7 @@ namespace DesignDB_UI
         private void ShowPicker()
         {
             frmDateMSO_Picker = GV.PickerForm;
+           
             frmDateMSO_Picker.ShowDialog();
             if (operationCanceled)
             {
@@ -506,7 +509,7 @@ namespace DesignDB_UI
 
         private void btnReqPriority_Click(object sender, EventArgs e)
         {
-            GV.MODE = Mode.Report_ByPriority;
+            GV.MODE = Mode.Report_ByPriority;            
             ShowPicker();
         }
 

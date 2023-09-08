@@ -74,7 +74,7 @@ namespace DesignDB_UI
             // 
             // dtpStart
             // 
-            this.dtpStart.Location = new System.Drawing.Point(218, 25);
+            this.dtpStart.Location = new System.Drawing.Point(134, 32);
             this.dtpStart.Name = "dtpStart";
             this.dtpStart.Size = new System.Drawing.Size(279, 26);
             this.dtpStart.TabIndex = 1;
@@ -82,7 +82,7 @@ namespace DesignDB_UI
             // 
             // dtpStop
             // 
-            this.dtpStop.Location = new System.Drawing.Point(218, 70);
+            this.dtpStop.Location = new System.Drawing.Point(134, 77);
             this.dtpStop.Name = "dtpStop";
             this.dtpStop.Size = new System.Drawing.Size(279, 26);
             this.dtpStop.TabIndex = 2;
@@ -90,7 +90,7 @@ namespace DesignDB_UI
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(129, 16);
+            this.label1.Location = new System.Drawing.Point(45, 23);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(83, 20);
             this.label1.TabIndex = 3;
@@ -99,7 +99,7 @@ namespace DesignDB_UI
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(135, 67);
+            this.label2.Location = new System.Drawing.Point(51, 74);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(77, 20);
             this.label2.TabIndex = 4;
@@ -107,7 +107,7 @@ namespace DesignDB_UI
             // 
             // btnGo
             // 
-            this.btnGo.Location = new System.Drawing.Point(500, 748);
+            this.btnGo.Location = new System.Drawing.Point(521, 39);
             this.btnGo.Name = "btnGo";
             this.btnGo.Size = new System.Drawing.Size(119, 48);
             this.btnGo.TabIndex = 5;
@@ -118,7 +118,7 @@ namespace DesignDB_UI
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(656, 748);
+            this.btnCancel.Location = new System.Drawing.Point(677, 39);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(119, 48);
             this.btnCancel.TabIndex = 6;
@@ -150,7 +150,7 @@ namespace DesignDB_UI
             // 
             this.rdo_Normal.AutoSize = true;
             this.rdo_Normal.Checked = true;
-            this.rdo_Normal.Location = new System.Drawing.Point(617, 31);
+            this.rdo_Normal.Location = new System.Drawing.Point(467, 165);
             this.rdo_Normal.Name = "rdo_Normal";
             this.rdo_Normal.Size = new System.Drawing.Size(132, 24);
             this.rdo_Normal.TabIndex = 11;
@@ -162,7 +162,7 @@ namespace DesignDB_UI
             // rdo_Custom
             // 
             this.rdo_Custom.AutoSize = true;
-            this.rdo_Custom.Location = new System.Drawing.Point(617, 61);
+            this.rdo_Custom.Location = new System.Drawing.Point(467, 195);
             this.rdo_Custom.Name = "rdo_Custom";
             this.rdo_Custom.Size = new System.Drawing.Size(137, 24);
             this.rdo_Custom.TabIndex = 12;
@@ -174,7 +174,7 @@ namespace DesignDB_UI
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(424, 149);
+            this.label3.Location = new System.Drawing.Point(424, 248);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(87, 24);
             this.label3.TabIndex = 28;
@@ -184,7 +184,7 @@ namespace DesignDB_UI
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(562, 149);
+            this.label4.Location = new System.Drawing.Point(562, 248);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(57, 24);
             this.label4.TabIndex = 29;
@@ -193,7 +193,7 @@ namespace DesignDB_UI
             // ckOther
             // 
             this.ckOther.AutoSize = true;
-            this.ckOther.Location = new System.Drawing.Point(429, 609);
+            this.ckOther.Location = new System.Drawing.Point(429, 708);
             this.ckOther.Name = "ckOther";
             this.ckOther.Size = new System.Drawing.Size(68, 24);
             this.ckOther.TabIndex = 53;
@@ -204,7 +204,7 @@ namespace DesignDB_UI
             // ckUSWest
             // 
             this.ckUSWest.AutoSize = true;
-            this.ckUSWest.Location = new System.Drawing.Point(428, 579);
+            this.ckUSWest.Location = new System.Drawing.Point(428, 678);
             this.ckUSWest.Name = "ckUSWest";
             this.ckUSWest.Size = new System.Drawing.Size(92, 24);
             this.ckUSWest.TabIndex = 52;
@@ -215,7 +215,7 @@ namespace DesignDB_UI
             // ckUSEast
             // 
             this.ckUSEast.AutoSize = true;
-            this.ckUSEast.Location = new System.Drawing.Point(428, 549);
+            this.ckUSEast.Location = new System.Drawing.Point(428, 648);
             this.ckUSEast.Name = "ckUSEast";
             this.ckUSEast.Size = new System.Drawing.Size(88, 24);
             this.ckUSEast.TabIndex = 51;
@@ -226,7 +226,7 @@ namespace DesignDB_UI
             // ckRussia
             // 
             this.ckRussia.AutoSize = true;
-            this.ckRussia.Location = new System.Drawing.Point(428, 519);
+            this.ckRussia.Location = new System.Drawing.Point(428, 618);
             this.ckRussia.Name = "ckRussia";
             this.ckRussia.Size = new System.Drawing.Size(77, 24);
             this.ckRussia.TabIndex = 50;
@@ -237,7 +237,7 @@ namespace DesignDB_UI
             // ckMiddleEast
             // 
             this.ckMiddleEast.AutoSize = true;
-            this.ckMiddleEast.Location = new System.Drawing.Point(428, 489);
+            this.ckMiddleEast.Location = new System.Drawing.Point(428, 588);
             this.ckMiddleEast.Name = "ckMiddleEast";
             this.ckMiddleEast.Size = new System.Drawing.Size(111, 24);
             this.ckMiddleEast.TabIndex = 49;
@@ -248,7 +248,7 @@ namespace DesignDB_UI
             // ckLatinAmerica
             // 
             this.ckLatinAmerica.AutoSize = true;
-            this.ckLatinAmerica.Location = new System.Drawing.Point(428, 459);
+            this.ckLatinAmerica.Location = new System.Drawing.Point(428, 558);
             this.ckLatinAmerica.Name = "ckLatinAmerica";
             this.ckLatinAmerica.Size = new System.Drawing.Size(125, 24);
             this.ckLatinAmerica.TabIndex = 48;
@@ -259,7 +259,7 @@ namespace DesignDB_UI
             // ckIndia
             // 
             this.ckIndia.AutoSize = true;
-            this.ckIndia.Location = new System.Drawing.Point(428, 429);
+            this.ckIndia.Location = new System.Drawing.Point(428, 528);
             this.ckIndia.Name = "ckIndia";
             this.ckIndia.Size = new System.Drawing.Size(63, 24);
             this.ckIndia.TabIndex = 47;
@@ -270,7 +270,7 @@ namespace DesignDB_UI
             // ckEurope
             // 
             this.ckEurope.AutoSize = true;
-            this.ckEurope.Location = new System.Drawing.Point(428, 399);
+            this.ckEurope.Location = new System.Drawing.Point(428, 498);
             this.ckEurope.Name = "ckEurope";
             this.ckEurope.Size = new System.Drawing.Size(80, 24);
             this.ckEurope.TabIndex = 46;
@@ -281,7 +281,7 @@ namespace DesignDB_UI
             // ckCaribbean
             // 
             this.ckCaribbean.AutoSize = true;
-            this.ckCaribbean.Location = new System.Drawing.Point(428, 369);
+            this.ckCaribbean.Location = new System.Drawing.Point(428, 468);
             this.ckCaribbean.Name = "ckCaribbean";
             this.ckCaribbean.Size = new System.Drawing.Size(101, 24);
             this.ckCaribbean.TabIndex = 45;
@@ -292,7 +292,7 @@ namespace DesignDB_UI
             // ckCanada
             // 
             this.ckCanada.AutoSize = true;
-            this.ckCanada.Location = new System.Drawing.Point(428, 339);
+            this.ckCanada.Location = new System.Drawing.Point(428, 438);
             this.ckCanada.Name = "ckCanada";
             this.ckCanada.Size = new System.Drawing.Size(84, 24);
             this.ckCanada.TabIndex = 44;
@@ -303,7 +303,7 @@ namespace DesignDB_UI
             // ckAustralia
             // 
             this.ckAustralia.AutoSize = true;
-            this.ckAustralia.Location = new System.Drawing.Point(428, 309);
+            this.ckAustralia.Location = new System.Drawing.Point(428, 408);
             this.ckAustralia.Name = "ckAustralia";
             this.ckAustralia.Size = new System.Drawing.Size(90, 24);
             this.ckAustralia.TabIndex = 43;
@@ -314,7 +314,7 @@ namespace DesignDB_UI
             // ckAsia
             // 
             this.ckAsia.AutoSize = true;
-            this.ckAsia.Location = new System.Drawing.Point(428, 279);
+            this.ckAsia.Location = new System.Drawing.Point(428, 378);
             this.ckAsia.Name = "ckAsia";
             this.ckAsia.Size = new System.Drawing.Size(59, 24);
             this.ckAsia.TabIndex = 42;
@@ -325,7 +325,7 @@ namespace DesignDB_UI
             // ckAfrica
             // 
             this.ckAfrica.AutoSize = true;
-            this.ckAfrica.Location = new System.Drawing.Point(428, 249);
+            this.ckAfrica.Location = new System.Drawing.Point(428, 348);
             this.ckAfrica.Name = "ckAfrica";
             this.ckAfrica.Size = new System.Drawing.Size(69, 24);
             this.ckAfrica.TabIndex = 41;
@@ -336,7 +336,7 @@ namespace DesignDB_UI
             // ckTier2
             // 
             this.ckTier2.AutoSize = true;
-            this.ckTier2.Location = new System.Drawing.Point(566, 279);
+            this.ckTier2.Location = new System.Drawing.Point(566, 378);
             this.ckTier2.Name = "ckTier2";
             this.ckTier2.Size = new System.Drawing.Size(67, 24);
             this.ckTier2.TabIndex = 56;
@@ -348,7 +348,7 @@ namespace DesignDB_UI
             // ckTier1
             // 
             this.ckTier1.AutoSize = true;
-            this.ckTier1.Location = new System.Drawing.Point(566, 249);
+            this.ckTier1.Location = new System.Drawing.Point(566, 348);
             this.ckTier1.Name = "ckTier1";
             this.ckTier1.Size = new System.Drawing.Size(63, 24);
             this.ckTier1.TabIndex = 55;
@@ -360,7 +360,7 @@ namespace DesignDB_UI
             // ckUnclassified
             // 
             this.ckUnclassified.AutoSize = true;
-            this.ckUnclassified.Location = new System.Drawing.Point(566, 311);
+            this.ckUnclassified.Location = new System.Drawing.Point(566, 410);
             this.ckUnclassified.Name = "ckUnclassified";
             this.ckUnclassified.Size = new System.Drawing.Size(114, 24);
             this.ckUnclassified.TabIndex = 59;
@@ -370,7 +370,7 @@ namespace DesignDB_UI
             // 
             // btnClearRegions
             // 
-            this.btnClearRegions.Location = new System.Drawing.Point(423, 176);
+            this.btnClearRegions.Location = new System.Drawing.Point(423, 275);
             this.btnClearRegions.Name = "btnClearRegions";
             this.btnClearRegions.Size = new System.Drawing.Size(93, 52);
             this.btnClearRegions.TabIndex = 60;
@@ -380,7 +380,7 @@ namespace DesignDB_UI
             // 
             // btnClearTiers
             // 
-            this.btnClearTiers.Location = new System.Drawing.Point(550, 176);
+            this.btnClearTiers.Location = new System.Drawing.Point(550, 275);
             this.btnClearTiers.Name = "btnClearTiers";
             this.btnClearTiers.Size = new System.Drawing.Size(93, 52);
             this.btnClearTiers.TabIndex = 61;
@@ -395,7 +395,7 @@ namespace DesignDB_UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(823, 867);
+            this.ClientSize = new System.Drawing.Size(823, 851);
             this.Controls.Add(this.btnClearTiers);
             this.Controls.Add(this.btnClearRegions);
             this.Controls.Add(this.ckUnclassified);

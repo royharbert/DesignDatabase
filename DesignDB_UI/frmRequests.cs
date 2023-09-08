@@ -597,13 +597,15 @@ namespace DesignDB_UI
 
                 if (formLoading )
                 {
-                    List<MSO_Model> msoList = GlobalConfig.Connection.GetAllActiveMSO();
+                    //List<MSO_Model> msoList = GlobalConfig.Connection.GetAllActiveMSO();
+                    List<MSO_Model> msoList = GlobalConfig.Connection.GenericGetAll<MSO_Model>("tblMSO", "MSO");
                     cboMSO.DataSource = msoList;
                     cboMSO.DisplayMember = "MSO";
                     cboMSO.SelectedIndex = -1; 
                 }
 
-                List<SalespersonModel> salesList = GlobalConfig.Connection.SalesGetActive();
+                //List<SalespersonModel> salesList = GlobalConfig.Connection.SalesGetActive();
+                List<SalespersonModel> salesList = GlobalConfig.Connection.GenericGetAll<SalespersonModel>("tblSalespersons", "SalesPerson");
                 salesList.Insert(0, new SalespersonModel());
                 cboRequestor.DataSource = salesList;
                 cboRequestor.DisplayMember = "SalesPerson";

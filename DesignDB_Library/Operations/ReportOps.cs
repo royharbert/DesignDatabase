@@ -132,7 +132,7 @@ namespace DesignDB_Library.Operations
                         individualSalesValue = new Report_SalesProjectValuesModel();
                         //Loop through salesPerson's requests and accumulate by DateAssigned
                         individualSalesValue.SalesPerson = salesPerson.SalesPerson;
-                        individualSalesValue.MSO = mso.MSO;
+                        //individualSalesValue.MSO = mso.MSO;
                         includedSalesPersons.Add(salesPerson);
                         foreach (var request in personRequestList)
                         {
@@ -1023,7 +1023,7 @@ namespace DesignDB_Library.Operations
 
         public static List<ReportSalesPriorityModel> GenerateSalesSummary(DateTime startDate, DateTime endDate)
         {
-            List<SalespersonModel> sales = GlobalConfig.Connection.SalesGetActive();
+            List<SalespersonModel> sales = GlobalConfig.Connection.GenericGetAll<SalespersonModel>("tblSalespersons", "SalesPerson");
             List<ReportSalesPriorityModel> report = new List<ReportSalesPriorityModel>();
 
             //get list of requests in timeframe
@@ -1031,34 +1031,34 @@ namespace DesignDB_Library.Operations
                 "DateCompleted", false, "");
 
             //loop thru sales team
-            List<RequestModel> requestsP1 = null;
-            List<RequestModel> requestsP2 = null;
-            List<RequestModel> requestsP3 = null;
-            List<RequestModel> sRequests = null;
+            List<RequestModel> requestsP1 = requests.Where(x => x.Pty == "P1").ToList();
+            List<RequestModel> requestsP2 = requests.Where(x => x.Pty == "P2").ToList();
+            List<RequestModel> requestsP3 = requests.Where(x => x.Pty == "P3").ToList();
+            List<RequestModel> sRequests = new List<RequestModel>();
             foreach (SalespersonModel salesperson in sales)
             {
-                ReportSalesPriorityModel model = new ReportSalesPriorityModel();
-                model.SalesPerson = salesperson.SalesPerson;
 
                 //use linq to extract data
                 sRequests = requests.Where(x => x.DesignRequestor == salesperson.SalesPerson).ToList();
-                model.TotalCount = sRequests.Count;
-                requestsP1 = sRequests.Where(x => x.Pty == "P1").ToList();
-                requestsP2 = sRequests.Where(x => x.Pty == "P2").ToList();
-                requestsP3 = sRequests.Where(x => x.Pty == "P3").ToList();
+                if (sRequests.Count > 0)
+                {
+                    ReportSalesPriorityModel model = new ReportSalesPriorityModel();
+                    model.SalesPerson = salesperson.SalesPerson;
+                    model.TotalCount = sRequests.Count;
 
-                model.P1Count = requestsP1.Count;
-                model.P2Count = requestsP2.Count;
-                model.P3Count = requestsP3.Count;
+                    model.P1Count = sRequests.Where(x => x.Pty == "P1").ToList().Count();
+                    model.P2Count = sRequests.Where(x => x.Pty == "P2").ToList().Count();
+                    model.P3Count = sRequests.Where(x => x.Pty == "P3").ToList().Count();
 
-                model.P1Dollars = AccumulateDollars(requestsP1);
-                model.P2Dollars = AccumulateDollars(requestsP2);
-                model.P3Dollars = AccumulateDollars(requestsP3);
 
-                model.TotalDollars = model.P1Dollars + model.P2Dollars + model.P3Dollars;
-                //add line to report
-                report.Add(model);
-                model = null;
+                    model.P1Dollars = sRequests.Where(x => x.Pty == "P1").Sum(x => x.BOM_Value);
+                    model.P2Dollars = sRequests.Where(x => x.Pty == "P2").Sum(x => x.BOM_Value);
+                    model.P3Dollars = sRequests.Where(x => x.Pty == "P3").Sum(x => x.BOM_Value);
+
+                    model.TotalDollars = model.P1Dollars + model.P2Dollars + model.P3Dollars;
+                    //add line to report
+                    report.Add(model);
+                }
                 sRequests = null;
             }
 

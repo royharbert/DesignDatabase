@@ -43,7 +43,7 @@ namespace DesignDB_Library.DataAccess
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
-                List<RequestModel> output = connection.Query<RequestModel>("spMSO_Update",
+                List<RequestModel> output = connection.Query<RequestModel>("spRequests_GetOpen",
                     commandType: CommandType.StoredProcedure).ToList();
                 return output;
             }

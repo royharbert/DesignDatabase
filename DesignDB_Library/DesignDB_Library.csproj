@@ -117,6 +117,7 @@
     <Compile Include="Models\FE_Model.cs" />
     <Compile Include="Models\LogFieldModel.cs" />
     <Compile Include="Models\LogModel.cs" />
+    <Compile Include="Models\RollupSalesPriorityModel.cs" />
     <Compile Include="Models\ReportSalesPriorityModel.cs" />
     <Compile Include="Models\Report_SalesProjectValuesModel.cs" />
     <Compile Include="Models\RequestModel.cs" />

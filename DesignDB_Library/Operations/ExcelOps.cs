@@ -118,7 +118,7 @@ namespace DesignDB_Library.Operations
             foreach (var model in requests)
             {
                 wks.Cells[row, 1] = model.SalesPerson;
-                wks.Cells[row, 2] = model.MSO;
+                //wks.Cells[row, 2] = model.MSO;
                 wks.Cells[row, 3] = model.CurrentYTD_Value;
                 wks.Cells[row, 4] = model.AverageDollars;
                 wks.Cells[row, 5] = model.CurrentYear_Count;
@@ -157,14 +157,14 @@ namespace DesignDB_Library.Operations
 
             //Place column headings
             string weeklyHeader = "Current Week" + startDate.ToShortDateString() + " " + endDate.ToShortDateString();
-            string[] columnHeaders = {"Salesperson","MSO","Total $","Average $","Total Count", "Jan","Feb","Mar","Apr","May",
+            string[] columnHeaders = {"Salesperson",/*"MSO",*/"Total $","Average $","Total Count", "Jan","Feb","Mar","Apr","May",
                 "Jun","Jul","Aug","Sep","Oct","Nov","Dec",weeklyHeader};
             row = makeTitle(wks, row, 18, "Design Requests by Salesperson/Month", columnHeaders);
 
             foreach (var model in requests)
             {
                 wks.Cells[row, 1] = model.SalesPerson;
-                wks.Cells[row, 2] = model.MSO;
+                //wks.Cells[row, 2] = model.MSO;
                 wks.Cells[row, 3] = model.CurrentYTD_Value;
                 wks.Cells[row, 4] = model.AverageDollars;
                 wks.Cells[row, 5] = model.CurrentYear_Count;
@@ -278,7 +278,7 @@ namespace DesignDB_Library.Operations
             {
                 row = row + 2; 
                 
-                string[] columnHeaaders = { "Sales Person", "MSO", "Total", "P1", "P2", "P3" };
+                string[] columnHeaaders = { "Sales Person", /*"MSO",*/ "Total", "P1", "P2", "P3" };
                 row = makeTitle(wks, row, 6, "Design Requests by Salesperson/Priority", columnHeaaders);
                 
                 sectionArray[section, 0] = row - 1;
@@ -287,7 +287,7 @@ namespace DesignDB_Library.Operations
                 {
                     
                     wks.Cells[row, 1].Value = model.SalesPerson;
-                    wks.Cells[row, 2].Value = model.MSO;
+                    //wks.Cells[row, 2].Value = model.MSO;
                     wks.Cells[row, 3].Value = model.TotalCount;
                     wks.Cells[row, 4].Value = model.P1Pct;
                     wks.Cells[row, 5].Value = model.P2Pct;

@@ -11,8 +11,8 @@ namespace DesignDB_Library.Models
     {
         [ExcelExportPropertyAttribute]
         public string SalesPerson { get; set; }
-        [ExcelExportPropertyAttribute]
-        public string MSO { get; set; }
+        //[ExcelExportPropertyAttribute]
+        //public string MSO { get; set; }
         [ExcelExportPropertyAttribute]
         public decimal CurrentYTD_Value { get; set; }
         [ExcelExportPropertyAttribute]
@@ -53,7 +53,7 @@ namespace DesignDB_Library.Models
         public void Clear()
         {
             this.SalesPerson = "";
-            this.MSO = "";
+            //this.MSO = "";
             this.CurrentYTD_Value = 0;
             this.AverageDollars = 0;
             this.CurrentYear_Count = 0;

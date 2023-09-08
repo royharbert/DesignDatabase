@@ -33,6 +33,7 @@ namespace DesignDB_UI
             InitializeComponent();
             GV.PickerForm = this;
             rdo_Normal.Checked = true;
+            
 
             ckRegions = new CheckBox[] { ckAfrica, ckAsia, ckAustralia, ckCanada, ckCaribbean, ckEurope, ckIndia, ckLatinAmerica, ckMiddleEast,
                 ckRussia, ckUSEast, ckUSWest, ckOther  };
@@ -47,18 +48,6 @@ namespace DesignDB_UI
             {
                 lbMSO.SelectionMode = SelectionMode.MultiSimple;
             }
-            if (GV.MODE == Mode.Report_ByPriority)
-            {
-                lbMSO.Visible = false;
-            }
-            else
-            {
-                lbMSO.Visible = true;
-            }
-            
-
-            
-            
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -105,6 +94,8 @@ namespace DesignDB_UI
                     int tierInt =0;
                     int.TryParse(tier, out tierInt);
                     msoList.AddRange(allMSO_S.Where(x => x.Tier == tierInt).ToList());
+
+                    //Highlight MSOs from tier query
                     for (int i = 0; i < allMSO_S.Count; i++)
                     {
                         MSO_Model msoModel = (MSO_Model)lbMSO.Items[i];
@@ -115,18 +106,22 @@ namespace DesignDB_UI
                             lbMSO.SetSelected(i, true);
                         }
                     }
+                    msoList = new List<MSO_Model>();
+                    MSO_Model msoItem;
+                    foreach (var item in lbMSO.SelectedItems)
+                    {
+                        msoItem = (MSO_Model)item;
+                        msoList.Add(msoItem);
+                    }
                 }
                 clearCheckBoxes(ckTiers);
                 clearCheckBoxes(ckRegions);
-                if (GV.MODE == Mode.Loading_lbMSOFormCheckBox)
-                {
-                    GV.MODE = Mode.Report_Rollup;
-                }
 
                 args.MSO_s = msoList;
                 args.StartDate = dtpStart.Value;
                 args.EndDate = dtpStop.Value;
                 args.regionQuery = regionQuery;
+                GV.MODE = GV.PreviousMode;
             }
             if (CustomFormat)
             {
@@ -165,10 +160,19 @@ namespace DesignDB_UI
                 lbMSO.SelectedItems.Clear();
             }
 
+            if (GV.MODE == Mode.Report_ByPriority)
+            {
+                this.Height = 180;
+            }
+            else
+            {
+                this.Height = 890;
+            }
+
             //If loading lbMSO from CheckBox switch back to ReportRollup
             if (GV.MODE == Mode.Loading_lbMSOFormCheckBox)
             {
-                GV.MODE = Mode.Report_Rollup;
+                GV.MODE = GV.PreviousMode;
             }
         }
 
@@ -288,7 +292,10 @@ namespace DesignDB_UI
         private void ckTier1_CheckedChanged(object sender, EventArgs e)
         {
             Mode curMode = GV.MODE;
-            GV.MODE = Mode.Loading_lbMSOFormCheckBox;
+            if (GV.MODE != Mode.Loading_lbMSOFormCheckBox)
+            {
+                GV.MODE = Mode.Loading_lbMSOFormCheckBox; 
+            }
             CheckBox ckBox = (CheckBox)sender;
             switch (ckBox.Name)
             {
@@ -306,8 +313,7 @@ namespace DesignDB_UI
 
                 default:
                     break;
-            }
-            //GV.MODE = curMode;
+            } 
         }
 
 
