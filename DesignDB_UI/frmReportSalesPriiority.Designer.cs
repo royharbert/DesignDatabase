@@ -37,10 +37,12 @@ namespace DesignDB_UI
             // 
             // dgvReport
             // 
+            this.dgvReport.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvReport.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvReport.Location = new System.Drawing.Point(1, 2);
+            this.dgvReport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvReport.Location = new System.Drawing.Point(0, 0);
             this.dgvReport.Name = "dgvReport";
-            this.dgvReport.Size = new System.Drawing.Size(1206, 827);
+            this.dgvReport.Size = new System.Drawing.Size(1210, 919);
             this.dgvReport.TabIndex = 0;
             // 
             // btnExport
