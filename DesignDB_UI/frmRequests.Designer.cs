@@ -528,7 +528,7 @@ namespace DesignDB_UI
             this.txtProjName.Name = "txtProjName";
             this.txtProjName.Size = new System.Drawing.Size(258, 22);
             this.txtProjName.TabIndex = 11;
-            this.txtProjName.Tag = "L|ProjectName";
+            this.txtProjName.Tag = "L|ProjectName|tblRequests";
             this.txtProjName.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.txtProjName.Enter += new System.EventHandler(this.txtProjName_Enter);
             this.txtProjName.Leave += new System.EventHandler(this.txtProjName_Leave);
@@ -823,7 +823,7 @@ namespace DesignDB_UI
             this.txtTotalVal.Name = "txtTotalVal";
             this.txtTotalVal.Size = new System.Drawing.Size(234, 22);
             this.txtTotalVal.TabIndex = 22;
-            this.txtTotalVal.Tag = "";
+            this.txtTotalVal.Tag = "1";
             this.txtTotalVal.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             // 
             // label25
@@ -1202,7 +1202,6 @@ namespace DesignDB_UI
             this.tlpLeft.Controls.Add(this.cboPriority, 1, 8);
             this.tlpLeft.Controls.Add(this.cboDesigner, 1, 9);
             this.tlpLeft.Controls.Add(this.cboAssisted, 1, 10);
-            this.tlpLeft.Controls.Add(this.txtProjName, 1, 11);
             this.tlpLeft.Controls.Add(this.cboOrigQuote, 1, 12);
             this.tlpLeft.Controls.Add(this.cboCategory, 1, 13);
             this.tlpLeft.Controls.Add(this.cboArchType, 1, 14);
@@ -1224,6 +1223,7 @@ namespace DesignDB_UI
             this.tlpLeft.Controls.Add(this.label20, 0, 15);
             this.tlpLeft.Controls.Add(this.label19, 0, 16);
             this.tlpLeft.Controls.Add(this.label18, 0, 17);
+            this.tlpLeft.Controls.Add(this.txtProjName, 1, 11);
             this.tlpLeft.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tlpLeft.Location = new System.Drawing.Point(23, 122);
             this.tlpLeft.Name = "tlpLeft";
@@ -1407,7 +1407,7 @@ namespace DesignDB_UI
             this.gbDateRange.Controls.Add(this.dtpEnd);
             this.gbDateRange.Controls.Add(this.dtpStart);
             this.gbDateRange.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbDateRange.Location = new System.Drawing.Point(567, 669);
+            this.gbDateRange.Location = new System.Drawing.Point(666, 642);
             this.gbDateRange.Name = "gbDateRange";
             this.gbDateRange.Size = new System.Drawing.Size(437, 88);
             this.gbDateRange.TabIndex = 209;
