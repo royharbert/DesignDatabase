@@ -39,13 +39,12 @@ namespace DesignDB_UI
             // 
             // dgvSnapshots
             // 
-            this.dgvSnapshots.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvSnapshots.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvSnapshots.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSnapshots.Location = new System.Drawing.Point(2, -2);
+            this.dgvSnapshots.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvSnapshots.Location = new System.Drawing.Point(0, 0);
             this.dgvSnapshots.Name = "dgvSnapshots";
-            this.dgvSnapshots.Size = new System.Drawing.Size(1412, 741);
+            this.dgvSnapshots.Size = new System.Drawing.Size(1417, 816);
             this.dgvSnapshots.TabIndex = 0;
             // 
             // btnExport

@@ -40,11 +40,13 @@ namespace DesignDB_UI
             this.dgvLoad.AllowUserToAddRows = false;
             this.dgvLoad.AllowUserToDeleteRows = false;
             this.dgvLoad.AllowUserToOrderColumns = true;
+            this.dgvLoad.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvLoad.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvLoad.Location = new System.Drawing.Point(3, 0);
+            this.dgvLoad.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvLoad.Location = new System.Drawing.Point(0, 0);
             this.dgvLoad.Name = "dgvLoad";
             this.dgvLoad.ReadOnly = true;
-            this.dgvLoad.Size = new System.Drawing.Size(691, 700);
+            this.dgvLoad.Size = new System.Drawing.Size(696, 815);
             this.dgvLoad.TabIndex = 0;
             this.dgvLoad.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvLoad_RowHeaderMouseClick);
             // 

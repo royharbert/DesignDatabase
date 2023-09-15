@@ -1188,10 +1188,10 @@ namespace DesignDB_Library.Operations
             string[] headers = { "MSO", "Requests This Year", "Requests This Month", "Requests This Week", "Total Days to Complete",
             "Total Completed Designs", "Total Open Requests", "Total Canceled Designs", "Total Value", "Avg. Days to Complete"};
             setDGV_HeaderText(dgv, headers);
-            
 
-            int[] widths = { 140, 140, 140, 140, 140, 140, 140, 140, 140, 140 };
-            SetDGV_ColumnWidths(dgv, widths);
+            dgv.Columns[8].DefaultCellStyle.Format = "c";
+            //int[] widths = { 140, 140, 140, 140, 140, 140, 140, 140, 140, 140 };
+            //SetDGV_ColumnWidths(dgv, widths);
         }
 
         public static void FormatLogViewDGV(DataGridView dgv)
@@ -1210,11 +1210,9 @@ namespace DesignDB_Library.Operations
         public static void FormatDesignerLoadDGV(DataGridView dgv)
         {
             string[] headers = { "Designer", "Priority", "Date Due", "Project ID", "Award Status" };
-            setDGV_HeaderText(dgv, headers);
-
-            int[] widths = { 160, 60, 110, 180, 70 };
-            SetDGV_ColumnWidths(dgv, widths);            
+            setDGV_HeaderText(dgv, headers);        
         }
+
         public static void FormatDesignerLoadExport(Excel.Worksheet wks)
         {
             string[] headers = { "Designer", "Priority", "Date Due", "Project ID", "Award Status" };
@@ -1499,9 +1497,10 @@ namespace DesignDB_Library.Operations
 
             setDGV_HeaderText(dgv, headers);
 
-            int[] widths = { 10,220,140,140,130,130,130,100,150,90,70,140,180,200,
-                140,140,100,120,100,100,120,100,100,140,100,100,150,100 };
-            SetDGV_ColumnWidths(dgv, widths);
+            //int[] widths = { 10,220,140,140,130,130,130,100,150,90,70,140,180,200,
+            //    140,140,100,120,100,100,120,100,100,140,100,100,150,100 };
+            dgv.Columns[25].DefaultCellStyle.Format = "c";
+            //SetDGV_ColumnWidths(dgv, widths);
             dgv.Columns[0].Visible = false;
             dgv.Columns[29].Visible = false;
 
@@ -1522,14 +1521,15 @@ namespace DesignDB_Library.Operations
             
             setDGV_HeaderText(dgv, headers);
 
-            int[] widths = { 10,220,140,140,130,130,130,100,150,90,70,140,180,200,
-                140,140,100,120,100,100,120,100,100,140,100,100,150,100 };
-            SetDGV_ColumnWidths(dgv, widths);
+            //int[] widths = { 10,220,140,140,130,130,130,100,150,90,70,140,180,200,
+            //    140,140,100,120,100,100,120,100,100,140,100,100,150,100 };
+            //SetDGV_ColumnWidths(dgv, widths);
             dgv.Columns[0].Visible = false;
             dgv.Columns[29].Visible = false;
+            dgv.Columns["BOM_Value"].DefaultCellStyle.Format = "c";
 
-            string[] currencyCols = { "BOM_Value" };
-            setDGV_CellFormatToCurrency(dgv, currencyCols);
+            //string[] currencyCols = { "BOM_Value" };
+            //setDGV_CellFormatToCurrency(dgv, currencyCols);
         }
 
         private static void setDGV_CellFormatToCurrency(DataGridView dgv, string[] cols)
@@ -1557,16 +1557,15 @@ namespace DesignDB_Library.Operations
         {
             string[] headers = { "MSO", "Total Dollars", "Average $/ Request","Total Requests", "HFC", "Node Split", "RFoG", "PON", "RFoG/ PON",
             "Fiber Deep", "Data Trans.", "Other", "PEG", "Commercial","Unassigned", "HFC Dollars","Node Split Dollars", "RFoG Dollars", "PON Dollars",
-            "RFoG/ Pon Dollars","Fiber Deep Dollars", "Data Trans. Dollars","Other Dollars", "PEG Dollars","Commercial Dollars",
-            "Unassigned Dollars" };
+            "RFoG/ Pon Dollars","Fiber Deep Dollars", "Data Trans. Dollars","Other Dollars", "PEG Dollars","Commercial Dollars", "Unassigned Dollars" };
 
-            int[] widths = { 150, 100, 100, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 75, 75, 160,
-             160,160,160,160,160,160,160,160};
+            //int[] widths = { 150, 100, 100, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 75, 75, 160,
+            // 160,160,160,160,160,160,160,160};
 
-            SetDGV_ColumnWidths(dgv, widths);
+            //SetDGV_ColumnWidths(dgv, widths);
             setDGV_HeaderText(dgv, headers);
 
-            int[] currencyCols = { 1, 2, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25 };
+            int[] currencyCols = { 1, 2, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
             setDGV_CurrencyCols(dgv, currencyCols);
         }
 
