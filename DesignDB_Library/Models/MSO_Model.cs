@@ -27,6 +27,7 @@ namespace DesignDB_Library.Models
         public string Abbreviation { get; set; }
 
         public bool Active { get; set; }
+        public int Tier { get; set; }
 
     } 
 }

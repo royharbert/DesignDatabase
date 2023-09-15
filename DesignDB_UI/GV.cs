@@ -28,8 +28,11 @@ namespace DesignDB_UI
                 return mode;
             }
             set
-            { 
-                PreviousMode = mode;
+            {
+                if (mode != PreviousMode)
+                {
+                    PreviousMode = mode; 
+                }
                 mode = value;                
             }
         }

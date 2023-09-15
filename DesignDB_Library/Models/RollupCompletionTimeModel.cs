@@ -1,34 +1,33 @@
 ﻿using DesignDB_Library.Attributes;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DesignDB_Library.Models
 {
-    public class SnapshotModel
+    public class RollupCompletionTimeModel
     {
         [ExcelExportPropertyAttribute]
         public string MSO { get; set; }
         [ExcelExportPropertyAttribute]
-        public int RequestsThisYear { get; set; }
+        public int CompletedDesigns { get; set; }
         [ExcelExportPropertyAttribute]
-        public int RequestsThisMonth { get; set; }
+        public int DaysToComplete { get; set; }
         [ExcelExportPropertyAttribute]
-        public int RequestsThisWeek { get; set; }
+        public float AvgDaysToComplete { get; set; }
         [ExcelExportPropertyAttribute]
-        public Int64 TotalDaysToComplete { get; set; }
+        public int DaysFromAllInfo { get; set; }
         [ExcelExportPropertyAttribute]
-        public int TotalCompletedDesigns { get; set; }
+        public float AvgDaysFromAllInfo { get; set; }
         [ExcelExportPropertyAttribute]
-        public int TotalOpenRequests { get; set; }
+        public float P1Count { get; set; }
         [ExcelExportPropertyAttribute]
-        public int TotalCanceledDesigns { get; set; }
+        public float P2Count { get; set; }
         [ExcelExportPropertyAttribute]
-        public decimal TotalValue { get; set; }
+        public float P3Count { get; set; }
         [ExcelExportPropertyAttribute]
-        public decimal AverageCompletionTime { get; set; }
+        public int CanceledDesigns { get; set; }
     }
 }

@@ -114,7 +114,6 @@ namespace DesignDB_UI
             this.btnRestore = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.commonBEDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.gbDateRange = new System.Windows.Forms.GroupBox();
             this.ckFilter = new System.Windows.Forms.CheckBox();
             this.label31 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
@@ -130,7 +129,6 @@ namespace DesignDB_UI
             this.tlpBottom.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.commonBEDataSetBindingSource)).BeginInit();
-            this.gbDateRange.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtPID
@@ -528,7 +526,7 @@ namespace DesignDB_UI
             this.txtProjName.Name = "txtProjName";
             this.txtProjName.Size = new System.Drawing.Size(258, 22);
             this.txtProjName.TabIndex = 11;
-            this.txtProjName.Tag = "L|ProjectName|tblRequests";
+            this.txtProjName.Tag = "L|ProjectName";
             this.txtProjName.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.txtProjName.Enter += new System.EventHandler(this.txtProjName_Enter);
             this.txtProjName.Leave += new System.EventHandler(this.txtProjName_Leave);
@@ -823,7 +821,7 @@ namespace DesignDB_UI
             this.txtTotalVal.Name = "txtTotalVal";
             this.txtTotalVal.Size = new System.Drawing.Size(234, 22);
             this.txtTotalVal.TabIndex = 22;
-            this.txtTotalVal.Tag = "1";
+            this.txtTotalVal.Tag = "";
             this.txtTotalVal.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             // 
             // label25
@@ -1075,6 +1073,7 @@ namespace DesignDB_UI
             this.dgvAttachments.MultiSelect = false;
             this.dgvAttachments.Name = "dgvAttachments";
             this.dgvAttachments.ReadOnly = true;
+            this.dgvAttachments.RowHeadersWidth = 62;
             this.dgvAttachments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAttachments.Size = new System.Drawing.Size(646, 157);
             this.dgvAttachments.TabIndex = 68;
@@ -1202,6 +1201,7 @@ namespace DesignDB_UI
             this.tlpLeft.Controls.Add(this.cboPriority, 1, 8);
             this.tlpLeft.Controls.Add(this.cboDesigner, 1, 9);
             this.tlpLeft.Controls.Add(this.cboAssisted, 1, 10);
+            this.tlpLeft.Controls.Add(this.txtProjName, 1, 11);
             this.tlpLeft.Controls.Add(this.cboOrigQuote, 1, 12);
             this.tlpLeft.Controls.Add(this.cboCategory, 1, 13);
             this.tlpLeft.Controls.Add(this.cboArchType, 1, 14);
@@ -1223,7 +1223,6 @@ namespace DesignDB_UI
             this.tlpLeft.Controls.Add(this.label20, 0, 15);
             this.tlpLeft.Controls.Add(this.label19, 0, 16);
             this.tlpLeft.Controls.Add(this.label18, 0, 17);
-            this.tlpLeft.Controls.Add(this.txtProjName, 1, 11);
             this.tlpLeft.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tlpLeft.Location = new System.Drawing.Point(23, 122);
             this.tlpLeft.Name = "tlpLeft";
@@ -1398,30 +1397,14 @@ namespace DesignDB_UI
             this.tableLayoutPanel1.Size = new System.Drawing.Size(665, 50);
             this.tableLayoutPanel1.TabIndex = 75;
             // 
-            // gbDateRange
-            // 
-            this.gbDateRange.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.gbDateRange.Controls.Add(this.ckFilter);
-            this.gbDateRange.Controls.Add(this.label31);
-            this.gbDateRange.Controls.Add(this.label32);
-            this.gbDateRange.Controls.Add(this.dtpEnd);
-            this.gbDateRange.Controls.Add(this.dtpStart);
-            this.gbDateRange.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbDateRange.Location = new System.Drawing.Point(666, 642);
-            this.gbDateRange.Name = "gbDateRange";
-            this.gbDateRange.Size = new System.Drawing.Size(437, 88);
-            this.gbDateRange.TabIndex = 209;
-            this.gbDateRange.TabStop = false;
-            this.gbDateRange.Text = "Optional Date Range Filter";
-            // 
             // ckFilter
             // 
             this.ckFilter.AutoSize = true;
             this.ckFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ckFilter.Location = new System.Drawing.Point(6, 37);
+            this.ckFilter.Location = new System.Drawing.Point(554, 697);
             this.ckFilter.Name = "ckFilter";
             this.ckFilter.Size = new System.Drawing.Size(83, 22);
-            this.ckFilter.TabIndex = 4;
+            this.ckFilter.TabIndex = 80;
             this.ckFilter.Text = "Filter On";
             this.ckFilter.UseVisualStyleBackColor = true;
             // 
@@ -1429,10 +1412,10 @@ namespace DesignDB_UI
             // 
             this.label31.AutoSize = true;
             this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label31.Location = new System.Drawing.Point(93, 62);
+            this.label31.Location = new System.Drawing.Point(641, 722);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(69, 18);
-            this.label31.TabIndex = 3;
+            this.label31.TabIndex = 79;
             this.label31.Text = "End Date";
             this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -1440,28 +1423,30 @@ namespace DesignDB_UI
             // 
             this.label32.AutoSize = true;
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label32.Location = new System.Drawing.Point(88, 28);
+            this.label32.Location = new System.Drawing.Point(636, 688);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(74, 18);
-            this.label32.TabIndex = 2;
+            this.label32.TabIndex = 78;
             this.label32.Text = "Start Date";
             this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // dtpEnd
             // 
             this.dtpEnd.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpEnd.Location = new System.Drawing.Point(166, 58);
+            this.dtpEnd.Location = new System.Drawing.Point(714, 718);
             this.dtpEnd.Name = "dtpEnd";
             this.dtpEnd.Size = new System.Drawing.Size(259, 24);
-            this.dtpEnd.TabIndex = 1;
+            this.dtpEnd.TabIndex = 77;
+            this.dtpEnd.ValueChanged += new System.EventHandler(this.dtpEnd_ValueChanged);
             // 
             // dtpStart
             // 
             this.dtpStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpStart.Location = new System.Drawing.Point(166, 28);
+            this.dtpStart.Location = new System.Drawing.Point(714, 688);
             this.dtpStart.Name = "dtpStart";
             this.dtpStart.Size = new System.Drawing.Size(259, 24);
-            this.dtpStart.TabIndex = 0;
+            this.dtpStart.TabIndex = 76;
+            this.dtpStart.ValueChanged += new System.EventHandler(this.dtpStart_ValueChanged);
             // 
             // frmRequests
             // 
@@ -1470,7 +1455,11 @@ namespace DesignDB_UI
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(1508, 922);
-            this.Controls.Add(this.gbDateRange);
+            this.Controls.Add(this.ckFilter);
+            this.Controls.Add(this.label31);
+            this.Controls.Add(this.label32);
+            this.Controls.Add(this.dtpEnd);
+            this.Controls.Add(this.dtpStart);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.tlpBottom);
             this.Controls.Add(this.tlpAttachment);
@@ -1501,9 +1490,8 @@ namespace DesignDB_UI
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.commonBEDataSetBindingSource)).EndInit();
-            this.gbDateRange.ResumeLayout(false);
-            this.gbDateRange.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1591,7 +1579,6 @@ namespace DesignDB_UI
         private System.Windows.Forms.ToolStripMenuItem clearValueToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip dtpContextMenu;
         private System.Windows.Forms.ToolStripMenuItem clearDateToolStripMenuItem;
-        private System.Windows.Forms.GroupBox gbDateRange;
         private System.Windows.Forms.CheckBox ckFilter;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label32;

@@ -383,7 +383,7 @@ namespace DesignDB_UI
                     startDate = e.StartDate;
                     endDate = e.EndDate;
                     CustomFormat = e.CustomFormat;
-                    ReportOps.DoRollup(startDate, endDate, e.MSO_s, CustomFormat); 
+                    ReportOps.RollupReport(startDate, endDate, e.MSO_s, e.regionQuery,CustomFormat);
                     break;
         
                 case Mode.Report_CatMSO:
@@ -396,21 +396,22 @@ namespace DesignDB_UI
                 case Mode.Report_Snapshot:
                     List<SnapshotModel> report = ReportOps.GenerateSnapshotReport
                         (e.MSO_s, e.StartDate, e.EndDate);
-            break;
+                    break;
                 case Mode.Report_AvgCompletion:
-                    //List<CompletionTimeModel> completionReport = ReportOps.GenerateCompletionTimeSummary
-                    //    (e.StartDate, e.EndDate, e.MSO_s);
+                    List<CompletionTimeModel> completionReport = ReportOps.DoCompletionTimeSummary
+                        (e.StartDate, e.EndDate, e.MSO_s);
                     break;
                 case Mode.Report_ByPriority:
                     startDate = e.StartDate;
-            endDate = e.EndDate;
-            List<ReportSalesPriorityModel> PriorityReport = ReportOps.GenerateSalesSummary(startDate, endDate);
-            frmReportSalesPriiority frmReportSalesPriiority = new frmReportSalesPriiority();
-            frmReportSalesPriiority.Report = PriorityReport;
-            frmReportSalesPriiority.Visible = true;
-            frmReportSalesPriiority.Show();
-            frmReportSalesPriiority.TopMost = true;
-            break;
+                    endDate = e.EndDate;
+                    List<ReportSalesPriorityModel> PriorityReport = ReportOps.GenerateSalesSummary(startDate, endDate);
+                    frmReportSalesPriiority frmReportSalesPriiority = new frmReportSalesPriiority();
+                    frmReportSalesPriiority.Report = PriorityReport;
+                    frmReportSalesPriiority.Visible = true;
+                    
+                    frmReportSalesPriiority.Show();
+                    frmReportSalesPriiority.TopMost = true;
+                    break;
                 case Mode.Report_DesignerLoadReport:
                     break;
                 case Mode.Report_Overdue:
@@ -467,6 +468,7 @@ namespace DesignDB_UI
         private void btnAvgComp_Click(object sender, EventArgs e)
         {
             GV.MODE = Mode.Report_AvgCompletion;
+            
             frmCompletionTimeReport frmCompletionTimeReport = new frmCompletionTimeReport();
             FC.SetFormPosition(frmCompletionTimeReport);
             GV.PickerForm.ShowDialog();
@@ -497,6 +499,7 @@ namespace DesignDB_UI
         private void ShowPicker()
         {
             frmDateMSO_Picker = GV.PickerForm;
+           
             frmDateMSO_Picker.ShowDialog();
             if (operationCanceled)
             {
@@ -506,7 +509,7 @@ namespace DesignDB_UI
 
         private void btnReqPriority_Click(object sender, EventArgs e)
         {
-            GV.MODE = Mode.Report_ByPriority;
+            GV.MODE = Mode.Report_ByPriority;            
             ShowPicker();
         }
 
@@ -581,7 +584,7 @@ namespace DesignDB_UI
         private void btnMSO_Click(object sender, EventArgs e)
         {
             GV.MODE = Mode.MSO_Maintenance;
-            Form msoForm = new frmMSO();
+            Form msoForm = new frmMSO_Add();
             FC.SetFormPosition(msoForm);
             msoForm.Show();
         }
@@ -603,8 +606,8 @@ namespace DesignDB_UI
         {
             GV.MODE = Mode.Report_Rollup;
             //frmDateMSO_Picker.Height = 175;
-            frmDateMSO_Picker.Show();       
-
+            frmDateMSO_Picker.Show();
+            frmDateMSO_Picker.Text = "Design Rollup";
         }
 
         private void btnDeletedRecords_Click(object sender, EventArgs e)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DesignDB_Library.Models
 {
-    public class ReportSalesPriorityModel
+    public class RollupSalesPriorityModel
     {
         float _p1pct;
         float _p2pct;
@@ -20,13 +20,13 @@ namespace DesignDB_Library.Models
         [ExcelExportPropertyAttribute]
         public decimal P1Count { get; set; }
         [ExcelExportPropertyAttribute]
-        public decimal P2Count { get; set; }
-        [ExcelExportPropertyAttribute]
-        public decimal P3Count { get; set; }
-        [ExcelExportPropertyAttribute]
         public decimal  P1Dollars { get; set; }
         [ExcelExportPropertyAttribute]
+        public decimal P2Count { get; set; }
+        [ExcelExportPropertyAttribute]
         public decimal P2Dollars { get; set; }
+        [ExcelExportPropertyAttribute]
+        public decimal P3Count { get; set; }
         [ExcelExportPropertyAttribute]
         public decimal P3Dollars { get; set; }
         [ExcelExportPropertyAttribute]
