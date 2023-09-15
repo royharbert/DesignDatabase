@@ -22,7 +22,7 @@ namespace DesignDB_Library.Operations
         {
             row = row + 2;
             sectionArray[section, 0] = row - 1;
-            string weeklyHeader = "Current Week " + startDate + " " + endDate;
+            string weeklyHeader = "Current Week " + " " + startDate.ToShortDateString() + " " + endDate.ToShortDateString();
             string[] columnHeaders = new string[] {"MSO","Total $","Average $","Total Count","Jan","Feb","Mar","Apr","May",
                 "Jun","Jul","Aug","Sep","Oct","Nov","Dec",weeklyHeader };
             row = makeTitle(wks, row, 17, "Requests by MSO/Month", columnHeaders);
@@ -156,38 +156,37 @@ namespace DesignDB_Library.Operations
             sectionArray[section, 0] = row;
 
             //Place column headings
-            string weeklyHeader = "Current Week" + startDate.ToShortDateString() + " " + endDate.ToShortDateString();
+            string weeklyHeader = "Current Week" + " " + startDate.ToShortDateString() + " " + endDate.ToShortDateString();
             string[] columnHeaders = {"Salesperson",/*"MSO",*/"Total $","Average $","Total Count", "Jan","Feb","Mar","Apr","May",
                 "Jun","Jul","Aug","Sep","Oct","Nov","Dec",weeklyHeader};
-            row = makeTitle(wks, row, 18, "Design Requests by Salesperson/Month", columnHeaders);
+            row = makeTitle(wks, row, 17, "Design Requests by Salesperson/Month", columnHeaders);
 
             foreach (var model in requests)
             {
                 wks.Cells[row, 1] = model.SalesPerson;
-                //wks.Cells[row, 2] = model.MSO;
-                wks.Cells[row, 3] = model.CurrentYTD_Value;
-                wks.Cells[row, 4] = model.AverageDollars;
-                wks.Cells[row, 5] = model.CurrentYear_Count;
-                wks.Cells[row, 6] = model.JanProjects;
-                wks.Cells[row, 7] = model.FebProjects;
-                wks.Cells[row, 8] = model.MarProjects;
-                wks.Cells[row, 9] = model.AprProjects;
-                wks.Cells[row, 10] = model.MayProjects;
-                wks.Cells[row, 11] = model.JunProjects;
-                wks.Cells[row, 12] = model.JulProjects;
-                wks.Cells[row, 13] = model.AugProjects;
-                wks.Cells[row, 14] = model.SepProjects;
-                wks.Cells[row, 15] = model.OctProjects;
-                wks.Cells[row, 16] = model.NovProjects;
-                wks.Cells[row, 17] = model.DecProjects;
-                wks.Cells[row, 18] = model.Weekly;
+                wks.Cells[row, 2] = model.CurrentYTD_Value;
+                wks.Cells[row, 3] = model.AverageDollars;
+                wks.Cells[row, 4] = model.CurrentYear_Count;
+                wks.Cells[row, 5] = model.JanProjects;
+                wks.Cells[row, 6] = model.FebProjects;
+                wks.Cells[row, 7] = model.MarProjects;
+                wks.Cells[row, 8] = model.AprProjects;
+                wks.Cells[row, 9] = model.MayProjects;
+                wks.Cells[row, 10] = model.JunProjects;
+                wks.Cells[row, 11] = model.JulProjects;
+                wks.Cells[row, 12] = model.AugProjects;
+                wks.Cells[row, 13] = model.SepProjects;
+                wks.Cells[row, 14] = model.OctProjects;
+                wks.Cells[row, 15] = model.NovProjects;
+                wks.Cells[row, 16] = model.DecProjects;
+                wks.Cells[row, 17] = model.Weekly;
                 row++;
             }
             sectionArray[section, 1] = row - 1;
             int categoryStartRow = row;
-            setDollarDecimalPlaces(wks, 0, sectionArray[section, 0] + 2, sectionArray[section, 1], 3, 4);
+            setDollarDecimalPlaces(wks, 0, sectionArray[section, 0] + 2, sectionArray[section, 1], 2, 3);
 
-            Excel.Range summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 18]];
+            Excel.Range summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 17]];
             summaryRange.Font.Bold = true;
 
             return row;
@@ -231,40 +230,42 @@ namespace DesignDB_Library.Operations
 
             //Section 3
             section = 2;
+            row = PlaceCompletionTimeReportInExcel(wks, completionReport, sectionArray, row, section);
+
+            //Section 4
+            //*
+            section = 3;
             if (!customFormat)
             {
                 row = PlaceAwardStatusInExcel(wks, awards, msoModels, sectionArray, row, section);
             }
 
-            //Section 4
-            //*
-            section = 3;
-            row = PlaceRequestsBySalespersonInExcelNoPct(wks, startDate, endDate, requests, sectionArray, row, section);
-            /*/
-            int row = PlaceRequestsBySalespersonInExcel(wks, startDate, endDate, requests, sectionArray);
-            //*/
-
             //Section 5
             //*
-            section = 5;
+            section = 4;
             row = PlaceOpenRequestsInExcelNoMSO(wks, openBySales, sectionArray, row, section);
             /*/
-             * section = 5;
+             * section = 4;
             row = PlaceOpenRequestsInExcel(wks, openBySales, sectionArray, row, section);
             //*/
 
             //Section 6
             //*
-            section = 6;
+            section = 5;
             row = PlaceRequestsBySalesPersonPriorityNoMSO(wks, priorityList,sectionArray, row, section);
             /*/
-             * section = 6
+             * section = 5;
             row = PlaceRequestsBySalesPersonPriority(wks, priorityList, sectionArray, row, section);
             //*/
 
             //Section 7
-            row = PlaceCompletionTimeReportInExcel(wks, completionReport, sectionArray, row, section);
-
+            //*
+            section = 6;
+            row = PlaceRequestsBySalespersonInExcelNoPct(wks, startDate, endDate, requests, sectionArray, row, section);
+            /*/
+             * section = 6;
+            int row = PlaceRequestsBySalespersonInExcel(wks, startDate, endDate, requests, sectionArray);
+            //*/
 
 
 
@@ -459,7 +460,7 @@ namespace DesignDB_Library.Operations
 
             string[] columnHeaders = new string[] {"MSO", "Pending Count","Pending $","Has Revision Count","Has Revision $","Canceled Count",
                 "Canceled $","Inactive Count", "Inactive $","Yes Count","Yes $","No Count","No $"};
-            row = makeTitle(wks, row, 13, "Award Status Model", columnHeaders);
+            row = makeTitle(wks, row, 13, "Award Status", columnHeaders);
 
             foreach(var award in awards)
             { 
