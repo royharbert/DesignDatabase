@@ -406,48 +406,48 @@ namespace DesignDB_Library.Operations
             row = row + 2;
             int categoryStartRow = row;
             sectionArray[section, 0] = row - 1;
-            string[] columnHeaders = {"MSO","Total $","Average $","Total Count","% of Total Value","HFC","Node Split","RFoG","PON","RFoG-PON",
+            string[] columnHeaders = {"MSO","Total $","Average $","Total Count",/*"% of Total Value",*/"HFC","Node Split","RFoG","PON","RFoG-PON",
                 "Fiber Deep","Data Transport","Other","Unassigned","HFC Dollars","Node Split Dollars","RFoG Dollars","PON Dollars",
                 "RFoG-PON Dollars","Fiber Deep Dollars","Data Transport Dollars","Other Dollars","Unassigned Dollars"};
-            row = makeTitle(wks, row, 23, "Design Requests by MSO/Category", columnHeaders);
+            row = makeTitle(wks, row, 22, "Design Requests by MSO/Category", columnHeaders);
             foreach (var model in categories)
             {
                 wks.Cells[row, 1] = model.MSO;
                 wks.Cells[row, 2] = model.TotalDollars;
                 wks.Cells[row, 3] = model.AverageDollarsPerRequest;
                 wks.Cells[row, 4] = model.TotalRequests;
-                wks.Cells[row, 5] = model.PctOfTotal;
-                wks.Cells[row, 6] = model.HFC;
-                wks.Cells[row, 7] = model.NodeSplit;
-                wks.Cells[row, 8] = model.RFoG;
-                wks.Cells[row, 9] = model.PON;
-                wks.Cells[row, 10] = model.RFoGPON;
-                wks.Cells[row, 11] = model.FiberDeep;
-                wks.Cells[row, 12] = model.DataTrans;
-                wks.Cells[row, 13] = model.Other;
-                wks.Cells[row, 14] = model.Unassigned;
-                wks.Cells[row, 15] = model.HFCDollars;
-                wks.Cells[row, 16] = model.NodeSplitDollars;
-                wks.Cells[row, 17] = model.RFoGDollars;
-                wks.Cells[row, 18] = model.PON_Dollars;
-                wks.Cells[row, 19] = model.RFoGPON_Dollars;
-                wks.Cells[row, 20] = model.FiberDeepDollars;
-                wks.Cells[row, 21] = model.DataTransportDollars;
-                wks.Cells[row, 22] = model.OtherDollars;
-                wks.Cells[row, 23] = model.UnassignedDollars;
+                //wks.Cells[row, 5] = model.PctOfTotal;
+                wks.Cells[row, 5] = model.HFC;
+                wks.Cells[row, 6] = model.NodeSplit;
+                wks.Cells[row, 7] = model.RFoG;
+                wks.Cells[row, 8] = model.PON;
+                wks.Cells[row, 9] = model.RFoGPON;
+                wks.Cells[row, 10] = model.FiberDeep;
+                wks.Cells[row, 11] = model.DataTrans;
+                wks.Cells[row, 12] = model.Other;
+                wks.Cells[row, 13] = model.Unassigned;
+                wks.Cells[row, 14] = model.HFCDollars;
+                wks.Cells[row, 15] = model.NodeSplitDollars;
+                wks.Cells[row, 16] = model.RFoGDollars;
+                wks.Cells[row, 17] = model.PON_Dollars;
+                wks.Cells[row, 18] = model.RFoGPON_Dollars;
+                wks.Cells[row, 19] = model.FiberDeepDollars;
+                wks.Cells[row, 20]= model.DataTransportDollars;
+                wks.Cells[row, 21] = model.OtherDollars;
+                wks.Cells[row, 22] = model.UnassignedDollars;
                 row++;
             }
             sectionArray[section, 1] = row - 1;
 
 
-            Excel.Range numRange = wks.Range[wks.Cells[categoryStartRow, 1], wks.Cells[row, 23]];
-            Excel.Range summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 23]];
+            Excel.Range numRange = wks.Range[wks.Cells[categoryStartRow, 1], wks.Cells[row, 22]];
+            Excel.Range summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 22]];
             summaryRange.Font.Bold = true;
 
             setDollarDecimalPlaces(wks, 0, sectionArray[section, 0] + 3, sectionArray[section, 1], 2, 3);
-            setDollarDecimalPlaces(wks, 0, sectionArray[section, 0] + 3, sectionArray[section, 1], 15, 23);
+            setDollarDecimalPlaces(wks, 0, sectionArray[section, 0] + 3, sectionArray[section, 1], 14, 22);
 
-            setPercentDecimalPlaces(wks, 0, sectionArray[section, 0] + 3, sectionArray[section, 1], 5, 5);
+            //setPercentDecimalPlaces(wks, 0, sectionArray[section, 0] + 3, sectionArray[section, 1], 5, 5);
 
             return row;
         }
