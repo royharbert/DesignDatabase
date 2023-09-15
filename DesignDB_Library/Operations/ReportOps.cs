@@ -1068,11 +1068,18 @@ namespace DesignDB_Library.Operations
         public static void formatPriorityDGV(DataGridView dgv)
         {
             string[] headers = { "Salesperson", "P1 Count", "P2 Count", "P3 Count", "P1 Dollars",
-                "P2 Dollars", "P3 Dollars", "Total Count","Total Dollars" };
+                "P2 Dollars", "P3 Dollars", "Total Count","Total Dollars", "P1 %", "P2 %", "P3 %" };
             setDGV_HeaderText(dgv, headers);
 
-            int[] widths = { 120, 80, 80, 80, 80, 80, 80, 80 };
-            SetDGV_ColumnWidths(dgv, widths);
+            int[] widths = { 130, 70, 70, 70, 80, 80, 80, 80 };
+            //SetDGV_ColumnWidths(dgv, widths);
+            dgv.Columns[9].DefaultCellStyle.Format = "##0%";
+            dgv.Columns[10].DefaultCellStyle.Format = "##0%";
+            dgv.Columns[11].DefaultCellStyle.Format = "##0%";
+            dgv.Columns[4].DefaultCellStyle.Format = "c";
+            dgv.Columns[5].DefaultCellStyle.Format = "c";
+            dgv.Columns[6].DefaultCellStyle.Format = "c";
+            dgv.Columns[8].DefaultCellStyle.Format = "c";
         }
 
         private static decimal AccumulateDollars(List<RequestModel> requests)
@@ -1088,14 +1095,36 @@ namespace DesignDB_Library.Operations
 
         public static List<SnapshotModel> GenerateSnapshotReport(List<MSO_Model> msoList, DateTime startDate, DateTime endDate)
         {
+            DateTime emptyDate = new DateTime(1900, 1, 1);
+            int year = DateTime.Now.Year;
+            DateTime newYearsDay = new DateTime(year, 1, 1);
+            int month = DateTime.Now.Month;
+            List<RequestModel> ytdRequests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(newYearsDay, endDate);
+            
+            ytdRequests = ytdRequests.Where(x => x.DateCompleted != null && x.DateCompleted != emptyDate).ToList();
             List<SnapshotModel> snapshots = new List<SnapshotModel>();
             foreach (MSO_Model mso in msoList)
             {
-                SnapshotModel snapshotModel = ReportOps.SnapshotLine
-                    (mso.MSO, startDate, endDate);
-                if (snapshotModel != null)
+                List<RequestModel> msoRequests = ytdRequests.Where(x => x.MSO == mso.MSO).ToList();
+                if (msoRequests.Count > 0)
                 {
-                    snapshots.Add(snapshotModel);
+                    SnapshotModel snapLine = new SnapshotModel();
+                    snapLine.TotalCanceledDesigns = msoRequests.Where(x => x.AwardStatus == "Canceled").Count();
+                    List<RequestModel> nonCanceledMSORequests = msoRequests.Where(x => x.AwardStatus != "Canceled").ToList();
+                    snapLine.MSO = mso.MSO;
+                    snapLine.TotalCompletedDesigns = nonCanceledMSORequests.Count;
+                    snapLine.RequestsThisYear = nonCanceledMSORequests.Where(x => x.AwardStatus != "Canceled").Count();
+                    snapLine.RequestsThisMonth = nonCanceledMSORequests.Where(x => x.DateAssigned.Month == month).Count();
+                    snapLine.RequestsThisWeek = nonCanceledMSORequests.Where(x => x.DateAssigned >=  startDate && x.DateAssigned < 
+                        startDate.AddDays(7)).Count();
+                    snapLine.TotalValue = nonCanceledMSORequests.Sum(x => x.BOM_Value);
+                    
+                    foreach (var msoRequest in msoRequests)
+                    {
+                        snapLine.TotalDaysToComplete = snapLine.TotalDaysToComplete + (msoRequest.DateCompleted - msoRequest.DateAssigned).Days;
+                    }
+                    snapLine.AverageCompletionTime = snapLine.TotalDaysToComplete / snapLine.TotalCompletedDesigns;
+                    snapshots.Add(snapLine);
                 }
             }
             return snapshots;
@@ -1131,14 +1160,14 @@ namespace DesignDB_Library.Operations
                 }
                 snap.TotalDaysToComplete = totalDaysToComplete;
 
-                if (snap.TotalCompletedDesigns > 0)
-                {
-                    snap.AverageCompletionTime = (totalDaysToComplete / snap.TotalCompletedDesigns).ToString("#.#");
-                }
-                else
-                {
-                    snap.AverageCompletionTime = "";
-                }
+                //if (snap.TotalCompletedDesigns > 0)
+                //{
+                //    snap.AverageCompletionTime = (totalDaysToComplete / snap.TotalCompletedDesigns).ToString("#.#");
+                //}
+                //else
+                //{
+                //    snap.AverageCompletionTime = "";
+                //}
                 List<RequestModelReport> snapList = snapshot.Where(x => x.DateCompleted <= DateTime.Parse("1/1/2000")).ToList();
                 snap.TotalOpenRequests = snapList.Where(x => x.AwardStatus == "Pending").ToList().Count;
                 snap.TotalCanceledDesigns = snapshot.Where(x => x.AwardStatus == "Canceled").ToList().Count;
@@ -1453,7 +1482,7 @@ namespace DesignDB_Library.Operations
         //format datagridview controls
         private static void SetDGV_ColumnWidths(DataGridView dgv, int[] widths)
         {
-            for (int i = 0; i < widths.Length; i++)
+            for (int i = 0; i < widths.Length - 1; i++)
             {
                 dgv.Columns[i].Width = widths[i];
             }
