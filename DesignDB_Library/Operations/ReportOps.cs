@@ -15,14 +15,22 @@ using NuGet;
 
 namespace DesignDB_Library.Operations
 {
+    public  class NewMessageEventArgs   : EventArgs
+    {
+        public string MyMessage { get; set; }
+    }
     
     public static class ReportOps
     {
+        public static event EventHandler<NewMessageEventArgs> NewMessageEvent;
+        
+
         //create list of salespersons in this report
         static List<SalespersonModel> includedSalesPersons = new List<SalespersonModel>();
         public static void RollupReport(DateTime startDate, DateTime endDate, List<MSO_Model> msoModels, List<string> regionQuery, 
             bool CustomFormat = false)
         {
+            NewMessageEventArgs args = new NewMessageEventArgs();
             startDate = startDate.Date;
             endDate = endDate.Date;
             int curYear = startDate.Year;
@@ -35,6 +43,9 @@ namespace DesignDB_Library.Operations
             List<SalespersonModel> allSalesPersons = GlobalConfig.Connection.GenericGetAll<SalespersonModel>("tblSalespersons", "SalesPerson");
             //Collect YTD requests
             List<RequestModel> allRequests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(NewYearsDay, NewYearsEve);
+            args.MyMessage = "Getting YTD Requests";
+            NewMessageEvent?.Invoke("ReportOps", args);
+
             //Filter out Canceled
             List<RequestModel> allNonCanceledlRequests = allRequests.Where(x => x.AwardStatus != "Canceled").ToList();
             //Filter to selected MSO's

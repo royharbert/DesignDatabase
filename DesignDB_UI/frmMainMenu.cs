@@ -29,6 +29,7 @@ namespace DesignDB_UI
 
         public frmMainMenu()
         {
+            ReportOps.NewMessageEvent += ReportOps_NewMessageEvent;
             GV.LogViewer = new frmLogView();
             GV.PickerForm = frmDateMSO_Picker;
             GV.InputForm = frmInput;
@@ -63,6 +64,10 @@ namespace DesignDB_UI
             formLoading = false;
         }
 
+        private void ReportOps_NewMessageEvent(object sender, NewMessageEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
 
         private void FrmDateMSO_Picker_PickerCanceled(object sender, frmDateMSO_Picker.CancelEventArgs e)
         {

@@ -31,6 +31,7 @@ namespace DesignDB_UI
         public frmDateMSO_Picker(bool rollupVisible = false)
         {
             InitializeComponent();
+            
             GV.PickerForm = this;
             rdo_Normal.Checked = true;
             
@@ -39,15 +40,6 @@ namespace DesignDB_UI
                 ckRussia, ckUSEast, ckUSWest, ckOther  };
 
             ckTiers = new CheckBox[]{ ckTier1, ckTier2, ckUnclassified };
-
-            if (GV.MODE == Mode.Report_Rollup)
-            {
-                lbMSO.SelectionMode = SelectionMode.One;
-            }
-            else
-            {
-                lbMSO.SelectionMode = SelectionMode.MultiSimple;
-            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -88,7 +80,6 @@ namespace DesignDB_UI
             else
             {
                 msoList = new List<MSO_Model>();
-
                 foreach (var tier in tierQuery)
                 {
                     int tierInt =0;
@@ -131,7 +122,7 @@ namespace DesignDB_UI
             {
                 args.CustomFormat = false;
             } 
-
+            
             this.Hide();
             allSelected = false;
             DataReadyEvent?.Invoke(this, args);
@@ -319,7 +310,7 @@ namespace DesignDB_UI
 
         private void frmDateMSO_Picker_Load(object sender, EventArgs e)
         {
-            //Create lists of tiers
+            //Gather list of MSO's and create lists of tiers
             allMSO_S = GlobalConfig.Connection.GenericGetAll<MSO_Model>("tblMSO", "MSO");
             tier1Models = allMSO_S.Where(x => x.Tier == 1).ToList();
             tier2Models = allMSO_S.Where(x => x.Tier == 2).ToList();
