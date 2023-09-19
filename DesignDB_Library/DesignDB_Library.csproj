@@ -133,6 +133,7 @@
     <Compile Include="Operations\IHaveID.cs" />
     <Compile Include="Operations\ListLooper.cs" />
     <Compile Include="Operations\Logger.cs" />
+    <Compile Include="Operations\NewMessageEventArgsBase.cs" />
     <Compile Include="Operations\PID_Generator.cs" />
     <Compile Include="Operations\ReportOps.cs" />
     <Compile Include="Operations\RequestModelReportToRequestModel.cs" />

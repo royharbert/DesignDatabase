@@ -17,9 +17,12 @@ namespace DesignDB_Library.Operations
 {
     public class ExcelOps
     {
+
+        public static event EventHandler<NewMessageEventArgs> NewMessageEvent;
         private static int PlaceMonthlyMSO_SummaryInExcelNoPct(Excel.Worksheet wks, DateTime startDate, DateTime endDate, 
             List<Report_SalesProjectValuesModel> msoSummary, int[,] sectionArray, int row, int section)
         {
+            NewMessageEventArgs msgArgs = new Operations.NewMessageEventArgs();
             row = row + 2;
             sectionArray[section, 0] = row - 1;
             string weeklyHeader = "Current Week " + " " + startDate.ToShortDateString() + " " + endDate.ToShortDateString();
@@ -688,6 +691,7 @@ namespace DesignDB_Library.Operations
 
         public static Excel.Application makeExcelApp()
         {
+            ReportOps.sendMessage(msgArgs, "Creating Excel Instance");
             Excel.Application xlApp = new Excel.Application();
 
             return xlApp;

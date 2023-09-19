@@ -15,13 +15,14 @@ using NuGet;
 
 namespace DesignDB_Library.Operations
 {
-    public  class NewMessageEventArgs   : EventArgs
+
+    public class NewMessageEventArgs
     {
         public string MyMessage { get; set; }
     }
-    
     public static class ReportOps
     {
+        
         public static event EventHandler<NewMessageEventArgs> NewMessageEvent;
         
 
@@ -32,20 +33,19 @@ namespace DesignDB_Library.Operations
         {
             NewMessageEventArgs args = new NewMessageEventArgs();
             startDate = startDate.Date;
-            endDate = endDate.Date;
+            endDate = endDate.Date;            
             int curYear = startDate.Year;
             DateTime NewYearsDay = new DateTime(curYear, 1, 1);
             DateTime NewYearsEve = new DateTime(curYear, 12, 31);
-            includedSalesPersons = new List<SalespersonModel>();
 
-            
-            //Collect all salespersons
+            //Collect all salespersons            
+            sendMessage(args, "Getting Salespersons");
             List<SalespersonModel> allSalesPersons = GlobalConfig.Connection.GenericGetAll<SalespersonModel>("tblSalespersons", "SalesPerson");
             //Collect YTD requests
+            sendMessage(args, "Collecting YTD Requests");
             List<RequestModel> allRequests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(NewYearsDay, NewYearsEve);
-            args.MyMessage = "Getting YTD Requests";
-            NewMessageEvent?.Invoke("ReportOps", args);
-
+            sendMessage(args, "Retrieved " + allRequests.Count + " Records");
+            //sendMessage(args, "Filtering out Canceled, sorting by MSO");
             //Filter out Canceled
             List<RequestModel> allNonCanceledlRequests = allRequests.Where(x => x.AwardStatus != "Canceled").ToList();
             //Filter to selected MSO's
@@ -69,36 +69,52 @@ namespace DesignDB_Library.Operations
             }
 
             //Section 1
+            sendMessage(args, "Creating Monthly MSO Summary");
             List<Report_SalesProjectValuesModel> monthlyMSO_Summary = MonthlyMSO_Summary(msoModels, allNonCanceledlRequests, startDate, endDate);
 
             //Section 2
+            sendMessage(args, "Creating MSO Requests by Category Summary");
             List<ReportCategoryMSOModel> mso_RequestsByCategory = MSO_RequestsByCategory(allNonCanceledlRequests, msoModels);
 
-            //Section 3
+            //Section 4
+            sendMessage(args, "Award Status Summary");
             List<AwardStatusModel> awardStatusSummary = AwardStatusSummary(allNonCanceledlRequests, msoModels);
 
-            //Section 4
+            //Section 7
+            sendMessage(args, "Creating Requests by Salesperson Summary");
             List<Report_SalesProjectValuesModel> salesProjects = DesignRequestsBySalespersonPerMonth(allNonCanceledlRequests, 
                 allSalesPersons, msoModels, startDate, endDate);
 
             //Section 5
+            sendMessage(args, "Creating Open Requests by Salesperson Summary");
             List<OpenRequestsBySalesModel> openRequestsBySales = OpenRequestsBySales(includedSalesPersons, msoModels);
 
             //Section 6
             //*
+            sendMessage(args, "Creating Priority by Salaeperson Summary");
             List<ReportSalesPriorityModel> priorityModelSummary = PriorityModelSummaryNoMS0(allNonCanceledlRequests, includedSalesPersons, msoModels);
             /*/
             List<ReportSalesPriorityModel> priorityModelSummary = PriorityModelSummary(allNonCanceledlRequests, includedSalesPersons, msoModels);
             //*/
 
-            //Section 7
+            //Section 3
+            sendMessage(args, "Creating Completion Time Summary");
             List<RollupCompletionTimeModel> CompletionTime = RollupCompletionTimeSummary(msoModels, allRequests);
 
-
+            sendMessage(args, "Placing Data in Excel");
             ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, mso_RequestsByCategory, salesProjects, 
                 priorityModelSummary, allNonCanceledlRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value), 
                 monthlyMSO_Summary, msoModels, awardStatusSummary, CompletionTime, CustomFormat);
+            sendMessage(args, "");
         }
+
+        public static void sendMessage(NewMessageEventArgs args, string msg)
+        {
+            args.MyMessage = msg;
+            NewMessageEvent?.Invoke("ReportOps", args);
+            System.Windows.Forms.Application.DoEvents();
+        }
+
         public static List<Report_SalesProjectValuesModel> DesignRequestsBySalespersonPerMonth(List<RequestModel> requestList, 
             List<SalespersonModel> allSalesPersons, List<MSO_Model> msoList, DateTime startDate, DateTime endDate)
         { 
