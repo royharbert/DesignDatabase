@@ -69,6 +69,7 @@ namespace DesignDB_UI
         private void ReportOps_NewMessageEvent(object sender, NewMessageEventArgs e)
         {
             ssLabel.Text = e.MyMessage;
+            Application.DoEvents();
         }
 
         private void FrmDateMSO_Picker_PickerCanceled(object sender, frmDateMSO_Picker.CancelEventArgs e)

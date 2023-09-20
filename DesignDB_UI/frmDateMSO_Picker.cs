@@ -65,7 +65,7 @@ namespace DesignDB_UI
             DataReadyEventArgs args = new DataReadyEventArgs();
             if (tierQuery.Count == 0)
             {
-                ReportOps.sendMessage(msgArgs, "Saving MSO Selections");
+                ReportOps.sendMessage("Saving MSO Selections");
                 //If no checkboxes are checked
                 GlobalConfig.Connection.ClearTable("tblSnapshotMSO_S");
                 if (regionQuery.Count == 0)
@@ -78,7 +78,7 @@ namespace DesignDB_UI
                 }
                 else
                 {
-                    ReportOps.sendMessage(msgArgs, "Retrieving All MSO's");
+                    ReportOps.sendMessage("Retrieving All MSO's");
                     msoList = allMSO_S;   
                 }
                 args.MSO_s = msoList;
@@ -91,7 +91,7 @@ namespace DesignDB_UI
                 msoList = new List<MSO_Model>();
                 foreach (var tier in tierQuery)
                 {
-                    ReportOps.sendMessage(msgArgs, "Creating Tier Lists");
+                    ReportOps.sendMessage("Creating Tier Lists");
                     int tierInt =0;
                     int.TryParse(tier, out tierInt);
                     msoList.AddRange(allMSO_S.Where(x => x.Tier == tierInt).ToList());

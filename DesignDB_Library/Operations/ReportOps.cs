@@ -39,12 +39,12 @@ namespace DesignDB_Library.Operations
             DateTime NewYearsEve = new DateTime(curYear, 12, 31);
 
             //Collect all salespersons            
-            sendMessage(args, "Getting Salespersons");
+            sendMessage("Getting Salespersons");
             List<SalespersonModel> allSalesPersons = GlobalConfig.Connection.GenericGetAll<SalespersonModel>("tblSalespersons", "SalesPerson");
             //Collect YTD requests
-            sendMessage(args, "Collecting YTD Requests");
+            sendMessage("Collecting YTD Requests");
             List<RequestModel> allRequests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(NewYearsDay, NewYearsEve);
-            sendMessage(args, "Retrieved " + allRequests.Count + " Records");
+            sendMessage("Retrieved " + allRequests.Count + " Records");
             //sendMessage(args, "Filtering out Canceled, sorting by MSO");
             //Filter out Canceled
             List<RequestModel> allNonCanceledlRequests = allRequests.Where(x => x.AwardStatus != "Canceled").ToList();
@@ -69,47 +69,48 @@ namespace DesignDB_Library.Operations
             }
 
             //Section 1
-            sendMessage(args, "Creating Monthly MSO Summary");
+            sendMessage("Creating Monthly MSO Summary");
             List<Report_SalesProjectValuesModel> monthlyMSO_Summary = MonthlyMSO_Summary(msoModels, allNonCanceledlRequests, startDate, endDate);
 
             //Section 2
-            sendMessage(args, "Creating MSO Requests by Category Summary");
+            sendMessage("Creating MSO Requests by Category Summary");
             List<ReportCategoryMSOModel> mso_RequestsByCategory = MSO_RequestsByCategory(allNonCanceledlRequests, msoModels);
 
             //Section 4
-            sendMessage(args, "Award Status Summary");
+            sendMessage("Award Status Summary");
             List<AwardStatusModel> awardStatusSummary = AwardStatusSummary(allNonCanceledlRequests, msoModels);
 
             //Section 7
-            sendMessage(args, "Creating Requests by Salesperson Summary");
+            sendMessage("Creating Requests by Salesperson Summary");
             List<Report_SalesProjectValuesModel> salesProjects = DesignRequestsBySalespersonPerMonth(allNonCanceledlRequests, 
                 allSalesPersons, msoModels, startDate, endDate);
 
             //Section 5
-            sendMessage(args, "Creating Open Requests by Salesperson Summary");
+            sendMessage("Creating Open Requests by Salesperson Summary");
             List<OpenRequestsBySalesModel> openRequestsBySales = OpenRequestsBySales(includedSalesPersons, msoModels);
 
             //Section 6
             //*
-            sendMessage(args, "Creating Priority by Salaeperson Summary");
+            sendMessage("Creating Priority by Salaeperson Summary");
             List<ReportSalesPriorityModel> priorityModelSummary = PriorityModelSummaryNoMS0(allNonCanceledlRequests, includedSalesPersons, msoModels);
             /*/
             List<ReportSalesPriorityModel> priorityModelSummary = PriorityModelSummary(allNonCanceledlRequests, includedSalesPersons, msoModels);
             //*/
 
             //Section 3
-            sendMessage(args, "Creating Completion Time Summary");
+            sendMessage("Creating Completion Time Summary");
             List<RollupCompletionTimeModel> CompletionTime = RollupCompletionTimeSummary(msoModels, allRequests);
 
-            sendMessage(args, "Placing Data in Excel");
+            sendMessage("Placing Data in Excel");
             ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, mso_RequestsByCategory, salesProjects, 
                 priorityModelSummary, allNonCanceledlRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value), 
                 monthlyMSO_Summary, msoModels, awardStatusSummary, CompletionTime, CustomFormat);
-            sendMessage(args, "");
+            sendMessage("");
         }
 
-        public static void sendMessage(NewMessageEventArgs args, string msg)
+        public static void sendMessage(string msg)
         {
+            NewMessageEventArgs args = new NewMessageEventArgs();
             args.MyMessage = msg;
             NewMessageEvent?.Invoke("ReportOps", args);
             System.Windows.Forms.Application.DoEvents();
@@ -801,17 +802,24 @@ namespace DesignDB_Library.Operations
                     string field = tagArray[3];
                     //create list for drop-down items
                     List<(string Field, bool Active)> ddList = new List<(string, bool)>();
-                    //place list description at head of list
-                    ddList.Add((tagArray[4], true));
+                    
                     if (tagArray[2] == "")
                     {
                         //Source is internal list
                         foreach (var item in cbo.Items)
                         {
-                            (string, bool) tup = (item.ToString(), true);
-                            ddList.Add(tup);
+                            (string Field, bool Active) tup = (item.ToString(), true);
+                            if (tup.Field != "\t" && tup.Field != "")
+                            {
+                                ddList.Add(tup); 
+                            }
                         }
-                        BoxData.Add(ddList);
+                        ddList = ddList.OrderBy(x => x.Field).ToList();
+                        //place list description at head of list
+                        (string Field, bool Active) listHead = (tagArray[4], true);
+                        ddList.Insert(0, listHead);
+                        BoxData.Add(ddList); 
+                        
                     }
                     else
                     { 
@@ -855,16 +863,16 @@ namespace DesignDB_Library.Operations
                         }
                     }
                 }                
-            }
-                
+            }  
             return BoxData;
         }
 
         private static List<(string Field, bool Active)> MakeTupleList<T>(string tableName, string FieldName, string cName)
         {
+            (string Field, bool Active) listHead = (cName, true);
             (string Field, bool Active) tup = (cName, true);
             List<(string Field, bool Active)> ddList = new List<(string Field, bool Active)>();
-            ddList.Add(tup);
+            
             //Type model = GetType(T);
             List<T> dataList = GlobalConfig.Connection.GenericGetAll<T>(tableName);
             foreach (T item in dataList)
@@ -874,16 +882,22 @@ namespace DesignDB_Library.Operations
                 PropertyInfo fieldInfo = modelType.GetProperty(FieldName);
                 tup.Field = fieldInfo.GetValue(item, null).ToString();
                 tup.Active = true;
-                ddList.Add(tup);
+                if (tup.Field != "")
+                {
+                    ddList.Add(tup); 
+                }
             }
+            ddList = ddList.OrderBy(x => x.Field).ToList();
+            ddList.Insert(0, listHead);
             return ddList;
         }
 
         private static List<(string Field, bool Active)> MakeTupleList<T>(string tableName,  string FieldName, string activeField, string cName)
         {
         (string Field, bool Active) tup = (cName, true);
+        (string Field, bool Active) listHead = (cName, true);
         List<(string Field,bool Active)> ddList = new List<(string Field,bool Active)> ();
-        ddList.Add(tup);
+        
         //Type model = GetType(T);
         List <T> dataList = GlobalConfig.Connection.GenericGetAll<T>(tableName);
         foreach (T item in dataList)
@@ -894,8 +908,13 @@ namespace DesignDB_Library.Operations
             tup.Field = fieldInfo.GetValue(item, null).ToString();
             PropertyInfo modelActive = modelType.GetProperty(activeField);
             tup.Active = (bool)modelActive.GetValue(item, null);
-            ddList.Add(tup);
+                if (tup.Field != "")
+                {
+                    ddList.Add(tup); 
+                }
         }
+        ddList = ddList.OrderBy(x => x.Field).ToList();
+        ddList.Insert(0, listHead);
         return ddList;
     }
 

@@ -19,10 +19,10 @@ namespace DesignDB_Library.Operations
     {
 
         public static event EventHandler<NewMessageEventArgs> NewMessageEvent;
+        
         private static int PlaceMonthlyMSO_SummaryInExcelNoPct(Excel.Worksheet wks, DateTime startDate, DateTime endDate, 
             List<Report_SalesProjectValuesModel> msoSummary, int[,] sectionArray, int row, int section)
         {
-            NewMessageEventArgs msgArgs = new Operations.NewMessageEventArgs();
             row = row + 2;
             sectionArray[section, 0] = row - 1;
             string weeklyHeader = "Current Week " + " " + startDate.ToShortDateString() + " " + endDate.ToShortDateString();
@@ -204,6 +204,8 @@ namespace DesignDB_Library.Operations
             List<ReportSalesPriorityModel> priorityList, decimal bomTotal, List<Report_SalesProjectValuesModel> msoSummary, List<MSO_Model> msoModels,
             List<AwardStatusModel> awards, List<RollupCompletionTimeModel> completionReport, bool customFormat = false)
         {
+            NewMessageEventArgs msgArgs = new NewMessageEventArgs();
+            //ReportOps.sendMessage(msgArgs, "Creating Excel Instance");
             Excel.Application xlApp = makeExcelApp();
             xlApp.Workbooks.Add();
             Excel.Worksheet wks = xlApp.ActiveSheet;
@@ -218,6 +220,7 @@ namespace DesignDB_Library.Operations
             int row = -1;
             int section;
 
+            ReportOps.sendMessage("Placing Data in Spreadsheet");
             //Secton 1
             //*
             section = 0;
@@ -273,6 +276,8 @@ namespace DesignDB_Library.Operations
 
 
             releaseObject(xlApp);
+            xlApp = null;
+            ReportOps.sendMessage("");
         }
 
 //***********************************************************************************************************************************************************************
@@ -489,7 +494,7 @@ namespace DesignDB_Library.Operations
             summaryRange.Font.Bold = true;
             sectionArray[section, 1] = row - 1;
             setDollarDecimalPlaces(wks, 0, sectionArray[section, 0] + 2, sectionArray[section, 1], 3, 3);
-            setDollarDecimalPlaces(wks, 0, sectionArray[section, 0] + 2, sectionArray[section, 1], 5, 3);
+            setDollarDecimalPlaces(wks, 0, sectionArray[section, 0] + 2, sectionArray[section, 1], 5, 5);
             setDollarDecimalPlaces(wks, 0, sectionArray[section, 0] + 2, sectionArray[section, 1], 7, 7);
             setDollarDecimalPlaces(wks, 0, sectionArray[section, 0] + 2, sectionArray[section, 1], 9, 9);
             setDollarDecimalPlaces(wks, 0, sectionArray[section, 0] + 2, sectionArray[section, 1], 11, 11);
@@ -638,6 +643,8 @@ namespace DesignDB_Library.Operations
             Excel.Worksheet wks = xlApp.ActiveSheet;
             xlApp.Visible = true;
 
+            NewMessageEventArgs args = new NewMessageEventArgs();
+            ReportOps.sendMessage("Placing Data into Excel");
             int col = 0;
             for (int l = 0; l < ddList.Count; l++)
             {
@@ -687,13 +694,15 @@ namespace DesignDB_Library.Operations
             {
                 GC.Collect();
             }
+            ReportOps.sendMessage("");
         }
 
         public static Excel.Application makeExcelApp()
         {
-            ReportOps.sendMessage(msgArgs, "Creating Excel Instance");
+            NewMessageEventArgs msgArgs = new NewMessageEventArgs();
+            ReportOps.sendMessage("Creating Excel Instance");
             Excel.Application xlApp = new Excel.Application();
-
+            ReportOps.sendMessage( "");
             return xlApp;
         }
 

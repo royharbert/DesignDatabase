@@ -738,6 +738,7 @@ namespace DesignDB_UI
             // ssMessage
             // 
             this.ssMessage.BackColor = System.Drawing.Color.RoyalBlue;
+            this.ssMessage.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ssMessage.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ssLabel});
             this.ssMessage.Location = new System.Drawing.Point(0, 739);
@@ -748,13 +749,12 @@ namespace DesignDB_UI
             // ssLabel
             // 
             this.ssLabel.Name = "ssLabel";
-            this.ssLabel.Size = new System.Drawing.Size(31, 0);
+            this.ssLabel.Size = new System.Drawing.Size(0, 17);
             // 
             // frmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = false;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(1192, 761);

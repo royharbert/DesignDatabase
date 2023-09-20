@@ -16,6 +16,16 @@ using DesignDB_Library;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
+/*
+ * Control Tag Uses
+ * Tag property of most controls is used to identify several items. The items are separated by a | then separated into an array by a string.split
+ * [0] - "L" if control is locked on open, "U" if unlocked
+ * [1] - request model column for field search function
+ * [2] - database table holding drop-down list items
+ * [3] - database table column holding drop-down list items
+ * [4] - Excel column heading in list collector
+ */
+
 namespace DesignDB_UI
 {
 
