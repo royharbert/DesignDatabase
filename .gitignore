@@ -17,4 +17,5 @@
 /Releases/RELEASES
 /Releases/DesignDBRepo-2.1.114-full.nupkg
 /Releases/DesignDBRepo-2.1.114-delta.nupkg
-/DesignDBRepo.2.1.114.nupkg
+/D*.nupkg
+/DesignDB_Library/DesignDB_Library.csproj

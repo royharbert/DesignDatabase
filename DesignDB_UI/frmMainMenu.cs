@@ -29,6 +29,9 @@ namespace DesignDB_UI
 
         public frmMainMenu()
         {
+            ReportOps.NewMessageEvent += ReportOps_NewMessageEvent;
+
+            this.Size = new Size(1208, 800);
             GV.LogViewer = new frmLogView();
             GV.PickerForm = frmDateMSO_Picker;
             GV.InputForm = frmInput;
@@ -63,6 +66,11 @@ namespace DesignDB_UI
             formLoading = false;
         }
 
+        private void ReportOps_NewMessageEvent(object sender, NewMessageEventArgs e)
+        {
+            ssLabel.Text = e.MyMessage;
+            Application.DoEvents();
+        }
 
         private void FrmDateMSO_Picker_PickerCanceled(object sender, frmDateMSO_Picker.CancelEventArgs e)
         {
@@ -110,7 +118,7 @@ namespace DesignDB_UI
         {
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-            txtMode.Text += $"     V.{ versionInfo.FileVersion }";
+            txtMode.Text += $"     V.{versionInfo.FileVersion}";
         }
 
         private async Task CheckForUpdates()
@@ -383,9 +391,9 @@ namespace DesignDB_UI
                     startDate = e.StartDate;
                     endDate = e.EndDate;
                     CustomFormat = e.CustomFormat;
-                    ReportOps.RollupReport(startDate, endDate, e.MSO_s, e.regionQuery,CustomFormat);
+                    ReportOps.RollupReport(startDate, endDate, e.MSO_s, e.regionQuery, CustomFormat);
                     break;
-        
+
                 case Mode.Report_CatMSO:
                     List<ReportCategoryMSOModel> categoryReport = ReportOps.
                         reportCategoryMSOs(e.MSO_s, e.StartDate, e.EndDate);
@@ -408,7 +416,7 @@ namespace DesignDB_UI
                     frmReportSalesPriiority frmReportSalesPriiority = new frmReportSalesPriiority();
                     frmReportSalesPriiority.Report = PriorityReport;
                     frmReportSalesPriiority.Visible = true;
-                    
+
                     frmReportSalesPriiority.Show();
                     frmReportSalesPriiority.TopMost = true;
                     break;
@@ -420,10 +428,10 @@ namespace DesignDB_UI
                     break;
                 case Mode.None:
                     break;
-            default:
+                default:
                     break;
-        }
-        
+            }
+
         }
 
         private void frmMainMenu_Activated(object sender, EventArgs e)
@@ -468,7 +476,7 @@ namespace DesignDB_UI
         private void btnAvgComp_Click(object sender, EventArgs e)
         {
             GV.MODE = Mode.Report_AvgCompletion;
-            
+
             frmCompletionTimeReport frmCompletionTimeReport = new frmCompletionTimeReport();
             FC.SetFormPosition(frmCompletionTimeReport);
             GV.PickerForm.ShowDialog();
@@ -499,7 +507,7 @@ namespace DesignDB_UI
         private void ShowPicker()
         {
             frmDateMSO_Picker = GV.PickerForm;
-           
+
             frmDateMSO_Picker.ShowDialog();
             if (operationCanceled)
             {
@@ -509,7 +517,7 @@ namespace DesignDB_UI
 
         private void btnReqPriority_Click(object sender, EventArgs e)
         {
-            GV.MODE = Mode.Report_ByPriority;            
+            GV.MODE = Mode.Report_ByPriority;
             ShowPicker();
         }
 
@@ -518,7 +526,7 @@ namespace DesignDB_UI
             GV.MODE = Mode.SearchFields;
             FC.DisplayRequestForm();
             GV.REQFORM.resetForm();
-            
+
         }
 
 
