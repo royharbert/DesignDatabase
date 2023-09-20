@@ -146,17 +146,18 @@ namespace DesignDB_Library.Operations
                 accumulatedRequestData.AverageDollars = 0;
             }
 
-            foreach (var mso in msoList)
+            //foreach (var mso in msoList)
+            //{
+            //msoRequests.Clear();
+            //msoRequests = requestList.Where(x => x.MSO == mso.MSO).ToList();
+            foreach (var salesPerson in allSalesPersons)
             {
-                msoRequests.Clear();
-                msoRequests = requestList.Where(x => x.MSO == mso.MSO).ToList();
-                foreach (var salesPerson in allSalesPersons)
+                //Model to collect single salesperson's requests
+                Report_SalesProjectValuesModel individualSalesValue = new Report_SalesProjectValuesModel();
+                //List<RequestModel> personRequestList = msoRequests.Where(x => x.DesignRequestor == salesPerson.SalesPerson).ToList();
+                List<RequestModel> personRequestList = requestList.Where(x => x.DesignRequestor == salesPerson.SalesPerson).ToList();
+                if (personRequestList.Count > 0)
                 {
-                    //Model to collect single salesperson's requests
-                    Report_SalesProjectValuesModel individualSalesValue = new Report_SalesProjectValuesModel();
-                    List<RequestModel> personRequestList = msoRequests.Where(x => x.DesignRequestor == salesPerson.SalesPerson).ToList();
-                    if (personRequestList.Count > 0)
-                    {
                         individualSalesValue = new Report_SalesProjectValuesModel();
                         //Loop through salesPerson's requests and accumulate by DateAssigned
                         individualSalesValue.SalesPerson = salesPerson.SalesPerson;
@@ -164,78 +165,78 @@ namespace DesignDB_Library.Operations
                         includedSalesPersons.Add(salesPerson);
                         foreach (var request in personRequestList)
                         {
-                            if (request.DateAssigned >= startDate && request.DateAssigned <= endDate)
-                            {
-                                individualSalesValue.Weekly++;
-                                accumulatedRequestData.Weekly++;
-                            }
-                            int month = request.DateAssigned.Month;
-                            switch (month)
-                            {
-                                case 1:
-                                    individualSalesValue.JanProjects++;
-                                    accumulatedRequestData.JanProjects++;
-                                    break;
-                                case 2:
-                                    individualSalesValue.FebProjects++;
-                                    accumulatedRequestData.FebProjects++;
-                                    break;
-                                case 3:
-                                    individualSalesValue.MarProjects++;
-                                    accumulatedRequestData.MarProjects++;
-                                    break;
-                                case 4:
-                                    individualSalesValue.AprProjects++;
-                                    accumulatedRequestData.AprProjects++;
-                                    break;
-                                case 5:
-                                    individualSalesValue.MayProjects++;
-                                    accumulatedRequestData.MayProjects++;
-                                    break;
-                                case 6:
-                                    individualSalesValue.JunProjects++;
-                                    accumulatedRequestData.JunProjects++;
-                                    break;
-                                case 7:
-                                    individualSalesValue.JulProjects++;
-                                    accumulatedRequestData.JulProjects++;
-                                    break;
-                                case 8:
-                                    individualSalesValue.AugProjects++;
-                                    accumulatedRequestData.AugProjects++;
-                                    break;
-                                case 9:
-                                    individualSalesValue.SepProjects++;
-                                    accumulatedRequestData.SepProjects++;
-                                    break;
-                                case 10:
-                                    individualSalesValue.OctProjects++;
-                                    accumulatedRequestData.OctProjects++;
-                                    break;
-                                case 11:
-                                    individualSalesValue.NovProjects++;
-                                    accumulatedRequestData.NovProjects++;
-                                    break;
-                                case 12:
-                                    individualSalesValue.DecProjects++;
-                                    accumulatedRequestData.DecProjects++;
-                                    break;
-                                default:
-                                    break;
-                            }
-                            individualSalesValue.CurrentYear_Count++;
-                            individualSalesValue.CurrentYTD_Value = personRequestList.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
-                            individualSalesValue.AverageDollars = individualSalesValue.CurrentYTD_Value / individualSalesValue.CurrentYear_Count;
-                            individualSalesValue.PctTotalValue = individualSalesValue.CurrentYTD_Value / accumulatedRequestData.CurrentYTD_Value;
+                        if (request.DateAssigned >= startDate && request.DateAssigned <= endDate)
+                        {
+                            individualSalesValue.Weekly++;
+                            accumulatedRequestData.Weekly++;
                         }
-                    }
-                    if (individualSalesValue.CurrentYear_Count > 0)
-                    {
-                        collectionIndividualRequests.Add(individualSalesValue);
-                        individualSalesValue = new Report_SalesProjectValuesModel();
+                        int month = request.DateAssigned.Month;
+                        switch (month)
+                        {
+                            case 1:
+                                individualSalesValue.JanProjects++;
+                                accumulatedRequestData.JanProjects++;
+                                break;
+                            case 2:
+                                individualSalesValue.FebProjects++;
+                                accumulatedRequestData.FebProjects++;
+                                break;
+                            case 3:
+                                individualSalesValue.MarProjects++;
+                                accumulatedRequestData.MarProjects++;
+                                break;
+                            case 4:
+                                individualSalesValue.AprProjects++;
+                                accumulatedRequestData.AprProjects++;
+                                break;
+                            case 5:
+                                individualSalesValue.MayProjects++;
+                                accumulatedRequestData.MayProjects++;
+                                break;
+                            case 6:
+                                individualSalesValue.JunProjects++;
+                                accumulatedRequestData.JunProjects++;
+                                break;
+                            case 7:
+                                individualSalesValue.JulProjects++;
+                                accumulatedRequestData.JulProjects++;
+                                break;
+                            case 8:
+                                individualSalesValue.AugProjects++;
+                                accumulatedRequestData.AugProjects++;
+                                break;
+                            case 9:
+                                individualSalesValue.SepProjects++;
+                                accumulatedRequestData.SepProjects++;
+                                break;
+                            case 10:
+                                individualSalesValue.OctProjects++;
+                                accumulatedRequestData.OctProjects++;
+                                break;
+                            case 11:
+                                individualSalesValue.NovProjects++;
+                                accumulatedRequestData.NovProjects++;
+                                break;
+                            case 12:
+                                individualSalesValue.DecProjects++;
+                                accumulatedRequestData.DecProjects++;
+                                break;
+                            default:
+                                break;
+                        }
+                        individualSalesValue.CurrentYear_Count++;
+                        individualSalesValue.CurrentYTD_Value = personRequestList.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
+                        individualSalesValue.AverageDollars = individualSalesValue.CurrentYTD_Value / individualSalesValue.CurrentYear_Count;
+                        individualSalesValue.PctTotalValue = individualSalesValue.CurrentYTD_Value / accumulatedRequestData.CurrentYTD_Value;
                     }
                 }
+                if (individualSalesValue.CurrentYear_Count > 0)
+                {
+                    collectionIndividualRequests.Add(individualSalesValue);
+                    individualSalesValue = new Report_SalesProjectValuesModel();
+                }
             }
+            
             
             if (accumulatedRequestData.CurrentYear_Count > 0)
             {
