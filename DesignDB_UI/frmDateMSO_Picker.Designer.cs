@@ -338,10 +338,10 @@ namespace DesignDB_UI
             this.ckTier2.AutoSize = true;
             this.ckTier2.Location = new System.Drawing.Point(566, 378);
             this.ckTier2.Name = "ckTier2";
-            this.ckTier2.Size = new System.Drawing.Size(67, 24);
+            this.ckTier2.Size = new System.Drawing.Size(88, 24);
             this.ckTier2.TabIndex = 56;
             this.ckTier2.Tag = "2";
-            this.ckTier2.Text = "Tier 2";
+            this.ckTier2.Text = "Tiers 2/3";
             this.ckTier2.UseVisualStyleBackColor = true;
             this.ckTier2.CheckedChanged += new System.EventHandler(this.ckTier1_CheckedChanged);
             // 

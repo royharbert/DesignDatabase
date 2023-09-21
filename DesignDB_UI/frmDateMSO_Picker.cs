@@ -1,6 +1,9 @@
 ﻿using DeltaCompressionDotNet.MsDelta;
 using DesignDB_Library;
 using DesignDB_Library.Models;
+
+using DesignDB_Library.Operations;
+using Microsoft.ReportingServices.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +17,7 @@ using System.Windows.Forms;
 namespace DesignDB_UI
 {
     public partial class frmDateMSO_Picker : Form
-    {
+    {        
         public event EventHandler<DataReadyEventArgs> DataReadyEvent;
         public event EventHandler<CancelEventArgs> PickerCanceled;
         CheckBox[] ckRegions;
@@ -28,9 +31,13 @@ namespace DesignDB_UI
 
         bool allSelected;
         bool CustomFormat = false;
+        NewMessageEventArgs msgArgs = new NewMessageEventArgs();
+
+        public static event EventHandler<NewMessageEventArgs> NewMessageEvent;
         public frmDateMSO_Picker(bool rollupVisible = false)
         {
             InitializeComponent();
+            
             GV.PickerForm = this;
             rdo_Normal.Checked = true;
             
@@ -39,16 +46,7 @@ namespace DesignDB_UI
                 ckRussia, ckUSEast, ckUSWest, ckOther  };
 
             ckTiers = new CheckBox[]{ ckTier1, ckTier2, ckUnclassified };
-
-            if (GV.MODE == Mode.Report_Rollup)
-            {
-                lbMSO.SelectionMode = SelectionMode.One;
-            }
-            else
-            {
-                lbMSO.SelectionMode = SelectionMode.MultiSimple;
-            }
-        }
+        }        
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
@@ -60,12 +58,14 @@ namespace DesignDB_UI
 
         private void btnGo_Click(object sender, EventArgs e)
         {
+            this.Hide();
             tierQuery = createTiersString(ckTiers);
             regionQuery = createRegionsString(ckRegions);
             List<MSO_Model> msoList = new List<MSO_Model>();
             DataReadyEventArgs args = new DataReadyEventArgs();
             if (tierQuery.Count == 0)
             {
+                ReportOps.sendMessage("Saving MSO Selections");
                 //If no checkboxes are checked
                 GlobalConfig.Connection.ClearTable("tblSnapshotMSO_S");
                 if (regionQuery.Count == 0)
@@ -78,6 +78,7 @@ namespace DesignDB_UI
                 }
                 else
                 {
+                    ReportOps.sendMessage("Retrieving All MSO's");
                     msoList = allMSO_S;   
                 }
                 args.MSO_s = msoList;
@@ -88,9 +89,9 @@ namespace DesignDB_UI
             else
             {
                 msoList = new List<MSO_Model>();
-
                 foreach (var tier in tierQuery)
                 {
+                    ReportOps.sendMessage("Creating Tier Lists");
                     int tierInt =0;
                     int.TryParse(tier, out tierInt);
                     msoList.AddRange(allMSO_S.Where(x => x.Tier == tierInt).ToList());
@@ -131,8 +132,8 @@ namespace DesignDB_UI
             {
                 args.CustomFormat = false;
             } 
-
-            this.Hide();
+            
+            //this.Hide();
             allSelected = false;
             DataReadyEvent?.Invoke(this, args);
         }
@@ -319,7 +320,7 @@ namespace DesignDB_UI
 
         private void frmDateMSO_Picker_Load(object sender, EventArgs e)
         {
-            //Create lists of tiers
+            //Gather list of MSO's and create lists of tiers
             allMSO_S = GlobalConfig.Connection.GenericGetAll<MSO_Model>("tblMSO", "MSO");
             tier1Models = allMSO_S.Where(x => x.Tier == 1).ToList();
             tier2Models = allMSO_S.Where(x => x.Tier == 2).ToList();

@@ -15,31 +15,42 @@ using NuGet;
 
 namespace DesignDB_Library.Operations
 {
-    
+
+    public class NewMessageEventArgs
+    {
+        public string MyMessage { get; set; }
+    }
     public static class ReportOps
     {
+        
+        public static event EventHandler<NewMessageEventArgs> NewMessageEvent;
+        
+
         //create list of salespersons in this report
         static List<SalespersonModel> includedSalesPersons = new List<SalespersonModel>();
         public static void RollupReport(DateTime startDate, DateTime endDate, List<MSO_Model> msoModels, List<string> regionQuery, 
             bool CustomFormat = false)
         {
+            NewMessageEventArgs args = new NewMessageEventArgs();
             startDate = startDate.Date;
-            endDate = endDate.Date;
+            endDate = endDate.Date;            
             int curYear = startDate.Year;
             DateTime NewYearsDay = new DateTime(curYear, 1, 1);
             DateTime NewYearsEve = new DateTime(curYear, 12, 31);
-            includedSalesPersons = new List<SalespersonModel>();
 
-            
-            //Collect all salespersons
+            //Collect all salespersons            
+            sendMessage("Getting Salespersons");
             List<SalespersonModel> allSalesPersons = GlobalConfig.Connection.GenericGetAll<SalespersonModel>("tblSalespersons", "SalesPerson");
             //Collect YTD requests
-            List<RequestModel> allRequests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(NewYearsDay, NewYearsEve);
+            sendMessage("Collecting YTD Requests");
+            List<RollupRequestModel> allRequests = GlobalConfig.Connection.GetRollupRequests(NewYearsDay, NewYearsEve);
+            sendMessage("Retrieved " + allRequests.Count + " Records");
+            //sendMessage(args, "Filtering out Canceled, sorting by MSO");
             //Filter out Canceled
-            List<RequestModel> allNonCanceledlRequests = allRequests.Where(x => x.AwardStatus != "Canceled").ToList();
+            List<RollupRequestModel> allNonCanceledlRequests = allRequests.Where(x => x.AwardStatus != "Canceled").ToList();
             //Filter to selected MSO's
             //Filter nonCanceled requests by MSO
-            List<RequestModel> msoFilteredRequests = new List<RequestModel>();
+            List<RollupRequestModel> msoFilteredRequests = new List<RollupRequestModel>();
             foreach (var mso in msoModels)
             {
                 msoFilteredRequests.AddRange(allNonCanceledlRequests.Where(x => x.MSO == mso.MSO).ToList());
@@ -48,7 +59,7 @@ namespace DesignDB_Library.Operations
 
             if (regionQuery.Count > 0)
             {
-                List<RequestModel> regionRequest = new List<RequestModel>();
+                List<RollupRequestModel> regionRequest = new List<RollupRequestModel>();
                 foreach(string region in regionQuery)
                 {
                     regionRequest.AddRange(allNonCanceledlRequests.Where(x => x.Region == region));
@@ -58,37 +69,54 @@ namespace DesignDB_Library.Operations
             }
 
             //Section 1
+            sendMessage("Creating Monthly MSO Summary");
             List<Report_SalesProjectValuesModel> monthlyMSO_Summary = MonthlyMSO_Summary(msoModels, allNonCanceledlRequests, startDate, endDate);
 
             //Section 2
+            sendMessage("Creating MSO Requests by Category Summary");
             List<ReportCategoryMSOModel> mso_RequestsByCategory = MSO_RequestsByCategory(allNonCanceledlRequests, msoModels);
 
-            //Section 3
+            //Section 4
+            sendMessage("Award Status Summary");
             List<AwardStatusModel> awardStatusSummary = AwardStatusSummary(allNonCanceledlRequests, msoModels);
 
-            //Section 4
+            //Section 7
+            sendMessage("Creating Requests by Salesperson Summary");
             List<Report_SalesProjectValuesModel> salesProjects = DesignRequestsBySalespersonPerMonth(allNonCanceledlRequests, 
                 allSalesPersons, msoModels, startDate, endDate);
 
             //Section 5
+            sendMessage("Creating Open Requests by Salesperson Summary");
             List<OpenRequestsBySalesModel> openRequestsBySales = OpenRequestsBySales(includedSalesPersons, msoModels);
 
             //Section 6
             //*
+            sendMessage("Creating Priority by Salaeperson Summary");
             List<ReportSalesPriorityModel> priorityModelSummary = PriorityModelSummaryNoMS0(allNonCanceledlRequests, includedSalesPersons, msoModels);
             /*/
             List<ReportSalesPriorityModel> priorityModelSummary = PriorityModelSummary(allNonCanceledlRequests, includedSalesPersons, msoModels);
             //*/
 
-            //Section 7
+            //Section 3
+            sendMessage("Creating Completion Time Summary");
             List<RollupCompletionTimeModel> CompletionTime = RollupCompletionTimeSummary(msoModels, allRequests);
 
-
+            sendMessage("Placing Data in Excel");
             ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, mso_RequestsByCategory, salesProjects, 
                 priorityModelSummary, allNonCanceledlRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value), 
                 monthlyMSO_Summary, msoModels, awardStatusSummary, CompletionTime, CustomFormat);
+            sendMessage("");
         }
-        public static List<Report_SalesProjectValuesModel> DesignRequestsBySalespersonPerMonth(List<RequestModel> requestList, 
+
+        public static void sendMessage(string msg)
+        {
+            NewMessageEventArgs args = new NewMessageEventArgs();
+            args.MyMessage = msg;
+            NewMessageEvent?.Invoke("ReportOps", args);
+            System.Windows.Forms.Application.DoEvents();
+        }
+
+        public static List<Report_SalesProjectValuesModel> DesignRequestsBySalespersonPerMonth(List<RollupRequestModel> requestList, 
             List<SalespersonModel> allSalesPersons, List<MSO_Model> msoList, DateTime startDate, DateTime endDate)
         { 
             //List to collect individual details
@@ -111,24 +139,26 @@ namespace DesignDB_Library.Operations
             
             if (accumulatedRequestData.CurrentYear_Count > 0)
             {
-                accumulatedRequestData.AverageDollars = accumulatedRequestData.CurrentYTD_Value / accumulatedRequestData.CurrentYear_Count;
+                List<RollupRequestModel> noRevisionRequests = requestList.Where(x => x.AwardStatus != "Has Revision").ToList();
+                accumulatedRequestData.AverageDollars = accumulatedRequestData.CurrentYTD_Value / noRevisionRequests.Count;
             }
             else
             {
                 accumulatedRequestData.AverageDollars = 0;
             }
 
-            foreach (var mso in msoList)
+            //foreach (var mso in msoList)
+            //{
+            //msoRequests.Clear();
+            //msoRequests = requestList.Where(x => x.MSO == mso.MSO).ToList();
+            foreach (var salesPerson in allSalesPersons)
             {
-                msoRequests.Clear();
-                msoRequests = requestList.Where(x => x.MSO == mso.MSO).ToList();
-                foreach (var salesPerson in allSalesPersons)
+                //Model to collect single salesperson's requests
+                Report_SalesProjectValuesModel individualSalesValue = new Report_SalesProjectValuesModel();
+                //List<RequestModel> personRequestList = msoRequests.Where(x => x.DesignRequestor == salesPerson.SalesPerson).ToList();
+                List<RollupRequestModel> personRequestList = requestList.Where(x => x.DesignRequestor == salesPerson.SalesPerson).ToList();
+                if (personRequestList.Count > 0)
                 {
-                    //Model to collect single salesperson's requests
-                    Report_SalesProjectValuesModel individualSalesValue = new Report_SalesProjectValuesModel();
-                    List<RequestModel> personRequestList = msoRequests.Where(x => x.DesignRequestor == salesPerson.SalesPerson).ToList();
-                    if (personRequestList.Count > 0)
-                    {
                         individualSalesValue = new Report_SalesProjectValuesModel();
                         //Loop through salesPerson's requests and accumulate by DateAssigned
                         individualSalesValue.SalesPerson = salesPerson.SalesPerson;
@@ -136,83 +166,78 @@ namespace DesignDB_Library.Operations
                         includedSalesPersons.Add(salesPerson);
                         foreach (var request in personRequestList)
                         {
-                            if (request.DateAssigned >= startDate && request.DateAssigned <= endDate)
-                            {
-                                individualSalesValue.Weekly++;
-                                accumulatedRequestData.Weekly++;
-                            }
-                            int month = request.DateAssigned.Month;
-                            switch (month)
-                            {
-                                case 1:
-                                    individualSalesValue.JanProjects++;
-                                    accumulatedRequestData.JanProjects++;
-                                    break;
-                                case 2:
-                                    individualSalesValue.FebProjects++;
-                                    accumulatedRequestData.FebProjects++;
-                                    break;
-                                case 3:
-                                    individualSalesValue.MarProjects++;
-                                    accumulatedRequestData.MarProjects++;
-                                    break;
-                                case 4:
-                                    individualSalesValue.AprProjects++;
-                                    accumulatedRequestData.AprProjects++;
-                                    break;
-                                case 5:
-                                    individualSalesValue.MayProjects++;
-                                    accumulatedRequestData.MayProjects++;
-                                    break;
-                                case 6:
-                                    individualSalesValue.JunProjects++;
-                                    accumulatedRequestData.JunProjects++;
-                                    break;
-                                case 7:
-                                    individualSalesValue.JulProjects++;
-                                    accumulatedRequestData.JulProjects++;
-                                    break;
-                                case 8:
-                                    individualSalesValue.AugProjects++;
-                                    accumulatedRequestData.AugProjects++;
-                                    break;
-                                case 9:
-                                    individualSalesValue.SepProjects++;
-                                    accumulatedRequestData.SepProjects++;
-                                    break;
-                                case 10:
-                                    individualSalesValue.OctProjects++;
-                                    accumulatedRequestData.OctProjects++;
-                                    break;
-                                case 11:
-                                    individualSalesValue.NovProjects++;
-                                    accumulatedRequestData.NovProjects++;
-                                    break;
-                                case 12:
-                                    individualSalesValue.DecProjects++;
-                                    accumulatedRequestData.DecProjects++;
-                                    break;
-                                default:
-                                    break;
-                            }
-                            individualSalesValue.CurrentYear_Count++;
-                            individualSalesValue.CurrentYTD_Value = personRequestList.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
-                            individualSalesValue.AverageDollars = individualSalesValue.CurrentYTD_Value / individualSalesValue.CurrentYear_Count;
-                            individualSalesValue.PctTotalValue = individualSalesValue.CurrentYTD_Value / accumulatedRequestData.CurrentYTD_Value;
+                        if (request.DateAssigned >= startDate && request.DateAssigned <= endDate)
+                        {
+                            individualSalesValue.Weekly++;
+                            accumulatedRequestData.Weekly++;
                         }
+                        int month = request.DateAssigned.Month;
+                        switch (month)
+                        {
+                            case 1:
+                                individualSalesValue.JanProjects++;
+                                accumulatedRequestData.JanProjects++;
+                                break;
+                            case 2:
+                                individualSalesValue.FebProjects++;
+                                accumulatedRequestData.FebProjects++;
+                                break;
+                            case 3:
+                                individualSalesValue.MarProjects++;
+                                accumulatedRequestData.MarProjects++;
+                                break;
+                            case 4:
+                                individualSalesValue.AprProjects++;
+                                accumulatedRequestData.AprProjects++;
+                                break;
+                            case 5:
+                                individualSalesValue.MayProjects++;
+                                accumulatedRequestData.MayProjects++;
+                                break;
+                            case 6:
+                                individualSalesValue.JunProjects++;
+                                accumulatedRequestData.JunProjects++;
+                                break;
+                            case 7:
+                                individualSalesValue.JulProjects++;
+                                accumulatedRequestData.JulProjects++;
+                                break;
+                            case 8:
+                                individualSalesValue.AugProjects++;
+                                accumulatedRequestData.AugProjects++;
+                                break;
+                            case 9:
+                                individualSalesValue.SepProjects++;
+                                accumulatedRequestData.SepProjects++;
+                                break;
+                            case 10:
+                                individualSalesValue.OctProjects++;
+                                accumulatedRequestData.OctProjects++;
+                                break;
+                            case 11:
+                                individualSalesValue.NovProjects++;
+                                accumulatedRequestData.NovProjects++;
+                                break;
+                            case 12:
+                                individualSalesValue.DecProjects++;
+                                accumulatedRequestData.DecProjects++;
+                                break;
+                            default:
+                                break;
+                        }
+                        individualSalesValue.CurrentYear_Count++;
+                        individualSalesValue.CurrentYTD_Value = personRequestList.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
+                        individualSalesValue.AverageDollars = individualSalesValue.CurrentYTD_Value / individualSalesValue.CurrentYear_Count;
+                        individualSalesValue.PctTotalValue = individualSalesValue.CurrentYTD_Value / accumulatedRequestData.CurrentYTD_Value;
                     }
-                    if (individualSalesValue.CurrentYear_Count > 0)
-                    {
-                        collectionIndividualRequests.Add(individualSalesValue);
-                        individualSalesValue = new Report_SalesProjectValuesModel();
-                    }
+                }
+                if (individualSalesValue.CurrentYear_Count > 0)
+                {
+                    collectionIndividualRequests.Add(individualSalesValue);
+                    individualSalesValue = new Report_SalesProjectValuesModel();
                 }
             }
             
-            if (accumulatedRequestData.CurrentYear_Count > 0)
-            {
-                accumulatedRequestData.AverageDollars = accumulatedRequestData.CurrentYTD_Value / accumulatedRequestData.CurrentYear_Count;
-            }
             
             collectionIndividualRequests = collectionIndividualRequests.OrderByDescending(x => x.CurrentYTD_Value).ToList();
             collectionIndividualRequests.Add(accumulatedRequestData);
@@ -220,14 +245,14 @@ namespace DesignDB_Library.Operations
             return collectionIndividualRequests;
         }
 
-        private static List<Report_SalesProjectValuesModel> MonthlyMSO_Summary(List<MSO_Model> msoList, List<RequestModel> requestList, DateTime startDate,
+        private static List<Report_SalesProjectValuesModel> MonthlyMSO_Summary(List<MSO_Model> msoList, List<RollupRequestModel> requestList, DateTime startDate,
             DateTime endDate)
         {
             Report_SalesProjectValuesModel accumulatedValues = new Report_SalesProjectValuesModel();
             accumulatedValues.SalesPerson = "Total";
             accumulatedValues.CurrentYTD_Value = requestList.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
             accumulatedValues.CurrentYear_Count = requestList.Count;
-            accumulatedValues.AverageDollars = accumulatedValues.CurrentYTD_Value / accumulatedValues.CurrentYear_Count;
+            accumulatedValues.AverageDollars = accumulatedValues.CurrentYTD_Value / requestList.Where(x => x.AwardStatus != "Has Revision").ToList().Count;
             accumulatedValues.PctTotalValue = 1;
             List<Report_SalesProjectValuesModel> monthlyMSO_Summary = new List<Report_SalesProjectValuesModel>();
             
@@ -236,12 +261,12 @@ namespace DesignDB_Library.Operations
                 Report_SalesProjectValuesModel model = new Report_SalesProjectValuesModel();
 
                 model.SalesPerson = mso.MSO;
-                List<RequestModel> msoRequests = requestList.Where(x => x.MSO == mso.MSO).ToList();
+                List<RollupRequestModel> msoRequests = requestList.Where(x => x.MSO == mso.MSO).ToList();
                 if (msoRequests.Count > 0)
                 {
                     foreach (var request in msoRequests)
                     {
-                        List<RequestModel> monthlyRequests = new List<RequestModel>();
+                        List<RollupRequestModel> monthlyRequests = new List<RollupRequestModel>();
                         if (request.DateAssigned >= startDate && request.DateAssigned <= endDate)
                         {
                             model.Weekly++;
@@ -327,7 +352,7 @@ namespace DesignDB_Library.Operations
             return monthlyMSO_Summary;
         }
 
-        private static List<ReportCategoryMSOModel> MSO_RequestsByCategory(List<RequestModel> requestList, List<MSO_Model> msoList)
+        private static List<ReportCategoryMSOModel> MSO_RequestsByCategory(List<RollupRequestModel> requestList, List<MSO_Model> msoList)
         {
             //Create list for company totals
             List<ReportCategoryMSOModel> companySummary  = new List<ReportCategoryMSOModel>();
@@ -336,14 +361,14 @@ namespace DesignDB_Library.Operations
             ReportCategoryMSOModel accumulatedCategorySummary = new ReportCategoryMSOModel();
             accumulatedCategorySummary.MSO = "Total";
 
-            //List<RequestModel> filteredRequests = FilterRequestListForMSO(allNonCanceledRequests, msoList);
-            accumulatedCategorySummary.TotalDollars = requestList.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
+            List<RollupRequestModel> noRevisionRequests = requestList.Where(x => x.AwardStatus != "Has Revision").ToList();
+            accumulatedCategorySummary.TotalDollars = noRevisionRequests.Sum(x => x.BOM_Value);
             accumulatedCategorySummary.TotalRequests = requestList.Count;
-            accumulatedCategorySummary.AverageDollarsPerRequest = accumulatedCategorySummary.TotalDollars / requestList.Count;
+            accumulatedCategorySummary.AverageDollarsPerRequest = accumulatedCategorySummary.TotalDollars / noRevisionRequests.Count;
             accumulatedCategorySummary.PctOfTotal = 1;
             foreach (var mso in msoList)
             {
-                List<RequestModel> msoRequests = requestList.Where(x => x.MSO == mso.MSO).ToList();
+                List<RollupRequestModel> msoRequests = requestList.Where(x => x.MSO == mso.MSO).ToList();
                 ReportCategoryMSOModel individualLine = new ReportCategoryMSOModel();
                 individualLine.MSO = mso.MSO;
                 if (msoRequests.Count > 0)
@@ -399,7 +424,7 @@ namespace DesignDB_Library.Operations
                                 accumulatedCategorySummary.FiberDeepDollars = accumulatedCategorySummary.FiberDeepDollars + request.BOM_Value;
                                 break;
 
-                            case "Data Transpport":
+                            case "Data Transport":
                                 individualLine.DataTrans++;
                                 individualLine.DataTransportDollars = individualLine.DataTransportDollars + request.BOM_Value;
                                 accumulatedCategorySummary.DataTrans++;
@@ -414,14 +439,19 @@ namespace DesignDB_Library.Operations
                                 break;
 
                             case "Unassigned":
+                            
                                 individualLine.Unassigned++;
                                 individualLine.UnassignedDollars = individualLine.UnassignedDollars + request.BOM_Value;
                                 accumulatedCategorySummary.Unassigned++;
                                 accumulatedCategorySummary.UnassignedDollars = accumulatedCategorySummary.UnassignedDollars + request.BOM_Value;
                                 break;
-                            default:
-                                break;
 
+                             default:
+                                individualLine.Unassigned++;
+                                individualLine.UnassignedDollars = individualLine.UnassignedDollars + request.BOM_Value;
+                                accumulatedCategorySummary.Unassigned++;
+                                accumulatedCategorySummary.UnassignedDollars = accumulatedCategorySummary.UnassignedDollars + request.BOM_Value;
+                                break;
                         }
                     } 
                 companySummary.Add(individualLine);
@@ -432,7 +462,7 @@ namespace DesignDB_Library.Operations
             return companySummary;
         }
 
-        private static List<AwardStatusModel> AwardStatusSummary(List<RequestModel> requestList, List<MSO_Model> msoList)
+        private static List<AwardStatusModel> AwardStatusSummary(List<RollupRequestModel> requestList, List<MSO_Model> msoList)
         {
             List<AwardStatusModel> awardModels= new List<AwardStatusModel>();
             AwardStatusModel summaryLine = new AwardStatusModel();
@@ -440,13 +470,13 @@ namespace DesignDB_Library.Operations
             summaryLine.MSO = "Total";
             foreach (var mso in msoList)
             {
-                List<RequestModel> requests = requestList.Where(x => x.MSO == mso.MSO).ToList();
+                List<RollupRequestModel> requests = requestList.Where(x => x.MSO == mso.MSO).ToList();
                 if (requests.Count > 0)
                 {
                     activeMSOs.Add(mso);
                     AwardStatusModel msoAwardStatus = new AwardStatusModel();
                     msoAwardStatus.MSO = mso.MSO;
-                    List<RequestModel> msoRequests = requestList.Where(x => x.MSO == mso.MSO).ToList();
+                    List<RollupRequestModel> msoRequests = requestList.Where(x => x.MSO == mso.MSO).ToList();
                     msoAwardStatus.PendingCount = msoRequests.Where(x => x.AwardStatus == "Pending").ToList().Count;
                     msoAwardStatus.PendingDollars = msoRequests.Where(x => x.AwardStatus == "Pending").ToList().Sum(x => x.BOM_Value);
                     msoAwardStatus.TotalCount = msoAwardStatus.TotalCount + msoAwardStatus.PendingCount;
@@ -684,7 +714,7 @@ namespace DesignDB_Library.Operations
         /*/
 
         //Switch to NoMSO version in ExcelOps
-        private static List<ReportSalesPriorityModel> PriorityModelSummaryNoMS0(List<RequestModel> requests, List<SalespersonModel> salesPersons,
+        private static List<ReportSalesPriorityModel> PriorityModelSummaryNoMS0(List<RollupRequestModel> requests, List<SalespersonModel> salesPersons,
             List<MSO_Model> msoList)
         {
             //Eliminate dups in salespersons list
@@ -701,8 +731,8 @@ namespace DesignDB_Library.Operations
             //Create model in appropriate scope
             ReportSalesPriorityModel model = new ReportSalesPriorityModel();
 
-            //List<RequestModel> msoRequests = new List<RequestModel>();
-            List<RequestModel> filteredRequests = new List<RequestModel>();
+            //List<RollupRequestModel> msoRequests = new List<RollupRequestModel>();
+            List<RollupRequestModel> filteredRequests = new List<RollupRequestModel>();
             foreach (var person in salesPersons)
             {
 
@@ -774,17 +804,24 @@ namespace DesignDB_Library.Operations
                     string field = tagArray[3];
                     //create list for drop-down items
                     List<(string Field, bool Active)> ddList = new List<(string, bool)>();
-                    //place list description at head of list
-                    ddList.Add((tagArray[4], true));
+                    
                     if (tagArray[2] == "")
                     {
                         //Source is internal list
                         foreach (var item in cbo.Items)
                         {
-                            (string, bool) tup = (item.ToString(), true);
-                            ddList.Add(tup);
+                            (string Field, bool Active) tup = (item.ToString(), true);
+                            if (tup.Field != "\t" && tup.Field != "")
+                            {
+                                ddList.Add(tup); 
+                            }
                         }
-                        BoxData.Add(ddList);
+                        ddList = ddList.OrderBy(x => x.Field).ToList();
+                        //place list description at head of list
+                        (string Field, bool Active) listHead = (tagArray[4], true);
+                        ddList.Insert(0, listHead);
+                        BoxData.Add(ddList); 
+                        
                     }
                     else
                     { 
@@ -828,16 +865,16 @@ namespace DesignDB_Library.Operations
                         }
                     }
                 }                
-            }
-                
+            }  
             return BoxData;
         }
 
         private static List<(string Field, bool Active)> MakeTupleList<T>(string tableName, string FieldName, string cName)
         {
+            (string Field, bool Active) listHead = (cName, true);
             (string Field, bool Active) tup = (cName, true);
             List<(string Field, bool Active)> ddList = new List<(string Field, bool Active)>();
-            ddList.Add(tup);
+            
             //Type model = GetType(T);
             List<T> dataList = GlobalConfig.Connection.GenericGetAll<T>(tableName);
             foreach (T item in dataList)
@@ -847,16 +884,22 @@ namespace DesignDB_Library.Operations
                 PropertyInfo fieldInfo = modelType.GetProperty(FieldName);
                 tup.Field = fieldInfo.GetValue(item, null).ToString();
                 tup.Active = true;
-                ddList.Add(tup);
+                if (tup.Field != "")
+                {
+                    ddList.Add(tup); 
+                }
             }
+            ddList = ddList.OrderBy(x => x.Field).ToList();
+            ddList.Insert(0, listHead);
             return ddList;
         }
 
         private static List<(string Field, bool Active)> MakeTupleList<T>(string tableName,  string FieldName, string activeField, string cName)
         {
         (string Field, bool Active) tup = (cName, true);
+        (string Field, bool Active) listHead = (cName, true);
         List<(string Field,bool Active)> ddList = new List<(string Field,bool Active)> ();
-        ddList.Add(tup);
+        
         //Type model = GetType(T);
         List <T> dataList = GlobalConfig.Connection.GenericGetAll<T>(tableName);
         foreach (T item in dataList)
@@ -867,8 +910,13 @@ namespace DesignDB_Library.Operations
             tup.Field = fieldInfo.GetValue(item, null).ToString();
             PropertyInfo modelActive = modelType.GetProperty(activeField);
             tup.Active = (bool)modelActive.GetValue(item, null);
-            ddList.Add(tup);
+                if (tup.Field != "")
+                {
+                    ddList.Add(tup); 
+                }
         }
+        ddList = ddList.OrderBy(x => x.Field).ToList();
+        ddList.Insert(0, listHead);
         return ddList;
     }
 
@@ -979,17 +1027,17 @@ namespace DesignDB_Library.Operations
         }
 
         public static List<RollupCompletionTimeModel> RollupCompletionTimeSummary(List<MSO_Model> msoList, 
-            List<RequestModel> allRequests)
+            List<RollupRequestModel> allRequests)
         {
             DateTime emptyDate = new DateTime(1900,1,1);
             List<RollupCompletionTimeModel> report = new List<RollupCompletionTimeModel>();
-            List<RequestModel> completedDesigns = allRequests.Where(x => x.DateCompleted != null && 
+            List<RollupRequestModel> completedDesigns = allRequests.Where(x => x.DateCompleted != null && 
                 x.DateCompleted != emptyDate && x.AwardStatus != "Canceled").ToList();
             RollupCompletionTimeModel summaryLine = new RollupCompletionTimeModel();
 
             foreach (var mso in msoList)
             {
-                List<RequestModel> msoCompletedDesigns = completedDesigns.Where(x => x.MSO == mso.MSO).ToList();
+                List<RollupRequestModel> msoCompletedDesigns = completedDesigns.Where(x => x.MSO == mso.MSO).ToList();
                 if (msoCompletedDesigns.Count > 0)
                 {
                     RollupCompletionTimeModel lineEntry = new RollupCompletionTimeModel();

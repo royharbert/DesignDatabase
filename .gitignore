@@ -12,3 +12,10 @@
 /DesignDB_UI/obj/Debug/DesignDB_UI.csproj.AssemblyReference.cache
 /.vs/DesignDB_Library/v17/.suo
 *.pfx
+/Releases/Setup.msi
+/Releases/Setup.exe
+/Releases/RELEASES
+/Releases/DesignDBRepo-2.1.114-full.nupkg
+/Releases/DesignDBRepo-2.1.114-delta.nupkg
+/D*.nupkg
+/DesignDB_Library/DesignDB_Library.csproj

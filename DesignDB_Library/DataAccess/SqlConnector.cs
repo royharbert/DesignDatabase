@@ -12,6 +12,20 @@ namespace DesignDB_Library.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
+        public List<RollupRequestModel> GetRollupRequests(DateTime startDate, DateTime endDate)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@StartDate", startDate, DbType.Date);
+                p.Add("@EndDate", endDate, DbType.Date);
+
+
+                List<RollupRequestModel> output = connection.Query<RollupRequestModel>("dbo.spRollupSelectQuery", p,
+                    commandType: CommandType.StoredProcedure).ToList();
+                return output;
+            }
+        }
         public List<MSO_Model> MSO_GetByTier(int tier)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
