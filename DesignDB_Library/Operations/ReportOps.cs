@@ -31,6 +31,7 @@ namespace DesignDB_Library.Operations
         public static void RollupReport(DateTime startDate, DateTime endDate, List<MSO_Model> msoModels, List<string> regionQuery, 
             bool CustomFormat = false)
         {
+            includedSalesPersons = new List<SalespersonModel>();
             NewMessageEventArgs args = new NewMessageEventArgs();
             startDate = startDate.Date;
             endDate = endDate.Date;            
@@ -87,7 +88,8 @@ namespace DesignDB_Library.Operations
 
             //Section 5
             sendMessage("Creating Open Requests by Salesperson Summary");
-            List<OpenRequestsBySalesModel> openRequestsBySales = OpenRequestsBySales(includedSalesPersons, msoModels);
+            List<OpenRequestsBySalesModel> openRequestsBySales = new List<OpenRequestsBySalesModel>();
+            openRequestsBySales = OpenRequestsBySales(includedSalesPersons, msoModels);
 
             //Section 6
             //*
@@ -105,7 +107,9 @@ namespace DesignDB_Library.Operations
             ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, mso_RequestsByCategory, salesProjects, 
                 priorityModelSummary, allNonCanceledlRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value), 
                 monthlyMSO_Summary, msoModels, awardStatusSummary, CompletionTime, CustomFormat);
+        
             sendMessage("");
+
         }
 
         public static void sendMessage(string msg)
