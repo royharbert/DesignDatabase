@@ -57,21 +57,21 @@ namespace DesignDB_UI
         }
 
 
-        public List<RequestModel> ReportDataList
-        {
-            get
-            {
-                return reportModel; ;
-            }
-            set
-            {
-                reportModel = value;
-                txtRecordsReturned.Text = reportModel.Count.ToString();
-                dgvResults.DataSource = null;
-                dgvResults.DataSource = reportModel;
-                ReportOps.ReportFormatMultiResultDGV(dgvResults);
-            }
-        }
+        //public List<RequestModel> ReportDataList
+        //{
+        //    get
+        //    {
+        //        return reportModel; ;
+        //    }
+        //    set
+        //    {
+        //        reportModel = value;
+        //        txtRecordsReturned.Text = reportModel.Count.ToString();
+        //        dgvResults.DataSource = null;
+        //        dgvResults.DataSource = reportModel;
+        //        ReportOps.ReportFormatMultiResultDGV(dgvResults);
+        //    }
+        //}
 
         public void DoForecast()
         {
