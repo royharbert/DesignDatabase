@@ -48,6 +48,8 @@ namespace DesignDB_UI
             {
                 cboDesigner.Visible = false;
                 cboRequestor.Visible = false;
+                btnForecast.Visible = false;
+                btnSearch.Visible = true;
             }
             else
             {
