@@ -71,6 +71,7 @@ namespace DesignDB_UI
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.ssMessage = new System.Windows.Forms.StatusStrip();
             this.ssLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnBOMShipments = new System.Windows.Forms.Button();
             this.tlpMain.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.ssMessage.SuspendLayout();
@@ -483,7 +484,7 @@ namespace DesignDB_UI
             this.tlpMain.Controls.Add(this.btnUndelete, 2, 7);
             this.tlpMain.Controls.Add(this.btnDeleteRecord, 2, 6);
             this.tlpMain.Controls.Add(this.btnDeletedRecords, 2, 5);
-            this.tlpMain.Controls.Add(this.btnBookingsBOM, 3, 7);
+            this.tlpMain.Controls.Add(this.btnBOMShipments, 3, 7);
             this.tlpMain.Location = new System.Drawing.Point(12, 150);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 10;
@@ -752,6 +753,21 @@ namespace DesignDB_UI
             this.ssLabel.Name = "ssLabel";
             this.ssLabel.Size = new System.Drawing.Size(0, 17);
             // 
+            // btnBOMShipments
+            // 
+            this.btnBOMShipments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBOMShipments.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnBOMShipments.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnBOMShipments.Location = new System.Drawing.Point(587, 360);
+            this.btnBOMShipments.Name = "btnBOMShipments";
+            this.btnBOMShipments.Size = new System.Drawing.Size(266, 45);
+            this.btnBOMShipments.TabIndex = 44;
+            this.btnBOMShipments.Tag = "3";
+            this.btnBOMShipments.Text = "BOM-Shipments";
+            this.btnBOMShipments.UseVisualStyleBackColor = false;
+            // 
             // frmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
@@ -826,5 +842,6 @@ namespace DesignDB_UI
         private System.Windows.Forms.Button btnDeletedRecords;
         private System.Windows.Forms.StatusStrip ssMessage;
         private System.Windows.Forms.ToolStripStatusLabel ssLabel;
+        private System.Windows.Forms.Button btnBOMShipments;
     }
 }
