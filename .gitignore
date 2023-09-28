@@ -12,3 +12,4 @@
 /DesignDB_UI/obj/Debug/DesignDB_UI.csproj.AssemblyReference.cache
 /.vs/DesignDB_Library/v17/.suo
 *.pfx
+*.nupkg
