@@ -632,6 +632,11 @@ namespace DesignDB_UI
             frmBOM_Bookings bookings  = new frmBOM_Bookings();
             bookings.Show();
         }
+
+        private void btnBOMShipments_Click(object sender, EventArgs e)
+        {
+            ShipmentOps.ShipmentToBOMCompare();
+        }
     }
 }
 

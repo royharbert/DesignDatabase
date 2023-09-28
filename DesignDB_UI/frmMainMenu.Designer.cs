@@ -767,6 +767,7 @@ namespace DesignDB_UI
             this.btnBOMShipments.Tag = "3";
             this.btnBOMShipments.Text = "BOM-Shipments";
             this.btnBOMShipments.UseVisualStyleBackColor = false;
+            this.btnBOMShipments.Click += new System.EventHandler(this.btnBOMShipments_Click);
             // 
             // frmMainMenu
             // 
