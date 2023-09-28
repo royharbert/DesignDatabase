@@ -16,16 +16,41 @@ namespace DesignDB_UI
 {
     public partial class frmDateRangeSearch : Form
     {
+        public event EventHandler<DataReadyEventArgs> DataReadyEvent;
+        public event EventHandler<CancelEventArgs> PickerCanceled;
+        CheckBox[] ckRegions;
+        CheckBox[] ckTiers;
+        List<MSO_Model> allMSO_S;
+        List<MSO_Model> tier1Models;
+        List<MSO_Model> tier2Models;
+        List<MSO_Model> tier0Models;
+        List<string> tierQuery = new List<string>();
+        List<string> regionQuery = new List<string>();
         public event EventHandler<DateRangeEventArgs> DateRangeSet;
         List<RequestModelReport> requestList = new List<RequestModelReport>();
         string term = "";
+        
+        private void frmDateRangeSearch_Load(object sender, EventArgs e)
+        {
+            //Gather list of MSO's and create lists of tiers
+            allMSO_S = GlobalConfig.Connection.GenericGetAll<MSO_Model>("tblMSO", "MSO");
+            tier1Models = allMSO_S.Where(x => x.Tier == 1).ToList();
+            tier2Models = allMSO_S.Where(x => x.Tier == 2).ToList();
+            tier0Models = allMSO_S.Where(x => x.Tier == 0 || x.Tier == null).ToList();
+            List<string> msoList = GlobalConfig.Connection.GetSnapshotMSO_s();
+            lbMSO.DataSource = allMSO_S;
+            lbMSO.DisplayMember = "MSO";
+            lbMSO.SelectedIndex = -1;
+        }
         public frmDateRangeSearch()
         {
             InitializeComponent();
-            List<MSO_Model> msoList = GlobalConfig.Connection.GetAllMSO();
-            cboMSO.DataSource = msoList;
-            cboMSO.DisplayMember = "MSO";
-            cboMSO.SelectedIndex = -1;
+
+            ckRegions = new CheckBox[] { ckAfrica, ckAsia, ckAustralia, ckCanada, ckCaribbean, ckEurope, ckIndia, ckLatinAmerica, ckMiddleEast,
+                ckRussia, ckUSEast, ckUSWest, ckOther  };
+
+            ckTiers = new CheckBox[] { ckTier1, ckTier2, ckUnclassified };
+
             term = "DateAssigned";
             if (GV.MODE == Mode.DateRangeSearch)
             {
@@ -102,7 +127,7 @@ namespace DesignDB_UI
             int records = requestList.Count;
             
             requestList = GlobalConfig.Connection.ReportDateRangeSearch_MSOFiltered
-                (dtpStartDate.Value, dtpEndDate.Value, term, cboMSO.Text, false,cboDesigner.Text,cboRequestor.Text);
+                (dtpStartDate.Value, dtpEndDate.Value, term, lbMSO.Text, false,cboDesigner.Text,cboRequestor.Text);
             records = requestList.Count;
 
             switch (records)
@@ -126,7 +151,7 @@ namespace DesignDB_UI
             DateRangeEventArgs args = new DateRangeEventArgs();
             args.StartDate = dtpStartDate.Value;
             args.EndDate = dtpEndDate.Value;
-            args.MSO = cboMSO.Text;
+            args.MSO = lbMSO.Text;
             DateRangeSet?.Invoke(this, args);
             this.Close();    
         }
@@ -137,8 +162,111 @@ namespace DesignDB_UI
             public DateTime EndDate { get; set; }
             public string MSO { get; set; }
         }
+        private void highlightListBoxItemsFromTierSelection(List<MSO_Model> modelList, bool isChecked)
+        {
+            foreach (var mso in modelList)
+            {
+                if (isChecked)
+                {
+                    for (int i = 0; i < lbMSO.Items.Count - 1; i++)
+                    //foreach (MSO_Model model in lbMSO.Items)
+                    {
+                        MSO_Model currentMSO = (MSO_Model)lbMSO.Items[i];
+                        string msoModel = currentMSO.MSO;
+                        if (msoModel == mso.MSO && isChecked)
+                        {
+                            lbMSO.SetSelected(i, true);
+                            break;
+                        }
+                    }
+                }
+                if (!isChecked)
+                {
+                    for (int i = 0; i < lbMSO.Items.Count; i++)
+                    {
+                        MSO_Model currentMSO = (MSO_Model)lbMSO.Items[i];
+                        string msoModel = currentMSO.MSO;
+                        if (msoModel == mso.MSO && !isChecked)
+                        {
+                            lbMSO.SetSelected(i, false);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        private void ckTier1_CheckedChanged(object sender, EventArgs e)
+        {
+            Mode curMode = GV.MODE;
+            if (GV.MODE != Mode.Loading_lbMSOFormCheckBox)
+            {
+                GV.MODE = Mode.Loading_lbMSOFormCheckBox;
+            }
+            CheckBox ckBox = (CheckBox)sender;
+            switch (ckBox.Name)
+            {
+                case "ckTier1":
+                    highlightListBoxItemsFromTierSelection(tier1Models, ckBox.Checked);
+                    break;
 
+                case "ckTier2":
+                    highlightListBoxItemsFromTierSelection(tier2Models, ckBox.Checked);
+                    break;
 
+                case "ckUnclassified":
+                    highlightListBoxItemsFromTierSelection(tier0Models, ckBox.Checked);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        private void clearCheckBoxes(CheckBox[] ckArray)
+        {
+            foreach (CheckBox ckBox in ckArray)
+            {
+                ckBox.Checked = false;
+            }
+        }
+        private List<string> createRegionsString(CheckBox[] ckRegions)
+        {
+            //Create query list for regions
+            List<string> regions = new List<string>();
+            foreach (var checkBox in ckRegions)
+            {
+                if (checkBox.Checked)
+                {
+                    regions.Add(checkBox.Tag.ToString());
+                }
+            }
+
+            return regions;
+        }
+
+        private List<string> createTiersString(CheckBox[] ckTiers)
+        {
+            //Create query list tiers
+            List<string> tiers = new List<string>();
+            foreach (var checkBox in ckTiers)
+            {
+                if (checkBox.Checked)
+                {
+                    tiers.Add(checkBox.Tag.ToString());
+                }
+            }
+
+            return tiers;
+        }
+
+        private void btnClearTiers_Click(object sender, EventArgs e)
+        {
+            clearCheckBoxes(ckTiers);
+        }
+
+        private void btnClearRegions_Click(object sender, EventArgs e)
+        {
+            clearCheckBoxes(ckRegions);
+        }
 
     }   
 }            

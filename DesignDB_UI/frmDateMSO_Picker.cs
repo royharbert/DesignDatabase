@@ -330,9 +330,19 @@ namespace DesignDB_UI
             lbMSO.DisplayMember = "MSO";
             lbMSO.SelectedIndex = -1;
         }
+
+        private void ckUnclassified_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
-        
+
 
 
     public class DataReadyEventArgs : EventArgs

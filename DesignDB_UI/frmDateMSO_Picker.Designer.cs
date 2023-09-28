@@ -189,6 +189,7 @@ namespace DesignDB_UI
             this.label4.Size = new System.Drawing.Size(57, 24);
             this.label4.TabIndex = 29;
             this.label4.Text = "Tiers";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // ckOther
             // 
@@ -367,6 +368,7 @@ namespace DesignDB_UI
             this.ckUnclassified.Tag = "0";
             this.ckUnclassified.Text = "Unclassified";
             this.ckUnclassified.UseVisualStyleBackColor = true;
+            this.ckUnclassified.CheckedChanged += new System.EventHandler(this.ckUnclassified_CheckedChanged);
             // 
             // btnClearRegions
             // 

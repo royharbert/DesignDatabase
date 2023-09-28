@@ -33,8 +33,6 @@ namespace DesignDB_UI
             this.dtpStart = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dtpEndDate = new System.Windows.Forms.DateTimePicker();
-            this.cboMSO = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.btnSearch = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.gbxSearchTerm = new System.Windows.Forms.GroupBox();
@@ -46,12 +44,37 @@ namespace DesignDB_UI
             this.cboDesigner = new System.Windows.Forms.ComboBox();
             this.lblRequestor = new System.Windows.Forms.Label();
             this.cboRequestor = new System.Windows.Forms.ComboBox();
+            this.btnClearTiers = new System.Windows.Forms.Button();
+            this.ckUnclassified = new System.Windows.Forms.CheckBox();
+            this.ckTier2 = new System.Windows.Forms.CheckBox();
+            this.ckTier1 = new System.Windows.Forms.CheckBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btnDeselect = new System.Windows.Forms.Button();
+            this.btnSelectAll = new System.Windows.Forms.Button();
+            this.lbMSO = new System.Windows.Forms.ListBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.btnClearRegions = new System.Windows.Forms.Button();
+            this.ckOther = new System.Windows.Forms.CheckBox();
+            this.ckUSWest = new System.Windows.Forms.CheckBox();
+            this.ckUSEast = new System.Windows.Forms.CheckBox();
+            this.ckRussia = new System.Windows.Forms.CheckBox();
+            this.ckMiddleEast = new System.Windows.Forms.CheckBox();
+            this.ckLatinAmerica = new System.Windows.Forms.CheckBox();
+            this.ckIndia = new System.Windows.Forms.CheckBox();
+            this.ckEurope = new System.Windows.Forms.CheckBox();
+            this.ckCaribbean = new System.Windows.Forms.CheckBox();
+            this.ckCanada = new System.Windows.Forms.CheckBox();
+            this.ckAustralia = new System.Windows.Forms.CheckBox();
+            this.ckAsia = new System.Windows.Forms.CheckBox();
+            this.ckAfrica = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.gbxSearchTerm.SuspendLayout();
             this.SuspendLayout();
             // 
             // dtpStartDate
             // 
-            this.dtpStartDate.Location = new System.Drawing.Point(451, 40);
+            this.dtpStartDate.Location = new System.Drawing.Point(324, 47);
             this.dtpStartDate.Name = "dtpStartDate";
             this.dtpStartDate.Size = new System.Drawing.Size(309, 29);
             this.dtpStartDate.TabIndex = 0;
@@ -59,7 +82,7 @@ namespace DesignDB_UI
             // dtpStart
             // 
             this.dtpStart.AutoSize = true;
-            this.dtpStart.Location = new System.Drawing.Point(270, 45);
+            this.dtpStart.Location = new System.Drawing.Point(229, 51);
             this.dtpStart.Name = "dtpStart";
             this.dtpStart.Size = new System.Drawing.Size(89, 24);
             this.dtpStart.TabIndex = 1;
@@ -68,7 +91,7 @@ namespace DesignDB_UI
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(270, 90);
+            this.label1.Location = new System.Drawing.Point(229, 96);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(88, 24);
             this.label1.TabIndex = 3;
@@ -76,33 +99,14 @@ namespace DesignDB_UI
             // 
             // dtpEndDate
             // 
-            this.dtpEndDate.Location = new System.Drawing.Point(451, 85);
+            this.dtpEndDate.Location = new System.Drawing.Point(324, 92);
             this.dtpEndDate.Name = "dtpEndDate";
             this.dtpEndDate.Size = new System.Drawing.Size(309, 29);
             this.dtpEndDate.TabIndex = 2;
             // 
-            // cboMSO
-            // 
-            this.cboMSO.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cboMSO.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboMSO.FormattingEnabled = true;
-            this.cboMSO.Location = new System.Drawing.Point(451, 130);
-            this.cboMSO.Name = "cboMSO";
-            this.cboMSO.Size = new System.Drawing.Size(309, 32);
-            this.cboMSO.TabIndex = 4;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(270, 133);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(141, 24);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "MSO  (optional)";
-            // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(451, 300);
+            this.btnSearch.Location = new System.Drawing.Point(351, 820);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(135, 43);
             this.btnSearch.TabIndex = 6;
@@ -113,7 +117,7 @@ namespace DesignDB_UI
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(625, 300);
+            this.btnCancel.Location = new System.Drawing.Point(629, 820);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(135, 43);
             this.btnCancel.TabIndex = 7;
@@ -126,9 +130,9 @@ namespace DesignDB_UI
             this.gbxSearchTerm.Controls.Add(this.rdoDateCompleted);
             this.gbxSearchTerm.Controls.Add(this.rdoDateDue);
             this.gbxSearchTerm.Controls.Add(this.rdoDate);
-            this.gbxSearchTerm.Location = new System.Drawing.Point(31, 79);
+            this.gbxSearchTerm.Location = new System.Drawing.Point(16, 21);
             this.gbxSearchTerm.Name = "gbxSearchTerm";
-            this.gbxSearchTerm.Size = new System.Drawing.Size(221, 164);
+            this.gbxSearchTerm.Size = new System.Drawing.Size(192, 140);
             this.gbxSearchTerm.TabIndex = 8;
             this.gbxSearchTerm.TabStop = false;
             this.gbxSearchTerm.Text = "Search Term";
@@ -136,7 +140,7 @@ namespace DesignDB_UI
             // rdoDateCompleted
             // 
             this.rdoDateCompleted.AutoSize = true;
-            this.rdoDateCompleted.Location = new System.Drawing.Point(46, 113);
+            this.rdoDateCompleted.Location = new System.Drawing.Point(16, 98);
             this.rdoDateCompleted.Name = "rdoDateCompleted";
             this.rdoDateCompleted.Size = new System.Drawing.Size(163, 28);
             this.rdoDateCompleted.TabIndex = 2;
@@ -147,7 +151,7 @@ namespace DesignDB_UI
             // rdoDateDue
             // 
             this.rdoDateDue.AutoSize = true;
-            this.rdoDateDue.Location = new System.Drawing.Point(46, 79);
+            this.rdoDateDue.Location = new System.Drawing.Point(16, 64);
             this.rdoDateDue.Name = "rdoDateDue";
             this.rdoDateDue.Size = new System.Drawing.Size(106, 28);
             this.rdoDateDue.TabIndex = 1;
@@ -159,7 +163,7 @@ namespace DesignDB_UI
             // 
             this.rdoDate.AutoSize = true;
             this.rdoDate.Checked = true;
-            this.rdoDate.Location = new System.Drawing.Point(46, 45);
+            this.rdoDate.Location = new System.Drawing.Point(16, 30);
             this.rdoDate.Name = "rdoDate";
             this.rdoDate.Size = new System.Drawing.Size(150, 28);
             this.rdoDate.TabIndex = 0;
@@ -170,9 +174,9 @@ namespace DesignDB_UI
             // 
             // btnForecast
             // 
-            this.btnForecast.Location = new System.Drawing.Point(451, 305);
+            this.btnForecast.Location = new System.Drawing.Point(492, 820);
             this.btnForecast.Name = "btnForecast";
-            this.btnForecast.Size = new System.Drawing.Size(135, 38);
+            this.btnForecast.Size = new System.Drawing.Size(131, 43);
             this.btnForecast.TabIndex = 9;
             this.btnForecast.Text = "Forecast";
             this.btnForecast.UseVisualStyleBackColor = true;
@@ -181,40 +185,329 @@ namespace DesignDB_UI
             // lblDesigner
             // 
             this.lblDesigner.AutoSize = true;
-            this.lblDesigner.Location = new System.Drawing.Point(270, 183);
+            this.lblDesigner.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDesigner.Location = new System.Drawing.Point(331, 217);
             this.lblDesigner.Name = "lblDesigner";
-            this.lblDesigner.Size = new System.Drawing.Size(173, 24);
+            this.lblDesigner.Size = new System.Drawing.Size(73, 20);
             this.lblDesigner.TabIndex = 11;
-            this.lblDesigner.Text = "Designer (Optional)";
+            this.lblDesigner.Text = "Designer";
             // 
             // cboDesigner
             // 
             this.cboDesigner.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboDesigner.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboDesigner.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboDesigner.FormattingEnabled = true;
-            this.cboDesigner.Location = new System.Drawing.Point(451, 180);
+            this.cboDesigner.Location = new System.Drawing.Point(410, 209);
             this.cboDesigner.Name = "cboDesigner";
-            this.cboDesigner.Size = new System.Drawing.Size(309, 32);
+            this.cboDesigner.Size = new System.Drawing.Size(279, 28);
             this.cboDesigner.TabIndex = 10;
             // 
             // lblRequestor
             // 
             this.lblRequestor.AutoSize = true;
-            this.lblRequestor.Location = new System.Drawing.Point(270, 232);
+            this.lblRequestor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRequestor.Location = new System.Drawing.Point(320, 246);
             this.lblRequestor.Name = "lblRequestor";
-            this.lblRequestor.Size = new System.Drawing.Size(184, 24);
+            this.lblRequestor.Size = new System.Drawing.Size(84, 20);
             this.lblRequestor.TabIndex = 13;
-            this.lblRequestor.Text = "Requestor (Optional)";
+            this.lblRequestor.Text = "Requestor";
             // 
             // cboRequestor
             // 
             this.cboRequestor.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboRequestor.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboRequestor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboRequestor.FormattingEnabled = true;
-            this.cboRequestor.Location = new System.Drawing.Point(451, 229);
+            this.cboRequestor.Location = new System.Drawing.Point(410, 243);
             this.cboRequestor.Name = "cboRequestor";
-            this.cboRequestor.Size = new System.Drawing.Size(309, 32);
+            this.cboRequestor.Size = new System.Drawing.Size(279, 28);
             this.cboRequestor.TabIndex = 12;
+            // 
+            // btnClearTiers
+            // 
+            this.btnClearTiers.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClearTiers.Location = new System.Drawing.Point(351, 413);
+            this.btnClearTiers.Name = "btnClearTiers";
+            this.btnClearTiers.Size = new System.Drawing.Size(125, 29);
+            this.btnClearTiers.TabIndex = 66;
+            this.btnClearTiers.Text = "Clear Tiers";
+            this.btnClearTiers.UseVisualStyleBackColor = true;
+            this.btnClearTiers.Click += new System.EventHandler(this.btnClearTiers_Click);
+            // 
+            // ckUnclassified
+            // 
+            this.ckUnclassified.AutoSize = true;
+            this.ckUnclassified.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckUnclassified.Location = new System.Drawing.Point(351, 383);
+            this.ckUnclassified.Name = "ckUnclassified";
+            this.ckUnclassified.Size = new System.Drawing.Size(114, 24);
+            this.ckUnclassified.TabIndex = 65;
+            this.ckUnclassified.Tag = "0";
+            this.ckUnclassified.Text = "Unclassified";
+            this.ckUnclassified.UseVisualStyleBackColor = true;
+            this.ckUnclassified.CheckedChanged += new System.EventHandler(this.ckTier1_CheckedChanged);
+            // 
+            // ckTier2
+            // 
+            this.ckTier2.AutoSize = true;
+            this.ckTier2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckTier2.Location = new System.Drawing.Point(351, 351);
+            this.ckTier2.Name = "ckTier2";
+            this.ckTier2.Size = new System.Drawing.Size(88, 24);
+            this.ckTier2.TabIndex = 64;
+            this.ckTier2.Tag = "2";
+            this.ckTier2.Text = "Tiers 2/3";
+            this.ckTier2.UseVisualStyleBackColor = true;
+            this.ckTier2.CheckedChanged += new System.EventHandler(this.ckTier1_CheckedChanged);
+            // 
+            // ckTier1
+            // 
+            this.ckTier1.AutoSize = true;
+            this.ckTier1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckTier1.Location = new System.Drawing.Point(351, 321);
+            this.ckTier1.Name = "ckTier1";
+            this.ckTier1.Size = new System.Drawing.Size(67, 24);
+            this.ckTier1.TabIndex = 63;
+            this.ckTier1.Tag = "1";
+            this.ckTier1.Text = "Tier 1";
+            this.ckTier1.UseVisualStyleBackColor = true;
+            this.ckTier1.CheckedChanged += new System.EventHandler(this.ckTier1_CheckedChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(335, 298);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(119, 20);
+            this.label4.TabIndex = 62;
+            this.label4.Text = "Tier Selection";
+            // 
+            // btnDeselect
+            // 
+            this.btnDeselect.Location = new System.Drawing.Point(173, 804);
+            this.btnDeselect.Name = "btnDeselect";
+            this.btnDeselect.Size = new System.Drawing.Size(110, 30);
+            this.btnDeselect.TabIndex = 69;
+            this.btnDeselect.Text = "Clear";
+            this.btnDeselect.UseVisualStyleBackColor = true;
+            // 
+            // btnSelectAll
+            // 
+            this.btnSelectAll.Location = new System.Drawing.Point(31, 804);
+            this.btnSelectAll.Name = "btnSelectAll";
+            this.btnSelectAll.Size = new System.Drawing.Size(110, 30);
+            this.btnSelectAll.TabIndex = 68;
+            this.btnSelectAll.Text = "Select All";
+            this.btnSelectAll.UseVisualStyleBackColor = true;
+            // 
+            // lbMSO
+            // 
+            this.lbMSO.FormattingEnabled = true;
+            this.lbMSO.ItemHeight = 24;
+            this.lbMSO.Location = new System.Drawing.Point(16, 209);
+            this.lbMSO.Name = "lbMSO";
+            this.lbMSO.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.lbMSO.Size = new System.Drawing.Size(276, 580);
+            this.lbMSO.TabIndex = 67;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(12, 182);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(221, 20);
+            this.label3.TabIndex = 70;
+            this.label3.Text = "Optional MSO Selection(s)";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(322, 179);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(179, 20);
+            this.label5.TabIndex = 71;
+            this.label5.Text = "Other Optional Fields";
+            // 
+            // btnClearRegions
+            // 
+            this.btnClearRegions.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClearRegions.Location = new System.Drawing.Point(548, 711);
+            this.btnClearRegions.Name = "btnClearRegions";
+            this.btnClearRegions.Size = new System.Drawing.Size(125, 29);
+            this.btnClearRegions.TabIndex = 86;
+            this.btnClearRegions.Text = "Clear Regions";
+            this.btnClearRegions.UseVisualStyleBackColor = true;
+            this.btnClearRegions.Click += new System.EventHandler(this.btnClearRegions_Click);
+            // 
+            // ckOther
+            // 
+            this.ckOther.AutoSize = true;
+            this.ckOther.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckOther.Location = new System.Drawing.Point(549, 681);
+            this.ckOther.Name = "ckOther";
+            this.ckOther.Size = new System.Drawing.Size(68, 24);
+            this.ckOther.TabIndex = 85;
+            this.ckOther.Tag = "Other";
+            this.ckOther.Text = "Other";
+            this.ckOther.UseVisualStyleBackColor = true;
+            // 
+            // ckUSWest
+            // 
+            this.ckUSWest.AutoSize = true;
+            this.ckUSWest.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckUSWest.Location = new System.Drawing.Point(548, 651);
+            this.ckUSWest.Name = "ckUSWest";
+            this.ckUSWest.Size = new System.Drawing.Size(92, 24);
+            this.ckUSWest.TabIndex = 84;
+            this.ckUSWest.Tag = "US West";
+            this.ckUSWest.Text = "US West";
+            this.ckUSWest.UseVisualStyleBackColor = true;
+            // 
+            // ckUSEast
+            // 
+            this.ckUSEast.AutoSize = true;
+            this.ckUSEast.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckUSEast.Location = new System.Drawing.Point(548, 621);
+            this.ckUSEast.Name = "ckUSEast";
+            this.ckUSEast.Size = new System.Drawing.Size(88, 24);
+            this.ckUSEast.TabIndex = 83;
+            this.ckUSEast.Tag = "US East";
+            this.ckUSEast.Text = "US East";
+            this.ckUSEast.UseVisualStyleBackColor = true;
+            // 
+            // ckRussia
+            // 
+            this.ckRussia.AutoSize = true;
+            this.ckRussia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckRussia.Location = new System.Drawing.Point(548, 591);
+            this.ckRussia.Name = "ckRussia";
+            this.ckRussia.Size = new System.Drawing.Size(77, 24);
+            this.ckRussia.TabIndex = 82;
+            this.ckRussia.Tag = "Russia";
+            this.ckRussia.Text = "Russia";
+            this.ckRussia.UseVisualStyleBackColor = true;
+            // 
+            // ckMiddleEast
+            // 
+            this.ckMiddleEast.AutoSize = true;
+            this.ckMiddleEast.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckMiddleEast.Location = new System.Drawing.Point(548, 561);
+            this.ckMiddleEast.Name = "ckMiddleEast";
+            this.ckMiddleEast.Size = new System.Drawing.Size(111, 24);
+            this.ckMiddleEast.TabIndex = 81;
+            this.ckMiddleEast.Tag = "Middle East";
+            this.ckMiddleEast.Text = "Middle East";
+            this.ckMiddleEast.UseVisualStyleBackColor = true;
+            // 
+            // ckLatinAmerica
+            // 
+            this.ckLatinAmerica.AutoSize = true;
+            this.ckLatinAmerica.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckLatinAmerica.Location = new System.Drawing.Point(548, 531);
+            this.ckLatinAmerica.Name = "ckLatinAmerica";
+            this.ckLatinAmerica.Size = new System.Drawing.Size(125, 24);
+            this.ckLatinAmerica.TabIndex = 80;
+            this.ckLatinAmerica.Tag = "Latin America";
+            this.ckLatinAmerica.Text = "Latin America";
+            this.ckLatinAmerica.UseVisualStyleBackColor = true;
+            // 
+            // ckIndia
+            // 
+            this.ckIndia.AutoSize = true;
+            this.ckIndia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckIndia.Location = new System.Drawing.Point(548, 501);
+            this.ckIndia.Name = "ckIndia";
+            this.ckIndia.Size = new System.Drawing.Size(63, 24);
+            this.ckIndia.TabIndex = 79;
+            this.ckIndia.Tag = "India";
+            this.ckIndia.Text = "India";
+            this.ckIndia.UseVisualStyleBackColor = true;
+            // 
+            // ckEurope
+            // 
+            this.ckEurope.AutoSize = true;
+            this.ckEurope.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckEurope.Location = new System.Drawing.Point(548, 471);
+            this.ckEurope.Name = "ckEurope";
+            this.ckEurope.Size = new System.Drawing.Size(80, 24);
+            this.ckEurope.TabIndex = 78;
+            this.ckEurope.Tag = "Europe";
+            this.ckEurope.Text = "Europe";
+            this.ckEurope.UseVisualStyleBackColor = true;
+            // 
+            // ckCaribbean
+            // 
+            this.ckCaribbean.AutoSize = true;
+            this.ckCaribbean.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckCaribbean.Location = new System.Drawing.Point(548, 441);
+            this.ckCaribbean.Name = "ckCaribbean";
+            this.ckCaribbean.Size = new System.Drawing.Size(101, 24);
+            this.ckCaribbean.TabIndex = 77;
+            this.ckCaribbean.Tag = "Caribbean";
+            this.ckCaribbean.Text = "Caribbean";
+            this.ckCaribbean.UseVisualStyleBackColor = true;
+            // 
+            // ckCanada
+            // 
+            this.ckCanada.AutoSize = true;
+            this.ckCanada.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckCanada.Location = new System.Drawing.Point(548, 411);
+            this.ckCanada.Name = "ckCanada";
+            this.ckCanada.Size = new System.Drawing.Size(84, 24);
+            this.ckCanada.TabIndex = 76;
+            this.ckCanada.Tag = "Canada";
+            this.ckCanada.Text = "Canada";
+            this.ckCanada.UseVisualStyleBackColor = true;
+            // 
+            // ckAustralia
+            // 
+            this.ckAustralia.AutoSize = true;
+            this.ckAustralia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckAustralia.Location = new System.Drawing.Point(548, 381);
+            this.ckAustralia.Name = "ckAustralia";
+            this.ckAustralia.Size = new System.Drawing.Size(90, 24);
+            this.ckAustralia.TabIndex = 75;
+            this.ckAustralia.Tag = "Australia";
+            this.ckAustralia.Text = "Australia";
+            this.ckAustralia.UseVisualStyleBackColor = true;
+            // 
+            // ckAsia
+            // 
+            this.ckAsia.AutoSize = true;
+            this.ckAsia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckAsia.Location = new System.Drawing.Point(548, 351);
+            this.ckAsia.Name = "ckAsia";
+            this.ckAsia.Size = new System.Drawing.Size(59, 24);
+            this.ckAsia.TabIndex = 74;
+            this.ckAsia.Tag = "Asia";
+            this.ckAsia.Text = "Asia";
+            this.ckAsia.UseVisualStyleBackColor = true;
+            // 
+            // ckAfrica
+            // 
+            this.ckAfrica.AutoSize = true;
+            this.ckAfrica.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ckAfrica.Location = new System.Drawing.Point(548, 321);
+            this.ckAfrica.Name = "ckAfrica";
+            this.ckAfrica.Size = new System.Drawing.Size(69, 24);
+            this.ckAfrica.TabIndex = 73;
+            this.ckAfrica.Tag = "Africa";
+            this.ckAfrica.Text = "Africa";
+            this.ckAfrica.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(545, 298);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(75, 20);
+            this.label6.TabIndex = 72;
+            this.label6.Text = "Regions";
             // 
             // frmDateRangeSearch
             // 
@@ -223,7 +516,32 @@ namespace DesignDB_UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(801, 377);
+            this.ClientSize = new System.Drawing.Size(792, 898);
+            this.Controls.Add(this.btnClearRegions);
+            this.Controls.Add(this.ckOther);
+            this.Controls.Add(this.ckUSWest);
+            this.Controls.Add(this.ckUSEast);
+            this.Controls.Add(this.ckRussia);
+            this.Controls.Add(this.ckMiddleEast);
+            this.Controls.Add(this.ckLatinAmerica);
+            this.Controls.Add(this.ckIndia);
+            this.Controls.Add(this.ckEurope);
+            this.Controls.Add(this.ckCaribbean);
+            this.Controls.Add(this.ckCanada);
+            this.Controls.Add(this.ckAustralia);
+            this.Controls.Add(this.ckAsia);
+            this.Controls.Add(this.ckAfrica);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.btnDeselect);
+            this.Controls.Add(this.btnSelectAll);
+            this.Controls.Add(this.lbMSO);
+            this.Controls.Add(this.btnClearTiers);
+            this.Controls.Add(this.ckUnclassified);
+            this.Controls.Add(this.ckTier2);
+            this.Controls.Add(this.ckTier1);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.lblRequestor);
             this.Controls.Add(this.cboRequestor);
             this.Controls.Add(this.lblDesigner);
@@ -232,8 +550,6 @@ namespace DesignDB_UI
             this.Controls.Add(this.gbxSearchTerm);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSearch);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.cboMSO);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dtpEndDate);
             this.Controls.Add(this.dtpStart);
@@ -243,6 +559,7 @@ namespace DesignDB_UI
             this.Name = "frmDateRangeSearch";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Date Range Search";
+            this.Load += new System.EventHandler(this.frmDateRangeSearch_Load);
             this.gbxSearchTerm.ResumeLayout(false);
             this.gbxSearchTerm.PerformLayout();
             this.ResumeLayout(false);
@@ -256,8 +573,6 @@ namespace DesignDB_UI
         private System.Windows.Forms.Label dtpStart;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker dtpEndDate;
-        private System.Windows.Forms.ComboBox cboMSO;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.GroupBox gbxSearchTerm;
@@ -269,5 +584,30 @@ namespace DesignDB_UI
         private System.Windows.Forms.ComboBox cboDesigner;
         private System.Windows.Forms.Label lblRequestor;
         private System.Windows.Forms.ComboBox cboRequestor;
+        private System.Windows.Forms.Button btnClearTiers;
+        private System.Windows.Forms.CheckBox ckUnclassified;
+        private System.Windows.Forms.CheckBox ckTier2;
+        private System.Windows.Forms.CheckBox ckTier1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button btnDeselect;
+        private System.Windows.Forms.Button btnSelectAll;
+        private System.Windows.Forms.ListBox lbMSO;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnClearRegions;
+        private System.Windows.Forms.CheckBox ckOther;
+        private System.Windows.Forms.CheckBox ckUSWest;
+        private System.Windows.Forms.CheckBox ckUSEast;
+        private System.Windows.Forms.CheckBox ckRussia;
+        private System.Windows.Forms.CheckBox ckMiddleEast;
+        private System.Windows.Forms.CheckBox ckLatinAmerica;
+        private System.Windows.Forms.CheckBox ckIndia;
+        private System.Windows.Forms.CheckBox ckEurope;
+        private System.Windows.Forms.CheckBox ckCaribbean;
+        private System.Windows.Forms.CheckBox ckCanada;
+        private System.Windows.Forms.CheckBox ckAustralia;
+        private System.Windows.Forms.CheckBox ckAsia;
+        private System.Windows.Forms.CheckBox ckAfrica;
+        private System.Windows.Forms.Label label6;
     }
 }
