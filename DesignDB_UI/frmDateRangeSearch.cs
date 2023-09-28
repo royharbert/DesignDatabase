@@ -14,6 +14,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace DesignDB_UI
 {
+    
     public partial class frmDateRangeSearch : Form
     {
         public event EventHandler<DataReadyEventArgs> DataReadyEvent;
@@ -29,6 +30,7 @@ namespace DesignDB_UI
         public event EventHandler<DateRangeEventArgs> DateRangeSet;
         List<RequestModel> requestList = new List<RequestModel>();
         string term = "";
+        DataReadyEventArgs drArgs = new DataReadyEventArgs();
         
         private void frmDateRangeSearch_Load(object sender, EventArgs e)
         {
@@ -41,6 +43,22 @@ namespace DesignDB_UI
             lbMSO.DataSource = allMSO_S;
             lbMSO.DisplayMember = "MSO";
             lbMSO.SelectedIndex = -1;
+
+            if (GV.MODE == Mode.BOM_Shipments)
+            {
+                cboDesigner.Visible = false;
+                cboRequestor.Visible = false;
+            }
+            else
+            {
+                cboDesigner.Visible = true;
+                cboRequestor.Visible = true;
+                lbMSO.SelectedItem = "Cable One";
+            }
+
+            //Remove this after BOM-Shipments is done
+            dtpStartDate.Value = new DateTime(2023, 6, 1);
+           
         }
         public frmDateRangeSearch()
         {
@@ -124,24 +142,37 @@ namespace DesignDB_UI
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            GV.MODE = Mode.DateRangeSearch;
-            int records = requestList.Count;
-            
-            requestList = GlobalConfig.Connection.ReportDateRangeSearch_MSOFiltered
-                (dtpStartDate.Value, dtpEndDate.Value, term, lbMSO.Text, false,cboDesigner.Text,cboRequestor.Text);
-            records = requestList.Count;
-
-            switch (records)
+            if (GV.MODE == Mode.BOM_Shipments)
             {
-                case 0:
-                    MessageBox.Show("No records found");
-                    break;
+                List<MSO_Model>msoList = new List<MSO_Model>();
+                MSO_Model mso = (MSO_Model)lbMSO.SelectedItem;
+                msoList.Add(mso);
+                drArgs.StartDate = dtpStartDate.Value;
+                drArgs.EndDate = dtpEndDate.Value;
+                drArgs.MSO_s = msoList;
+                DataReadyEvent?.Invoke(this, drArgs);
+            }
+            else
+            {
+                GV.MODE = Mode.DateRangeSearch;
+                int records = requestList.Count;
 
-                default:
-                    //frmMultiResult frmMultiResult = new frmMultiResult(requestList);
-                    GV.MultiResult.dataList = requestList;
-                    GV.MultiResult.Show();
-                    break;
+                requestList = GlobalConfig.Connection.ReportDateRangeSearch_MSOFiltered
+                    (dtpStartDate.Value, dtpEndDate.Value, term, lbMSO.Text, false, cboDesigner.Text, cboRequestor.Text);
+                records = requestList.Count;
+
+                switch (records)
+                {
+                    case 0:
+                        MessageBox.Show("No records found");
+                        break;
+
+                    default:
+                        //frmMultiResult frmMultiResult = new frmMultiResult(requestList);
+                        GV.MultiResult.dataList = requestList;
+                        GV.MultiResult.Show();
+                        break;
+                }
             }
             this.Close();
         }

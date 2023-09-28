@@ -25,6 +25,7 @@ namespace DesignDB_UI
         private bool CustomFormat = false;
         private DateTime startDate;
         private DateTime endDate;
+        private string fileName = "";
 
 
         public frmMainMenu()
@@ -422,15 +423,8 @@ namespace DesignDB_UI
                     frmReportSalesPriiority.Show();
                     frmReportSalesPriiority.TopMost = true;
                     break;
-                case Mode.Report_DesignerLoadReport:
-                    break;
-                case Mode.Report_Overdue:
-                    break;
-                case Mode.Search:
-                    break;
-                case Mode.None:
-                    break;
-                default:
+                case Mode.BOM_Shipments:
+                    ShipmentOps.ShipmentToBOMCompare(fileName, e.StartDate, e.EndDate, e.MSO_s);
                     break;
             }
 
@@ -630,7 +624,7 @@ namespace DesignDB_UI
 
         private void btnBOMShipments_Click(object sender, EventArgs e)
         {
-            string fileName = "";
+            //string fileName = "";
             GV.MODE = Mode.BOM_Shipments;
             ofdMainMenu.DefaultExt = ".xlsx";
             ofdMainMenu.Filter = "Excel files (*.xlsx)|*.xlsx";
@@ -642,7 +636,8 @@ namespace DesignDB_UI
             {
                 fileName = ofdMainMenu.FileName;
             }
-            ShipmentOps.ShipmentToBOMCompare(fileName);
+            frmDateRangeSearch DateRangeForm = new frmDateRangeSearch();
+            DateRangeForm.Show();            
         }
     }
 }
