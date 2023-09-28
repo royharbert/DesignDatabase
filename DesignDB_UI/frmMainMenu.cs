@@ -32,6 +32,7 @@ namespace DesignDB_UI
             ReportOps.NewMessageEvent += ReportOps_NewMessageEvent;
 
             this.Size = new Size(1208, 800);
+            GV.Exiting = false;
             GV.LogViewer = new frmLogView();
             GV.PickerForm = frmDateMSO_Picker;
             GV.InputForm = frmInput;
@@ -278,6 +279,7 @@ namespace DesignDB_UI
 
         private void btnExit_Click(object sender, EventArgs e)
         {
+            GV.Exiting = true;
             Application.Exit();
         }
 

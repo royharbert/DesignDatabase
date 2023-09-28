@@ -1150,15 +1150,18 @@ namespace DesignDB_UI
 
         private void frmRequests_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (formDirty)
+            if (!GV.Exiting)
             {
-                checkForSave();
+                if (formDirty)
+                {
+                    checkForSave();
+                }
+                dropHandlers();
+                //GV.REQFORM = null;
+                e.Cancel = true;
+                this.Hide();
+                dgvAttachments.DataSource = null; 
             }
-            dropHandlers();
-            //GV.REQFORM = null;
-            e.Cancel = true;
-            this.Hide();
-            dgvAttachments.DataSource = null;
         }
 
         private void btnRestore_Click(object sender, EventArgs e)

@@ -230,9 +230,12 @@ namespace DesignDB_UI
 
         private void frmMultiResult_FormClosing(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = true;
-            this.Hide();
-            GV.MAINMENU.BringToFront();
+            if (!GV.Exiting)
+            {
+                e.Cancel = true;
+                this.Hide();
+                GV.MAINMENU.BringToFront(); 
+            }
         }
 
         private void frmMultiResult_Activated(object sender, EventArgs e)
