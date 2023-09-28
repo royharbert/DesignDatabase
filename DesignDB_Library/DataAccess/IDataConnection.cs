@@ -9,7 +9,8 @@ namespace DesignDB_Library.DataAccess
 {
     public interface IDataConnection
     {
-        string getFullStateFromAbbreviation(string abb);
+        List<RollupRequestModel> GetRollupRequests(DateTime startDate, DateTime endDate);
+        List<MSO_Model> MSO_GetByTier(int tier);
         void MSO_Update(MSO_Model model);
         List<RequestModel> DateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate);
         List<RequestModel> GetRequestsDeleted();
@@ -45,7 +46,7 @@ namespace DesignDB_Library.DataAccess
             string mso, bool pendingOnly, string designer, string requestor);
         List<RequestModel> DateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, string SearchTerm, 
             bool pendingOnly, string mso = null, string designer =null, string requestor = null);
-        List<RequestModelReport> ReportDateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, 
+        List<RequestModel> ReportDateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, 
             string SearchTerm, string mso, bool pendingOnly, string designer = null, string requestor = null); 
         List<RequestModelReport> ReportDateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, 
             string SearchTerm, string mso, string designer = null);

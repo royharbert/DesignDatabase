@@ -16,6 +16,16 @@ using DesignDB_Library;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
+/*
+ * Control Tag Uses
+ * Tag property of most controls is used to identify several items. The items are separated by a | then separated into an array by a string.split
+ * [0] - "L" if control is locked on open, "U" if unlocked
+ * [1] - request model column for field search function
+ * [2] - database table holding drop-down list items
+ * [3] - database table column holding drop-down list items
+ * [4] - Excel column heading in list collector
+ */
+
 namespace DesignDB_UI
 {
 
@@ -597,13 +607,15 @@ namespace DesignDB_UI
 
                 if (formLoading )
                 {
-                    List<MSO_Model> msoList = GlobalConfig.Connection.GetAllActiveMSO();
+                    //List<MSO_Model> msoList = GlobalConfig.Connection.GetAllActiveMSO();
+                    List<MSO_Model> msoList = GlobalConfig.Connection.GenericGetAll<MSO_Model>("tblMSO", "MSO");
                     cboMSO.DataSource = msoList;
                     cboMSO.DisplayMember = "MSO";
                     cboMSO.SelectedIndex = -1; 
                 }
 
-                List<SalespersonModel> salesList = GlobalConfig.Connection.SalesGetActive();
+                //List<SalespersonModel> salesList = GlobalConfig.Connection.SalesGetActive();
+                List<SalespersonModel> salesList = GlobalConfig.Connection.GenericGetAll<SalespersonModel>("tblSalespersons", "SalesPerson");
                 salesList.Insert(0, new SalespersonModel());
                 cboRequestor.DataSource = salesList;
                 cboRequestor.DisplayMember = "SalesPerson";
@@ -1138,15 +1150,18 @@ namespace DesignDB_UI
 
         private void frmRequests_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (formDirty)
+            if (!GV.Exiting)
             {
-                checkForSave();
+                if (formDirty)
+                {
+                    checkForSave();
+                }
+                dropHandlers();
+                //GV.REQFORM = null;
+                e.Cancel = true;
+                this.Hide();
+                dgvAttachments.DataSource = null; 
             }
-            dropHandlers();
-            //GV.REQFORM = null;
-            e.Cancel = true;
-            this.Hide();
-            dgvAttachments.DataSource = null;
         }
 
         private void btnRestore_Click(object sender, EventArgs e)

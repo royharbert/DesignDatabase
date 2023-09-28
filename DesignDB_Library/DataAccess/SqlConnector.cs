@@ -12,20 +12,30 @@ namespace DesignDB_Library.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
-        public string getFullStateFromAbbreviation(string abb)
+        public List<RollupRequestModel> GetRollupRequests(DateTime startDate, DateTime endDate)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 var p = new DynamicParameters();
-                p.Add("@St", abb, DbType.String);
+                p.Add("@StartDate", startDate, DbType.Date);
+                p.Add("@EndDate", endDate, DbType.Date);
 
-                List<string> output = connection.Query<string>("dbo.spStateFullFromAbbreviation", p,
+
+                List<RollupRequestModel> output = connection.Query<RollupRequestModel>("dbo.spRollupSelectQuery", p,
                     commandType: CommandType.StoredProcedure).ToList();
-                if (output.Count > 0)
-                {
-                    return output[0]; 
-                }
-                return "No Match";
+                return output;
+            }
+        }
+        public List<MSO_Model> MSO_GetByTier(int tier)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@Tier", tier, DbType.Int16);
+
+                List<MSO_Model> output = connection.Query<MSO_Model>("dbo.spMSO_GetByTier", p,
+                    commandType: CommandType.StoredProcedure).ToList();
+                return output;
             }
         }
         public void MSO_Update(MSO_Model model)
@@ -47,7 +57,7 @@ namespace DesignDB_Library.DataAccess
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
-                List<RequestModel> output = connection.Query<RequestModel>("spMSO_Update",
+                List<RequestModel> output = connection.Query<RequestModel>("spRequests_GetOpen",
                     commandType: CommandType.StoredProcedure).ToList();
                 return output;
             }
@@ -760,7 +770,7 @@ namespace DesignDB_Library.DataAccess
         }
 
 
-        public List<RequestModelReport> ReportDateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, 
+        public List<RequestModel> ReportDateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, 
             string SearchTerm, string mso, bool pendingOnly, string designer, string requestor)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
@@ -774,9 +784,9 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@MSO", mso, DbType.String, ParameterDirection.Input);
                 p.Add("@Designer", designer, DbType.String, ParameterDirection.Input);
                 p.Add("@Requestor", requestor, DbType.String, ParameterDirection.Input);
-                List<RequestModelReport> output = null;
+                List<RequestModel> output = null;
 
-                output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_Dynamic",
+                output = connection.Query<RequestModel>("spRequests_DateRangeSearch_Dynamic",
                             p, commandType: CommandType.StoredProcedure).ToList();
         
                 return output;

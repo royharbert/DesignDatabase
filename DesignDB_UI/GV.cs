@@ -11,6 +11,7 @@ namespace DesignDB_UI
 {
     public class GV
     {
+        public static bool Exiting { get; set; }
         public static frmLogView LogViewer { get; set; }
         public static int ActiveScreen { get; set; }
         public static List<ScreenModel> ScreenList { get; set; }
@@ -28,8 +29,11 @@ namespace DesignDB_UI
                 return mode;
             }
             set
-            { 
-                PreviousMode = mode;
+            {
+                if (mode != PreviousMode)
+                {
+                    PreviousMode = mode; 
+                }
                 mode = value;                
             }
         }

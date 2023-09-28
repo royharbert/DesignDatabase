@@ -38,6 +38,7 @@ namespace DesignDB_UI
         DesignerMaintenance,
         AddMSO,
         EditMSO,
+        Loading_lbMSOFormCheckBox,
         None
     }
     

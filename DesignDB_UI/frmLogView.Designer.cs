@@ -176,10 +176,12 @@ namespace DesignDB_UI
             // 
             // dgvLog
             // 
+            this.dgvLog.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvLog.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvLog.Location = new System.Drawing.Point(571, 11);
+            this.dgvLog.Dock = System.Windows.Forms.DockStyle.Right;
+            this.dgvLog.Location = new System.Drawing.Point(579, 0);
             this.dgvLog.Name = "dgvLog";
-            this.dgvLog.Size = new System.Drawing.Size(621, 631);
+            this.dgvLog.Size = new System.Drawing.Size(621, 692);
             this.dgvLog.TabIndex = 11;
             // 
             // btnViewAll

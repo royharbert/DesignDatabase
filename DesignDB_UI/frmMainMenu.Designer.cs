@@ -69,9 +69,11 @@ namespace DesignDB_UI
             this.rdoSandbox = new System.Windows.Forms.RadioButton();
             this.rdoLive = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnBookingsBOM = new System.Windows.Forms.Button();
+            this.ssMessage = new System.Windows.Forms.StatusStrip();
+            this.ssLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.tlpMain.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.ssMessage.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnHoliday
@@ -694,7 +696,7 @@ namespace DesignDB_UI
             this.rdoSandbox.Size = new System.Drawing.Size(104, 28);
             this.rdoSandbox.TabIndex = 32;
             this.rdoSandbox.TabStop = true;
-            this.rdoSandbox.Tag = "4";
+            this.rdoSandbox.Tag = "3";
             this.rdoSandbox.Text = "Sandbox";
             this.rdoSandbox.UseVisualStyleBackColor = true;
             this.rdoSandbox.Visible = false;
@@ -708,7 +710,7 @@ namespace DesignDB_UI
             this.rdoLive.Size = new System.Drawing.Size(62, 28);
             this.rdoLive.TabIndex = 33;
             this.rdoLive.TabStop = true;
-            this.rdoLive.Tag = "4";
+            this.rdoLive.Tag = "3";
             this.rdoLive.Text = "Live";
             this.rdoLive.UseVisualStyleBackColor = true;
             this.rdoLive.Visible = false;
@@ -734,30 +736,30 @@ namespace DesignDB_UI
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1165, 33);
             this.tableLayoutPanel2.TabIndex = 32;
             // 
-            // btnBookingsBOM
+            // ssMessage
             // 
-            this.btnBookingsBOM.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBookingsBOM.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btnBookingsBOM.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnBookingsBOM.Location = new System.Drawing.Point(587, 360);
-            this.btnBookingsBOM.Name = "btnBookingsBOM";
-            this.btnBookingsBOM.Size = new System.Drawing.Size(266, 45);
-            this.btnBookingsBOM.TabIndex = 44;
-            this.btnBookingsBOM.Tag = "3";
-            this.btnBookingsBOM.Text = "Bookings - BOM";
-            this.btnBookingsBOM.UseVisualStyleBackColor = false;
-            this.btnBookingsBOM.Click += new System.EventHandler(this.btnBookingsBOM_Click);
+            this.ssMessage.BackColor = System.Drawing.Color.RoyalBlue;
+            this.ssMessage.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ssMessage.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ssLabel});
+            this.ssMessage.Location = new System.Drawing.Point(0, 739);
+            this.ssMessage.Name = "ssMessage";
+            this.ssMessage.Size = new System.Drawing.Size(1192, 22);
+            this.ssMessage.TabIndex = 34;
+            // 
+            // ssLabel
+            // 
+            this.ssLabel.Name = "ssLabel";
+            this.ssLabel.Size = new System.Drawing.Size(0, 17);
             // 
             // frmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(1192, 875);
+            this.ClientSize = new System.Drawing.Size(1192, 761);
+            this.Controls.Add(this.ssMessage);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.tlpMain);
             this.Controls.Add(this.rdoLive);
@@ -774,6 +776,8 @@ namespace DesignDB_UI
             this.tlpMain.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            this.ssMessage.ResumeLayout(false);
+            this.ssMessage.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -820,6 +824,7 @@ namespace DesignDB_UI
         private System.Windows.Forms.Button btnReviewMaint;
         private System.Windows.Forms.Button btnPrjBySales;
         private System.Windows.Forms.Button btnDeletedRecords;
-        private System.Windows.Forms.Button btnBookingsBOM;
+        private System.Windows.Forms.StatusStrip ssMessage;
+        private System.Windows.Forms.ToolStripStatusLabel ssLabel;
     }
 }

@@ -110,15 +110,19 @@
     <Compile Include="Attributes\ExcelExportProperty.cs" />
     <Compile Include="DataAccess\IDataConnection.cs" />
     <Compile Include="DataAccess\SqlConnector.cs" />
+    <Compile Include="Models\AwardStatusModel.cs" />
     <Compile Include="Models\BookingModel.cs" />
     <Compile Include="Models\OpenRequestsBySalesModel.cs" />
     <Compile Include="Models\ReportDesignsInProcessModel.cs" />
     <Compile Include="Models\FE_Model.cs" />
     <Compile Include="Models\LogFieldModel.cs" />
     <Compile Include="Models\LogModel.cs" />
+    <Compile Include="Models\RollupRequestModel.cs" />
+    <Compile Include="Models\RollupSalesPriorityModel.cs" />
     <Compile Include="Models\ReportSalesPriorityModel.cs" />
     <Compile Include="Models\Report_SalesProjectValuesModel.cs" />
     <Compile Include="Models\RequestModel.cs" />
+    <Compile Include="Models\RollupCompletionTimeModel.cs" />
     <Compile Include="Models\ScreenModel.cs" />
     <Compile Include="Operations\DesignerUpdate.cs" />
     <Compile Include="Operations\FilePicker.cs" />
@@ -130,6 +134,7 @@
     <Compile Include="Operations\IHaveID.cs" />
     <Compile Include="Operations\ListLooper.cs" />
     <Compile Include="Operations\Logger.cs" />
+    <Compile Include="Operations\NewMessageEventArgsBase.cs" />
     <Compile Include="Operations\PID_Generator.cs" />
     <Compile Include="Operations\ReportOps.cs" />
     <Compile Include="Operations\RequestModelReportToRequestModel.cs" />

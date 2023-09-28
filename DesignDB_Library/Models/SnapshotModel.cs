@@ -29,6 +29,6 @@ namespace DesignDB_Library.Models
         [ExcelExportPropertyAttribute]
         public decimal TotalValue { get; set; }
         [ExcelExportPropertyAttribute]
-        public string AverageCompletionTime { get; set; }
+        public decimal AverageCompletionTime { get; set; }
     }
 }
