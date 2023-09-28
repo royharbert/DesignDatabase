@@ -66,12 +66,13 @@ namespace DesignDB_UI
             this.btnFE_Maintenance = new System.Windows.Forms.Button();
             this.btnDeleteRecord = new System.Windows.Forms.Button();
             this.btnDeletedRecords = new System.Windows.Forms.Button();
+            this.btnBOMShipments = new System.Windows.Forms.Button();
             this.rdoSandbox = new System.Windows.Forms.RadioButton();
             this.rdoLive = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.ssMessage = new System.Windows.Forms.StatusStrip();
             this.ssLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnBOMShipments = new System.Windows.Forms.Button();
+            this.ofdMainMenu = new System.Windows.Forms.OpenFileDialog();
             this.tlpMain.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.ssMessage.SuspendLayout();
@@ -688,6 +689,22 @@ namespace DesignDB_UI
             this.btnDeletedRecords.UseVisualStyleBackColor = false;
             this.btnDeletedRecords.Click += new System.EventHandler(this.btnDeletedRecords_Click);
             // 
+            // btnBOMShipments
+            // 
+            this.btnBOMShipments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBOMShipments.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnBOMShipments.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnBOMShipments.Location = new System.Drawing.Point(587, 360);
+            this.btnBOMShipments.Name = "btnBOMShipments";
+            this.btnBOMShipments.Size = new System.Drawing.Size(266, 45);
+            this.btnBOMShipments.TabIndex = 44;
+            this.btnBOMShipments.Tag = "3";
+            this.btnBOMShipments.Text = "BOM-Shipments";
+            this.btnBOMShipments.UseVisualStyleBackColor = false;
+            this.btnBOMShipments.Click += new System.EventHandler(this.btnBOMShipments_Click);
+            // 
             // rdoSandbox
             // 
             this.rdoSandbox.AutoSize = true;
@@ -753,21 +770,9 @@ namespace DesignDB_UI
             this.ssLabel.Name = "ssLabel";
             this.ssLabel.Size = new System.Drawing.Size(0, 17);
             // 
-            // btnBOMShipments
+            // ofdMainMenu
             // 
-            this.btnBOMShipments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBOMShipments.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btnBOMShipments.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnBOMShipments.Location = new System.Drawing.Point(587, 360);
-            this.btnBOMShipments.Name = "btnBOMShipments";
-            this.btnBOMShipments.Size = new System.Drawing.Size(266, 45);
-            this.btnBOMShipments.TabIndex = 44;
-            this.btnBOMShipments.Tag = "3";
-            this.btnBOMShipments.Text = "BOM-Shipments";
-            this.btnBOMShipments.UseVisualStyleBackColor = false;
-            this.btnBOMShipments.Click += new System.EventHandler(this.btnBOMShipments_Click);
+            this.ofdMainMenu.FileName = "openFileDialog1";
             // 
             // frmMainMenu
             // 
@@ -844,5 +849,6 @@ namespace DesignDB_UI
         private System.Windows.Forms.StatusStrip ssMessage;
         private System.Windows.Forms.ToolStripStatusLabel ssLabel;
         private System.Windows.Forms.Button btnBOMShipments;
+        private System.Windows.Forms.OpenFileDialog ofdMainMenu;
     }
 }

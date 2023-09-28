@@ -8,7 +8,7 @@ namespace DesignDB_Library.Operations
 {
     public static class ShipmentOps
     {
-        public static void ShipmentToBOMCompare()
+        public static void ShipmentToBOMCompare(string fileName)
         {
             //Get shipment spreadsheet
             //Get Date Range

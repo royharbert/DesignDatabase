@@ -627,15 +627,22 @@ namespace DesignDB_UI
             resultsForm.Show();
         }
 
-        private void btnBookingsBOM_Click(object sender, EventArgs e)
-        {
-            frmBOM_Bookings bookings  = new frmBOM_Bookings();
-            bookings.Show();
-        }
 
         private void btnBOMShipments_Click(object sender, EventArgs e)
         {
-            ShipmentOps.ShipmentToBOMCompare();
+            string fileName = "";
+            GV.MODE = Mode.BOM_Shipments;
+            ofdMainMenu.DefaultExt = ".xlsx";
+            ofdMainMenu.Filter = "Excel files (*.xlsx)|*.xlsx";
+            ofdMainMenu.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            ofdMainMenu.RestoreDirectory = true;
+            ofdMainMenu.FileName = fileName;
+            ofdMainMenu.Title = "Open Shipments Spreadsheet";
+            if (ofdMainMenu.ShowDialog() == DialogResult.OK)
+            {
+                fileName = ofdMainMenu.FileName;
+            }
+            ShipmentOps.ShipmentToBOMCompare(fileName);
         }
     }
 }

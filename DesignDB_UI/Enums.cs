@@ -39,6 +39,7 @@ namespace DesignDB_UI
         AddMSO,
         EditMSO,
         Loading_lbMSOFormCheckBox,
+        BOM_Shipments,
         None
     }
     
