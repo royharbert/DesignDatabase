@@ -27,7 +27,7 @@ namespace DesignDB_UI
         List<string> tierQuery = new List<string>();
         List<string> regionQuery = new List<string>();
         public event EventHandler<DateRangeEventArgs> DateRangeSet;
-        List<RequestModelReport> requestList = new List<RequestModelReport>();
+        List<RequestModel> requestList = new List<RequestModel>();
         string term = "";
         
         private void frmDateRangeSearch_Load(object sender, EventArgs e)
@@ -124,6 +124,7 @@ namespace DesignDB_UI
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            GV.MODE = Mode.DateRangeSearch;
             int records = requestList.Count;
             
             requestList = GlobalConfig.Connection.ReportDateRangeSearch_MSOFiltered
@@ -138,7 +139,7 @@ namespace DesignDB_UI
 
                 default:
                     //frmMultiResult frmMultiResult = new frmMultiResult(requestList);
-                    GV.MultiResult.ReportDataList = requestList;
+                    GV.MultiResult.dataList = requestList;
                     GV.MultiResult.Show();
                     break;
             }

@@ -770,7 +770,7 @@ namespace DesignDB_Library.DataAccess
         }
 
 
-        public List<RequestModelReport> ReportDateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, 
+        public List<RequestModel> ReportDateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, 
             string SearchTerm, string mso, bool pendingOnly, string designer, string requestor)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.ConnString(db)))
@@ -784,9 +784,9 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@MSO", mso, DbType.String, ParameterDirection.Input);
                 p.Add("@Designer", designer, DbType.String, ParameterDirection.Input);
                 p.Add("@Requestor", requestor, DbType.String, ParameterDirection.Input);
-                List<RequestModelReport> output = null;
+                List<RequestModel> output = null;
 
-                output = connection.Query<RequestModelReport>("spRequests_DateRangeSearch_Dynamic",
+                output = connection.Query<RequestModel>("spRequests_DateRangeSearch_Dynamic",
                             p, commandType: CommandType.StoredProcedure).ToList();
         
                 return output;
