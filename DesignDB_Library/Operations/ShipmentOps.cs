@@ -29,9 +29,8 @@ namespace DesignDB_Library.Operations
             //}
             // Find necessary rows/columns in SS
             int lastRow = FindLastSpreadsheetRow(wks);
-            Range searchRange= wks.get_Range("A3:Z26");
-            int headerRow = FindHeaderRow(searchRange, "Quantity");
-            Range headerRange = (Range)wks.Rows["b:B"];
+            Range searchRange= wks.get_Range("A1:Z26");
+            int QuanCol = GetColumn(wks, "Shipped Sales Quantity", searchRange);
             int SODateCol = GetColumn(wks, "SO Item Create Date", searchRange);
             int SOCustCol = GetColumn(wks, "Sold To Cust Name", searchRange);
             int PartNumberCol = GetColumn(wks, "Material ID", searchRange);
@@ -39,7 +38,16 @@ namespace DesignDB_Library.Operations
             int CityCol = GetColumn(wks, "Ship To Cust City Name", searchRange);
             int StateCol = GetColumn(wks, "Ship To Cust State Code", searchRange);
             int SOCol = GetColumn(wks, "Ship To Cust Name", searchRange);
+
             //Load SS into List
+            List<ShipmentLineModel> shipmentList = new List<ShipmentLineModel>();            
+            int row = 17;
+            for (int i = row; i < lastRow; i++)
+            {
+                ShipmentLineModel shipment = new ShipmentLineModel();
+                shipment.Desc = wks.Cells[i, DescCol].Value;
+                shipment = null;
+            }
             //Get Date Range
             List<RequestModel> requestList = GlobalConfig.Connection.DateRangeSearch_Unfiltered(startDate, endDate);
             //Identify SS Columns
@@ -56,22 +64,23 @@ namespace DesignDB_Library.Operations
 
         private static int FindLastSpreadsheetRow(Worksheet  wks)
         {
-            Excel.Range firstCell1 = wks.Cells[1, 1];
-            int LastRow = firstCell1.get_End(Excel.XlDirection.xlUp).Row;
+            int rowIndex = wks.Cells.Find("*", System.Reflection.Missing.Value, System.Reflection.Missing.Value, System.Reflection.Missing.Value, 
+                XlSearchOrder.xlByRows, Microsoft.Office.Interop.Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, 
+                System.Reflection.Missing.Value).Row;
 
-            return LastRow;
+            return rowIndex;
         }
 
         private static int FindHeaderRow(Range range, string searchTerm)
         {
-            Excel.Range result = range.Find("Quantity");
+            Excel.Range result = range.Find(searchTerm);
             return result.Row;
         }
 
         private static int GetColumn(Worksheet wks, string searchTerm, Range range)
         {
             Range result = range.Find(searchTerm);
-            return result.Row;
+            return result.Column;
         }
 
     }
