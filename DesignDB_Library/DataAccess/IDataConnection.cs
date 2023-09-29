@@ -9,6 +9,7 @@ namespace DesignDB_Library.DataAccess
 {
     public interface IDataConnection
     {
+        List<BOMLineModel> getBOMList(string PIDs);
         List<RollupRequestModel> GetRollupRequests(DateTime startDate, DateTime endDate);
         List<MSO_Model> MSO_GetByTier(int tier);
         void MSO_Update(MSO_Model model);

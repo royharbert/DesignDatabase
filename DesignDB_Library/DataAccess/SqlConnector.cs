@@ -7,11 +7,25 @@ using System.Text;
 using System.Threading.Tasks;
 using DesignDB_Library.Models;
 using System.Data.SqlClient;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace DesignDB_Library.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
+        public List<BOMLineModel> getBOMList(string PIDs)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@PIDs", PIDs, DbType.String);
+
+
+                List<BOMLineModel> output = connection.Query<BOMLineModel>("dbo.spBOM_GetFileName", p,
+                    commandType: CommandType.StoredProcedure).ToList();
+                return output;
+            }
+        }
         public List<RollupRequestModel> GetRollupRequests(DateTime startDate, DateTime endDate)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
