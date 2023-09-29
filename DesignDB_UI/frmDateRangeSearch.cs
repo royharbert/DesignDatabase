@@ -14,11 +14,12 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace DesignDB_UI
 {
-    
     public partial class frmDateRangeSearch : Form
     {
-        public event EventHandler<DataReadyEventArgs> DataReadyEvent;
+        public string FileName { get; set; }
+
         public event EventHandler<CancelEventArgs> PickerCanceled;
+        public event EventHandler<DateRangeEventArgs> DateRangeSet;
         CheckBox[] ckRegions;
         CheckBox[] ckTiers;
         List<MSO_Model> allMSO_S;
@@ -27,11 +28,9 @@ namespace DesignDB_UI
         List<MSO_Model> tier0Models;
         List<string> tierQuery = new List<string>();
         List<string> regionQuery = new List<string>();
-        public event EventHandler<DateRangeEventArgs> DateRangeSet;
         List<RequestModel> requestList = new List<RequestModel>();
         string term = "";
-        DataReadyEventArgs drArgs = new DataReadyEventArgs();
-        
+        DateRangeEventArgs drArgs = new DateRangeEventArgs();
         private void frmDateRangeSearch_Load(object sender, EventArgs e)
         {
             //Gather list of MSO's and create lists of tiers
@@ -144,15 +143,20 @@ namespace DesignDB_UI
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            this.Hide();
             if (GV.MODE == Mode.BOM_Shipments)
             {
                 List<MSO_Model>msoList = new List<MSO_Model>();
-                MSO_Model mso = (MSO_Model)lbMSO.SelectedItem;
-                msoList.Add(mso);
+                foreach (var mso in lbMSO.SelectedItems)
+                {
+                    MSO_Model msoModel = (MSO_Model)mso;
+                    msoList.Add(msoModel);
+                }
                 drArgs.StartDate = dtpStartDate.Value;
                 drArgs.EndDate = dtpEndDate.Value;
-                drArgs.MSO_s = msoList;
-                DataReadyEvent?.Invoke(this, drArgs);
+                drArgs.msoList = msoList;
+                drArgs.Filename = FileName;
+                DateRangeSet?.Invoke(this, drArgs);
             }
             else
             {
@@ -175,13 +179,11 @@ namespace DesignDB_UI
                         GV.MultiResult.Show();
                         break;
                 }
-            }
-            this.Close();
+            }            
         }
 
         private void btnForecast_Click(object sender, EventArgs e)
-        {
-                  
+        {                  
             DateRangeEventArgs args = new DateRangeEventArgs();
             args.StartDate = dtpStartDate.Value;
             args.EndDate = dtpEndDate.Value;
@@ -192,9 +194,11 @@ namespace DesignDB_UI
 
         public class DateRangeEventArgs : EventArgs
         {
-            public DateTime StartDate { get; set; }
-            public DateTime EndDate { get; set; }
-            public string MSO { get; set; }
+            public DateTime StartDate;
+            public DateTime EndDate;
+            public string MSO;
+            public List<MSO_Model> msoList;
+            public string Filename;
         }
         private void highlightListBoxItemsFromTierSelection(List<MSO_Model> modelList, bool isChecked)
         {

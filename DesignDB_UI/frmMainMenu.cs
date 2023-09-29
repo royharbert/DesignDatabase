@@ -19,7 +19,8 @@ namespace DesignDB_UI
     {
         frmInput frmInput = new frmInput();
         frmDateMSO_Picker frmDateMSO_Picker = new frmDateMSO_Picker();
-
+        frmDateRangeSearch DateRangeSearchForm = new frmDateRangeSearch();
+        
         private bool formLoading = false;
         private bool operationCanceled = false;     //flag to indicate cancel of operation
         private bool CustomFormat = false;
@@ -42,6 +43,7 @@ namespace DesignDB_UI
             frmDateMSO_Picker.Hide();
             frmDateMSO_Picker.PickerCanceled += FrmDateMSO_Picker_PickerCanceled;
             frmDateMSO_Picker.DataReadyEvent += FrmDateMSO_Picker_DataReadyEvent;
+            DateRangeSearchForm.DateRangeSet += DateRangeSearchForm_DateRangeSet;           
             formLoading = true;
             frmInput.InputDataReady += FrmInput_InputDataReady;
             InitializeComponent();
@@ -68,6 +70,16 @@ namespace DesignDB_UI
             formLoading = false;
         }
 
+        private void DateRangeSearchForm_DateRangeSet(object sender, frmDateRangeSearch.DateRangeEventArgs e)
+        {
+            switch (GV.MODE)
+            {
+                case Mode.BOM_Shipments:
+                    ShipmentOps.ShipmentToBOMCompare(DateRangeSearchForm.FileName, e.StartDate, e.EndDate, e.msoList);
+                    break;
+            }
+        }
+        
         private void ReportOps_NewMessageEvent(object sender, NewMessageEventArgs e)
         {
             ssLabel.Text = e.MyMessage;
@@ -423,9 +435,6 @@ namespace DesignDB_UI
                     frmReportSalesPriiority.Show();
                     frmReportSalesPriiority.TopMost = true;
                     break;
-                case Mode.BOM_Shipments:
-                    ShipmentOps.ShipmentToBOMCompare(fileName, e.StartDate, e.EndDate, e.MSO_s);
-                    break;
             }
 
         }
@@ -624,7 +633,8 @@ namespace DesignDB_UI
 
         private void btnBOMShipments_Click(object sender, EventArgs e)
         {
-            //string fileName = "";
+            string fileName = "";
+
             GV.MODE = Mode.BOM_Shipments;
             ofdMainMenu.DefaultExt = ".xlsx";
             ofdMainMenu.Filter = "Excel files (*.xlsx)|*.xlsx";
@@ -634,10 +644,10 @@ namespace DesignDB_UI
             ofdMainMenu.Title = "Open Shipments Spreadsheet";
             if (ofdMainMenu.ShowDialog() == DialogResult.OK)
             {
+                DateRangeSearchForm.FileName = ofdMainMenu.FileName;
                 fileName = ofdMainMenu.FileName;
             }
-            frmDateRangeSearch DateRangeForm = new frmDateRangeSearch();
-            DateRangeForm.Show();            
+            DateRangeSearchForm.Show();            
         }
     }
 }
