@@ -69,7 +69,14 @@ namespace DesignDB_Library.Operations
             List<ShipmentLineModel> msoShipmentList = new List<ShipmentLineModel>();
             foreach (var mso in MSOs)
             {
-                msoShipmentList = shipmentList.Where(x => x.SOCust.Contains(mso.MSO)).ToList();
+                foreach (var shipment in shipmentList)
+                {
+                    if (shipment.SOCust.Contains(mso.MSO));
+                    {
+                        msoShipmentList.Add(shipment);
+                    }
+                }
+                //msoShipmentList = shipmentList.Where(x => x.SOCust.Contains(mso.MSO)).ToList();
                 msoRequests = requestList.Where(x => x.MSO == mso.MSO).ToList();
                 string PIDs = GetPIDsFromRequests(msoRequests);
                 List<BOMLineModel> bomFiles = GlobalConfig.Connection.getBOMList(PIDs);
@@ -82,6 +89,7 @@ namespace DesignDB_Library.Operations
             //}
             //Get Project ID's for date range + MSO
             //Get BOM File names
+            ExcelOps.releaseObject(xlApp);
         }
 
         private static void ProcessBOM(Excel.Application xlApp, List<ShipmentLineModel> shipments, List<BOMLineModel> BOMList, 
@@ -96,7 +104,7 @@ namespace DesignDB_Library.Operations
                 {
                     RequestModel request = msoRequests.Where(x => x.ProjectID == BOM.PID).FirstOrDefault();
                     shipment.QuoteCity = request.City;
-                    shipment.QuoteCity = request.ST;
+                    shipment.QuoteState = request.ST;
                     shipment.QuoteDateCompleted = request.DateCompleted.ToShortDateString();
                 }
             }
