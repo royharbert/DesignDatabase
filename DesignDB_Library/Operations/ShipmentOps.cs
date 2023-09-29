@@ -22,15 +22,10 @@ namespace DesignDB_Library.Operations
             sendMessage("Opening Shipments File");
             Workbook wkb = xlApp.Workbooks.Open(fileName);
             Worksheet wks = xlApp.ActiveSheet;
-            xlApp.Visible = true;
-
-            //foreach (var mso in MSOs)
-            //{
-            //    List<ShipmentLineModel> shipmentsMSO = 
-            //}
-            // Find necessary rows/columns in SS
-            int lastRow = FindLastSpreadsheetRow(wks);
             Range searchRange= wks.get_Range("A1:Z26");
+            xlApp.Visible = true;
+            
+            int lastRow = FindLastSpreadsheetRow(wks);
             int QuanCol = GetColumn(wks, "Shipped Sales Quantity", searchRange);
             int SODateCol = GetColumn(wks, "SO Item Create Date", searchRange);
             int SOCustCol = GetColumn(wks, "Sold To Cust Name", searchRange);
@@ -80,26 +75,22 @@ namespace DesignDB_Library.Operations
                 msoRequests = requestList.Where(x => x.MSO == mso.MSO).ToList();
                 string PIDs = GetPIDsFromRequests(msoRequests);
                 List<BOMLineModel> bomFiles = GlobalConfig.Connection.getBOMList(PIDs);
-                ProcessBOM(xlApp, msoShipmentList, bomFiles, msoRequests);
+                ProcessBOM(xlApp, msoShipmentList, bomFiles, msoRequests, lastRow);
             }
 
-            //for (int i = 0; i < msoShipmentList.Count - 1; i++)
-            //{
-            //    msoShipmentList[i].QuoteCity = msoRequests.Where(x => x.ProjectID)
-            //}
-            //Get Project ID's for date range + MSO
-            //Get BOM File names
             ExcelOps.releaseObject(xlApp);
         }
 
         private static void ProcessBOM(Excel.Application xlApp, List<ShipmentLineModel> shipments, List<BOMLineModel> BOMList, 
-            List<RequestModel> msoRequests)
+            List<RequestModel> msoRequests, int lastRow)
         {
             foreach (var BOM in BOMList) 
             {
                 sendMessage("Opening " + BOM.DisplayText);
                 string BOMName = BOMFilePath + "\\" + BOM.PID +"\\" + BOM.DisplayText;
                 xlApp.Workbooks.Open(BOMName);
+                Worksheet wks = xlApp.ActiveSheet;
+                List<BOM_Model> BOMmodel = LoadBOMtoList(wks, lastRow, BOM.PID);
                 foreach (var shipment in shipments) 
                 {
                     RequestModel request = msoRequests.Where(x => x.ProjectID == BOM.PID).FirstOrDefault();
@@ -107,11 +98,36 @@ namespace DesignDB_Library.Operations
                     shipment.QuoteState = request.ST;
                     shipment.QuoteDateCompleted = request.DateCompleted.ToShortDateString();
                 }
+                //Compare BOM to shipment
+                xlApp.Workbooks.Close();
+
             }
 
         }
 
-        private static void AddQuoteDataToShipmentModel(RequestModel msoRequests)
+        private static List<BOM_Model> LoadBOMtoList(Worksheet wks, int lastRow, string PID)
+        {
+            List<BOM_Model> models = new List<BOM_Model>();
+            Range searchRange = wks.get_Range("A1:Z26");
+            int lastBOMRow = FindLastSpreadsheetRow(wks);
+            int headerRow = FindHeaderRow(searchRange, "Quantity");
+            int quanCol = GetColumn(wks, "Quantity", searchRange);
+            int descCol = GetColumn(wks, "Description", searchRange);
+            int modelCol = GetColumn(wks, "Model Number", searchRange);
+            int row = headerRow + 1;
+            for (int i = row; i <= lastBOMRow - 1; i++)
+            {
+                BOM_Model model = new BOM_Model();
+                model.Description = wks.Cells[i, descCol].Value;
+                model.Quote = PID;
+                model.ModelNumber = wks.Cells[i, modelCol].Value; 
+                model.Quantity = wks.Cells[i, quanCol].Value;
+                models.Add(model);
+            }
+
+            return models;
+        }
+        private static void CompareBOMtoShipmentsl(List<ShipmentLineModel> shipments,  RequestModel msoRequests)
         {
 
         }

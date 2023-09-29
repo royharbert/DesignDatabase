@@ -8,7 +8,7 @@ namespace DesignDB_Library.Models
 {
     public class ForecastModel
     {
-        public int Quantity { get; set; }
+        public double Quantity { get; set; }
         public string ModelNumber { get; set; }
         public string Description { get; set; }
         public List<string> Quotes { get; set; }

@@ -12,7 +12,7 @@ namespace DesignDB_Library.Models
     public class BOM_Model
     {
         public int ID { get; set; }
-        public int Quantity { get; set; }
+        public double Quantity { get; set; }
         public string ModelNumber { get; set; }
         public string Description { get; set; }
         public string Quote { get; set; }
