@@ -44,9 +44,9 @@ namespace DesignDB_Library.Operations
                 ShipmentLineModel shipment = new ShipmentLineModel();
                 shipment.Desc = wks.Cells[i, DescCol].Value;
                 shipment.PartNumber = wks.Cells[i, PartNumberCol].Value;
-                shipment.QuoteCity = wks.Cells[i, CityCol].Value;
+                shipment.City = wks.Cells[i, CityCol].Value;
                 shipment.SOCust = wks.Cells[i, SOCustCol].Value;
-                shipment.QuoteState = wks.Cells[i, StateCol].Value;
+                shipment.State = wks.Cells[i, StateCol].Value;
                 shipment.Quantity = wks.Cells[i, QuanCol].Value;
                 shipment.SODate = wks.Cells[i, SODateCol].Value;
                 shipment.SONumber = wks.Cells[i, SOCol].Value;
