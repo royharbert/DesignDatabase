@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
-using Microsoft.Office.Tools.Excel;
 using System.Runtime.InteropServices;
 using DesignDB_Library.Models;
 using Microsoft.Office.Interop.Excel;
@@ -17,6 +16,40 @@ namespace DesignDB_Library.Operations
 {
     public class ExcelOps
     {
+        /// <summary>
+        /// Returns column number of first occurence of searchTerm in range
+        /// </summary>
+        /// <param name="wks"></param>
+        /// <param name="searchTerm"></param>
+        /// <param name="range"></param>
+        /// <returns></returns>
+        public static int GetColumn(Worksheet wks, string searchTerm, Range range)
+        {
+            Range result = range.Find(searchTerm);
+            return result.Column;
+        }
+
+        /// <summary>
+        /// Returns row first number containing searchTerm
+        /// </summary>
+        /// <param name="range"></param>
+        /// <param name="searchTerm"></param>
+        /// <returns></returns>
+        public static int FindHeaderRow(Range range, string searchTerm)
+        {
+            Excel.Range result = range.Find(searchTerm);
+            return result.Row;
+        }
+
+        //Finds last used row in spreadsheet
+        public static int FindLastSpreadsheetRow(Worksheet wks)
+        {
+            int rowIndex = wks.Cells.Find("*", System.Reflection.Missing.Value, System.Reflection.Missing.Value, System.Reflection.Missing.Value,
+                XlSearchOrder.xlByRows, Microsoft.Office.Interop.Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value,
+                System.Reflection.Missing.Value).Row;
+
+            return rowIndex;
+        }
 
         public static event EventHandler<NewMessageEventArgs> NewMessageEvent;
         

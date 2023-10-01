@@ -80,7 +80,14 @@ namespace DesignDB_Library.Operations
 
             ExcelOps.releaseObject(xlApp);
         }
-
+        /// <summary>
+        /// Opens BOM, loads items into List BOM_Model, populates BOM related items into ShipmentLineModel
+        /// </summary>
+        /// <param name="xlApp"></param>
+        /// <param name="shipments"></param>
+        /// <param name="BOMList"></param>
+        /// <param name="msoRequests"></param>
+        /// <param name="lastRow"></param>
         private static void ProcessBOM(Excel.Application xlApp, List<ShipmentLineModel> shipments, List<BOMLineModel> BOMList, 
             List<RequestModel> msoRequests, int lastRow)
         {
@@ -100,11 +107,16 @@ namespace DesignDB_Library.Operations
                 }
                 //Compare BOM to shipment
                 xlApp.Workbooks.Close();
-
             }
-
         }
 
+        /// <summary>
+        /// Places BIM items into List<BOM_Model></BOM_Model>
+        /// </summary>
+        /// <param name="wks"></param>
+        /// <param name="lastRow"></param>
+        /// <param name="PID"></param>
+        /// <returns></returns>
         private static List<BOM_Model> LoadBOMtoList(Worksheet wks, int lastRow, string PID)
         {
             List<BOM_Model> models = new List<BOM_Model>();
@@ -126,12 +138,19 @@ namespace DesignDB_Library.Operations
             }
 
             return models;
+
         }
+
         private static void CompareBOMtoShipmentsl(List<ShipmentLineModel> shipments,  RequestModel msoRequests)
         {
 
         }
         
+        /// <summary>
+        /// Creates a comma sepatated string list of PID's
+        /// </summary>
+        /// <param name="msoRequests"></param>
+        /// <returns></returns>
         private static string GetPIDsFromRequests(List<RequestModel> msoRequests)
         {
             sendMessage("Getting BOM file names");
@@ -145,30 +164,46 @@ namespace DesignDB_Library.Operations
             return PIDs;
         }
 
+        /// <summary>
+        /// Calls ExcelOps sendMessage to place string into message bar
+        /// </summary>
+        /// <param name="message"></param>
         public static void sendMessage(string message)
         {
             ReportOps.sendMessage(message);
         }
 
+        /// <summary>
+        /// Shortcut to ExcelOps code to return last usde row in spreadsheet
+        /// </summary>
+        /// <param name="wks"></param>
+        /// <returns></returns>
         private static int FindLastSpreadsheetRow(Worksheet  wks)
         {
-            int rowIndex = wks.Cells.Find("*", System.Reflection.Missing.Value, System.Reflection.Missing.Value, System.Reflection.Missing.Value, 
-                XlSearchOrder.xlByRows, Microsoft.Office.Interop.Excel.XlSearchDirection.xlPrevious, false, System.Reflection.Missing.Value, 
-                System.Reflection.Missing.Value).Row;
-
-            return rowIndex;
+            return ExcelOps.FindLastSpreadsheetRow(wks);
         }
 
+        /// <summary>
+        /// Shortcut to ExcelOps findHeaderRow, returning row number of first occurence of searchTerm
+        /// </summary>
+        /// <param name="range"></param>
+        /// <param name="searchTerm"></param>
+        /// <returns></returns>
         private static int FindHeaderRow(Range range, string searchTerm)
         {
-            Excel.Range result = range.Find(searchTerm);
-            return result.Row;
+            return ExcelOps.FindHeaderRow(range, searchTerm);
         }
 
+        /// <summary>
+        /// Returns column number of first occurence of searchTerm in range
+        /// </summary>
+        /// <param name="wks"></param>
+        /// <param name="searchTerm"></param>
+        /// <param name="range"></param>
+        /// <returns></returns>
         private static int GetColumn(Worksheet wks, string searchTerm, Range range)
         {
-            Range result = range.Find(searchTerm);
-            return result.Column;
+            return ExcelOps.GetColumn(wks, searchTerm, range);
         }
 
     }
