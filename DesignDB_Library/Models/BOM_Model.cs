@@ -16,5 +16,6 @@ namespace DesignDB_Library.Models
         public string ModelNumber { get; set; }
         public string Description { get; set; }
         public string Quote { get; set; }
+        public string DisplayText { get; set; }
     }
 }

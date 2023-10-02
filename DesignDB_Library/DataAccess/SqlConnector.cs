@@ -13,6 +13,12 @@ namespace DesignDB_Library.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
+        /// <summary>
+        /// Returns List<BOMLineModel> that includes PID, BOM file name and DateCompleted
+        /// </BOMLineModel>
+        /// </summary>
+        /// <param name="PIDs"></param>
+        /// <returns></returns>
         public List<BOMLineModel> getBOMList(string PIDs)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))

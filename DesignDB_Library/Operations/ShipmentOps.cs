@@ -75,7 +75,7 @@ namespace DesignDB_Library.Operations
                 msoRequests = requestList.Where(x => x.MSO == mso.MSO).ToList();
                 string PIDs = GetPIDsFromRequests(msoRequests);
                 List<BOMLineModel> bomFiles = GlobalConfig.Connection.getBOMList(PIDs);
-                ProcessBOM(xlApp, msoShipmentList, bomFiles, msoRequests, lastRow);
+                ProcessBOM(xlApp, msoShipmentList, msoRequests, lastRow, bomFiles);
             }
 
             ExcelOps.releaseObject(xlApp);
@@ -88,16 +88,23 @@ namespace DesignDB_Library.Operations
         /// <param name="BOMList"></param>
         /// <param name="msoRequests"></param>
         /// <param name="lastRow"></param>
-        private static void ProcessBOM(Excel.Application xlApp, List<ShipmentLineModel> shipments, List<BOMLineModel> BOMList, 
-            List<RequestModel> msoRequests, int lastRow)
+        private static void ProcessBOM(Excel.Application xlApp, List<ShipmentLineModel> shipments, 
+            List<RequestModel> msoRequests, int lastRow, List<BOMLineModel> BOMLineList, List<BOM_Model> BOMList= null)
         {
-            foreach (var BOM in BOMList) 
+            foreach (var BOM in BOMLineList) 
             {
-                sendMessage("Opening " + BOM.DisplayText);
-                string BOMName = BOMFilePath + "\\" + BOM.PID +"\\" + BOM.DisplayText;
-                xlApp.Workbooks.Open(BOMName);
-                Worksheet wks = xlApp.ActiveSheet;
-                List<BOM_Model> BOMmodel = LoadBOMtoList(wks, lastRow, BOM.PID);
+                //Open BOM attachment from server
+                Worksheet wks = OpenBOMFile(BOM, xlApp);
+
+                //Load this BOM into List
+                List<BOM_Model> BOMLines = LoadBOMtoList(wks, lastRow, BOM.PID);
+
+                //Load BOMLineModel data into BOM_Model
+                foreach (var line in BOMLines)
+                {
+                    BOMLineModel lineModel = BOMLineList.Where(x => x.PID == line.Quote).FirstOrDefault();
+                    line.DisplayText = lineModel.DisplayText;
+                }
                 foreach (var shipment in shipments) 
                 {
                     RequestModel request = msoRequests.Where(x => x.ProjectID == BOM.PID).FirstOrDefault();
@@ -106,9 +113,20 @@ namespace DesignDB_Library.Operations
                     shipment.QuoteDateCompleted = request.DateCompleted.ToShortDateString();
                 }
                 //Compare BOM to shipment
+                CompareBOMtoShipmentsl(xlApp, wks, lastRow, shipments, msoRequests, BOMLineList,  BOMLines);
                 xlApp.Workbooks.Close();
             }
         }
+
+        private static Worksheet OpenBOMFile(BOMLineModel BOM, Excel.Application xlApp)
+        {
+            sendMessage("Opening " + BOM.DisplayText);
+            string BOMName = BOMFilePath + "\\" +BOM.PID + "\\" + BOM.DisplayText;
+            xlApp.Workbooks.Open(BOMName);
+            Worksheet wks = xlApp.ActiveSheet;
+            return wks;
+        }
+
 
         /// <summary>
         /// Places BIM items into List<BOM_Model></BOM_Model>
@@ -141,9 +159,31 @@ namespace DesignDB_Library.Operations
 
         }
 
-        private static void CompareBOMtoShipmentsl(List<ShipmentLineModel> shipments,  RequestModel msoRequests)
+        private static void CompareBOMtoShipmentsl(Excel.Application xlApp, Worksheet wks, int lastRow, List<ShipmentLineModel> shipments,  
+            List<RequestModel> msoRequests, List<BOMLineModel> bomLineList, List<BOM_Model> BOMs)
         {
+            foreach (var bom in BOMs)
+            {
+                ProcessBOM(xlApp, shipments, msoRequests, lastRow, bomLineList, BOMs);
+                List<BOM_Model> bomItems = LoadBOMtoList(wks, lastRow, bom.Quote);
+                string msg = "Analyzing Quote" + bom.Quote;
+                sendMessage(msg);
 
+                List<BOM_Model> bomMatches = new List<BOM_Model>();
+                foreach (var item in bomItems)
+                {
+                    sendMessage(msg + "     " + item.ModelNumber);
+                    List<ShipmentLineModel> matches = shipments.Where(x => x.PartNumber == item.ModelNumber).ToList();
+                    if (matches.Count > 0)
+                    {
+                        foreach (var match in matches)
+                        {
+                            bomMatches.Add(bom);
+                        }
+                    }  
+                }
+                
+            }
         }
         
         /// <summary>
