@@ -33,7 +33,7 @@ namespace DesignDB_Library.Operations
             int DescCol = GetColumn(wks, "Material Description", searchRange);
             int CityCol = GetColumn(wks, "Ship To Cust City Name", searchRange);
             int StateCol = GetColumn(wks, "Ship To Cust State Code", searchRange);
-            int SOCol = GetColumn(wks, "Ship To Cust Name", searchRange);
+            int SOCol = GetColumn(wks, "IC Invoice ID", searchRange);
 
             //Load SS into List
             sendMessage("Loading Spreadsheet into List");
@@ -49,7 +49,14 @@ namespace DesignDB_Library.Operations
                 shipment.State = wks.Cells[i, StateCol].Value;
                 shipment.Quantity = wks.Cells[i, QuanCol].Value;
                 shipment.SODate = wks.Cells[i, SODateCol].Value;
-                shipment.SONumber = wks.Cells[i, SOCol].Value;
+                if (wks.Cells[i, SOCol].Value != null)
+                {
+                    shipment.SONumber = wks.Cells[i, SOCol].Value.ToString(); 
+                }
+                else
+                {
+                    shipment.SONumber = "None";
+                }
                 shipment.ExcelRow = i;
                 shipmentList.Add(shipment);
 
@@ -113,7 +120,10 @@ namespace DesignDB_Library.Operations
                     shipment.QuoteDateCompleted = request.DateCompleted.ToShortDateString();
                 }
                 //Compare BOM to shipment
-                CompareBOMtoShipmentsl(xlApp, wks, lastRow, shipments, msoRequests, BOMLineList,  BOMLines);
+                foreach (var bom in BOMLines)
+                {
+                    CompareBOMtoShipmentsl(xlApp, wks, lastRow, shipments, msoRequests, BOMLineList, bom); 
+                }
                 xlApp.Workbooks.Close();
             }
         }
@@ -156,34 +166,38 @@ namespace DesignDB_Library.Operations
             }
 
             return models;
-
         }
 
         private static void CompareBOMtoShipmentsl(Excel.Application xlApp, Worksheet wks, int lastRow, List<ShipmentLineModel> shipments,  
-            List<RequestModel> msoRequests, List<BOMLineModel> bomLineList, List<BOM_Model> BOMs)
+            List<RequestModel> msoRequests, List<BOMLineModel> bomLineList, BOM_Model BOM)
         {
-            foreach (var bom in BOMs)
-            {
-                ProcessBOM(xlApp, shipments, msoRequests, lastRow, bomLineList, BOMs);
-                List<BOM_Model> bomItems = LoadBOMtoList(wks, lastRow, bom.Quote);
-                string msg = "Analyzing Quote" + bom.Quote;
+            //foreach (var bom in bomLineList)
+            //{
+                //ProcessBOM(xlApp, shipments, msoRequests, lastRow, bomLineList, BOM);
+                List<BOM_Model> bomItems = LoadBOMtoList(wks, lastRow, BOM.Quote);
+                string msg = "Analyzing Quote" + BOM.Quote;
                 sendMessage(msg);
 
-                List<BOM_Model> bomMatches = new List<BOM_Model>();
+                List<ShipmentLineModel> bomMatches = new List<ShipmentLineModel>();
                 foreach (var item in bomItems)
                 {
                     sendMessage(msg + "     " + item.ModelNumber);
                     List<ShipmentLineModel> matches = shipments.Where(x => x.PartNumber == item.ModelNumber).ToList();
+                    Dictionary<int, List<string>> pnMatchList = new Dictionary<int, List<string>>();
+                    List<string> SOList = new List<string>();
                     if (matches.Count > 0)
                     {
                         foreach (var match in matches)
                         {
-                            bomMatches.Add(bom);
+                            bomMatches.Add(match);
+                            SOList.Add(match.SONumber.ToString());
+                            pnMatchList.Add(match.ExcelRow, SOList);
                         }
+                        item.pnMatchList = pnMatchList;
                     }  
                 }
                 
-            }
+            //}
         }
         
         /// <summary>
