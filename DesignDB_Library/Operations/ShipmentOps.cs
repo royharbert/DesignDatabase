@@ -121,11 +121,7 @@ namespace DesignDB_Library.Operations
                     shipment.QuoteDateCompleted = request.DateCompleted.ToShortDateString();
                 }
                 //Compare BOM to shipment
-                //foreach (var bom in BOMLines)
-                //{
-                    CompareBOMtoShipmentsl(xlApp, wks, lastRow, shipments, msoRequests, BOM); 
-                //}
-                //xlApp.Workbooks.Close();
+                CompareBOMtoShipmentsl(xlApp, wks, lastRow, shipments, msoRequests, BOM);
             }
         }
 
@@ -168,7 +164,15 @@ namespace DesignDB_Library.Operations
 
             return models;
         }
-
+        /// <summary>
+        /// Creates a list of Part Number matches from BOM to Quote
+        /// </summary>
+        /// <param name="xlApp"></param>
+        /// <param name="wks"></param>
+        /// <param name="lastRow"></param>
+        /// <param name="shipments"></param>
+        /// <param name="msoRequests"></param>
+        /// <param name="BOM"></param>
         private static void CompareBOMtoShipmentsl(Excel.Application xlApp, Worksheet wks, int lastRow, List<ShipmentLineModel> shipments,  
             List<RequestModel> msoRequests, BOMLineModel BOM)
         {
@@ -211,12 +215,23 @@ namespace DesignDB_Library.Operations
                 row++;
             }
         }
-
+        /// <summary>
+        /// Uses ExcelOps to place text in cell
+        /// </summary>
+        /// <param name="wks"></param>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="text"></param>
         private static void InsertText(Worksheet wks, int row, int col, string text)
         {
             ExcelOps.PlaceTextInWorksheet(wks, row, col, text);
         }
-
+        /// <summary>
+        /// Create worksheet to hold match data
+        /// </summary>
+        /// <param name="xlApp"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private static Worksheet MakeMatchXL(Excel.Application xlApp, string name)
         {
             Workbook wkb = xlApp.Workbooks.Add();
