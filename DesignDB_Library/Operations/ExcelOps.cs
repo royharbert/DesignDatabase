@@ -17,6 +17,17 @@ namespace DesignDB_Library.Operations
     public class ExcelOps
     {
         /// <summary>
+        /// Places text in worksheet at specified row, col
+        /// </summary>
+        /// <param name="wks"></param>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <param name="txt"></param>
+        public static void PlaceTextInWorksheet(Worksheet wks, int row, int col, string txt)
+        {
+            wks.Cells[row, col].Value = txt;
+        }
+        /// <summary>
         /// Returns column number of first occurence of searchTerm in range
         /// </summary>
         /// <param name="wks"></param>

@@ -9,6 +9,7 @@ using DesignDB_Library.Models;
 using Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting;
+using System.Text.RegularExpressions;
 
 namespace DesignDB_Library.Operations
 {
@@ -120,11 +121,11 @@ namespace DesignDB_Library.Operations
                     shipment.QuoteDateCompleted = request.DateCompleted.ToShortDateString();
                 }
                 //Compare BOM to shipment
-                foreach (var bom in BOMLines)
-                {
-                    CompareBOMtoShipmentsl(xlApp, wks, lastRow, shipments, msoRequests, BOMLineList, bom); 
-                }
-                xlApp.Workbooks.Close();
+                //foreach (var bom in BOMLines)
+                //{
+                    CompareBOMtoShipmentsl(xlApp, wks, lastRow, shipments, msoRequests, BOM); 
+                //}
+                //xlApp.Workbooks.Close();
             }
         }
 
@@ -169,35 +170,65 @@ namespace DesignDB_Library.Operations
         }
 
         private static void CompareBOMtoShipmentsl(Excel.Application xlApp, Worksheet wks, int lastRow, List<ShipmentLineModel> shipments,  
-            List<RequestModel> msoRequests, List<BOMLineModel> bomLineList, BOM_Model BOM)
+            List<RequestModel> msoRequests, BOMLineModel BOM)
         {
-            //foreach (var bom in bomLineList)
-            //{
-                //ProcessBOM(xlApp, shipments, msoRequests, lastRow, bomLineList, BOM);
-                List<BOM_Model> bomItems = LoadBOMtoList(wks, lastRow, BOM.Quote);
-                string msg = "Analyzing Quote" + BOM.Quote;
-                sendMessage(msg);
+            //ProcessBOM(xlApp, shipments, msoRequests, lastRow, bomLineList, BOM);
+            List<BOM_Model> bomItems = LoadBOMtoList(wks, lastRow, BOM.PID);
+            string msg = "Analyzing Quote" + BOM.PID;
+            sendMessage(msg);
 
-                List<ShipmentLineModel> bomMatches = new List<ShipmentLineModel>();
-                foreach (var item in bomItems)
+            Dictionary<int, (string soNumber, string partNumber) > pnMatch = new Dictionary<int, (string soNumber, string partNumber)>();
+            List<ShipmentLineModel> bomMatches = new List<ShipmentLineModel>();
+            string quoteID = "";
+            foreach (var item in bomItems)
+            {
+                quoteID = item.Quote;
+                sendMessage(msg + "     " + item.ModelNumber);
+                List<ShipmentLineModel> matches = shipments.Where(x => x.PartNumber == item.ModelNumber).ToList();
+                (string soNumber, string partNumber) so_part;
+                if (matches.Count > 0)
                 {
-                    sendMessage(msg + "     " + item.ModelNumber);
-                    List<ShipmentLineModel> matches = shipments.Where(x => x.PartNumber == item.ModelNumber).ToList();
-                    Dictionary<int, List<string>> pnMatchList = new Dictionary<int, List<string>>();
-                    List<string> SOList = new List<string>();
-                    if (matches.Count > 0)
+                    foreach (var match in matches)
                     {
-                        foreach (var match in matches)
-                        {
-                            bomMatches.Add(match);
-                            SOList.Add(match.SONumber.ToString());
-                            pnMatchList.Add(match.ExcelRow, SOList);
-                        }
-                        item.pnMatchList = pnMatchList;
-                    }  
+                        bomMatches.Add(match);
+                        so_part.soNumber = match.SONumber;
+                        so_part.partNumber = match.PartNumber;
+                        pnMatch.Add(match.ExcelRow, so_part);
+                        item.pnMatchList = pnMatch;
+                    }
                 }
-                
-            //}
+            }
+            wks = MakeMatchXL(xlApp, quoteID);
+            int row = 2;
+            foreach (var match in pnMatch)
+            {
+                string keyString = match.Key.ToString();
+                InsertText(wks, row, 1, keyString);
+                (string soNumber, string partNumber) values = match.Value;
+                InsertText(wks, row, 2, values.soNumber);
+                InsertText(wks, row, 3, values.partNumber);
+
+                row++;
+            }
+        }
+
+        private static void InsertText(Worksheet wks, int row, int col, string text)
+        {
+            ExcelOps.PlaceTextInWorksheet(wks, row, col, text);
+        }
+
+        private static Worksheet MakeMatchXL(Excel.Application xlApp, string name)
+        {
+            Workbook wkb = xlApp.Workbooks.Add();
+            Worksheet wks = wkb.ActiveSheet;
+            InsertText(wks, 1, 1, "Shipment Row");
+            InsertText(wks, 1, 2, "Part Number");
+            InsertText(wks, 1, 3, "IC Invoice");
+            wks.Columns[1].ColumnWidth = 20;
+            wks.Columns[2].ColumnWidth = 20;
+            wks.Columns[3].ColumnWidth = 20;
+            wks.Name = name;
+            return wks;
         }
         
         /// <summary>
