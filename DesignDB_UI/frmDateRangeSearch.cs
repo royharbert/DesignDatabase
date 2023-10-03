@@ -146,7 +146,7 @@ namespace DesignDB_UI
             this.Hide();
             if (GV.MODE == Mode.BOM_Shipments)
             {
-                List<MSO_Model>msoList = new List<MSO_Model>();
+                List<MSO_Model> msoList = new List<MSO_Model>();
                 foreach (var mso in lbMSO.SelectedItems)
                 {
                     MSO_Model msoModel = (MSO_Model)mso;
@@ -161,11 +161,27 @@ namespace DesignDB_UI
             else
             {
                 GV.MODE = Mode.DateRangeSearch;
+                List<MSO_Model> msoList = new List<MSO_Model>();
+                foreach (var mso in lbMSO.SelectedItems)
+                {
+                    MSO_Model msoModel = (MSO_Model)mso;
+                    msoList.Add(msoModel);
+                }
                 int records = requestList.Count;
 
-                requestList = GlobalConfig.Connection.ReportDateRangeSearch_MSOFiltered
-                    (dtpStartDate.Value, dtpEndDate.Value, term, lbMSO.Text, false, cboDesigner.Text, cboRequestor.Text);
+                requestList = GlobalConfig.Connection.DateRangeSearch_Unfiltered
+                    (dtpStartDate.Value, dtpEndDate.Value, term, false, cboDesigner.Text, cboRequestor.Text);
                 records = requestList.Count;
+
+                List<RequestModel> filteredRequests = new List<RequestModel>();
+                if (records > 0)
+                {
+                    foreach (var mso in msoList)
+                    {
+                        filteredRequests.AddRange(requestList.Where(x => x.MSO == mso.MSO).ToList());
+                    }
+                    records = filteredRequests.Count; 
+                }
 
                 switch (records)
                 {
@@ -175,12 +191,16 @@ namespace DesignDB_UI
 
                     default:
                         //frmMultiResult frmMultiResult = new frmMultiResult(requestList);
-                        GV.MultiResult.dataList = requestList;
+                        GV.MultiResult.dataList = filteredRequests;
                         GV.MultiResult.Show();
                         break;
                 }
-            }            
+                
+            }
         }
+
+         
+        
 
         private void btnForecast_Click(object sender, EventArgs e)
         {                  
