@@ -16,12 +16,12 @@ namespace DesignDB_Library.Operations
     public static class ShipmentOps
     {
         const string BOMFilePath = "\\\\usca5pdbatdgs01\\Databases\\AttachmentsDesign";
+        
         public static void ShipmentToBOMCompare(string fileName, DateTime startDate, DateTime endDate, List<MSO_Model> MSOs)
         {
             //Get shipment spreadsheet
             Application xlApp = ExcelOps.makeExcelApp();
             sendMessage("Opening Shipments File");
-            Workbook wkbResults = xlApp.Workbooks.Add();
             Workbook wkb = xlApp.Workbooks.Open(fileName);
             Worksheet wks = xlApp.ActiveSheet;
             Range searchRange= wks.get_Range("A1:Z26");
@@ -84,7 +84,7 @@ namespace DesignDB_Library.Operations
                 msoRequests = requestList.Where(x => x.MSO == mso.MSO).ToList();
                 string PIDs = GetPIDsFromRequests(msoRequests);
                 List<BOMLineModel> bomFiles = GlobalConfig.Connection.getBOMList(PIDs);
-                ProcessBOM(xlApp, wks, wkbResults, msoShipmentList, msoRequests, lastRow, bomFiles);
+                ProcessBOM(xlApp, wkb, msoShipmentList, msoRequests, lastRow, bomFiles);
             }
 
             ExcelOps.releaseObject(xlApp);
@@ -97,18 +97,19 @@ namespace DesignDB_Library.Operations
         /// <param name="BOMList"></param>
         /// <param name="msoRequests"></param>
         /// <param name="lastRow"></param>
-        private static void ProcessBOM(Excel.Application xlApp, Worksheet wks, Workbook wkbResults, List<ShipmentLineModel> shipments, 
+        private static void ProcessBOM(Excel.Application xlApp, Workbook wkb, List<ShipmentLineModel> shipments, 
             List<RequestModel> msoRequests, int lastRow, List<BOMLineModel> BOMLineList, List<BOM_Model> BOMList= null)
         {
+            Workbook wkbResults = null;
             foreach (var BOM in BOMLineList) 
             {
-                //Workbook wkb = xlApp.Workbooks.Add();
-                //Worksheet wks = wkb.Sheets.Add();
-                //Open BOM attachment from server
-                wks = OpenBOMFile(BOM, xlApp);
+                string bomFile = BOMFilePath + "\\" + BOM.PID + "\\" + BOM.DisplayText;
+                sendMessage("Opening " + BOM.DisplayText);
+                wkb = xlApp.Workbooks.Open(bomFile);
+                Worksheet wks = xlApp.ActiveSheet;
 
                 //Load this BOM into List
-                List<BOM_Model> BOMLines = LoadBOMtoList(wks, lastRow, BOM.PID);
+                List<BOM_Model> BOMLines = LoadBOMtoList(wkb, lastRow, BOM.PID);                
 
                 //Load BOMLineModel data into BOM_Model
                 foreach (var line in BOMLines)
@@ -125,19 +126,13 @@ namespace DesignDB_Library.Operations
                     shipment.QuoteDateCompleted = request.DateCompleted.ToShortDateString();
                 }
                 //Compare BOM to shipment
-                CompareBOMtoShipmentsl(xlApp, wkbResults, wks, lastRow, shipments, msoRequests, BOM);
+                if (wkbResults == null)
+                {
+                    wkbResults = xlApp.Workbooks.Add(); 
+                }
+                CompareBOMtoShipmentsl(xlApp, wkbResults, wkb, lastRow, shipments, msoRequests, BOM);
             }
         }
-
-        private static Worksheet OpenBOMFile(BOMLineModel BOM, Excel.Application xlApp)
-        {
-            sendMessage("Opening " + BOM.DisplayText);
-            string BOMName = BOMFilePath + "\\" +BOM.PID + "\\" + BOM.DisplayText;
-            xlApp.Workbooks.Open(BOMName);
-            Worksheet wks = xlApp.ActiveSheet;
-            return wks;
-        }
-
 
         /// <summary>
         /// Places BIM items into List<BOM_Model></BOM_Model>
@@ -146,8 +141,9 @@ namespace DesignDB_Library.Operations
         /// <param name="lastRow"></param>
         /// <param name="PID"></param>
         /// <returns></returns>
-        private static List<BOM_Model> LoadBOMtoList(Worksheet wks, int lastRow, string PID)
+        private static List<BOM_Model> LoadBOMtoList(Workbook wkb, int lastRow, string PID)
         {
+            Worksheet wks = wkb.ActiveSheet;
             List<BOM_Model> models = new List<BOM_Model>();
             Range searchRange = wks.get_Range("A1:Z26");
             int lastBOMRow = FindLastSpreadsheetRow(wks);
@@ -177,15 +173,18 @@ namespace DesignDB_Library.Operations
         /// <param name="shipments"></param>
         /// <param name="msoRequests"></param>
         /// <param name="BOM"></param>
-        private static void CompareBOMtoShipmentsl(Excel.Application xlApp, Workbook wkbResults, Worksheet wks, int lastRow, List<ShipmentLineModel> shipments,  
-            List<RequestModel> msoRequests, BOMLineModel BOM)
+        private static void CompareBOMtoShipmentsl(Excel.Application xlApp, Workbook wkbResults, Workbook wkb, int lastRow, 
+            List<ShipmentLineModel> shipments, List<RequestModel> msoRequests, BOMLineModel BOM)
         {
+            Worksheet wks = wkb.ActiveSheet;
             //ProcessBOM(xlApp, shipments, msoRequests, lastRow, bomLineList, BOM);
-            List<BOM_Model> bomItems = LoadBOMtoList(wks, lastRow, BOM.PID);
-            string msg = "Analyzing Quote" + BOM.PID;
+            List<BOM_Model> bomItems = LoadBOMtoList(wkb, lastRow, BOM.PID);
+            wkb.Close();
+           
+            string msg = "Analyzing Quote  " + BOM.PID;
             sendMessage(msg);
 
-            Dictionary<int, (string soNumber, string partNumber) > pnMatch = new Dictionary<int, (string soNumber, string partNumber)>();
+            Dictionary<int, (string soNumber, string partNumber)> pnMatch = new Dictionary<int, (string soNumber, string partNumber)>();
             List<ShipmentLineModel> bomMatches = new List<ShipmentLineModel>();
             string quoteID = "";
             foreach (var item in bomItems)
@@ -206,18 +205,30 @@ namespace DesignDB_Library.Operations
                     }
                 }
             }
-            wks = MakeMatchXL(wkbResults, quoteID);
+           
+            AddSheetToWorkbook(wkbResults);
+            
+            wkbResults = MakeMatchXL(wkbResults, xlApp, quoteID);
             int row = 2;
             foreach (var match in pnMatch)
             {
+                Worksheet wksResults = wkbResults.ActiveSheet;
                 string keyString = match.Key.ToString();
-                InsertText(wks, row, 1, keyString);
+                InsertText(wksResults, row, 1, keyString);
                 (string soNumber, string partNumber) values = match.Value;
-                InsertText(wks, row, 3, values.soNumber);
-                InsertText(wks, row, 2, values.partNumber);
+                InsertText(wksResults, row, 3, values.soNumber);
+                InsertText(wksResults, row, 2, values.partNumber);
 
                 row++;
-            }
+            }            
+        }
+
+        private static Workbook AddSheetToWorkbook(Workbook wkb)
+        {
+            int count = wkb.Sheets.Count;            
+            wkb.Sheets.Add();             
+            count = wkb.Sheets.Count;
+            return wkb;
         }
         /// <summary>
         /// Uses ExcelOps to place text in cell
@@ -236,9 +247,8 @@ namespace DesignDB_Library.Operations
         /// <param name="xlApp"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        private static Worksheet MakeMatchXL(Workbook wkbResults, string name)
+        private static Workbook MakeMatchXL(Workbook wkbResults, Excel.Application xlApp, string name)
         {
-            //Workbook wkb = xlApp.Workbooks.Add();
             Worksheet wks = wkbResults.ActiveSheet;
             InsertText(wks, 1, 1, "Shipment Row");
             InsertText(wks, 1, 2, "Part Number");
@@ -247,7 +257,7 @@ namespace DesignDB_Library.Operations
             wks.Columns[2].ColumnWidth = 20;
             wks.Columns[3].ColumnWidth = 20;
             wks.Name = name;
-            return wks;
+            return wkbResults;
         }
         
         /// <summary>
