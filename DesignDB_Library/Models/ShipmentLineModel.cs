@@ -20,6 +20,7 @@ namespace DesignDB_Library.Models
         public int ExcelRow { get; set; }
         public string QuoteCity { get; set; }
         public string QuoteState { get; set; }
-        public string QuoteDateCompleted { get; set; }   
+        public string QuoteDateCompleted { get; set; }
+        public string BOM_Quantity { get; set; }
     }
 }

@@ -10,12 +10,15 @@ using Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace DesignDB_Library.Operations
 {
     public static class ShipmentOps
     {
         const string BOMFilePath = "\\\\usca5pdbatdgs01\\Databases\\AttachmentsDesign";
+        static string quoteCity = "";
+        static string quoteState = "";
         
         public static void ShipmentToBOMCompare(string fileName, DateTime startDate, DateTime endDate, List<MSO_Model> MSOs)
         {
@@ -118,13 +121,6 @@ namespace DesignDB_Library.Operations
                     line.DisplayText = lineModel.DisplayText;
                 }
 
-                foreach (var shipment in shipments) 
-                {
-                    RequestModel request = msoRequests.Where(x => x.ProjectID == BOM.PID).FirstOrDefault();
-                    shipment.QuoteCity = request.City;
-                    shipment.QuoteState = request.ST;
-                    shipment.QuoteDateCompleted = request.DateCompleted.ToShortDateString();
-                }
                 //Compare BOM to shipment
                 if (wkbResults == null)
                 {
@@ -157,13 +153,17 @@ namespace DesignDB_Library.Operations
                 BOM_Model model = new BOM_Model();
                 model.Description = wks.Cells[i, descCol].Value;
                 model.Quote = PID;
-                model.ModelNumber = wks.Cells[i, modelCol].Value; 
-                model.Quantity = wks.Cells[i, quanCol].Value;
+                model.ModelNumber = wks.Cells[i, modelCol].Value;
+                if (wks.Cells[i, quanCol].Value != null)
+                {
+                    model.Quantity = wks.Cells[i, quanCol].Value; 
+                }
                 models.Add(model);
             }
 
             return models;
         }
+
         /// <summary>
         /// Creates a list of Part Number matches from BOM to Quote
         /// </summary>
@@ -177,14 +177,11 @@ namespace DesignDB_Library.Operations
             List<ShipmentLineModel> shipments, List<RequestModel> msoRequests, BOMLineModel BOM)
         {
             Worksheet wks = wkb.ActiveSheet;
-            //ProcessBOM(xlApp, shipments, msoRequests, lastRow, bomLineList, BOM);
             List<BOM_Model> bomItems = LoadBOMtoList(wkb, lastRow, BOM.PID);
             wkb.Close();
            
             string msg = "Analyzing Quote  " + BOM.PID;
             sendMessage(msg);
-
-            Dictionary<int, (string soNumber, string partNumber)> pnMatch = new Dictionary<int, (string soNumber, string partNumber)>();
             List<ShipmentLineModel> bomMatches = new List<ShipmentLineModel>();
             string quoteID = "";
             foreach (var item in bomItems)
@@ -192,17 +189,19 @@ namespace DesignDB_Library.Operations
                 quoteID = item.Quote;
                 sendMessage(msg + "     " + item.ModelNumber);
                 List<ShipmentLineModel> matches = shipments.Where(x => x.PartNumber == item.ModelNumber).ToList();
-                (string soNumber, string partNumber) so_part;
                 if (matches.Count > 0)
                 {
                     foreach (var match in matches)
                     {
+                        RequestModel request = msoRequests.Where(x => x.ProjectID == item.Quote).FirstOrDefault();
+                        match.QuoteCity = request.City;
+                        match.QuoteState = request.ST;
+                        match.QuoteDateCompleted = request.DateCompleted.ToShortDateString();
+                        BOM_Model bom = bomItems.Where(x => x.Quote == item.Quote).FirstOrDefault();
+                        match.BOM_Quantity = bom.Quantity.ToString();
                         bomMatches.Add(match);
-                        so_part.soNumber = match.SONumber;
-                        so_part.partNumber = match.PartNumber;
-                        pnMatch.Add(match.ExcelRow, so_part);
-                        item.pnMatchList = pnMatch;
                     }
+                    bomMatches = bomMatches.OrderBy(x => x.ExcelRow).ToList();
                 }
             }
            
@@ -210,19 +209,34 @@ namespace DesignDB_Library.Operations
             
             wkbResults = MakeMatchXL(wkbResults, xlApp, quoteID);
             int row = 2;
-            foreach (var match in pnMatch)
-            {
-                Worksheet wksResults = wkbResults.ActiveSheet;
-                string keyString = match.Key.ToString();
-                InsertText(wksResults, row, 1, keyString);
-                (string soNumber, string partNumber) values = match.Value;
-                InsertText(wksResults, row, 3, values.soNumber);
-                InsertText(wksResults, row, 2, values.partNumber);
+            Worksheet wksResults = wkbResults.ActiveSheet;
+            foreach (var match in bomMatches)
+            { 
+                InsertText(wksResults, row, 1, match.ExcelRow.ToString());
+                InsertText(wksResults, row, 2, match.PartNumber);
+                InsertText(wksResults, row, 3, match.Quantity.ToString());
+                InsertText(wksResults, row, 4, match.BOM_Quantity);
+                InsertText(wksResults, row, 5, match.SONumber);
+                InsertText(wksResults, row, 6, match.City);
+                InsertText(wksResults, row, 7, match.State);
+                InsertText(wksResults, row, 8, match.QuoteCity);
+                InsertText(wksResults, row, 9, match.QuoteState);
+                InsertText(wksResults, row, 10, match.SODate.ToShortDateString());
+                InsertText(wksResults, row, 11, match.QuoteDateCompleted);
 
                 row++;
-            }            
+            }
+            int bottomRow = FindLastSpreadsheetRow(wksResults);
+            Range range = (Excel.Range)wksResults.Range[wksResults.Cells[1, 1], wksResults.Cells[bottomRow, 11]];
+            CenterTextInRange(wkbResults, range);
+            wksResults.Cells[1,1].EntireRow.Font.Bold = true;
+            wksResults.Rows[1].WrapText = true;
         }
-
+        /// <summary>
+        /// Adds a sheet to workbook and returns workbook with new sheet as activesheet
+        /// </summary>
+        /// <param name="wkb"></param>
+        /// <returns></returns>
         private static Workbook AddSheetToWorkbook(Workbook wkb)
         {
             int count = wkb.Sheets.Count;            
@@ -230,6 +244,7 @@ namespace DesignDB_Library.Operations
             count = wkb.Sheets.Count;
             return wkb;
         }
+
         /// <summary>
         /// Uses ExcelOps to place text in cell
         /// </summary>
@@ -241,6 +256,7 @@ namespace DesignDB_Library.Operations
         {
             ExcelOps.PlaceTextInWorksheet(wks, row, col, text);
         }
+
         /// <summary>
         /// Create worksheet to hold match data
         /// </summary>
@@ -252,12 +268,41 @@ namespace DesignDB_Library.Operations
             Worksheet wks = wkbResults.ActiveSheet;
             InsertText(wks, 1, 1, "Shipment Row");
             InsertText(wks, 1, 2, "Part Number");
-            InsertText(wks, 1, 3, "IC Invoice");
-            wks.Columns[1].ColumnWidth = 20;
-            wks.Columns[2].ColumnWidth = 20;
-            wks.Columns[3].ColumnWidth = 20;
-            wks.Name = name;
+            InsertText(wks, 1, 3, "BOM Quantity");
+            InsertText(wks, 1, 4, "Shipment Quantity");
+            InsertText(wks, 1, 5, "IC Invoice");
+            InsertText(wks, 1, 6, "Shipment City");
+            InsertText(wks, 1, 7, "Shipment State");
+            InsertText(wks, 1, 8, "Quote City");
+            InsertText(wks, 1, 9, "Quote State");
+            InsertText(wks, 1, 10, "SO Date");
+            InsertText(wks, 1, 11, "Date Quote Completed");
+
+            FormatXLSheet(wkbResults, name);
             return wkbResults;
+        }
+
+        /// <summary>
+        /// Sets column widths on spreadsheet and sets name
+        /// </summary>
+        /// <param name="wkbResults"></param>
+        /// <param name="name"></param>
+        private static void FormatXLSheet(Workbook wkbResults, string name)
+        {
+            Worksheet wks = wkbResults.ActiveSheet;
+            int[] widths = { 12, 30, 12, 12, 25, 25, 12, 25, 25, 12, 12 };
+
+            for (int i = 1; i <= 11; i++)
+            {
+                wks.Columns[i].ColumnWidth = widths[i - 1];
+            }
+
+            wks.Name = name;
+        }
+
+        private static void CenterTextInRange(Workbook wkbResults, Range range)
+        {
+            range.Cells.HorizontalAlignment = XlHAlign.xlHAlignCenter;
         }
         
         /// <summary>
