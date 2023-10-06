@@ -10,6 +10,12 @@ namespace DesignDB_Library.DataAccess
     public interface IDataConnection
     {
         /// <summary>
+        /// Returns 2 letter abbreviation for state
+        /// </summary>
+        /// <param name="stateName"></param>
+        /// <returns></returns>
+        string GetStateAbbreviation(string stateName);
+        /// <summary>
         /// Returns List<BOMLineModel> that includes PID, BOM file name and DateCompleted
         /// </summary>
         /// <param name="PIDs"></param>

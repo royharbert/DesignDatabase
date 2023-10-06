@@ -57,8 +57,8 @@ namespace DesignDB_UI
                 lbMSO.SelectedItem = "Cable One";
             }
 
-            //Remove this after BOM-Shipments is done
-            dtpStartDate.Value = new DateTime(2023, 6, 1);
+            //Remove this after BOM-Shipments is done------------------------------------------------------------------------------
+            dtpStartDate.Value = new DateTime(2023, 6, 16);
            
         }
         public frmDateRangeSearch()

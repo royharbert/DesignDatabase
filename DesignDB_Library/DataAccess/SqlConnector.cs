@@ -13,6 +13,21 @@ namespace DesignDB_Library.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
+        public string GetStateAbbreviation(string stateName)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@State", stateName, DbType.String);
+
+
+                List<string> output = connection.Query<string>("dbo.spStateAbbreviationGet", p,
+                    commandType: CommandType.StoredProcedure).ToList();
+                string abbreviation = output[0];
+                return abbreviation;
+            }
+        }
+
         /// <summary>
         /// Returns List<BOMLineModel> that includes PID, BOM file name and DateCompleted
         /// </BOMLineModel>

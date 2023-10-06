@@ -11,6 +11,9 @@ using System.Runtime.InteropServices;
 using System.Runtime.Remoting;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using System.Windows.Forms.VisualStyles;
+using Microsoft.Office.Tools.Excel;
+using System.Configuration;
 
 namespace DesignDB_Library.Operations
 {
@@ -25,8 +28,8 @@ namespace DesignDB_Library.Operations
             //Get shipment spreadsheet
             Application xlApp = ExcelOps.makeExcelApp();
             sendMessage("Opening Shipments File");
-            Workbook wkb = xlApp.Workbooks.Open(fileName);
-            Worksheet wks = xlApp.ActiveSheet;
+            Excel.Workbook wkb = xlApp.Workbooks.Open(fileName);
+            Excel.Worksheet wks = xlApp.ActiveSheet;
             Range searchRange= wks.get_Range("A1:Z26");
             xlApp.Visible = true;
             
@@ -43,12 +46,12 @@ namespace DesignDB_Library.Operations
             //Load SS into List
             sendMessage("Loading Spreadsheet into List");
             List<ShipmentLineModel> shipmentList = new List<ShipmentLineModel>();            
-            int row = 17;
+            int row = 2;
             for (int i = row; i < lastRow; i++)
             {
                 ShipmentLineModel shipment = new ShipmentLineModel();
                 shipment.Desc = wks.Cells[i, DescCol].Value;
-                shipment.PartNumber = wks.Cells[i, PartNumberCol].Value;
+                shipment.PartNumber = wks.Cells[i, PartNumberCol].Value.ToString();
                 shipment.City = wks.Cells[i, CityCol].Value;
                 shipment.SOCust = wks.Cells[i, SOCustCol].Value;
                 shipment.State = wks.Cells[i, StateCol].Value;
@@ -100,16 +103,16 @@ namespace DesignDB_Library.Operations
         /// <param name="BOMList"></param>
         /// <param name="msoRequests"></param>
         /// <param name="lastRow"></param>
-        private static void ProcessBOM(Excel.Application xlApp, Workbook wkb, List<ShipmentLineModel> shipments, 
+        private static void ProcessBOM(Excel.Application xlApp, Excel.Workbook wkb, List<ShipmentLineModel> shipments, 
             List<RequestModel> msoRequests, int lastRow, List<BOMLineModel> BOMLineList, List<BOM_Model> BOMList= null)
         {
-            Workbook wkbResults = null;
+            Excel.Workbook wkbResults = null;
             foreach (var BOM in BOMLineList) 
             {
                 string bomFile = BOMFilePath + "\\" + BOM.PID + "\\" + BOM.DisplayText;
                 sendMessage("Opening " + BOM.DisplayText);
                 wkb = xlApp.Workbooks.Open(bomFile);
-                Worksheet wks = xlApp.ActiveSheet;
+                Excel.Worksheet wks = xlApp.ActiveSheet;
 
                 //Load this BOM into List
                 List<BOM_Model> BOMLines = LoadBOMtoList(wkb, lastRow, BOM.PID);                
@@ -137,9 +140,9 @@ namespace DesignDB_Library.Operations
         /// <param name="lastRow"></param>
         /// <param name="PID"></param>
         /// <returns></returns>
-        private static List<BOM_Model> LoadBOMtoList(Workbook wkb, int lastRow, string PID)
+        private static List<BOM_Model> LoadBOMtoList(Excel.Workbook wkb, int lastRow, string PID)
         {
-            Worksheet wks = wkb.ActiveSheet;
+            Excel.Worksheet wks = wkb.ActiveSheet;
             List<BOM_Model> models = new List<BOM_Model>();
             Range searchRange = wks.get_Range("A1:Z26");
             int lastBOMRow = FindLastSpreadsheetRow(wks);
@@ -173,10 +176,12 @@ namespace DesignDB_Library.Operations
         /// <param name="shipments"></param>
         /// <param name="msoRequests"></param>
         /// <param name="BOM"></param>
-        private static void CompareBOMtoShipmentsl(Excel.Application xlApp, Workbook wkbResults, Workbook wkb, int lastRow, 
+        private static void CompareBOMtoShipmentsl(Excel.Application xlApp, Excel.Workbook wkbResults, Excel.Workbook wkb, int lastRow, 
             List<ShipmentLineModel> shipments, List<RequestModel> msoRequests, BOMLineModel BOM)
         {
-            Worksheet wks = wkb.ActiveSheet;
+            int distinctMatches = 0;
+            double pctMatch = 0;
+            Excel.Worksheet wks = wkb.ActiveSheet;
             List<BOM_Model> bomItems = LoadBOMtoList(wkb, lastRow, BOM.PID);
             wkb.Close();
            
@@ -191,58 +196,145 @@ namespace DesignDB_Library.Operations
                 List<ShipmentLineModel> matches = shipments.Where(x => x.PartNumber == item.ModelNumber).ToList();
                 if (matches.Count > 0)
                 {
+                    distinctMatches++;
                     foreach (var match in matches)
                     {
                         RequestModel request = msoRequests.Where(x => x.ProjectID == item.Quote).FirstOrDefault();
                         match.QuoteCity = request.City;
                         match.QuoteState = request.ST;
                         match.QuoteDateCompleted = request.DateCompleted.ToShortDateString();
-                        BOM_Model bom = bomItems.Where(x => x.Quote == item.Quote).FirstOrDefault();
+                        BOM_Model bom = bomItems.Where(x => x.ModelNumber == item.ModelNumber).FirstOrDefault();
+
                         match.BOM_Quantity = bom.Quantity.ToString();
                         bomMatches.Add(match);
                     }
-                    bomMatches = bomMatches.OrderBy(x => x.ExcelRow).ToList();
+                    bomMatches = bomMatches.OrderBy(x => x.PartNumber).ToList();
                 }
             }
            
             AddSheetToWorkbook(wkbResults);
-            
+            bomMatches = AnalyzeBOM(bomMatches);
             wkbResults = MakeMatchXL(wkbResults, xlApp, quoteID);
             int row = 2;
-            Worksheet wksResults = wkbResults.ActiveSheet;
+            Excel.Worksheet wksResults = wkbResults.ActiveSheet;
             foreach (var match in bomMatches)
             { 
                 InsertText(wksResults, row, 1, match.ExcelRow.ToString());
                 InsertText(wksResults, row, 2, match.PartNumber);
-                InsertText(wksResults, row, 3, match.Quantity.ToString());
-                InsertText(wksResults, row, 4, match.BOM_Quantity);
-                InsertText(wksResults, row, 5, match.SONumber);
-                InsertText(wksResults, row, 6, match.City);
-                InsertText(wksResults, row, 7, match.State);
-                InsertText(wksResults, row, 8, match.QuoteCity);
-                InsertText(wksResults, row, 9, match.QuoteState);
-                InsertText(wksResults, row, 10, match.SODate.ToShortDateString());
-                InsertText(wksResults, row, 11, match.QuoteDateCompleted);
+                InsertText(wksResults, row, 3, match.BOM_Quantity);
+                InsertText(wksResults, row, 4, match.Quantity.ToString());
+                InsertText(wksResults, row, 5, match.QShippedMinusQBOM.ToString());
+                InsertText(wksResults, row, 6, match.SONumber);
+                InsertText(wksResults, row, 7, match.City);
+                InsertText(wksResults, row, 8, match.State);
+                InsertText(wksResults, row, 9, match.QuoteCity);
+                InsertText(wksResults, row, 10, match.QuoteState);
+                InsertText(wksResults, row, 11, match.CityStateMatch.ToString());
+                InsertText(wksResults, row, 12, match.SODate.ToShortDateString());
+                InsertText(wksResults, row, 13, match.QuoteDateCompleted);
+                InsertText(wksResults, row, 14, match.SONewerThanBOM.ToString());
 
                 row++;
             }
-            int bottomRow = FindLastSpreadsheetRow(wksResults);
-            Range range = (Excel.Range)wksResults.Range[wksResults.Cells[1, 1], wksResults.Cells[bottomRow, 11]];
+            int bottomRow = FindLastSpreadsheetRow(wksResults); 
+            pctMatch = distinctMatches * 100/bomItems.Count;
+            wksResults.Cells[bottomRow + 2, 2].Value = "Percent of BOM Lines Matching Shipments";
+            wksResults.Cells[bottomRow + 2, 3].Value = Math.Round(pctMatch);
+            wksResults.Rows[bottomRow + 2].WrapText = true;
+            Range range = (Excel.Range)wksResults.Range[wksResults.Cells[1, 1], wksResults.Cells[bottomRow, 14]];
             CenterTextInRange(wkbResults, range);
             wksResults.Cells[1,1].EntireRow.Font.Bold = true;
             wksResults.Rows[1].WrapText = true;
+
+            //conditional formatting
+            ConditionalFormatTrueFalse(2, bottomRow + 1, 11, wkbResults);
+            ConditionalFormatTrueFalse(2, bottomRow + 1, 14, wkbResults);
+            ConditionalFormatNumber(2, bottomRow + 1, 5, wkbResults);
         }
+
+        private static void ConditionalFormatTrueFalse(int startRow, int stopRow, int col, Excel.Workbook wkb)
+        {
+            Excel.Worksheet wks = wkb.ActiveSheet;
+            for (int i = startRow; i < stopRow; i++)
+            {
+                if (wks.Cells[i, col].Value.ToString().ToUpper() == "TRUE")
+                {
+                    wks.Cells[i, col].Font.Color = XlRgbColor.rgbGreen;
+                }
+                else
+                {
+                    wks.Cells[i, col].Font.Color = XlRgbColor.rgbRed;
+                }
+            }
+            
+        }
+
+        private static void ConditionalFormatNumber(int startRow, int stopRow, int col, Excel.Workbook wkb)
+        {
+            Excel.Worksheet wks = wkb.ActiveSheet;
+            for (int i = startRow; i < stopRow; i++)
+            {
+                double number = (wks.Cells[i, col].Value);
+                if (number < 0)
+                {
+                    wks.Cells[i, col].Font.Color = XlRgbColor.rgbRed;
+                }
+                else if (number > 1)
+                {
+                    wks.Cells[i, col].Font.Color = XlRgbColor.rgbDarkGoldenrod;
+                }
+                else
+                {
+                    wks.Cells[i, col].Font.Color = XlRgbColor.rgbGreen;
+                }                
+            }
+
+        }
+
         /// <summary>
         /// Adds a sheet to workbook and returns workbook with new sheet as activesheet
         /// </summary>
         /// <param name="wkb"></param>
         /// <returns></returns>
-        private static Workbook AddSheetToWorkbook(Workbook wkb)
+        private static Excel.Workbook AddSheetToWorkbook(Excel.Workbook wkb)
         {
             int count = wkb.Sheets.Count;            
             wkb.Sheets.Add();             
             count = wkb.Sheets.Count;
             return wkb;
+        }
+
+        private static List<ShipmentLineModel> AnalyzeBOM(List<ShipmentLineModel> list)
+        {
+            foreach (var line in list)
+            {
+                DateTime bomDate = DateTime.Parse(line.QuoteDateCompleted.ToString());
+                DateTime soDate = DateTime.Parse(line.SODate.ToString());
+                int dateCompre = DateTime.Compare(bomDate, soDate);
+                if (dateCompre < 0)
+                {
+                    line.SONewerThanBOM = true;
+                }
+                else
+                {
+                    line.SONewerThanBOM = false;
+                }
+                string stateAbbreviation = GlobalConfig.Connection.GetStateAbbreviation(line.QuoteState);
+                string soCityState = line.City + line.State.ToString();
+                string quoteCityState = line.QuoteCity + stateAbbreviation.ToString();
+                if (quoteCityState == soCityState)
+                {
+                    line.CityStateMatch = true;                        
+                }
+                else 
+                {
+                    line.CityStateMatch = false;
+                }
+                double diff = 0;
+                double.TryParse(line.BOM_Quantity, out diff );
+                line.QShippedMinusQBOM = line.Quantity - diff;
+            }
+            return list;
         }
 
         /// <summary>
@@ -252,7 +344,7 @@ namespace DesignDB_Library.Operations
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="text"></param>
-        private static void InsertText(Worksheet wks, int row, int col, string text)
+        private static void InsertText(Excel.Worksheet wks, int row, int col, string text)
         {
             ExcelOps.PlaceTextInWorksheet(wks, row, col, text);
         }
@@ -263,20 +355,23 @@ namespace DesignDB_Library.Operations
         /// <param name="xlApp"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        private static Workbook MakeMatchXL(Workbook wkbResults, Excel.Application xlApp, string name)
+        private static Excel.Workbook MakeMatchXL(Excel.Workbook wkbResults, Excel.Application xlApp, string name)
         {
-            Worksheet wks = wkbResults.ActiveSheet;
+            Excel.Worksheet wks = wkbResults.ActiveSheet;
             InsertText(wks, 1, 1, "Shipment Row");
             InsertText(wks, 1, 2, "Part Number");
             InsertText(wks, 1, 3, "BOM Quantity");
             InsertText(wks, 1, 4, "Shipment Quantity");
-            InsertText(wks, 1, 5, "IC Invoice");
-            InsertText(wks, 1, 6, "Shipment City");
-            InsertText(wks, 1, 7, "Shipment State");
-            InsertText(wks, 1, 8, "Quote City");
-            InsertText(wks, 1, 9, "Quote State");
-            InsertText(wks, 1, 10, "SO Date");
-            InsertText(wks, 1, 11, "Date Quote Completed");
+            InsertText(wks, 1, 5, "Quan Shipped - Quan BOM");
+            InsertText(wks, 1, 6, "IC Invoice");
+            InsertText(wks, 1, 7, "Shipment City");
+            InsertText(wks, 1, 8, "Shipment State");
+            InsertText(wks, 1, 9, "Quote City");
+            InsertText(wks, 1, 10, "Quote State");
+            InsertText(wks, 1, 11, "City/State Match");
+            InsertText(wks, 1, 12, "SO Date");
+            InsertText(wks, 1, 13, "Date Quote Completed");
+            InsertText(wks, 1, 14, "SO Newer Tham BOM");
 
             FormatXLSheet(wkbResults, name);
             return wkbResults;
@@ -287,12 +382,13 @@ namespace DesignDB_Library.Operations
         /// </summary>
         /// <param name="wkbResults"></param>
         /// <param name="name"></param>
-        private static void FormatXLSheet(Workbook wkbResults, string name)
+        private static void FormatXLSheet(Excel.Workbook wkbResults, string name)
         {
-            Worksheet wks = wkbResults.ActiveSheet;
-            int[] widths = { 12, 30, 12, 12, 25, 25, 12, 25, 25, 12, 12 };
+            Excel.Worksheet wks = wkbResults.ActiveSheet;
+            //               A   B   C   D   E   F   G   H   I   J   K   L   M   N
+            int[] widths = { 8, 30, 12, 12, 12, 20, 25, 12, 25, 15, 12,  15, 15, 12};
 
-            for (int i = 1; i <= 11; i++)
+            for (int i = 1; i <= widths.Length; i++)
             {
                 wks.Columns[i].ColumnWidth = widths[i - 1];
             }
@@ -300,7 +396,7 @@ namespace DesignDB_Library.Operations
             wks.Name = name;
         }
 
-        private static void CenterTextInRange(Workbook wkbResults, Range range)
+        private static void CenterTextInRange(Excel.Workbook wkbResults, Range range)
         {
             range.Cells.HorizontalAlignment = XlHAlign.xlHAlignCenter;
         }
@@ -337,7 +433,7 @@ namespace DesignDB_Library.Operations
         /// </summary>
         /// <param name="wks"></param>
         /// <returns></returns>
-        private static int FindLastSpreadsheetRow(Worksheet  wks)
+        private static int FindLastSpreadsheetRow(Excel.Worksheet  wks)
         {
             return ExcelOps.FindLastSpreadsheetRow(wks);
         }
@@ -360,7 +456,7 @@ namespace DesignDB_Library.Operations
         /// <param name="searchTerm"></param>
         /// <param name="range"></param>
         /// <returns></returns>
-        private static int GetColumn(Worksheet wks, string searchTerm, Range range)
+        private static int GetColumn(Excel.Worksheet wks, string searchTerm, Range range)
         {
             return ExcelOps.GetColumn(wks, searchTerm, range);
         }
