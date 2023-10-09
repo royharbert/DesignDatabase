@@ -184,22 +184,24 @@ namespace DesignDB_Library.Operations
             Excel.Worksheet wks = wkb.ActiveSheet;
             List<BOM_Model> bomItems = LoadBOMtoList(wkb, lastRow, BOM.PID);
             wkb.Close();
-           
+            
             string msg = "Analyzing Quote  " + BOM.PID;
             sendMessage(msg);
             List<ShipmentLineModel> bomMatches = new List<ShipmentLineModel>();
+            List<BOM_Model> bomNonMatches = new List<BOM_Model>();
             string quoteID = "";
             foreach (var item in bomItems)
             {
                 quoteID = item.Quote;
                 sendMessage(msg + "     " + item.ModelNumber);
                 List<ShipmentLineModel> matches = shipments.Where(x => x.PartNumber == item.ModelNumber).ToList();
+                
+                RequestModel request = msoRequests.Where(x => x.ProjectID == item.Quote).FirstOrDefault();
                 if (matches.Count > 0)
                 {
                     distinctMatches++;
                     foreach (var match in matches)
                     {
-                        RequestModel request = msoRequests.Where(x => x.ProjectID == item.Quote).FirstOrDefault();
                         match.QuoteCity = request.City;
                         match.QuoteState = request.ST;
                         match.QuoteDateCompleted = request.DateCompleted.ToShortDateString();
@@ -208,9 +210,28 @@ namespace DesignDB_Library.Operations
                         match.BOM_Quantity = bom.Quantity.ToString();
                         bomMatches.Add(match);
                     }
-                    bomMatches = bomMatches.OrderBy(x => x.PartNumber).ToList();
+                }
+                else
+                {
+                    bomNonMatches.Add(item);
+                }
+
+                if (bomNonMatches.Count > 0)
+                {
+                    foreach (var non_match in bomNonMatches)
+                    {
+                        request = msoRequests.Where(x => x.ProjectID == item.Quote).FirstOrDefault();
+                        //non_match.QuoteCity = request.City;
+                        //non_match.QuoteState = request.ST;
+                        //non_match.QuoteDateCompleted = request.DateCompleted.ToShortDateString();
+                        BOM_Model bom = bomItems.Where(x => x.ModelNumber == item.ModelNumber).FirstOrDefault();
+
+                        //non_match.BOM_Quantity = bom.Quantity.ToString();
+                        bomNonMatches.Add(non_match);
+                    }
                 }
             }
+            bomMatches = bomMatches.OrderBy(x => x.PartNumber).ToList();
            
             AddSheetToWorkbook(wkbResults);
             bomMatches = AnalyzeBOM(bomMatches);
@@ -236,6 +257,35 @@ namespace DesignDB_Library.Operations
 
                 row++;
             }
+
+            //InsertText non matches;
+            row = row + 3;
+
+            foreach (var non_match in bomNonMatches)
+            {
+                //InsertText(wksResults, row, 1, non_match.ExcelRow.ToString());
+                //InsertText(wksResults, row, 2, non_match.PartNumber);
+                //InsertText(wksResults, row, 3, non_match.BOM_Quantity);
+                //InsertText(wksResults, row, 4, non_match.Quantity.ToString());
+                //InsertText(wksResults, row, 5, non_match.QShippedMinusQBOM.ToString());
+                //InsertText(wksResults, row, 6, non_match.SONumber);
+                //InsertText(wksResults, row, 7, non_match.City);
+                //InsertText(wksResults, row, 8, non_match.State);
+                //InsertText(wksResults, row, 9, non_match.QuoteCity);
+                //InsertText(wksResults, row, 10, non_match.QuoteState);
+                //InsertText(wksResults, row, 11, non_match.CityStateMatch.ToString());
+                //InsertText(wksResults, row, 12, non_match.SODate.ToShortDateString());
+                //InsertText(wksResults, row, 13, non_match.QuoteDateCompleted);
+                //InsertText(wksResults, row, 14, non_match.SONewerThanBOM.ToString());
+
+
+                InsertText(wksResults, row, 12, non_match.Quantity.ToString());
+                InsertText(wksResults, row, 13, non_match.ModelNumber.ToString());
+                InsertText(wksResults, row, 14, non_match.Description.ToString());
+
+                row++;
+            }
+
             int bottomRow = FindLastSpreadsheetRow(wksResults); 
             pctMatch = distinctMatches * 100/bomItems.Count;
             wksResults.Cells[bottomRow + 2, 2].Value = "Percent of BOM Lines Matching Shipments";
