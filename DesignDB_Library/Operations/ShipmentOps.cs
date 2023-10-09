@@ -216,21 +216,8 @@ namespace DesignDB_Library.Operations
                     bomNonMatches.Add(item);
                 }
 
-                if (bomNonMatches.Count > 0)
-                {
-                    foreach (var non_match in bomNonMatches)
-                    {
-                        request = msoRequests.Where(x => x.ProjectID == item.Quote).FirstOrDefault();
-                        //non_match.QuoteCity = request.City;
-                        //non_match.QuoteState = request.ST;
-                        //non_match.QuoteDateCompleted = request.DateCompleted.ToShortDateString();
-                        BOM_Model bom = bomItems.Where(x => x.ModelNumber == item.ModelNumber).FirstOrDefault();
-
-                        //non_match.BOM_Quantity = bom.Quantity.ToString();
-                        bomNonMatches.Add(non_match);
-                    }
-                }
             }
+
             bomMatches = bomMatches.OrderBy(x => x.PartNumber).ToList();
            
             AddSheetToWorkbook(wkbResults);
@@ -257,36 +244,20 @@ namespace DesignDB_Library.Operations
 
                 row++;
             }
+            int bottomRow = FindLastSpreadsheetRow(wksResults); 
 
             //InsertText non matches;
             row = row + 3;
 
             foreach (var non_match in bomNonMatches)
             {
-                //InsertText(wksResults, row, 1, non_match.ExcelRow.ToString());
-                //InsertText(wksResults, row, 2, non_match.PartNumber);
-                //InsertText(wksResults, row, 3, non_match.BOM_Quantity);
-                //InsertText(wksResults, row, 4, non_match.Quantity.ToString());
-                //InsertText(wksResults, row, 5, non_match.QShippedMinusQBOM.ToString());
-                //InsertText(wksResults, row, 6, non_match.SONumber);
-                //InsertText(wksResults, row, 7, non_match.City);
-                //InsertText(wksResults, row, 8, non_match.State);
-                //InsertText(wksResults, row, 9, non_match.QuoteCity);
-                //InsertText(wksResults, row, 10, non_match.QuoteState);
-                //InsertText(wksResults, row, 11, non_match.CityStateMatch.ToString());
-                //InsertText(wksResults, row, 12, non_match.SODate.ToShortDateString());
-                //InsertText(wksResults, row, 13, non_match.QuoteDateCompleted);
-                //InsertText(wksResults, row, 14, non_match.SONewerThanBOM.ToString());
-
-
-                InsertText(wksResults, row, 12, non_match.Quantity.ToString());
-                InsertText(wksResults, row, 13, non_match.ModelNumber.ToString());
-                InsertText(wksResults, row, 14, non_match.Description.ToString());
+                InsertText(wksResults, row, 3, non_match.Quantity.ToString());
+                InsertText(wksResults, row, 2, non_match.ModelNumber.ToString());
+                InsertText(wksResults, row, 4, non_match.Description.ToString());
 
                 row++;
             }
 
-            int bottomRow = FindLastSpreadsheetRow(wksResults); 
             pctMatch = distinctMatches * 100/bomItems.Count;
             wksResults.Cells[bottomRow + 2, 2].Value = "Percent of BOM Lines Matching Shipments";
             wksResults.Cells[bottomRow + 2, 3].Value = Math.Round(pctMatch);
@@ -436,7 +407,7 @@ namespace DesignDB_Library.Operations
         {
             Excel.Worksheet wks = wkbResults.ActiveSheet;
             //               A   B   C   D   E   F   G   H   I   J   K   L   M   N
-            int[] widths = { 8, 30, 12, 12, 12, 20, 25, 12, 25, 15, 12,  15, 15, 12};
+            int[] widths = { 10, 30, 12, 12, 12, 20, 25, 12, 25, 15, 12,  15, 15, 12};
 
             for (int i = 1; i <= widths.Length; i++)
             {
