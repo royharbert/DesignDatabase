@@ -34,19 +34,35 @@ namespace DesignDB_Library.Operations
             Excel.Worksheet wks = xlApp.ActiveSheet;
             Range searchRange= wks.get_Range("A1:Z26");
             xlApp.Visible = true;
-            
             int lastRow = FindLastSpreadsheetRow(wks);
-            int QuanCol = GetColumn(wks, "Shipped Sales Quantity", searchRange);
-            int SODateCol = GetColumn(wks, "SO Item Create Date", searchRange);
-            int SOCustCol = GetColumn(wks, "Sold To Cust Name", searchRange);
-            int PartNumberCol = GetColumn(wks, "Material ID", searchRange);
-            int DescCol = GetColumn(wks, "Material Description", searchRange);
-            int CityCol = GetColumn(wks, "Ship To Cust City Name", searchRange);
-            int StateCol = GetColumn(wks, "Ship To Cust State Code", searchRange);
-            int SOCol = GetColumn(wks, "Sales Ord Id", searchRange);
+
+            int QuanCol = 0;
+            int SODateCol = 0;
+            int SOCustCol = 0;
+            int PartNumberCol = 0;
+            int DescCol = 0;
+            int CityCol = 0;
+            int StateCol = 0;
+            int SOCol = 0;
+            QuanCol = GetColumn(wks, "Shipped Sales Quantity", searchRange);
+            SODateCol = GetColumn(wks, "SO Item Create Date", searchRange);
+            SOCustCol = GetColumn(wks, "Sold To Cust Name", searchRange);
+            PartNumberCol = GetColumn(wks, "Material ID", searchRange);
+            DescCol = GetColumn(wks, "Material Description", searchRange);
+            CityCol = GetColumn(wks, "Ship To Cust City Name", searchRange);
+            StateCol = GetColumn(wks, "Ship To Cust State Code", searchRange);
+            SOCol = GetColumn(wks, "Sales Ord Id", searchRange);
+            
+            if(QuanCol == 0 || SODateCol == 0 || SOCustCol == 0 || PartNumberCol == 0 || DescCol == 0 ||
+                CityCol == 0 || StateCol == 0 || SOCol == 0)
+            {
+                MessageBox.Show("File not in proper format.\nPlease close and retry.");
+                return;
+            }
+            
 
             //Load SS into List and order by Part Number
-            sendMessage("Loading Spreadsheet into List");
+            sendMessage("Loading " + lastRow.ToString() + " Spreadsheet Lines into List");
             List<ShipmentLineModel> shipmentList = new List<ShipmentLineModel>();            
             int row = 2;
             for (int i = row; i < lastRow; i++)
@@ -57,7 +73,10 @@ namespace DesignDB_Library.Operations
                 shipment.City = wks.Cells[i, CityCol].Value;
                 shipment.SOCust = wks.Cells[i, SOCustCol].Value;
                 shipment.State = wks.Cells[i, StateCol].Value;
-                shipment.Quantity = wks.Cells[i, QuanCol].Value;
+                double q = 0;
+                string sQuan = wks.Cells[i, QuanCol].Value.ToString();
+                double.TryParse(sQuan, out q);
+                shipment.Quantity = q;
                 shipment.SODate = wks.Cells[i, SODateCol].Value;
                 if (wks.Cells[i, SOCol].Value != null)
                 {
@@ -347,6 +366,7 @@ namespace DesignDB_Library.Operations
             for (int i = startNonMatch - 1; i < row; i++)
             {
                 wksResults.Cells[i, 4].WrapText = true;
+                wksResults.Rows[i].RowHeight = 28.5;
                 wksResults.Range[wksResults.Cells[i + 1, 4], wksResults.Cells[i + 1, 14]].Merge();
             }
             wksResults.Range[wksResults.Cells[startNonMatch, 2], wksResults.Cells[row - 1, 3]].
@@ -624,7 +644,17 @@ namespace DesignDB_Library.Operations
         /// <returns></returns>
         private static int GetColumn(Excel.Worksheet wks, string searchTerm, Range range)
         {
-            return ExcelOps.GetColumn(wks, searchTerm, range);
+            int col = 0;
+            try
+            {
+                col = ExcelOps.GetColumn(wks, searchTerm, range);
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return col;
         }
 
     }

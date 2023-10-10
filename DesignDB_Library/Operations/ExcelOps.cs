@@ -37,7 +37,9 @@ namespace DesignDB_Library.Operations
         /// <returns></returns>
         public static int GetColumn(Worksheet wks, string searchTerm, Range range)
         {
+            
             Range result = range.Find(searchTerm);
+            
             return result.Column;
         }
 
