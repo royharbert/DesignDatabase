@@ -12,7 +12,7 @@ using System.Reflection;
 using DesignDB_Library.Models;
 using DesignDB_Library.Operations;
 using Excel = Microsoft.Office.Interop.Excel;
-
+using Microsoft.Office.Interop.Excel;
 
 namespace DesignDB_UI
 {
@@ -31,7 +31,13 @@ namespace DesignDB_UI
             //dtp.CustomFormat = " ";
             //dtp.Format = DateTimePickerFormat.Custom;
             //txtBox.Text = dtp.Value.ToShortDateString();
-            ReportOps.NumberOfWorkDays(new DateTime(2023, 1, 1), new DateTime(2023, 6, 12));
+            //ReportOps.NumberOfWorkDays(new DateTime(2023, 1, 1), new DateTime(2023, 6, 12));
+            Excel.Application xlApp = ExcelOps.makeExcelApp();
+            xlApp.Workbooks.Add();
+            xlApp.Visible = true;
+            //Workbook wkb = xlApp.ActiveWorkbook;
+            Workbook wkb = xlApp.Workbooks.Open("C:\\Users\\rharbert\\OneDrive - CommScope\\Documents\\__xCopy of 091923-Backlog and Shipments - Copy.xlsx");
+            //wkb = ExcelOps.SortSpreadsheetByColumn(wkb);
         }
 
         private void btnExcel_Click(object sender, EventArgs e)

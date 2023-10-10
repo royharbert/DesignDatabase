@@ -43,7 +43,7 @@ namespace DesignDB_Library.Operations
             int DescCol = GetColumn(wks, "Material Description", searchRange);
             int CityCol = GetColumn(wks, "Ship To Cust City Name", searchRange);
             int StateCol = GetColumn(wks, "Ship To Cust State Code", searchRange);
-            int SOCol = GetColumn(wks, "IC Invoice ID", searchRange);
+            int SOCol = GetColumn(wks, "Sales Ord Id", searchRange);
 
             //Load SS into List and order by Part Number
             sendMessage("Loading Spreadsheet into List");
@@ -289,7 +289,7 @@ namespace DesignDB_Library.Operations
             //Format pct match area
             wksResults.Rows[pctRow].WrapText = true;
             wksResults.Cells[1, 1].EntireRow.Font.Bold = true;
-            wksResults.Rows[1].WrapText = true;
+            //wksResults.Rows[1].WrapText = true;
 
             //Add 5 to pctRow to allow blank line before header and 2 rows for header and one to advance beyond header
             row = pctRow + 5;
@@ -331,7 +331,6 @@ namespace DesignDB_Library.Operations
             range = (Excel.Range)wksResults.Range[wksResults.Cells[row, 2], wksResults.Cells[row, 3]];
             wksResults.Rows[row].EntireRow.Font.Bold = true;
             range.HorizontalAlignment = XlHAlign.xlHAlignCenter;
-            range.WrapText = true;
 
             row++;
             int startNonMatch = row;
@@ -347,11 +346,11 @@ namespace DesignDB_Library.Operations
             }
             for (int i = startNonMatch - 1; i < row; i++)
             {
+                wksResults.Cells[i, 4].WrapText = true;
                 wksResults.Range[wksResults.Cells[i + 1, 4], wksResults.Cells[i + 1, 14]].Merge();
-                wksResults.Rows[i].EntireRow.WrapText = true;
             }
-            wksResults.Range[wksResults.Cells[startNonMatch, 2], wksResults.Cells[row - 1, 3]].HorizontalAlignment = XlHAlign.xlHAlignCenter;
-            //wksResults.Range[wksResults.Cells[startNonMatch, 4], wksResults.Cells[row - 1, 4]].WrapText = true;
+            wksResults.Range[wksResults.Cells[startNonMatch, 2], wksResults.Cells[row - 1, 3]].
+                HorizontalAlignment = XlHAlign.xlHAlignCenter;
 
             //conditional formatting for analysis columns
             ConditionalFormatTrueFalse(startRow, bottomRowMatches + 1, 11, wkbResults);
@@ -522,7 +521,7 @@ namespace DesignDB_Library.Operations
             InsertText(wks, row, 3, "BOM Quantity");
             InsertText(wks, row, 4, "Shipment Quantity");
             InsertText(wks, row, 5, "Quan Shipped - Quan BOM");
-            InsertText(wks, row, 6, "IC Invoice");
+            InsertText(wks, row, 6, "Sales Order ID");
             InsertText(wks, row, 7, "Shipment City");
             InsertText(wks, row, 8, "Shipment State");
             InsertText(wks, row, 9, "Quote City");
@@ -532,7 +531,7 @@ namespace DesignDB_Library.Operations
             InsertText(wks, row, 13, "Date Quote Completed");
             InsertText(wks, row, 14, "SO Newer Tham BOM");
 
-            FormatXLSheet(wkbResults, name);
+            FormatXLSheet(wkbResults, name, row);
             rtn.wkb = wkbResults;
             rtn.row = row + 1;
             return rtn;
@@ -543,7 +542,7 @@ namespace DesignDB_Library.Operations
         /// </summary>
         /// <param name="wkbResults"></param>
         /// <param name="name"></param>
-        private static void FormatXLSheet(Excel.Workbook wkbResults, string name)
+        private static void FormatXLSheet(Excel.Workbook wkbResults, string name, int row)
         {
             Excel.Worksheet wks = wkbResults.ActiveSheet;
             //               A   B   C   D   E   F   G   H   I   J   K   L   M   N
@@ -553,6 +552,11 @@ namespace DesignDB_Library.Operations
             {
                 wks.Columns[i].ColumnWidth = widths[i - 1];
             }
+            Excel.Range range = (Excel.Range)wks.Range[wks.Cells[row, 1], wks.Cells[row, 14]];
+
+            //Format column headers
+            wks.Rows[row].WrapText = true;
+            wks.Rows[row].EntireRow.Font.Bold = true;
 
             wks.Name = name;
         }

@@ -16,6 +16,7 @@ namespace DesignDB_Library.Operations
 {
     public class ExcelOps
     {
+        
         /// <summary>
         /// Places text in worksheet at specified row, col
         /// </summary>
