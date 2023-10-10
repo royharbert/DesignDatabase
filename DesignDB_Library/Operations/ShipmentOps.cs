@@ -579,6 +579,7 @@ namespace DesignDB_Library.Operations
             {
                 sb.Append(request.ProjectID + ',');
             }
+            sendMessage(msoRequests.Count.ToString() + "BOMs to process");
             string PIDs = sb.ToString();
             PIDs = PIDs.Substring(0, PIDs.Length - 1);
             return PIDs;
