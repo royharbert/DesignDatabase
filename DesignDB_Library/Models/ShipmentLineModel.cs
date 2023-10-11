@@ -22,7 +22,8 @@ namespace DesignDB_Library.Models
         public string QuoteState { get; set; }
         public string QuoteDateCompleted { get; set; }
         public string BOM_Quantity { get; set; }
-        public bool CityStateMatch { get; set; }
+        public bool CityMatch { get; set; }
+        public bool StateMatch { get; set; }
         public bool SONewerThanBOM { get; set; }
         public double QShippedMinusQBOM { get; set; }
     }

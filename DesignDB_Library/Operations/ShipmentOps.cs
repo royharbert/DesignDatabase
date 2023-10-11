@@ -19,8 +19,16 @@ using System.Windows.Forms;
 
 namespace DesignDB_Library.Operations
 {
+    public class ProgressStripEventArgs :   EventArgs
+    {
+        public int MaxCount;
+        public int CurrentCount;
+        public bool IsVisible;
+    }
+
     public static class ShipmentOps
     {
+        public static event EventHandler<ProgressStripEventArgs> UpdateProgressStrip;
         const string BOMFilePath = "\\\\usca5pdbatdgs01\\Databases\\AttachmentsDesign";
         static string quoteCity = "";
         static string quoteState = "";
@@ -63,10 +71,22 @@ namespace DesignDB_Library.Operations
 
             //Load SS into List and order by Part Number
             sendMessage("Loading " + lastRow.ToString() + " Spreadsheet Lines into List");
-            List<ShipmentLineModel> shipmentList = new List<ShipmentLineModel>();            
+            List<ShipmentLineModel> shipmentList = new List<ShipmentLineModel>();
+            ProgressStripEventArgs psArgs = new ProgressStripEventArgs();
+            psArgs.MaxCount = lastRow;
+            int updateThreshold = Convert.ToInt32(lastRow * 0.05);
+            int updateIncrement = updateThreshold;
+            
             int row = 2;
             for (int i = row; i < lastRow; i++)
             {
+                if(i == updateThreshold)
+                {
+                    psArgs.CurrentCount = i;
+                    psArgs.IsVisible = true;
+                    UpdateProgressStrip?.Invoke("ShipmentOps", psArgs);
+                    updateThreshold = updateThreshold + updateIncrement;
+                }
                 ShipmentLineModel shipment = new ShipmentLineModel();
                 shipment.Desc = wks.Cells[i, DescCol].Value;
                 shipment.PartNumber = wks.Cells[i, PartNumberCol].Value.ToString();
@@ -91,6 +111,8 @@ namespace DesignDB_Library.Operations
 
                 shipment = null;
             }
+            psArgs.IsVisible = false;
+            UpdateProgressStrip?.Invoke("ShipmentOps", psArgs);
             wkb.Close();
             shipmentList = shipmentList.OrderBy(x => x.PartNumber).ToList();
 
@@ -248,8 +270,9 @@ namespace DesignDB_Library.Operations
                 sendMessage(msg + "     " + item.ModelNumber);
 
                 //Initialize and populate list of matching part number BOM lines to shipment lines
-                List<ShipmentLineModel> matches = shipments.Where(x => x.PartNumber == item.ModelNumber).ToList();
-                
+                List<ShipmentLineModel> matches = shipments.Where(x => x.PartNumber.Contains(item.ModelNumber)).ToList();
+                //List<ShipmentLineModel> matches = shipments.Where(x => x.PartNumber == item.ModelNumber).ToList();
+
                 //Filter request list for current PID
                 RequestModel request = msoRequests.Where(x => x.ProjectID == item.Quote).FirstOrDefault();
                 if (matches.Count > 0)
@@ -323,11 +346,12 @@ namespace DesignDB_Library.Operations
                 InsertText(wksResults, row, 7, match.City);
                 InsertText(wksResults, row, 8, match.State);
                 InsertText(wksResults, row, 9, match.QuoteCity);
-                InsertText(wksResults, row, 10, match.QuoteState);
-                InsertText(wksResults, row, 11, match.CityStateMatch.ToString());
-                InsertText(wksResults, row, 12, match.SODate.ToShortDateString());
-                InsertText(wksResults, row, 13, match.QuoteDateCompleted);
-                InsertText(wksResults, row, 14, match.SONewerThanBOM.ToString());
+                InsertText(wksResults, row, 10, match.CityMatch.ToString());
+                InsertText(wksResults, row, 11, match.QuoteState);
+                InsertText(wksResults, row, 12, match.StateMatch.ToString());
+                InsertText(wksResults, row, 13, match.SODate.ToShortDateString());
+                InsertText(wksResults, row, 14, match.QuoteDateCompleted);
+                InsertText(wksResults, row, 15, match.SONewerThanBOM.ToString());
 
                 row++;
             }
@@ -341,7 +365,7 @@ namespace DesignDB_Library.Operations
             CenterTextInRange(wkbResults, range);
 
             //Begin display of non-matches
-            row = MakeHeader(wksResults, row, 14, "Non-matching BOM Line Items");
+            row = MakeHeader(wksResults, row, 15, "Non-matching BOM Line Items");
 
             //Insert column headers
             InsertText(wksResults, row, 2, "Part Number");
@@ -353,13 +377,22 @@ namespace DesignDB_Library.Operations
 
             row++;
             int startNonMatch = row;
-            wksResults.Range[wksResults.Cells[startNonMatch - 1, 4], wksResults.Cells[startNonMatch - 1, 14]].Merge();
-            wksResults.Range[wksResults.Cells[startNonMatch - 1, 4], wksResults.Cells[startNonMatch - 1, 14]].HorizontalAlignment = XlHAlign.xlHAlignCenter;
+            wksResults.Range[wksResults.Cells[startNonMatch - 1, 4], wksResults.Cells[startNonMatch - 1, 15]].Merge();
+            wksResults.Range[wksResults.Cells[startNonMatch - 1, 4], wksResults.Cells[startNonMatch - 1, 15]].HorizontalAlignment = XlHAlign.xlHAlignCenter;
             foreach (var non_match in bomNonMatches)
             {
                 InsertText(wksResults, row, 3, non_match.Quantity.ToString());
-                InsertText(wksResults, row, 2, non_match.ModelNumber.ToString());
-                InsertText(wksResults, row, 4, non_match.Description.ToString());
+                //string modelNumber = wksResults.Cells[row, 2].ToString();
+                string modelNumber = non_match.ModelNumber;
+                if (modelNumber != null)
+                {
+                    InsertText(wksResults, row, 2, modelNumber);
+                }
+                string desc = non_match.Description;
+                if (desc != null)
+                {
+                    InsertText(wksResults, row, 4, desc);
+                }
 
                 row++;
             }
@@ -367,14 +400,15 @@ namespace DesignDB_Library.Operations
             {
                 wksResults.Cells[i, 4].WrapText = true;
                 wksResults.Rows[i].RowHeight = 28.5;
-                wksResults.Range[wksResults.Cells[i + 1, 4], wksResults.Cells[i + 1, 14]].Merge();
+                wksResults.Range[wksResults.Cells[i + 1, 4], wksResults.Cells[i + 1, 15]].Merge();
             }
             wksResults.Range[wksResults.Cells[startNonMatch, 2], wksResults.Cells[row - 1, 3]].
                 HorizontalAlignment = XlHAlign.xlHAlignCenter;
 
             //conditional formatting for analysis columns
-            ConditionalFormatTrueFalse(startRow, bottomRowMatches + 1, 11, wkbResults);
-            ConditionalFormatTrueFalse(startRow, bottomRowMatches + 1, 14, wkbResults);
+            ConditionalFormatTrueFalse(startRow, bottomRowMatches + 1, 10, wkbResults);
+            ConditionalFormatTrueFalse(startRow, bottomRowMatches + 1, 12, wkbResults);
+            ConditionalFormatTrueFalse(startRow, bottomRowMatches + 1, 15, wkbResults);
             ConditionalFormatNumber(startRow, bottomRowMatches + 1, 5, wkbResults);
         }
 
@@ -473,15 +507,24 @@ namespace DesignDB_Library.Operations
 
                 //Shipment city/state vs request city/state
                 string stateAbbreviation = GlobalConfig.Connection.GetStateAbbreviation(line.QuoteState);
-                string soCityState = line.City + line.State.ToString();
-                string quoteCityState = line.QuoteCity + stateAbbreviation.ToString();
-                if (quoteCityState == soCityState)
+                string soCity = line.City;
+                string soState = line.State;
+                string quoteCity = line.QuoteCity.ToUpper().ToString();
+                if (quoteCity == soCity)
                 {
-                    line.CityStateMatch = true;                        
+                    line.CityMatch = true;                        
                 }
                 else 
                 {
-                    line.CityStateMatch = false;
+                    line.CityMatch = false;
+                }
+                if (stateAbbreviation == soState)
+                {
+                    line.StateMatch = true;
+                }
+                else
+                {
+                    line.StateMatch = false;
                 }
 
                 //Compare quan ordered vs BOM quan
@@ -535,7 +578,7 @@ namespace DesignDB_Library.Operations
         {
             (Excel.Workbook wkb, int row) rtn;
             Excel.Worksheet wks = wkbResults.ActiveSheet;
-            int row = MakeHeader(wks, startRow, 14, "BOM Lines with Matches in Shipments");
+            int row = MakeHeader(wks, startRow, 15, "BOM Lines with Matches in Shipments");
             InsertText(wks, row, 1, "Shipment Row");
             InsertText(wks, row, 2, "Part Number");
             InsertText(wks, row, 3, "BOM Quantity");
@@ -545,11 +588,12 @@ namespace DesignDB_Library.Operations
             InsertText(wks, row, 7, "Shipment City");
             InsertText(wks, row, 8, "Shipment State");
             InsertText(wks, row, 9, "Quote City");
-            InsertText(wks, row, 10, "Quote State");
-            InsertText(wks, row, 11, "City/State Match");
-            InsertText(wks, row, 12, "SO Date");
-            InsertText(wks, row, 13, "Date Quote Completed");
-            InsertText(wks, row, 14, "SO Newer Tham BOM");
+            InsertText(wks, row, 10, "City Match");
+            InsertText(wks, row, 11, "Quote State");
+            InsertText(wks, row, 12, "City/State Match");
+            InsertText(wks, row, 13, "SO Date");
+            InsertText(wks, row, 14, "Date Quote Completed");
+            InsertText(wks, row, 15, "SO Newer Tham BOM");
 
             FormatXLSheet(wkbResults, name, row);
             rtn.wkb = wkbResults;
@@ -565,14 +609,14 @@ namespace DesignDB_Library.Operations
         private static void FormatXLSheet(Excel.Workbook wkbResults, string name, int row)
         {
             Excel.Worksheet wks = wkbResults.ActiveSheet;
-            //               A   B   C   D   E   F   G   H   I   J   K   L   M   N
-            int[] widths = { 10, 30, 12, 12, 12, 20, 25, 12, 25, 15, 12,  15, 15, 12};
+            //               A   B   C   D   E   F   G   H   I   J   K   L   M   N     O
+            int[] widths = { 10, 30, 12, 12, 12, 20, 25, 12, 25, 12, 15, 12,  15, 15, 12};
 
             for (int i = 1; i <= widths.Length; i++)
             {
                 wks.Columns[i].ColumnWidth = widths[i - 1];
             }
-            Excel.Range range = (Excel.Range)wks.Range[wks.Cells[row, 1], wks.Cells[row, 14]];
+            Excel.Range range = (Excel.Range)wks.Range[wks.Cells[row, 1], wks.Cells[row, 15]];
 
             //Format column headers
             wks.Rows[row].WrapText = true;

@@ -32,6 +32,7 @@ namespace DesignDB_UI
         public frmMainMenu()
         {
             ReportOps.NewMessageEvent += ReportOps_NewMessageEvent;
+            ShipmentOps.UpdateProgressStrip += ShipmentOps_UpdateProgressStrip;
 
             this.Size = new Size(1208, 800);
             GV.Exiting = false;
@@ -68,6 +69,13 @@ namespace DesignDB_UI
             }
 
             formLoading = false;
+        }
+
+        private void ShipmentOps_UpdateProgressStrip(object sender, ProgressStripEventArgs e)
+        {
+            ssProgress.Maximum = e.MaxCount;
+            ssProgress.Value = e.CurrentCount;
+            ssProgress.Visible = e.IsVisible;
         }
 
         private void DateRangeSearchForm_DateRangeSet(object sender, frmDateRangeSearch.DateRangeEventArgs e)
