@@ -72,8 +72,9 @@ namespace DesignDB_UI
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.ssMessage = new System.Windows.Forms.StatusStrip();
             this.ssLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.ofdMainMenu = new System.Windows.Forms.OpenFileDialog();
             this.ssProgress = new System.Windows.Forms.ToolStripProgressBar();
+            this.ofdMainMenu = new System.Windows.Forms.OpenFileDialog();
+            this.ssBOMCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.tlpMain.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.ssMessage.SuspendLayout();
@@ -761,7 +762,8 @@ namespace DesignDB_UI
             this.ssMessage.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ssMessage.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ssLabel,
-            this.ssProgress});
+            this.ssProgress,
+            this.ssBOMCount});
             this.ssMessage.Location = new System.Drawing.Point(0, 739);
             this.ssMessage.Name = "ssMessage";
             this.ssMessage.Size = new System.Drawing.Size(1192, 22);
@@ -772,15 +774,20 @@ namespace DesignDB_UI
             this.ssLabel.Name = "ssLabel";
             this.ssLabel.Size = new System.Drawing.Size(0, 17);
             // 
-            // ofdMainMenu
-            // 
-            this.ofdMainMenu.FileName = "openFileDialog1";
-            // 
             // ssProgress
             // 
             this.ssProgress.Name = "ssProgress";
             this.ssProgress.Size = new System.Drawing.Size(100, 16);
             this.ssProgress.Visible = false;
+            // 
+            // ofdMainMenu
+            // 
+            this.ofdMainMenu.FileName = "openFileDialog1";
+            // 
+            // ssBOMCount
+            // 
+            this.ssBOMCount.Name = "ssBOMCount";
+            this.ssBOMCount.Size = new System.Drawing.Size(0, 17);
             // 
             // frmMainMenu
             // 
@@ -859,5 +866,6 @@ namespace DesignDB_UI
         private System.Windows.Forms.Button btnBOMShipments;
         private System.Windows.Forms.OpenFileDialog ofdMainMenu;
         private System.Windows.Forms.ToolStripProgressBar ssProgress;
+        private System.Windows.Forms.ToolStripStatusLabel ssBOMCount;
     }
 }

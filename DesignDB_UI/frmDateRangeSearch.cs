@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
+using Microsoft.ReportingServices.RdlExpressions.ExpressionHostObjectModel;
 
 namespace DesignDB_UI
 {
@@ -151,6 +152,11 @@ namespace DesignDB_UI
                 {
                     MSO_Model msoModel = (MSO_Model)mso;
                     msoList.Add(msoModel);
+                }
+                if (msoList.Count == 0)
+                {
+                    MessageBox.Show("No MSO selected. Please make selection.");
+                    return;
                 }
                 drArgs.StartDate = dtpStartDate.Value;
                 drArgs.EndDate = dtpEndDate.Value;

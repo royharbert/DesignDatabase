@@ -33,6 +33,7 @@ namespace DesignDB_UI
         {
             ReportOps.NewMessageEvent += ReportOps_NewMessageEvent;
             ShipmentOps.UpdateProgressStrip += ShipmentOps_UpdateProgressStrip;
+            ShipmentOps.BOMProgressEvent += BOMProgressEvent;
 
             this.Size = new Size(1208, 800);
             GV.Exiting = false;
@@ -69,6 +70,13 @@ namespace DesignDB_UI
             }
 
             formLoading = false;
+        }
+
+        private void BOMProgressEvent(object sender, BOMProgressEventArgs e)
+        {
+            string message = "Currently processing number " + e.currentBOMCount + " of " + e.bomCount + " BOMs.";
+            ssBOMCount.Text = message;
+            e.IsVisible = true;
         }
 
         private void ShipmentOps_UpdateProgressStrip(object sender, ProgressStripEventArgs e)

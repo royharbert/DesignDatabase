@@ -26,9 +26,17 @@ namespace DesignDB_Library.Operations
         public bool IsVisible;
     }
 
+    public class BOMProgressEventArgs    :   EventArgs
+    {
+        public int bomCount;
+        public int currentBOMCount;
+        public bool IsVisible;
+    }
+
     public static class ShipmentOps
     {
         public static event EventHandler<ProgressStripEventArgs> UpdateProgressStrip;
+        public static event EventHandler<BOMProgressEventArgs> BOMProgressEvent;
         const string BOMFilePath = "\\\\usca5pdbatdgs01\\Databases\\AttachmentsDesign";
         static string quoteCity = "";
         static string quoteState = "";
@@ -43,6 +51,7 @@ namespace DesignDB_Library.Operations
             Range searchRange= wks.get_Range("A1:Z26");
             xlApp.Visible = true;
             int lastRow = FindLastSpreadsheetRow(wks);
+            BOMProgressEventArgs BOMArgs = new BOMProgressEventArgs();
 
             int QuanCol = 0;
             int SODateCol = 0;
@@ -137,6 +146,7 @@ namespace DesignDB_Library.Operations
                 
                 //Filter request list by MSO into msoRequests
                 msoRequests = requestList.Where(x => x.MSO == mso.MSO).ToList();
+                BOMArgs.bomCount = msoRequests.Count;
 
                 //Create a comma separated string of all PIDs
                 //Used to retrieve BOM file names
@@ -145,7 +155,7 @@ namespace DesignDB_Library.Operations
 
                 //Compare BOMs to shipment list
                 //Place results into spreadsheet
-                ProcessBOMs(xlApp, wkb, msoShipmentList, msoRequests, lastRow, bomFiles);
+                ProcessBOMs(xlApp, wkb, msoShipmentList, msoRequests, lastRow, bomFiles, BOMArgs);
             }
 
             //release Excel instance
@@ -160,14 +170,18 @@ namespace DesignDB_Library.Operations
         /// <param name="msoRequests"></param>
         /// <param name="lastRow"></param>
         private static void ProcessBOMs(Excel.Application xlApp, Excel.Workbook wkb, List<ShipmentLineModel> shipments, 
-            List<RequestModel> msoRequests, int lastRow, List<BOMLineModel> BOMLineList, List<BOM_Model> BOMList= null)
+            List<RequestModel> msoRequests, int lastRow, List<BOMLineModel> BOMLineList, BOMProgressEventArgs 
+                bomArgs, List<BOM_Model> BOMList= null)
         {
             //Scope wkbResults
             Excel.Workbook wkbResults = null;
-
+            
+            bomArgs.currentBOMCount = 0;
             //Iterate through list of BOMs
             foreach (var BOM in BOMLineList) 
             {
+                bomArgs.currentBOMCount++;
+                BOMProgressEvent?.Invoke("ShipmentOps", bomArgs);
                 //Open BOM file and get active worksheet
                 string bomFile = BOMFilePath + "\\" + BOM.PID + "\\" + BOM.DisplayText;
                 sendMessage("Opening " + BOM.DisplayText);
@@ -194,6 +208,8 @@ namespace DesignDB_Library.Operations
                 CompareBOMtoShipmentsl(xlApp, wkbResults, wkb, lastRow, shipments, msoRequests, BOM);
                 ApplyFilters(wkbResults);
             }
+            bomArgs.IsVisible = false;
+            BOMProgressEvent?.Invoke("ShipmentOps", bomArgs);
         }
 
         /// <summary>
@@ -273,31 +289,34 @@ namespace DesignDB_Library.Operations
                 sendMessage(msg + "     " + item.ModelNumber);
 
                 //Initialize and populate list of matching part number BOM lines to shipment lines
-                List<ShipmentLineModel> matches = shipments.Where(x => x.PartNumber.Contains(item.ModelNumber)).ToList();
-                //List<ShipmentLineModel> matches = shipments.Where(x => x.PartNumber == item.ModelNumber).ToList();
-
-                //Filter request list for current PID
-                RequestModel request = msoRequests.Where(x => x.ProjectID == item.Quote).FirstOrDefault();
-                if (matches.Count > 0)
+                if (item.ModelNumber != null)
                 {
-                    //Increment match count (used for pct matched)
-                    distinctMatches++;
+                    List<ShipmentLineModel> matches = shipments.Where(x => x.PartNumber.Contains(item.ModelNumber)).ToList();
 
-                    //Populate shipment line fields with data from quote and BOM
-                    foreach (var match in matches)
+                    //Filter request list for current PID
+                    RequestModel request = msoRequests.Where(x => x.ProjectID == item.Quote).FirstOrDefault();
+                    if (matches.Count > 0)
                     {
-                        match.QuoteCity = request.City;
-                        match.QuoteState = request.ST;
-                        match.QuoteDateCompleted = request.DateCompleted.ToShortDateString();
-                        BOM_Model bom = bomItems.Where(x => x.ModelNumber == item.ModelNumber).FirstOrDefault();
-                        match.BOM_Quantity = bom.Quantity.ToString();
-                        bomMatches.Add(match);
+                        //Increment match count (used for pct matched)
+                        distinctMatches++;
+
+                        //Populate shipment line fields with data from quote and BOM
+                        foreach (var match in matches)
+                        {
+                            match.QuoteCity = request.City;
+                            match.QuoteState = request.ST;
+                            match.QuoteDateCompleted = request.DateCompleted.ToShortDateString();
+                            BOM_Model bom = bomItems.Where(x => x.ModelNumber == item.ModelNumber).FirstOrDefault();
+                            match.BOM_Quantity = bom.Quantity.ToString();
+                            bomMatches.Add(match);
+                        }
                     }
-                }
-                //If current part number not a match to shipments, add to non-matches
-                else
-                {
-                    bomNonMatches.Add(item);
+
+                    //If current part number not a match to shipments, add to non-matches
+                    else
+                    {
+                        bomNonMatches.Add(item);
+                    }
                 }
 
             }
