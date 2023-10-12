@@ -645,7 +645,7 @@ namespace DesignDB_UI
 
             GV.MODE = Mode.BOM_Shipments;
             ofdMainMenu.DefaultExt = ".xlsx";
-            ofdMainMenu.Filter = "Excel files (*.xlsx)|*.xlsx|Macro Enabled Files (*.xlsm)|*.xlsm";
+            ofdMainMenu.Filter = "Macro Enabled Files (*.xlsm)|*.xlsm|Excel files (*.xlsx)|*.xlsx";
             ofdMainMenu.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             ofdMainMenu.RestoreDirectory = true;
             ofdMainMenu.FileName = fileName;

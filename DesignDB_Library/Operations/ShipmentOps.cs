@@ -192,6 +192,7 @@ namespace DesignDB_Library.Operations
                     wkbResults = xlApp.Workbooks.Add(); 
                 }
                 CompareBOMtoShipmentsl(xlApp, wkbResults, wkb, lastRow, shipments, msoRequests, BOM);
+                ApplyFilters(wkbResults);
             }
         }
 
@@ -247,6 +248,8 @@ namespace DesignDB_Library.Operations
         {
 
             //Initialize procedure wide variables
+            //int cityMaches = 0;
+            //int stateMatches = 0;
             int distinctMatches = 0;
             double pctMatch = 0;
 
@@ -310,7 +313,11 @@ namespace DesignDB_Library.Operations
             //  Quote city/state matching shipment city/state
             //  Sales order created after quote date completed
             //  Differences in ordered vs BOM quantities
-            bomMatches = AnalyzeBOM(bomMatches);
+            List<ShipmentLineModel> shipmentList = new List<ShipmentLineModel>();
+            var rtnTuple = new Tuple<int, int, List<ShipmentLineModel>>
+                    (0, 0, shipmentList);
+            rtnTuple = AnalyzeBOM(bomMatches);
+            bomMatches = rtnTuple.Item3;
 
             //Create new worksheet to display this BOM's results
             //Make header at row 3 - pct match will be on row 1
@@ -327,6 +334,14 @@ namespace DesignDB_Library.Operations
             pctMatch = distinctMatches * 100 / bomItems.Count;
             wksResults.Cells[pctRow, 2].Value = "Percent of BOM Lines Matching Shipments";
             wksResults.Cells[pctRow, 3].Value = Math.Round(pctMatch).ToString() + "%";
+
+            double pctCityMatch = rtnTuple.Item1 * 100 / bomItems.Count;
+            wksResults.Cells[pctRow, 9].Value = "Percent City Matches";
+            wksResults.Cells[pctRow, 10].Value = Math.Round(pctCityMatch).ToString() + "%";
+
+            double pctStateMatch = rtnTuple.Item2 * 100 / bomItems.Count;
+            wksResults.Cells[pctRow, 11].Value = "Percent State Matches";
+            wksResults.Cells[pctRow, 12].Value = Math.Round(pctStateMatch).ToString() + "%";
 
             //Format pct match area
             wksResults.Rows[pctRow].WrapText = true;
@@ -488,8 +503,11 @@ namespace DesignDB_Library.Operations
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        private static List<ShipmentLineModel> AnalyzeBOM(List<ShipmentLineModel> list)
+        //private static List<ShipmentLineModel>  AnalyzeBOM(List<ShipmentLineModel> list)
+        private static Tuple<int, int, List<ShipmentLineModel>> AnalyzeBOM(List<ShipmentLineModel> list)
         {
+            int cityMatches = 0;
+            int stateMatches = 0;
             foreach (var line in list)
             {
                 //Date comparison
@@ -512,7 +530,8 @@ namespace DesignDB_Library.Operations
                 string quoteCity = line.QuoteCity.ToUpper().ToString();
                 if (quoteCity == soCity)
                 {
-                    line.CityMatch = true;                        
+                    line.CityMatch = true;
+                    cityMatches++;
                 }
                 else 
                 {
@@ -521,6 +540,7 @@ namespace DesignDB_Library.Operations
                 if (stateAbbreviation == soState)
                 {
                     line.StateMatch = true;
+                    stateMatches++;
                 }
                 else
                 {
@@ -532,7 +552,10 @@ namespace DesignDB_Library.Operations
                 double.TryParse(line.BOM_Quantity, out diff );
                 line.QShippedMinusQBOM = line.Quantity - diff;
             }
-            return list;
+            var rtnVal = new Tuple<int, int, List<ShipmentLineModel>>
+                    (cityMatches, stateMatches, list);
+
+            return rtnVal;
         }
 
         /// <summary>
@@ -590,7 +613,7 @@ namespace DesignDB_Library.Operations
             InsertText(wks, row, 9, "Quote City");
             InsertText(wks, row, 10, "City Match");
             InsertText(wks, row, 11, "Quote State");
-            InsertText(wks, row, 12, "City/State Match");
+            InsertText(wks, row, 12, "State Match");
             InsertText(wks, row, 13, "SO Date");
             InsertText(wks, row, 14, "Date Quote Completed");
             InsertText(wks, row, 15, "SO Newer Tham BOM");
@@ -610,7 +633,7 @@ namespace DesignDB_Library.Operations
         {
             Excel.Worksheet wks = wkbResults.ActiveSheet;
             //               A   B   C   D   E   F   G   H   I   J   K   L   M   N     O
-            int[] widths = { 10, 30, 12, 12, 12, 20, 25, 12, 25, 12, 15, 12,  15, 15, 12};
+            int[] widths = { 10, 30, 12, 12, 12, 20, 25, 12, 25, 12, 25, 12,  15, 15, 12};
 
             for (int i = 1; i <= widths.Length; i++)
             {
@@ -699,6 +722,13 @@ namespace DesignDB_Library.Operations
             }
 
             return col;
+        }
+
+        private static void ApplyFilters(Excel.Workbook wkb)
+        {
+            Excel.Worksheet wks = wkb.ActiveSheet;
+            Range filterRange = wks.Range[wks.Cells[5, 1], wks.Cells[5, 15]];
+            object filters = filterRange.AutoFilter(1);
         }
 
     }
