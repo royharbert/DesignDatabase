@@ -59,7 +59,7 @@ namespace DesignDB_UI
             }
 
             //Remove this after BOM-Shipments is done------------------------------------------------------------------------------
-            dtpStartDate.Value = new DateTime(2023, 6, 16);
+            //dtpStartDate.Value = new DateTime(2023, 6, 16);
            
         }
         public frmDateRangeSearch()
