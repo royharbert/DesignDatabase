@@ -195,6 +195,11 @@ namespace DesignDB_UI
                         MessageBox.Show("No records found");
                         break;
 
+                    case 1:
+                        GV.REQFORM.Request = filteredRequests.FirstOrDefault();
+                        GV.REQFORM.Show();
+                        break;
+
                     default:
                         //frmMultiResult frmMultiResult = new frmMultiResult(requestList);
                         GV.MultiResult.dataList = filteredRequests;
