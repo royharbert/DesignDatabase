@@ -182,8 +182,8 @@ namespace DesignDB_Library.Operations
                 {
                     BOM_Model model = new BOM_Model();
                     model.Quote = PID;
-                    int quantity = 0;                    
-                    int.TryParse(qString, out  quantity);
+                    float quantity = 0;                    
+                    //int.TryParse(qString, out  quantity);
                     model.Quantity = quantity;
                     try
                     {

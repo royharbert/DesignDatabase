@@ -9,6 +9,18 @@ namespace DesignDB_Library.DataAccess
 {
     public interface IDataConnection
     {
+        /// <summary>
+        /// Returns 2 letter abbreviation for state
+        /// </summary>
+        /// <param name="stateName"></param>
+        /// <returns></returns>
+        string GetStateAbbreviation(string stateName);
+        /// <summary>
+        /// Returns List<BOMLineModel> that includes PID, BOM file name and DateCompleted
+        /// </summary>
+        /// <param name="PIDs"></param>
+        /// <returns></returns>
+        List<BOMLineModel> getBOMList(string PIDs);
         List<RollupRequestModel> GetRollupRequests(DateTime startDate, DateTime endDate);
         List<MSO_Model> MSO_GetByTier(int tier);
         void MSO_Update(MSO_Model model);

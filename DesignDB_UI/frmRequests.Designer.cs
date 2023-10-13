@@ -526,7 +526,7 @@ namespace DesignDB_UI
             this.txtProjName.Name = "txtProjName";
             this.txtProjName.Size = new System.Drawing.Size(258, 22);
             this.txtProjName.TabIndex = 11;
-            this.txtProjName.Tag = "L|ProjectName";
+            this.txtProjName.Tag = "L|ProjectName|tblRequests";
             this.txtProjName.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
             this.txtProjName.Enter += new System.EventHandler(this.txtProjName_Enter);
             this.txtProjName.Leave += new System.EventHandler(this.txtProjName_Leave);

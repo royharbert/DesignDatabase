@@ -176,6 +176,10 @@
     <Compile Include="aTest.Designer.cs">
       <DependentUpon>aTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmBOM-Bookings.cs" />
+    <Compile Include="frmBOM-Bookings.Designer.cs">
+      <DependentUpon>frmBOM-Bookings.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmCompletionTimeReport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -353,6 +357,9 @@
     <Compile Include="Settings.cs" />
     <EmbeddedResource Include="aTest.resx">
       <DependentUpon>aTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmBOM-Bookings.resx">
+      <DependentUpon>frmBOM-Bookings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmCompletionTimeReport.resx">
       <DependentUpon>frmCompletionTimeReport.cs</DependentUpon>

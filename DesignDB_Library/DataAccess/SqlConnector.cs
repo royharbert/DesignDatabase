@@ -7,11 +7,46 @@ using System.Text;
 using System.Threading.Tasks;
 using DesignDB_Library.Models;
 using System.Data.SqlClient;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace DesignDB_Library.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
+        public string GetStateAbbreviation(string stateName)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@State", stateName, DbType.String);
+
+
+                List<string> output = connection.Query<string>("dbo.spStateAbbreviationGet", p,
+                    commandType: CommandType.StoredProcedure).ToList();
+                string abbreviation = output[0];
+                return abbreviation;
+            }
+        }
+
+        /// <summary>
+        /// Returns List<BOMLineModel> that includes PID, BOM file name and DateCompleted
+        /// </BOMLineModel>
+        /// </summary>
+        /// <param name="PIDs"></param>
+        /// <returns></returns>
+        public List<BOMLineModel> getBOMList(string PIDs)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@PIDs", PIDs, DbType.String);
+
+
+                List<BOMLineModel> output = connection.Query<BOMLineModel>("dbo.spBOM_GetFileName", p,
+                    commandType: CommandType.StoredProcedure).ToList();
+                return output;
+            }
+        }
         public List<RollupRequestModel> GetRollupRequests(DateTime startDate, DateTime endDate)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
