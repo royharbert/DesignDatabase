@@ -131,7 +131,7 @@ namespace DesignDB_Library.Operations
             List<RequestModel> msoRequests = new List<RequestModel>();
             List<ShipmentLineModel> msoShipmentList = new List<ShipmentLineModel>();
 
-            //Iterate list by selected MOS's
+            //Iterate list by selected MSO's
             foreach (var mso in MSOs)
             {
                 //Filter list for current MSO, create msoShipmentList for results
