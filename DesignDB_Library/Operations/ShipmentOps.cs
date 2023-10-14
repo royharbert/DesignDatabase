@@ -16,9 +16,13 @@ using Microsoft.Office.Tools.Excel;
 using System.Configuration;
 using System.Drawing;
 using System.Windows.Forms;
+using NuGet;
 
 namespace DesignDB_Library.Operations
 {
+    /// <summary>
+    /// Event args to update progress bar on main menu
+    /// </summary>
     public class ProgressStripEventArgs :   EventArgs
     {
         public int MaxCount;
@@ -26,6 +30,9 @@ namespace DesignDB_Library.Operations
         public bool IsVisible;
     }
 
+    /// <summary>
+    /// Event args to update BOM processing progress
+    /// </summary>
     public class BOMProgressEventArgs    :   EventArgs
     {
         public int bomCount;
@@ -35,12 +42,96 @@ namespace DesignDB_Library.Operations
 
     public static class ShipmentOps
     {
+        //Class wide scope variables
         public static event EventHandler<ProgressStripEventArgs> UpdateProgressStrip;
         public static event EventHandler<BOMProgressEventArgs> BOMProgressEvent;
         const string BOMFilePath = "\\\\usca5pdbatdgs01\\Databases\\AttachmentsDesign";
         static string quoteCity = "";
         static string quoteState = "";
-        
+
+        /*
+         * Program flow
+         *  Create instance of Excel
+         *  Open SHIPMENTS file
+         *  Establish search range to look for specific column headers      
+         *  Find last row in spreadsheet FindLastSpreadsheetRow(wks); 
+         *  Create instance of BOMProgressEventArgs for updating main menu progress bar
+         *  Get column numbers for necessary columns
+         *  Load xlsm file into list
+         *  Establish 5% update points for progress bar
+         *  If update threshold reached, update progress bar then increment threshold
+         *      Loop from to to lastRow of SHIPMENTS
+         *      Create new ShipmentLineModel
+         *      Populate model with data from SHIPMENTS
+         *      Add model to list
+         *      Keep progress bar updeate on each threshold
+         *      After finishing loop, make progress bar invisible, close SHIPMENTS
+         *      Sort shipments list by part number
+         *  Use start/stop dates from date/time picker to retrieve all requests in date range
+         *  Use MSO list from date/time picker to filter shipments by MSO
+         *  Use same list to filter requests by selected MSO's
+         *  Set BOMArgs.Count to msoRequests.Count
+         *  Create comma separated string of all PIDs
+         *  Use stored procedure to get list of all BOM file names
+         *  Begin processing all BOM files (ProcessBOMs)
+         *      Initialize BOMArgs.currentBOMcount to 0
+         *      Start processing individual BOMs
+         *          Increment bomArgs.currentCount
+         *          Insert BOM file name into path string
+         *          Retrieve BOM
+         *          Load BOM line items into list (LoadBOMtoList)
+         *              Get last used row of BOM
+         *              Find header row of BOM
+         *              Find column numbers of items
+         *              Loop from header row + 1 to lastRow adding each row to list of BOM model
+         *              Return list
+         *          Compare BOM items to shipment list (CompareBOMtoShipments)
+         *              Initialize distinctMatches and pctMatch to 0
+         *              Load BOM items to list ********* redundant?
+         *              Close BOM file
+         *              Initialize list of ShipmentLineModel and BOM_Model (for non-matched items)
+         *              Loop through each item in BOM
+         *                  Initialize ShipmentLineModel list for matches and filter for match between part numbers in shipment and BOM
+         *                  Filter list of requests for matches between BOM quote ID and PID
+         *                  If match count > 0 increment distinct matches
+         *                      Populate ShipmentLineModel quote related fields with quote data
+         *                      Add populated ShipmentLineModel to bomMatches list
+         *                  else
+         *                      add item to non-matches list
+         *                  Sort matches by part number
+         *                  Make new worksheet
+         *                  Create tuple to return city and state match count and ShipmentLineModel
+         *                  Analyze BOM stats (AnalyzeBOM)
+         *                      Initialize city and state match counts to 0
+         *                      Do date comparison with SO and BOM creation
+         *                      Place result in SLM
+         *                      Get abbreviation for state from request
+         *                      Compare uppercase city and state in quote and shipment
+         *                      Place result in SLM
+         *                      Compare BOM and Quote quantities
+         *                      Place difference in SLM
+         *                      Place city and state matches in rtn tuple
+         *                      Add SLM list to tuple and return
+         *                  Make new worksheet to display results (MakeMatchXL)
+         *                      Make section header for match results
+         *                      Insert column names
+         *                      Format column names row (FormatXLSheet)
+         *                  Insert pct match data
+         *                      Place match data in sheet
+         *                      Place non-match data in sheet
+         *                      
+         *                      
+         *              
+         *              
+         *          
+         */
+        /// <summary>
+        /// Primary program flow
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="MSOs"></param>
         public static void ShipmentToBOMCompare(string fileName, DateTime startDate, DateTime endDate, List<MSO_Model> MSOs)
         {
             //Get shipment spreadsheet and locate data columns
@@ -146,13 +237,13 @@ namespace DesignDB_Library.Operations
                 
                 //Filter request list by MSO into msoRequests
                 msoRequests = requestList.Where(x => x.MSO == mso.MSO).ToList();
-                BOMArgs.bomCount = msoRequests.Count;
 
                 //Create a comma separated string of all PIDs
                 //Used to retrieve BOM file names
                 string PIDs = GetPIDsFromRequests(msoRequests);
                 List<BOMLineModel> bomFiles = GlobalConfig.Connection.getBOMList(PIDs);
-
+                sendMessage(bomFiles.Count.ToString() + "BOMs to process");
+                BOMArgs.bomCount = bomFiles.Count;
                 //Compare BOMs to shipment list
                 //Place results into spreadsheet
                 ProcessBOMs(xlApp, wkb, msoShipmentList, msoRequests, lastRow, bomFiles, BOMArgs);
@@ -208,7 +299,7 @@ namespace DesignDB_Library.Operations
                 CompareBOMtoShipmentsl(xlApp, wkbResults, wkb, lastRow, shipments, msoRequests, BOM);
                 ApplyFilters(wkbResults);
             }
-            bomArgs.IsVisible = false;
+            bomArgs.IsVisible = false;            
             BOMProgressEvent?.Invoke("ShipmentOps", bomArgs);
         }
 
@@ -264,8 +355,6 @@ namespace DesignDB_Library.Operations
         {
 
             //Initialize procedure wide variables
-            //int cityMaches = 0;
-            //int stateMatches = 0;
             int distinctMatches = 0;
             double pctMatch = 0;
 
@@ -685,7 +774,7 @@ namespace DesignDB_Library.Operations
             {
                 sb.Append(request.ProjectID + ',');
             }
-            sendMessage(msoRequests.Count.ToString() + "BOMs to process");
+            
             string PIDs = sb.ToString();
             PIDs = PIDs.Substring(0, PIDs.Length - 1);
             return PIDs;
