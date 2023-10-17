@@ -213,6 +213,8 @@ namespace DesignDB_Library.Operations
             }
             psArgs.IsVisible = false;
             UpdateProgressStrip?.Invoke("ShipmentOps", psArgs);
+            BOMArgs.IsVisible = false;
+            BOMProgressEvent?.Invoke("ShipmentOp", BOMArgs);
             wkb.Close();
             shipmentList = shipmentList.OrderBy(x => x.PartNumber).ToList();
 
@@ -247,6 +249,9 @@ namespace DesignDB_Library.Operations
                 //Compare BOMs to shipment list
                 //Place results into spreadsheet
                 ProcessBOMs(xlApp, wkb, msoShipmentList, msoRequests, lastRow, bomFiles, BOMArgs);
+                BOMProgressEventArgs bomArgs = new BOMProgressEventArgs();
+                bomArgs.IsVisible = false;
+                BOMProgressEvent?.Invoke("ShipmentOps", bomArgs);
             }
 
             //release Excel instance
@@ -272,6 +277,7 @@ namespace DesignDB_Library.Operations
             foreach (var BOM in BOMLineList) 
             {
                 bomArgs.currentBOMCount++;
+                bomArgs.IsVisible = true;
                 BOMProgressEvent?.Invoke("ShipmentOps", bomArgs);
                 //Open BOM file and get active worksheet
                 string bomFile = BOMFilePath + "\\" + BOM.PID + "\\" + BOM.DisplayText;
@@ -299,8 +305,7 @@ namespace DesignDB_Library.Operations
                 CompareBOMtoShipmentsl(xlApp, wkbResults, wkb, lastRow, shipments, msoRequests, BOM);
                 ApplyFilters(wkbResults);
             }
-            bomArgs.IsVisible = false;            
-            BOMProgressEvent?.Invoke("ShipmentOps", bomArgs);
+            sendMessage("");
         }
 
         /// <summary>

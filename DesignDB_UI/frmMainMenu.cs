@@ -75,8 +75,15 @@ namespace DesignDB_UI
         private void BOMProgressEvent(object sender, BOMProgressEventArgs e)
         {
             string message = "Currently processing number " + e.currentBOMCount + " of " + e.bomCount + " BOMs.";
-            ssBOMCount.Text = message;
-            e.IsVisible = true;
+            if (e.IsVisible)
+            {
+                ssBOMCount.Text = message; 
+            }
+            else
+            {
+                ssBOMCount.Text = "";
+            }
+            ssBOMCount.Visible = e.IsVisible;
         }
 
         private void ShipmentOps_UpdateProgressStrip(object sender, ProgressStripEventArgs e)
