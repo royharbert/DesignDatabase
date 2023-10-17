@@ -335,7 +335,7 @@ namespace DesignDB_Library.Operations
                 BOM_Model model = new BOM_Model();
                 model.Description = wks.Cells[i, descCol].Value;
                 model.Quote = PID;
-                model.ModelNumber = wks.Cells[i, modelCol].Value;
+                model.ModelNumber = wks.Cells[i, modelCol].Value.ToString();
                 if (wks.Cells[i, quanCol].Value != null)
                 {
                     model.Quantity = wks.Cells[i, quanCol].Value; 
