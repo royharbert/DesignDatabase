@@ -56,22 +56,22 @@ namespace DesignDB_UI
             }
         }
 
-        
-        public List<RequestModelReport> ReportDataList            
-        {
-            get
-            {
-                return reportModel; ;
-            }
-            set
-            {
-                reportModel = value;
-                txtRecordsReturned.Text = reportModel.Count.ToString();
-                dgvResults.DataSource = null;
-                dgvResults.DataSource = reportModel;
-                ReportOps.ReportFormatMultiResultDGV(dgvResults);
-            }
-        }
+
+        //public List<RequestModel> ReportDataList
+        //{
+        //    get
+        //    {
+        //        return reportModel; ;
+        //    }
+        //    set
+        //    {
+        //        reportModel = value;
+        //        txtRecordsReturned.Text = reportModel.Count.ToString();
+        //        dgvResults.DataSource = null;
+        //        dgvResults.DataSource = reportModel;
+        //        ReportOps.ReportFormatMultiResultDGV(dgvResults);
+        //    }
+        //}
 
         public void DoForecast()
         {
@@ -168,8 +168,8 @@ namespace DesignDB_UI
 
             if (GV.MODE == Mode.DateRangeSearch)
             {
-                RequestModel request = RequestModelReportToRequestModel.ConvertReportModelToRequestModel(reportModel[selRow]);
-                myRequest.Add(request);
+                //RequestModel request = /*RequestModelReportToRequestModel.ConvertReportModelToRequestModel*/(reportModel[selRow]);
+                myRequest.Add(Requests[selRow]);
             }
             else
             {
@@ -230,9 +230,12 @@ namespace DesignDB_UI
 
         private void frmMultiResult_FormClosing(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = true;
-            this.Hide();
-            GV.MAINMENU.BringToFront();
+            if (!GV.Exiting)
+            {
+                e.Cancel = true;
+                this.Hide();
+                GV.MAINMENU.BringToFront(); 
+            }
         }
 
         private void frmMultiResult_Activated(object sender, EventArgs e)

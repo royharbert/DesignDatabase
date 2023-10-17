@@ -19,3 +19,7 @@
 /Releases/DesignDBRepo-2.1.114-delta.nupkg
 /D*.nupkg
 /DesignDB_Library/DesignDB_Library.csproj
+/DesignDB_Library/obj/Debug/DesignDB_Library.csproj.AssemblyReference.cache
+/DesignDB_Library/obj/Debug/DesignDB_Library.csproj.AssemblyReference.cache
+*.nupkg
+/DesignDB_Library/obj/Debug/DesignDB_Library.csproj.AssemblyReference.cache

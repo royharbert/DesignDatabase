@@ -132,8 +132,6 @@ namespace DesignDB_UI
             {
                 args.CustomFormat = false;
             } 
-            
-            //this.Hide();
             allSelected = false;
             DataReadyEvent?.Invoke(this, args);
         }

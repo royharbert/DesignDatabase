@@ -11,6 +11,7 @@ namespace DesignDB_UI
 {
     public class GV
     {
+        public static bool Exiting { get; set; }
         public static frmLogView LogViewer { get; set; }
         public static int ActiveScreen { get; set; }
         public static List<ScreenModel> ScreenList { get; set; }

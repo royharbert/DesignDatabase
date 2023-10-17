@@ -11,13 +11,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
+using Microsoft.ReportingServices.RdlExpressions.ExpressionHostObjectModel;
 
 namespace DesignDB_UI
 {
     public partial class frmDateRangeSearch : Form
     {
-        public event EventHandler<DataReadyEventArgs> DataReadyEvent;
+        public string FileName { get; set; }
+
         public event EventHandler<CancelEventArgs> PickerCanceled;
+        public event EventHandler<DateRangeEventArgs> DateRangeSet;
         CheckBox[] ckRegions;
         CheckBox[] ckTiers;
         List<MSO_Model> allMSO_S;
@@ -26,10 +29,9 @@ namespace DesignDB_UI
         List<MSO_Model> tier0Models;
         List<string> tierQuery = new List<string>();
         List<string> regionQuery = new List<string>();
-        public event EventHandler<DateRangeEventArgs> DateRangeSet;
-        List<RequestModelReport> requestList = new List<RequestModelReport>();
+        List<RequestModel> requestList = new List<RequestModel>();
         string term = "";
-        
+        DateRangeEventArgs drArgs = new DateRangeEventArgs();
         private void frmDateRangeSearch_Load(object sender, EventArgs e)
         {
             //Gather list of MSO's and create lists of tiers
@@ -41,6 +43,24 @@ namespace DesignDB_UI
             lbMSO.DataSource = allMSO_S;
             lbMSO.DisplayMember = "MSO";
             lbMSO.SelectedIndex = -1;
+
+            if (GV.MODE == Mode.BOM_Shipments)
+            {
+                cboDesigner.Visible = false;
+                cboRequestor.Visible = false;
+                btnForecast.Visible = false;
+                btnSearch.Visible = true;
+            }
+            else
+            {
+                cboDesigner.Visible = true;
+                cboRequestor.Visible = true;
+                lbMSO.SelectedItem = "Cable One";
+            }
+
+            //Remove this after BOM-Shipments is done------------------------------------------------------------------------------
+            //dtpStartDate.Value = new DateTime(2023, 6, 16);
+           
         }
         public frmDateRangeSearch()
         {
@@ -124,30 +144,77 @@ namespace DesignDB_UI
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            int records = requestList.Count;
-            
-            requestList = GlobalConfig.Connection.ReportDateRangeSearch_MSOFiltered
-                (dtpStartDate.Value, dtpEndDate.Value, term, lbMSO.Text, false,cboDesigner.Text,cboRequestor.Text);
-            records = requestList.Count;
-
-            switch (records)
+            this.Hide();
+            if (GV.MODE == Mode.BOM_Shipments)
             {
-                case 0:
-                    MessageBox.Show("No records found");
-                    break;
-
-                default:
-                    //frmMultiResult frmMultiResult = new frmMultiResult(requestList);
-                    GV.MultiResult.ReportDataList = requestList;
-                    GV.MultiResult.Show();
-                    break;
+                List<MSO_Model> msoList = new List<MSO_Model>();
+                foreach (var mso in lbMSO.SelectedItems)
+                {
+                    MSO_Model msoModel = (MSO_Model)mso;
+                    msoList.Add(msoModel);
+                }
+                if (msoList.Count == 0)
+                {
+                    MessageBox.Show("No MSO selected. Please make selection.");
+                    return;
+                }
+                drArgs.StartDate = dtpStartDate.Value;
+                drArgs.EndDate = dtpEndDate.Value;
+                drArgs.msoList = msoList;
+                drArgs.Filename = FileName;
+                DateRangeSet?.Invoke(this, drArgs);
             }
-            this.Close();
+            else
+            {
+                GV.MODE = Mode.DateRangeSearch;
+                List<MSO_Model> msoList = new List<MSO_Model>();
+                foreach (var mso in lbMSO.SelectedItems)
+                {
+                    MSO_Model msoModel = (MSO_Model)mso;
+                    msoList.Add(msoModel);
+                }
+                int records = requestList.Count;
+
+                requestList = GlobalConfig.Connection.DateRangeSearch_Unfiltered
+                    (dtpStartDate.Value, dtpEndDate.Value, term, false, cboDesigner.Text, cboRequestor.Text);
+                records = requestList.Count;
+
+                List<RequestModel> filteredRequests = new List<RequestModel>();
+                if (records > 0)
+                {
+                    foreach (var mso in msoList)
+                    {
+                        filteredRequests.AddRange(requestList.Where(x => x.MSO == mso.MSO).ToList());
+                    }
+                    records = filteredRequests.Count; 
+                }
+
+                switch (records)
+                {
+                    case 0:
+                        MessageBox.Show("No records found");
+                        break;
+
+                    case 1:
+                        GV.REQFORM.Request = filteredRequests.FirstOrDefault();
+                        GV.REQFORM.Show();
+                        break;
+
+                    default:
+                        //frmMultiResult frmMultiResult = new frmMultiResult(requestList);
+                        GV.MultiResult.dataList = filteredRequests;
+                        GV.MultiResult.Show();
+                        break;
+                }
+                
+            }
         }
 
+         
+        
+
         private void btnForecast_Click(object sender, EventArgs e)
-        {
-                  
+        {                  
             DateRangeEventArgs args = new DateRangeEventArgs();
             args.StartDate = dtpStartDate.Value;
             args.EndDate = dtpEndDate.Value;
@@ -158,9 +225,11 @@ namespace DesignDB_UI
 
         public class DateRangeEventArgs : EventArgs
         {
-            public DateTime StartDate { get; set; }
-            public DateTime EndDate { get; set; }
-            public string MSO { get; set; }
+            public DateTime StartDate;
+            public DateTime EndDate;
+            public string MSO;
+            public List<MSO_Model> msoList;
+            public string Filename;
         }
         private void highlightListBoxItemsFromTierSelection(List<MSO_Model> modelList, bool isChecked)
         {

@@ -9,6 +9,18 @@ namespace DesignDB_Library.DataAccess
 {
     public interface IDataConnection
     {
+        /// <summary>
+        /// Returns 2 letter abbreviation for state
+        /// </summary>
+        /// <param name="stateName"></param>
+        /// <returns></returns>
+        string GetStateAbbreviation(string stateName);
+        /// <summary>
+        /// Returns List<BOMLineModel> that includes PID, BOM file name and DateCompleted
+        /// </summary>
+        /// <param name="PIDs"></param>
+        /// <returns></returns>
+        List<BOMLineModel> getBOMList(string PIDs);
         List<RollupRequestModel> GetRollupRequests(DateTime startDate, DateTime endDate);
         List<MSO_Model> MSO_GetByTier(int tier);
         void MSO_Update(MSO_Model model);
@@ -46,7 +58,7 @@ namespace DesignDB_Library.DataAccess
             string mso, bool pendingOnly, string designer, string requestor);
         List<RequestModel> DateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, string SearchTerm, 
             bool pendingOnly, string mso = null, string designer =null, string requestor = null);
-        List<RequestModelReport> ReportDateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, 
+        List<RequestModel> ReportDateRangeSearch_MSOFiltered(DateTime StartDate, DateTime EndDate, 
             string SearchTerm, string mso, bool pendingOnly, string designer = null, string requestor = null); 
         List<RequestModelReport> ReportDateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate, 
             string SearchTerm, string mso, string designer = null);

@@ -66,11 +66,15 @@ namespace DesignDB_UI
             this.btnFE_Maintenance = new System.Windows.Forms.Button();
             this.btnDeleteRecord = new System.Windows.Forms.Button();
             this.btnDeletedRecords = new System.Windows.Forms.Button();
+            this.btnBOMShipments = new System.Windows.Forms.Button();
             this.rdoSandbox = new System.Windows.Forms.RadioButton();
             this.rdoLive = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.ssMessage = new System.Windows.Forms.StatusStrip();
             this.ssLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ssProgress = new System.Windows.Forms.ToolStripProgressBar();
+            this.ofdMainMenu = new System.Windows.Forms.OpenFileDialog();
+            this.ssBOMCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.tlpMain.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.ssMessage.SuspendLayout();
@@ -483,6 +487,7 @@ namespace DesignDB_UI
             this.tlpMain.Controls.Add(this.btnUndelete, 2, 7);
             this.tlpMain.Controls.Add(this.btnDeleteRecord, 2, 6);
             this.tlpMain.Controls.Add(this.btnDeletedRecords, 2, 5);
+            this.tlpMain.Controls.Add(this.btnBOMShipments, 3, 7);
             this.tlpMain.Location = new System.Drawing.Point(12, 150);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 10;
@@ -686,6 +691,22 @@ namespace DesignDB_UI
             this.btnDeletedRecords.UseVisualStyleBackColor = false;
             this.btnDeletedRecords.Click += new System.EventHandler(this.btnDeletedRecords_Click);
             // 
+            // btnBOMShipments
+            // 
+            this.btnBOMShipments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBOMShipments.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnBOMShipments.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnBOMShipments.Location = new System.Drawing.Point(587, 360);
+            this.btnBOMShipments.Name = "btnBOMShipments";
+            this.btnBOMShipments.Size = new System.Drawing.Size(266, 45);
+            this.btnBOMShipments.TabIndex = 44;
+            this.btnBOMShipments.Tag = "3";
+            this.btnBOMShipments.Text = "BOM-Shipments";
+            this.btnBOMShipments.UseVisualStyleBackColor = false;
+            this.btnBOMShipments.Click += new System.EventHandler(this.btnBOMShipments_Click);
+            // 
             // rdoSandbox
             // 
             this.rdoSandbox.AutoSize = true;
@@ -740,7 +761,9 @@ namespace DesignDB_UI
             this.ssMessage.BackColor = System.Drawing.Color.RoyalBlue;
             this.ssMessage.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ssMessage.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ssLabel});
+            this.ssLabel,
+            this.ssProgress,
+            this.ssBOMCount});
             this.ssMessage.Location = new System.Drawing.Point(0, 739);
             this.ssMessage.Name = "ssMessage";
             this.ssMessage.Size = new System.Drawing.Size(1192, 22);
@@ -750,6 +773,21 @@ namespace DesignDB_UI
             // 
             this.ssLabel.Name = "ssLabel";
             this.ssLabel.Size = new System.Drawing.Size(0, 17);
+            // 
+            // ssProgress
+            // 
+            this.ssProgress.Name = "ssProgress";
+            this.ssProgress.Size = new System.Drawing.Size(100, 16);
+            this.ssProgress.Visible = false;
+            // 
+            // ofdMainMenu
+            // 
+            this.ofdMainMenu.FileName = "openFileDialog1";
+            // 
+            // ssBOMCount
+            // 
+            this.ssBOMCount.Name = "ssBOMCount";
+            this.ssBOMCount.Size = new System.Drawing.Size(0, 17);
             // 
             // frmMainMenu
             // 
@@ -825,5 +863,9 @@ namespace DesignDB_UI
         private System.Windows.Forms.Button btnDeletedRecords;
         private System.Windows.Forms.StatusStrip ssMessage;
         private System.Windows.Forms.ToolStripStatusLabel ssLabel;
+        private System.Windows.Forms.Button btnBOMShipments;
+        private System.Windows.Forms.OpenFileDialog ofdMainMenu;
+        private System.Windows.Forms.ToolStripProgressBar ssProgress;
+        private System.Windows.Forms.ToolStripStatusLabel ssBOMCount;
     }
 }

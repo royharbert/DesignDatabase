@@ -111,6 +111,7 @@
     <Compile Include="DataAccess\IDataConnection.cs" />
     <Compile Include="DataAccess\SqlConnector.cs" />
     <Compile Include="Models\AwardStatusModel.cs" />
+    <Compile Include="Models\BOMLineModel.cs" />
     <Compile Include="Models\BookingModel.cs" />
     <Compile Include="Models\OpenRequestsBySalesModel.cs" />
     <Compile Include="Models\ReportDesignsInProcessModel.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Models\RequestModel.cs" />
     <Compile Include="Models\RollupCompletionTimeModel.cs" />
     <Compile Include="Models\ScreenModel.cs" />
+    <Compile Include="Models\ShipmentLineModel.cs" />
     <Compile Include="Operations\DesignerUpdate.cs" />
     <Compile Include="Operations\FilePicker.cs" />
     <Compile Include="Operations\AttachmentOps.cs" />
@@ -166,6 +168,7 @@
     <Compile Include="Operations\Screens.cs" />
     <Compile Include="Operations\SearchOps.cs" />
     <Compile Include="Operations\Serialization.cs" />
+    <Compile Include="Operations\ShipmentOps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Holiday_Update.cs" />
   </ItemGroup>

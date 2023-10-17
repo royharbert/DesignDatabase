@@ -28,7 +28,7 @@ namespace DesignDB_Library.Operations
                 {
                     delim = "";
                 }
-                whereClause.Append(item.FieldName + " LIKE " + delim +"%" + item.FieldValue + "%" + delim + " " + op + " ");
+                whereClause.Append(item.FieldName + " LIKE " + delim + "%" + item.FieldValue + "%" + delim + " " + op + " "); ;
             }
             string where = whereClause.ToString();
             int opLength = op.Length + 1;

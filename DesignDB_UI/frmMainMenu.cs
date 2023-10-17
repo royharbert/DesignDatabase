@@ -19,19 +19,24 @@ namespace DesignDB_UI
     {
         frmInput frmInput = new frmInput();
         frmDateMSO_Picker frmDateMSO_Picker = new frmDateMSO_Picker();
-
+        frmDateRangeSearch DateRangeSearchForm = new frmDateRangeSearch();
+        
         private bool formLoading = false;
         private bool operationCanceled = false;     //flag to indicate cancel of operation
         private bool CustomFormat = false;
         private DateTime startDate;
         private DateTime endDate;
+        private string fileName = "";
 
 
         public frmMainMenu()
         {
             ReportOps.NewMessageEvent += ReportOps_NewMessageEvent;
+            ShipmentOps.UpdateProgressStrip += ShipmentOps_UpdateProgressStrip;
+            ShipmentOps.BOMProgressEvent += BOMProgressEvent;
 
             this.Size = new Size(1208, 800);
+            GV.Exiting = false;
             GV.LogViewer = new frmLogView();
             GV.PickerForm = frmDateMSO_Picker;
             GV.InputForm = frmInput;
@@ -40,6 +45,7 @@ namespace DesignDB_UI
             frmDateMSO_Picker.Hide();
             frmDateMSO_Picker.PickerCanceled += FrmDateMSO_Picker_PickerCanceled;
             frmDateMSO_Picker.DataReadyEvent += FrmDateMSO_Picker_DataReadyEvent;
+            DateRangeSearchForm.DateRangeSet += DateRangeSearchForm_DateRangeSet;           
             formLoading = true;
             frmInput.InputDataReady += FrmInput_InputDataReady;
             InitializeComponent();
@@ -66,6 +72,37 @@ namespace DesignDB_UI
             formLoading = false;
         }
 
+        private void BOMProgressEvent(object sender, BOMProgressEventArgs e)
+        {
+            string message = "Currently processing number " + e.currentBOMCount + " of " + e.bomCount + " BOMs.";
+            if (e.IsVisible)
+            {
+                ssBOMCount.Text = message; 
+            }
+            else
+            {
+                ssBOMCount.Text = "";
+            }
+            ssBOMCount.Visible = e.IsVisible;
+        }
+
+        private void ShipmentOps_UpdateProgressStrip(object sender, ProgressStripEventArgs e)
+        {
+            ssProgress.Maximum = e.MaxCount;
+            ssProgress.Value = e.CurrentCount;
+            ssProgress.Visible = e.IsVisible;
+        }
+
+        private void DateRangeSearchForm_DateRangeSet(object sender, frmDateRangeSearch.DateRangeEventArgs e)
+        {
+            switch (GV.MODE)
+            {
+                case Mode.BOM_Shipments:
+                    ShipmentOps.ShipmentToBOMCompare(DateRangeSearchForm.FileName, e.StartDate, e.EndDate, e.msoList);
+                    break;
+            }
+        }
+        
         private void ReportOps_NewMessageEvent(object sender, NewMessageEventArgs e)
         {
             ssLabel.Text = e.MyMessage;
@@ -125,7 +162,7 @@ namespace DesignDB_UI
         {
             if (GlobalConfig.DatabaseMode == DatabaseType.Live)
             {
-                using (var manager = new UpdateManager(@"\\USCA5PDBATDGS01\Databases\ProgramUpdates\UpdateTest"))
+                using (var manager = new UpdateManager(@"\\USCA5PDBATDGS01\Databases\ProgramUpdates"))
                 //using (var manager = new UpdateManager(@"\\USCA5PDBATDGS01\Databases\ProgramUpdates"))
                 {
                     await manager.UpdateApp();
@@ -134,7 +171,7 @@ namespace DesignDB_UI
             else
             {
                 //using (var manager = new UpdateManager(@"C:\Users\rharbert\OneDrive - CommScope\SQLDB\Squirrel"))
-                using (var manager = new UpdateManager(@"\\USCA5PDBATDGS01\Databases\ProgramUpdates\UpdateTest"))
+                using (var manager = new UpdateManager(@"\\USCA5PDBATDGS01\Databases\ProgramUpdates"))
                 {
                     await manager.UpdateApp();
                 }
@@ -278,6 +315,7 @@ namespace DesignDB_UI
 
         private void btnExit_Click(object sender, EventArgs e)
         {
+            GV.Exiting = true;
             Application.Exit();
         }
 
@@ -419,16 +457,6 @@ namespace DesignDB_UI
 
                     frmReportSalesPriiority.Show();
                     frmReportSalesPriiority.TopMost = true;
-                    break;
-                case Mode.Report_DesignerLoadReport:
-                    break;
-                case Mode.Report_Overdue:
-                    break;
-                case Mode.Search:
-                    break;
-                case Mode.None:
-                    break;
-                default:
                     break;
             }
 
@@ -623,6 +651,26 @@ namespace DesignDB_UI
             List<RequestModel> deletedRequests = GlobalConfig.Connection.GetRequestsDeleted();
             frmMultiResult resultsForm = new frmMultiResult(deletedRequests);
             resultsForm.Show();
+        }
+
+
+        private void btnBOMShipments_Click(object sender, EventArgs e)
+        {
+            string fileName = "";
+
+            GV.MODE = Mode.BOM_Shipments;
+            ofdMainMenu.DefaultExt = ".xlsx";
+            ofdMainMenu.Filter = "Macro Enabled Files (*.xlsm)|*.xlsm|Excel files (*.xlsx)|*.xlsx";
+            ofdMainMenu.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            ofdMainMenu.RestoreDirectory = true;
+            ofdMainMenu.FileName = fileName;
+            ofdMainMenu.Title = "Open Shipments Spreadsheet";
+            if (ofdMainMenu.ShowDialog() == DialogResult.OK)
+            {
+                DateRangeSearchForm.FileName = ofdMainMenu.FileName;
+                fileName = ofdMainMenu.FileName;
+            }
+            DateRangeSearchForm.Show();            
         }
     }
 }
