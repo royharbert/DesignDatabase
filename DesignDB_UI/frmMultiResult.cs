@@ -18,9 +18,11 @@ namespace DesignDB_UI
     public partial class frmMultiResult : Form
     {
         private bool _useDefaultLocation = true;
-        List<RequestModelReport> reportModel;
+        //List<RequestModelReport> reportModel;
+        List<RequestModel> reportModel;
         private Point _formLocation;
         private bool formLoading;
+        List<RequestModel> Requests = new List<RequestModel>();
         public bool UseDefaultLocation
         {
             get
@@ -37,7 +39,6 @@ namespace DesignDB_UI
             }
         }
 
-        List<RequestModel> Requests;
         public List<RequestModel> dataList
         {
             get
