@@ -188,11 +188,11 @@ namespace DesignDB_Library.Operations
                     updateThreshold = updateThreshold + updateIncrement;
                 }
                 ShipmentLineModel shipment = new ShipmentLineModel();
-                shipment.Desc = wks.Cells[i, DescCol].Value;
+                shipment.Desc = wks.Cells[i, DescCol].Value.ToString();
                 shipment.PartNumber = wks.Cells[i, PartNumberCol].Value.ToString();
-                shipment.City = wks.Cells[i, CityCol].Value;
-                shipment.SOCust = wks.Cells[i, SOCustCol].Value;
-                shipment.State = wks.Cells[i, StateCol].Value;
+                shipment.City = wks.Cells[i, CityCol].Value.ToString();
+                shipment.SOCust = wks.Cells[i, SOCustCol].Value.ToString();
+                shipment.State = wks.Cells[i, StateCol].Value.ToString();
                 double q = 0;
                 string sQuan = wks.Cells[i, QuanCol].Value.ToString();
                 double.TryParse(sQuan, out q);
@@ -333,12 +333,12 @@ namespace DesignDB_Library.Operations
             for (int i = row; i <= lastBOMRow - 1; i++)
             {
                 BOM_Model model = new BOM_Model();
-                model.Description = wks.Cells[i, descCol].Value;
+                model.Description = wks.Cells[i, descCol].Value.ToString();
                 model.Quote = PID;
                 model.ModelNumber = wks.Cells[i, modelCol].Value.ToString();
                 if (wks.Cells[i, quanCol].Value != null)
                 {
-                    model.Quantity = wks.Cells[i, quanCol].Value; 
+                    model.Quantity = wks.Cells[i, quanCol].Value ; 
                 }
                 models.Add(model);
             }
