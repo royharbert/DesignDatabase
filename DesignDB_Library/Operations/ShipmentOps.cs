@@ -333,14 +333,15 @@ namespace DesignDB_Library.Operations
             for (int i = row; i <= lastBOMRow - 1; i++)
             {
                 BOM_Model model = new BOM_Model();
-                model.Description = wks.Cells[i, descCol].Value.ToString();
-                model.Quote = PID;
-                model.ModelNumber = wks.Cells[i, modelCol].Value.ToString();
-                if (wks.Cells[i, quanCol].Value != null)
+                if (wks.Cells[i, descCol].Value != null && wks.Cells[i, modelCol].Value != null && wks.Cells[i, quanCol].Value != null)
                 {
-                    model.Quantity = wks.Cells[i, quanCol].Value ; 
+                    model.Description = wks.Cells[i, descCol].Value.ToString();
+                    model.Quote = PID;
+                    model.ModelNumber = wks.Cells[i, modelCol].Value.ToString();
+                    model.Quantity = wks.Cells[i, quanCol].Value;
+                    
+                    models.Add(model); 
                 }
-                models.Add(model);
             }
 
             return models;
