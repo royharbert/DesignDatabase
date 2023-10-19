@@ -32,18 +32,22 @@ namespace DesignDB_UI
             //dtp.Format = DateTimePickerFormat.Custom;
             //txtBox.Text = dtp.Value.ToShortDateString();
             //ReportOps.NumberOfWorkDays(new DateTime(2023, 1, 1), new DateTime(2023, 6, 12));
-            Excel.Application xlApp = ExcelOps.makeExcelApp();
-            xlApp.Workbooks.Add();
-            xlApp.Visible = true;
+            //Excel.Application xlApp = ExcelOps.makeExcelApp();
+            //xlApp.Workbooks.Add();
+            //xlApp.Visible = true;
             //Workbook wkb = xlApp.ActiveWorkbook;
-            Workbook wkb = xlApp.Workbooks.Open("C:\\Users\\rharbert\\OneDrive - CommScope\\Documents\\__xCopy of 091923-Backlog and Shipments - Copy.xlsx");
+            //Workbook wkb = xlApp.Workbooks.Open("C:\\Users\\rharbert\\OneDrive - CommScope\\Documents\\__xCopy of 091923-Backlog and Shipments - Copy.xlsx");
             //wkb = ExcelOps.SortSpreadsheetByColumn(wkb);
+            object obj = new object();
+            obj = "75%";
+            txtBox.Text = obj.ToString();
         }
 
         private void btnExcel_Click(object sender, EventArgs e)
         {
             Excel.Application xlApp = ExcelOps.makeExcelApp();
             xlApp.Workbooks.Add();
+            Excel.Worksheet wks = xlApp.ActiveSheet;
             xlApp.Visible = true;
             string[] columnNames = new string[] { "Project ID", "File Name", "Quote Type", "Original Quote", "Priority",
                 "Award Status", "Design Requestor", "BOM Value", "% Project Covered", "Project Value","MSO", "Region",
@@ -51,6 +55,10 @@ namespace DesignDB_UI
                 "Designer", "Assisted By", "Reviewed By", "Revision", "Category", "Architecture Details", "Comments",
                 "Total Hours" };
             makeReportSheet(xlApp, columnNames);
+            object obj = ExcelOps.GetCellValue(wks, 1, 5);
+            Type t = obj.GetType();
+            //string val = obj;
+            ExcelOps.releaseObject(xlApp);
         }
 
         private Excel.Worksheet makeReportSheet(Excel.Application xlApp, string[] headers)

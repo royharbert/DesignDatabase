@@ -16,6 +16,12 @@ namespace DesignDB_Library.Operations
 {
     public class ExcelOps
     {
+        public static object GetCellValue(Excel.Worksheet wks, int row, int col)
+        {
+            object val = wks.Cells[row, col];
+
+            return val;
+        }
         
         /// <summary>
         /// Places text in worksheet at specified row, col
@@ -43,6 +49,13 @@ namespace DesignDB_Library.Operations
             return result.Column;
         }
 
+        public static Tuple<int, int> GetCell(Worksheet wks, string searchTerm, Range range)
+        {
+
+            Range result = range.Find(searchTerm);
+
+            return Tuple.Create(result.Row, result.Column);
+        }
         /// <summary>
         /// Returns row first number containing searchTerm
         /// </summary>

@@ -306,6 +306,7 @@ namespace DesignDB_Library.Operations
                 ApplyFilters(wkbResults);
             }
             sendMessage("");
+            CreateSummarySheet(wkbResults);
         }
 
         /// <summary>
@@ -332,15 +333,17 @@ namespace DesignDB_Library.Operations
             //Add BOM lines to list of BOM_Models
             for (int i = row; i <= lastBOMRow - 1; i++)
             {
-                BOM_Model model = new BOM_Model();
-                model.Description = wks.Cells[i, descCol].Value.ToString();
-                model.Quote = PID;
-                model.ModelNumber = wks.Cells[i, modelCol].Value.ToString();
-                if (wks.Cells[i, quanCol].Value != null)
+                if (wks.Cells[i, descCol].Value != null && wks.Cells[i, modelCol].Value != null 
+                    && wks.Cells[i, quanCol].Value != null)
                 {
-                    model.Quantity = wks.Cells[i, quanCol].Value ; 
+                    BOM_Model model = new BOM_Model();
+                    model.Description = wks.Cells[i, descCol].Value.ToString();
+                    model.Quote = PID;
+                    model.ModelNumber = wks.Cells[i, modelCol].Value.ToString();
+                    model.Quantity = wks.Cells[i, quanCol].Value;
+                    
+                    models.Add(model); 
                 }
-                models.Add(model);
             }
 
             return models;
@@ -842,6 +845,38 @@ namespace DesignDB_Library.Operations
             Excel.Worksheet wks = wkb.ActiveSheet;
             Range filterRange = wks.Range[wks.Cells[5, 1], wks.Cells[5, 15]];
             object filters = filterRange.AutoFilter(1);
+        }
+
+        private static void CreateSummarySheet(Excel.Workbook wkb)
+        {
+            Excel.Worksheet wks = wkb.Sheets["Sheet1"];
+            Excel.Worksheet wksStudy = wkb.Sheets[1];
+            Range searchRange = wksStudy.get_Range("A1:Z26");
+            wks.Name = "Summary";
+            int sheetCount = wkb.Sheets.Count;
+            for (int i = 1; i < sheetCount; i++) 
+            {
+                if (wkb.Sheets[i].Name != "Summary")
+                {
+                    wksStudy = wkb.Sheets[i];
+                    Tuple<int, int> lineMatch = ExcelOps.GetCell(wksStudy, "Percent of BOM Lines Matching Shipments", searchRange);
+                    Tuple<int, int> cityMatch = ExcelOps.GetCell(wksStudy, "Percent City Matches", searchRange);
+                    Tuple<int, int> stateMatch = ExcelOps.GetCell(wksStudy, "Percent State Matches", searchRange);
+
+                    string lineMatches = GetPercentage(wkb, lineMatch.Item1, lineMatch.Item2);
+                    string cityMatches = GetPercentage(wkb, cityMatch.Item1, lineMatch.Item2);
+                    string stateMatches = GetPercentage(wkb, stateMatch.Item1, lineMatch.Item2); 
+                }
+            }
+        }
+
+        private static string GetPercentage(Excel.Workbook wkb, int row, int col) 
+        {
+            Excel.Worksheet wks = wkb.ActiveSheet;
+            object pct = ExcelOps.GetCellValue(wks, row, col);
+            //string pctString = pct.
+            //return pctString;
+            return null;
         }
 
     }
