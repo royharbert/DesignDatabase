@@ -16,6 +16,11 @@ namespace DesignDB_Library.Operations
 {
     public class ExcelOps
     {
+        public static object GetCellValue(Excel.Worksheet wks, int row, int column)
+        {
+            object obj = wks.Cells[row, column].Value;
+            return obj;
+        }
         
         /// <summary>
         /// Places text in worksheet at specified row, col

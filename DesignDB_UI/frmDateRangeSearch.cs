@@ -337,6 +337,21 @@ namespace DesignDB_UI
             clearCheckBoxes(ckRegions);
         }
 
+        private void btnSelectAll_Click(object sender, EventArgs e)
+        {
+            LbSelectItems(true);
+        }
+
+        private void LbSelectItems(bool select)
+        {
+            for (int i = 0; i < lbMSO.Items.Count; i++)
+                lbMSO.SetSelected(i, select);
+        }
+
+        private void btnDeselect_Click(object sender, EventArgs e)
+        {
+            LbSelectItems(false);
+        }
     }   
 }            
 
