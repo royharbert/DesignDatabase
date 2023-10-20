@@ -199,8 +199,8 @@ namespace DesignDB_UI
             switch (GV.MODE)
             {               
                 case Mode.DateRangeSearch:
-                    ListLooper.ExcelExporter<RequestModelReport> reportExporter = new ListLooper.ExcelExporter<RequestModelReport>();
-                    reportExporter.List = (List<RequestModelReport>)dgvResults.DataSource;
+                    ListLooper.ExcelExporter<RequestModel> reportExporter = new ListLooper.ExcelExporter<RequestModel>();
+                    reportExporter.List = (List<RequestModel>)dgvResults.DataSource;
                     ReportOps.ReportFormatMultiResultExport(reportExporter.Wksheet);
                     break;
            
