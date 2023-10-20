@@ -49,6 +49,7 @@ namespace DesignDB_UI
             xlApp.Workbooks.Add();
             Excel.Worksheet wks = xlApp.ActiveSheet;
             xlApp.Visible = true;
+            Excel.Worksheet wks = xlApp.ActiveSheet;
             string[] columnNames = new string[] { "Project ID", "File Name", "Quote Type", "Original Quote", "Priority",
                 "Award Status", "Design Requestor", "BOM Value", "% Project Covered", "Project Value","MSO", "Region",
                 "City", "Date Assigned", "Date All Info Received", "Date Due", "Date Completed", "Date Last Update",
@@ -56,9 +57,7 @@ namespace DesignDB_UI
                 "Total Hours" };
             makeReportSheet(xlApp, columnNames);
             object obj = ExcelOps.GetCellValue(wks, 1, 5);
-            Type t = obj.GetType();
-            //string val = obj;
-            ExcelOps.releaseObject(xlApp);
+            dynamic dynamic = (dynamic)obj;
         }
 
         private Excel.Worksheet makeReportSheet(Excel.Application xlApp, string[] headers)
