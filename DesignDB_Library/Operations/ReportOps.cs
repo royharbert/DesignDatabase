@@ -497,13 +497,13 @@ namespace DesignDB_Library.Operations
                     msoAwardStatus.HasRevisionDollars = msoRequests.Where(x => x.AwardStatus == "Inactive").ToList().Sum(x => x.BOM_Value);
                     msoAwardStatus.TotalCount = msoAwardStatus.TotalCount + msoAwardStatus.InactiveCount;
 
-                    msoAwardStatus.YesCount = msoRequests.Where(x => x.AwardStatus == "Yes").ToList().Count;
-                    msoAwardStatus.YesDollars = msoRequests.Where(x => x.AwardStatus == "Yes").ToList().Sum(x => x.BOM_Value);
-                    msoAwardStatus.TotalCount = msoAwardStatus.TotalCount + msoAwardStatus.YesCount;
+                    msoAwardStatus.WonCount = msoRequests.Where(x => x.AwardStatus == "Won").ToList().Count;
+                    msoAwardStatus.WonDollars = msoRequests.Where(x => x.AwardStatus == "Won").ToList().Sum(x => x.BOM_Value);
+                    msoAwardStatus.TotalCount = msoAwardStatus.TotalCount + msoAwardStatus.WonCount;
 
-                    msoAwardStatus.NoCount = msoRequests.Where(x => x.AwardStatus == "No").ToList().Count;
-                    msoAwardStatus.NoDollars = msoRequests.Where(x => x.AwardStatus == "No").ToList().Sum(x => x.BOM_Value);
-                    msoAwardStatus.TotalCount = msoAwardStatus.TotalCount + msoAwardStatus.NoCount;
+                    msoAwardStatus.LostCount = msoRequests.Where(x => x.AwardStatus == "Lost").ToList().Count;
+                    msoAwardStatus.LostDollars = msoRequests.Where(x => x.AwardStatus == "Lost").ToList().Sum(x => x.BOM_Value);
+                    msoAwardStatus.TotalCount = msoAwardStatus.TotalCount + msoAwardStatus.LostCount;
 
                     summaryLine.PendingCount = summaryLine.PendingCount + msoAwardStatus.PendingCount;
                     summaryLine.PendingDollars = summaryLine.PendingDollars + msoAwardStatus.PendingDollars;
@@ -513,10 +513,10 @@ namespace DesignDB_Library.Operations
                     summaryLine.CanceledDollars = summaryLine.CanceledDollars + msoAwardStatus.CanceledDollars;
                     summaryLine.InactiveCount = summaryLine.InactiveCount + msoAwardStatus.InactiveCount;
                     summaryLine.InactiveDollars = summaryLine.InactiveDollars + msoAwardStatus.InactiveDollars;
-                    summaryLine.YesCount = summaryLine.YesCount + msoAwardStatus.YesCount;
-                    summaryLine.YesDollars = summaryLine.YesDollars + msoAwardStatus.YesDollars;
-                    summaryLine.NoCount = summaryLine.NoCount + msoAwardStatus.NoCount;
-                    summaryLine.NoDollars = summaryLine.NoDollars + msoAwardStatus.NoDollars;
+                    summaryLine.WonCount = summaryLine.WonCount + msoAwardStatus.WonCount;
+                    summaryLine.WonDollars = summaryLine.WonDollars + msoAwardStatus.WonDollars;
+                    summaryLine.LostCount = summaryLine.LostCount + msoAwardStatus.LostCount;
+                    summaryLine.LostDollars = summaryLine.LostDollars + msoAwardStatus.LostDollars;
 
                     awardModels.Add(msoAwardStatus);
                 } 
