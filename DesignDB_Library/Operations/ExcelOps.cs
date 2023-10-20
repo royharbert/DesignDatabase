@@ -519,7 +519,7 @@ namespace DesignDB_Library.Operations
             sectionArray[section,0] = row;
 
             string[] columnHeaders = new string[] {"MSO", "Pending Count","Pending $","Has Revision Count","Has Revision $","Canceled Count",
-                "Canceled $","Inactive Count", "Inactive $","Yes Count","Yes $","No Count","No $"};
+                "Canceled $","Inactive Count", "Inactive $","Won Count","Won $","Lost Count","Lost $"};
             row = makeTitle(wks, row, 13, "Award Status", columnHeaders);
 
             foreach(var award in awards)
@@ -534,10 +534,10 @@ namespace DesignDB_Library.Operations
                 wks.Cells[row, 7].Value = award.CanceledDollars;
                 wks.Cells[row, 8].Value = award.InactiveCount;
                 wks.Cells[row, 9].Value = award.InactiveDollars;
-                wks.Cells[row, 10].Value = award.YesCount;
-                wks.Cells[row, 11].Value = award.YesDollars;
-                wks.Cells[row, 12].Value = award.NoCount;
-                wks.Cells[row, 13].Value = award.NoDollars;
+                wks.Cells[row, 10].Value = award.WonCount;
+                wks.Cells[row, 11].Value = award.WonDollars;
+                wks.Cells[row, 12].Value = award.LostCount;
+                wks.Cells[row, 13].Value = award.LostDollars;
 
                 row++;
                 msoAwards.Add(award);    

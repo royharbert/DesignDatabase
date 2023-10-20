@@ -18,9 +18,9 @@ namespace DesignDB_Library.Models
         public decimal CanceledDollars { get; set; }
         public int InactiveCount { get; set; }
         public decimal InactiveDollars { get; set; }
-        public int YesCount { get; set; }
-        public decimal YesDollars { get; set; }
-        public int NoCount { get; set; }
-        public decimal NoDollars { get; set; }
+        public int WonCount { get; set; }
+        public decimal WonDollars { get; set; }
+        public int LostCount { get; set; }
+        public decimal LostDollars { get; set; }
     }
 }
