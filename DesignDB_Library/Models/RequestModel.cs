@@ -71,6 +71,43 @@ namespace DesignDB_Library.Models
         public string Comments { get; set; }
         public MSO_Model msoModel { get; set; }
 
+        public RequestModelReport RequestModelToRequestModelReport()
+        {
+            RequestModelReport rptModel = new RequestModelReport();
+            rptModel.ID = this.ID;
+            rptModel.ProjectID = this.ProjectID;
+            rptModel.QuoteType = this.QuoteType;
+            rptModel.OriginalQuote = this.OriginalQuote;
+            rptModel.Pty = this.Pty;
+            rptModel.AwardStatus = this.AwardStatus;
+            rptModel.DesignRequestor = this.DesignRequestor;
+            rptModel.BOM_Value = this.BOM_Value;
+            rptModel.PercentageProjectCovered = this.PercentageProjectCovered;
+            rptModel.MSO = this.MSO;
+            rptModel.Region = this.Region;
+            rptModel.City = this.City;
+            rptModel.DateAssigned = this.DateAssigned;
+            rptModel.DateAllInfoReceived = this.DateAllInfoReceived;
+            rptModel.DateDue = this.DateDue;
+            rptModel.DateCompleted = this.DateCompleted;
+            rptModel.DateLastUpdate = this.DateLastUpdate;
+            rptModel.Designer = this.Designer;
+            rptModel.AssistedBy = this.AssistedBy;
+            rptModel.ReviewedBy = this.ReviewedBy;
+            rptModel.Category = this.Category;
+            rptModel.ArchitectureDetails = this.ArchitectureDetails;
+            rptModel.Comments = this.Comments;
+            rptModel.TotalHours = this.TotalHours;
+            rptModel.ArchitectureType = this.ArchitectureType;
+            rptModel.Cust = this.Cust;
+            rptModel.ST = this.ST;
+            rptModel.Country = this.Country;
+            rptModel.ProjectName = this.ProjectName;
+            rptModel.msoModel = this.msoModel;
+
+            return rptModel;
+        }
+
         public RequestModel()
         {
             //initialize all date fields to valid date string that will not be
