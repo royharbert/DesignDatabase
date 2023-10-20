@@ -430,10 +430,10 @@ namespace DesignDB_Library.Operations
             //  Sales order created after quote date completed
             //  Differences in ordered vs BOM quantities
             List<ShipmentLineModel> shipmentList = new List<ShipmentLineModel>();
-            var rtnTuple = new Tuple<int, int, List<ShipmentLineModel>>
-                    (0, 0, shipmentList);
+            var rtnTuple = new Tuple<int, int, int, List<ShipmentLineModel>>
+                    (0, 0, 0, shipmentList);
             rtnTuple = AnalyzeBOM(bomMatches);
-            bomMatches = rtnTuple.Item3;
+            bomMatches = rtnTuple.Item4;
 
             //Create new worksheet to display this BOM's results
             //Make header at row 3 - pct match will be on row 1
@@ -620,10 +620,11 @@ namespace DesignDB_Library.Operations
         /// <param name="list"></param>
         /// <returns></returns>
         //private static List<ShipmentLineModel>  AnalyzeBOM(List<ShipmentLineModel> list)
-        private static Tuple<int, int, List<ShipmentLineModel>> AnalyzeBOM(List<ShipmentLineModel> list)
+        private static Tuple<int, int, int, List<ShipmentLineModel>> AnalyzeBOM(List<ShipmentLineModel> list)
         {
             int cityMatches = 0;
             int stateMatches = 0;
+            int dateAndStateTrue = 0;
             foreach (var line in list)
             {
                 //Date comparison
@@ -663,13 +664,18 @@ namespace DesignDB_Library.Operations
                     line.StateMatch = false;
                 }
 
+                if(line.StateMatch && line.SONewerThanBOM)
+                {
+                    line.DateAndStateTrues++;
+                }
+
                 //Compare quan ordered vs BOM quan
                 double diff = 0;
                 double.TryParse(line.BOM_Quantity, out diff );
                 line.QShippedMinusQBOM = line.Quantity - diff;
             }
-            var rtnVal = new Tuple<int, int, List<ShipmentLineModel>>
-                    (cityMatches, stateMatches, list);
+            var rtnVal = new Tuple<int, int, int, List<ShipmentLineModel>>
+                    (cityMatches, stateMatches, dateAndStateTrue, list);
 
             return rtnVal;
         }
@@ -845,38 +851,71 @@ namespace DesignDB_Library.Operations
             Excel.Worksheet wks = wkb.ActiveSheet;
             Range filterRange = wks.Range[wks.Cells[5, 1], wks.Cells[5, 15]];
             object filters = filterRange.AutoFilter(1);
+            filterRange.AutoFilter(15, "TRUE");
         }
 
         private static void CreateSummarySheet(Excel.Workbook wkb)
         {
             Excel.Worksheet wks = wkb.Sheets["Sheet1"];
             Excel.Worksheet wksStudy = wkb.Sheets[1];
+            MakeHeader(wks,  1, 5, "Summary");
+            int sheetCount = wkb.Sheets.Count;
+            FormatSummarySheet(wks, sheetCount + 4);
             Range searchRange = wksStudy.get_Range("A1:Z26");
             wks.Name = "Summary";
-            int sheetCount = wkb.Sheets.Count;
             for (int i = 1; i < sheetCount; i++) 
             {
+                //Go thru sheets and get match percentages
                 if (wkb.Sheets[i].Name != "Summary")
                 {
                     wksStudy = wkb.Sheets[i];
+                    wksStudy.Activate();
                     Tuple<int, int> lineMatch = ExcelOps.GetCell(wksStudy, "Percent of BOM Lines Matching Shipments", searchRange);
                     Tuple<int, int> cityMatch = ExcelOps.GetCell(wksStudy, "Percent City Matches", searchRange);
                     Tuple<int, int> stateMatch = ExcelOps.GetCell(wksStudy, "Percent State Matches", searchRange);
 
-                    string lineMatches = GetPercentage(wkb, lineMatch.Item1, lineMatch.Item2);
-                    string cityMatches = GetPercentage(wkb, cityMatch.Item1, lineMatch.Item2);
-                    string stateMatches = GetPercentage(wkb, stateMatch.Item1, lineMatch.Item2); 
+                    string lineMatches = GetPercentage(wkb, lineMatch.Item1, lineMatch.Item2 + 1);
+                    string cityMatches = GetPercentage(wkb, cityMatch.Item1, cityMatch.Item2 + 1);
+                    string stateMatches = GetPercentage(wkb, stateMatch.Item1, stateMatch.Item2 + 1);
+
+                    var lineData = Tuple.Create(wkb.Sheets[i].Name, lineMatches, cityMatches, stateMatches);
+                    WriteSummaryLine(wks, i+3, lineData);
                 }
             }
+        }
+
+        private static void FormatSummarySheet(Excel.Worksheet wks, int rows)
+        {
+            wks.Cells[3, 1].Value = "Request ID";
+            wks.Cells[3, 2].Value = "Percent BOM Line Matches";
+            wks.Cells[3, 3].Value = "Percent City Matches";
+            wks.Cells[3, 4].Value = "Percent State Matches";
+            wks.Columns[1].ColumnWidth = 25;
+            wks.Rows[3].WrapText = true;
+            Range range = wks.Range[wks.Cells[3, 1], wks.Cells[3 + rows, 7]];
+            range.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            wks.Rows[3].EntireRow.Font.Bold = true;
+        }
+
+        private static void WriteSummaryLine(Excel.Worksheet wks, int row, Tuple<string, string, string, string> lineData)
+        {
+            decimal lineMatches = Convert.ToDecimal(lineData.Item2) * 100;
+            decimal cityMatches = Convert.ToDecimal(lineData.Item3) * 100;
+            decimal stateMatches = Convert.ToDecimal(lineData.Item4) * 100;
+
+            wks.Cells[row, 1].Value = lineData.Item1;
+            wks.Cells[row, 2].Value = lineMatches;
+            wks.Cells[row, 3].Value = cityMatches;
+            wks.Cells[row, 4].Value = stateMatches;
         }
 
         private static string GetPercentage(Excel.Workbook wkb, int row, int col) 
         {
             Excel.Worksheet wks = wkb.ActiveSheet;
             object pct = ExcelOps.GetCellValue(wks, row, col);
-            //string pctString = pct.
+            dynamic pctString = pct.ToString();
             //return pctString;
-            return null;
+            return pctString;
         }
 
     }
