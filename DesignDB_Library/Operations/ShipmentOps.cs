@@ -459,6 +459,10 @@ namespace DesignDB_Library.Operations
             wksResults.Cells[pctRow, 11].Value = "Percent State Matches";
             wksResults.Cells[pctRow, 12].Value = Math.Round(pctStateMatch).ToString() + "%";
 
+            int dateAndStateTrues = rtnTuple.Item3;
+            wksResults.Cells[pctRow, 14].Value = "Number of Date and State Matches";
+            wksResults.Cells[pctRow, 15].Value = dateAndStateTrues;
+
             //Format pct match area
             wksResults.Rows[pctRow].WrapText = true;
             wksResults.Cells[1, 1].EntireRow.Font.Bold = true;
@@ -624,7 +628,9 @@ namespace DesignDB_Library.Operations
         {
             int cityMatches = 0;
             int stateMatches = 0;
+            //int dateAndStateTrue = list.Where(x => x.StateMatch.ToString() == "True" && x.SONewerThanBOM.ToString() == "True").ToList().Count();
             int dateAndStateTrue = 0;
+
             foreach (var line in list)
             {
                 //Date comparison
@@ -664,9 +670,9 @@ namespace DesignDB_Library.Operations
                     line.StateMatch = false;
                 }
 
-                if(line.StateMatch && line.SONewerThanBOM)
+                if (line.StateMatch == true && line.SONewerThanBOM == true)
                 {
-                    line.DateAndStateTrues++;
+                    dateAndStateTrue++;
                 }
 
                 //Compare quan ordered vs BOM quan
@@ -873,12 +879,14 @@ namespace DesignDB_Library.Operations
                     Tuple<int, int> lineMatch = ExcelOps.GetCell(wksStudy, "Percent of BOM Lines Matching Shipments", searchRange);
                     Tuple<int, int> cityMatch = ExcelOps.GetCell(wksStudy, "Percent City Matches", searchRange);
                     Tuple<int, int> stateMatch = ExcelOps.GetCell(wksStudy, "Percent State Matches", searchRange);
+                    Tuple<int, int> dateAndStateMatch = ExcelOps.GetCell(wksStudy, "Number of Date and State Matches", searchRange);
 
                     string lineMatches = GetPercentage(wkb, lineMatch.Item1, lineMatch.Item2 + 1);
                     string cityMatches = GetPercentage(wkb, cityMatch.Item1, cityMatch.Item2 + 1);
                     string stateMatches = GetPercentage(wkb, stateMatch.Item1, stateMatch.Item2 + 1);
+                    string sdateAndStateMatches = GetPercentage(wkb, stateMatch.Item1, stateMatch.Item2 + 1);
 
-                    var lineData = Tuple.Create(wkb.Sheets[i].Name, lineMatches, cityMatches, stateMatches);
+                    var lineData = Tuple.Create(wkb.Sheets[i].Name, lineMatches, cityMatches, stateMatches, dateAndStateMatch);
                     WriteSummaryLine(wks, i+3, lineData);
                 }
             }
@@ -890,6 +898,7 @@ namespace DesignDB_Library.Operations
             wks.Cells[3, 2].Value = "Percent BOM Line Matches";
             wks.Cells[3, 3].Value = "Percent City Matches";
             wks.Cells[3, 4].Value = "Percent State Matches";
+            wks.Cells[3, 5].Value = "Number of Date and State Matches";
             wks.Columns[1].ColumnWidth = 25;
             wks.Rows[3].WrapText = true;
             Range range = wks.Range[wks.Cells[3, 1], wks.Cells[3 + rows, 7]];
@@ -897,16 +906,18 @@ namespace DesignDB_Library.Operations
             wks.Rows[3].EntireRow.Font.Bold = true;
         }
 
-        private static void WriteSummaryLine(Excel.Worksheet wks, int row, Tuple<string, string, string, string> lineData)
+        private static void WriteSummaryLine(Excel.Worksheet wks, int row, Tuple<string, string, string, string, string> lineData)
         {
             decimal lineMatches = Convert.ToDecimal(lineData.Item2) * 100;
             decimal cityMatches = Convert.ToDecimal(lineData.Item3) * 100;
             decimal stateMatches = Convert.ToDecimal(lineData.Item4) * 100;
+            decimal dateAndStateMatches = Convert.ToDecimal(lineData.Item5);
 
             wks.Cells[row, 1].Value = lineData.Item1;
             wks.Cells[row, 2].Value = lineMatches;
             wks.Cells[row, 3].Value = cityMatches;
             wks.Cells[row, 4].Value = stateMatches;
+            wks.Cells[row, 5].Value = dateAndStateMatches;
         }
 
         private static string GetPercentage(Excel.Workbook wkb, int row, int col) 
