@@ -884,9 +884,11 @@ namespace DesignDB_Library.Operations
                     string lineMatches = GetPercentage(wkb, lineMatch.Item1, lineMatch.Item2 + 1);
                     string cityMatches = GetPercentage(wkb, cityMatch.Item1, cityMatch.Item2 + 1);
                     string stateMatches = GetPercentage(wkb, stateMatch.Item1, stateMatch.Item2 + 1);
-                    string sdateAndStateMatches = GetPercentage(wkb, stateMatch.Item1, stateMatch.Item2 + 1);
+                    string dateAndStateMatches = GetPercentage(wkb, dateAndStateMatch.Item1, dateAndStateMatch.Item2 + 1);
+                    string pid = wkb.Sheets[i].Name.ToString();
 
-                    var lineData = Tuple.Create(wkb.Sheets[i].Name, lineMatches, cityMatches, stateMatches, dateAndStateMatch);
+                    var lineData = Tuple.Create(pid, lineMatches, cityMatches, stateMatches, 
+                        dateAndStateMatches);
                     WriteSummaryLine(wks, i+3, lineData);
                 }
             }
@@ -906,6 +908,18 @@ namespace DesignDB_Library.Operations
             wks.Rows[3].EntireRow.Font.Bold = true;
         }
 
+        /// <summary>
+        /// Writes line of summary data on summary sheet
+        /// </summary>
+        /// <param name="wks"></param>
+        /// <param name="row"></param>
+        /// <param name="lineData">
+        ///     Item1 - PID
+        ///     Item2 - linr match %
+        ///     Item3 - city match %
+        ///     Item4 - state match %
+        ///     Item5 - date and state matches
+        /// </param>
         private static void WriteSummaryLine(Excel.Worksheet wks, int row, Tuple<string, string, string, string, string> lineData)
         {
             decimal lineMatches = Convert.ToDecimal(lineData.Item2) * 100;
