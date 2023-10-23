@@ -274,6 +274,7 @@ namespace DesignDB_Library.Operations
             
             bomArgs.currentBOMCount = 0;
             //Iterate through list of BOMs
+            List<BOMSummaryModel> summaryList = new List<BOMSummaryModel>();
             foreach (var BOM in BOMLineList) 
             {
                 bomArgs.currentBOMCount++;
@@ -302,11 +303,12 @@ namespace DesignDB_Library.Operations
                 {
                     wkbResults = xlApp.Workbooks.Add(); 
                 }
-                CompareBOMtoShipmentsl(xlApp, wkbResults, wkb, lastRow, shipments, msoRequests, BOM);
+                BOMSummaryModel summary = CompareBOMtoShipmentsl(xlApp, wkbResults, wkb, lastRow, shipments, msoRequests, BOM);
+                summaryList.Add(summary);
                 ApplyFilters(wkbResults);
             }
             sendMessage("");
-            CreateSummarySheet(wkbResults);
+            CreateSummarySheet(wkbResults, summaryList);
         }
 
         /// <summary>
@@ -358,7 +360,7 @@ namespace DesignDB_Library.Operations
         /// <param name="shipments"></param>
         /// <param name="msoRequests"></param>
         /// <param name="BOM"></param>
-        private static void CompareBOMtoShipmentsl(Excel.Application xlApp, Excel.Workbook wkbResults, Excel.Workbook wkb, int lastRow, 
+        private static BOMSummaryModel CompareBOMtoShipmentsl(Excel.Application xlApp, Excel.Workbook wkbResults, Excel.Workbook wkb, int lastRow, 
             List<ShipmentLineModel> shipments, List<RequestModel> msoRequests, BOMLineModel BOM)
         {
 
@@ -433,6 +435,7 @@ namespace DesignDB_Library.Operations
             var rtnTuple = new Tuple<int, int, int, List<ShipmentLineModel>>
                     (0, 0, 0, shipmentList);
             rtnTuple = AnalyzeBOM(bomMatches);
+            BOMSummaryModel summary = new BOMSummaryModel();
             bomMatches = rtnTuple.Item4;
 
             //Create new worksheet to display this BOM's results
@@ -447,21 +450,27 @@ namespace DesignDB_Library.Operations
 
             //Calculate and display pct matches
             int pctRow = 1;
+            summary.PID = quoteID;
+            summary.BOMLines = bomItems.Count;
+            summary.LineMatches = distinctMatches;
             pctMatch = distinctMatches * 100 / bomItems.Count;
             wksResults.Cells[pctRow, 2].Value = "Percent of BOM Lines Matching Shipments";
             wksResults.Cells[pctRow, 3].Value = Math.Round(pctMatch).ToString() + "%";
 
             double pctCityMatch = rtnTuple.Item1 * 100 / bomItems.Count;
+            summary.CityMatches = rtnTuple.Item1;
             wksResults.Cells[pctRow, 9].Value = "Percent City Matches";
             wksResults.Cells[pctRow, 10].Value = Math.Round(pctCityMatch).ToString() + "%";
 
             double pctStateMatch = rtnTuple.Item2 * 100 / bomItems.Count;
+            summary.StateMatches = rtnTuple.Item2;
             wksResults.Cells[pctRow, 11].Value = "Percent State Matches";
             wksResults.Cells[pctRow, 12].Value = Math.Round(pctStateMatch).ToString() + "%";
 
             int dateAndStateTrues = rtnTuple.Item3;
+            summary.ValidSO_DateMatches = rtnTuple.Item3;
             wksResults.Cells[pctRow, 14].Value = "Number of Date and State Matches";
-            wksResults.Cells[pctRow, 15].Value = dateAndStateTrues;
+            wksResults.Cells[pctRow, 15].Value = summary.ValidSO_DateMatches;
 
             //Format pct match area
             wksResults.Rows[pctRow].WrapText = true;
@@ -545,6 +554,8 @@ namespace DesignDB_Library.Operations
             ConditionalFormatTrueFalse(startRow, bottomRowMatches + 1, 12, wkbResults);
             ConditionalFormatTrueFalse(startRow, bottomRowMatches + 1, 15, wkbResults);
             ConditionalFormatNumber(startRow, bottomRowMatches + 1, 5, wkbResults);
+
+            return summary;
         }
 
         /// <summary>
@@ -628,7 +639,6 @@ namespace DesignDB_Library.Operations
         {
             int cityMatches = 0;
             int stateMatches = 0;
-            //int dateAndStateTrue = list.Where(x => x.StateMatch.ToString() == "True" && x.SONewerThanBOM.ToString() == "True").ToList().Count();
             int dateAndStateTrue = 0;
 
             foreach (var line in list)
@@ -860,51 +870,36 @@ namespace DesignDB_Library.Operations
             filterRange.AutoFilter(15, "TRUE");
         }
 
-        private static void CreateSummarySheet(Excel.Workbook wkb)
-        {
+        private static void CreateSummarySheet(Excel.Workbook wkb, List<BOMSummaryModel> summaryList)
+        { 
             Excel.Worksheet wks = wkb.Sheets["Sheet1"];
             Excel.Worksheet wksStudy = wkb.Sheets[1];
-            MakeHeader(wks,  1, 5, "Summary");
-            int sheetCount = wkb.Sheets.Count;
-            FormatSummarySheet(wks, sheetCount + 4);
-            Range searchRange = wksStudy.get_Range("A1:Z26");
+            MakeHeader(wks,  1, 7, "Summary");
             wks.Name = "Summary";
-            for (int i = 1; i < sheetCount; i++) 
+
+            FormatSummarySheet(wks, summaryList.Count);
+            int row = 4;
+            foreach (var summary in summaryList)
             {
-                //Go thru sheets and get match percentages
-                if (wkb.Sheets[i].Name != "Summary")
-                {
-                    wksStudy = wkb.Sheets[i];
-                    wksStudy.Activate();
-                    Tuple<int, int> lineMatch = ExcelOps.GetCell(wksStudy, "Percent of BOM Lines Matching Shipments", searchRange);
-                    Tuple<int, int> cityMatch = ExcelOps.GetCell(wksStudy, "Percent City Matches", searchRange);
-                    Tuple<int, int> stateMatch = ExcelOps.GetCell(wksStudy, "Percent State Matches", searchRange);
-                    Tuple<int, int> dateAndStateMatch = ExcelOps.GetCell(wksStudy, "Number of Date and State Matches", searchRange);
-
-                    string lineMatches = GetPercentage(wkb, lineMatch.Item1, lineMatch.Item2 + 1);
-                    string cityMatches = GetPercentage(wkb, cityMatch.Item1, cityMatch.Item2 + 1);
-                    string stateMatches = GetPercentage(wkb, stateMatch.Item1, stateMatch.Item2 + 1);
-                    string dateAndStateMatches = GetPercentage(wkb, dateAndStateMatch.Item1, dateAndStateMatch.Item2 + 1);
-                    string pid = wkb.Sheets[i].Name.ToString();
-
-                    var lineData = Tuple.Create(pid, lineMatches, cityMatches, stateMatches, 
-                        dateAndStateMatches);
-                    WriteSummaryLine(wks, i+3, lineData);
-                }
+                WriteSummaryLine(wks, row, summary);
+                row++;
             }
         }
 
         private static void FormatSummarySheet(Excel.Worksheet wks, int rows)
         {
             wks.Cells[3, 1].Value = "Request ID";
-            wks.Cells[3, 2].Value = "Percent BOM Line Matches";
-            wks.Cells[3, 3].Value = "Percent City Matches";
-            wks.Cells[3, 4].Value = "Percent State Matches";
-            wks.Cells[3, 5].Value = "Number of Date and State Matches";
-            wks.Columns[1].ColumnWidth = 25;
+            wks.Cells[3, 2].Value = "Number of BOM Line Items";
+            wks.Cells[3, 3].Value = "Number of Matched Items";
+            wks.Cells[3, 4].Value = "Percent BOM Line Matches";
+            wks.Cells[3, 5].Value = "Number of City Matches";
+            wks.Cells[3, 6].Value = "Number of State Matches";
+            wks.Cells[3, 7].Value = "Number of Valid Date and State Matches";
             wks.Rows[3].WrapText = true;
             Range range = wks.Range[wks.Cells[3, 1], wks.Cells[3 + rows, 7]];
             range.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            range.ColumnWidth = 15;
+            wks.Columns[1].ColumnWidth = 25;
             wks.Rows[3].EntireRow.Font.Bold = true;
         }
 
@@ -920,18 +915,16 @@ namespace DesignDB_Library.Operations
         ///     Item4 - state match %
         ///     Item5 - date and state matches
         /// </param>
-        private static void WriteSummaryLine(Excel.Worksheet wks, int row, Tuple<string, string, string, string, string> lineData)
-        {
-            decimal lineMatches = Convert.ToDecimal(lineData.Item2) * 100;
-            decimal cityMatches = Convert.ToDecimal(lineData.Item3) * 100;
-            decimal stateMatches = Convert.ToDecimal(lineData.Item4) * 100;
-            decimal dateAndStateMatches = Convert.ToDecimal(lineData.Item5);
 
-            wks.Cells[row, 1].Value = lineData.Item1;
-            wks.Cells[row, 2].Value = lineMatches;
-            wks.Cells[row, 3].Value = cityMatches;
-            wks.Cells[row, 4].Value = stateMatches;
-            wks.Cells[row, 5].Value = dateAndStateMatches;
+        private static void WriteSummaryLine(Excel.Worksheet wks, int row, BOMSummaryModel summary)
+        {
+            wks.Cells[row, 1] = summary.PID;
+            wks.Cells[row, 2] = summary.BOMLines; 
+            wks.Cells[row, 3] = summary.LineMatches;
+            wks.Cells[row, 4] = summary.pctLineMatches;
+            wks.Cells[row, 5] = summary.CityMatches;
+            wks.Cells[row, 6] = summary.StateMatches;
+            wks.Cells[row, 7] = summary.ValidSO_DateMatches;
         }
 
         private static string GetPercentage(Excel.Workbook wkb, int row, int col) 
@@ -939,7 +932,6 @@ namespace DesignDB_Library.Operations
             Excel.Worksheet wks = wkb.ActiveSheet;
             object pct = ExcelOps.GetCellValue(wks, row, col);
             dynamic pctString = pct.ToString();
-            //return pctString;
             return pctString;
         }
 

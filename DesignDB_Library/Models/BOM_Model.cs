@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace DesignDB_Library.Models
 {
     /// <summary>
-    /// model to hold BOM info
+    /// model to hold line of BOM info
     /// </summary>
     public class BOM_Model
     {
