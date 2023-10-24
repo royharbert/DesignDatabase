@@ -617,10 +617,8 @@ namespace DesignDB_Library.Operations
         /// <param name="wkb"></param>
         /// <returns></returns>
         private static Excel.Workbook AddSheetToWorkbook(Excel.Workbook wkb)
-        {
-            int count = wkb.Sheets.Count;            
-            wkb.Sheets.Add();             
-            count = wkb.Sheets.Count;
+        {           
+            wkb.Sheets.Add();   
             return wkb;
         }
 
@@ -919,6 +917,7 @@ namespace DesignDB_Library.Operations
         private static void WriteSummaryLine(Excel.Worksheet wks, int row, BOMSummaryModel summary)
         {
             wks.Cells[row, 1] = summary.PID;
+            wks.Cells[row, 1].Formula = $"=";
             wks.Cells[row, 2] = summary.BOMLines; 
             wks.Cells[row, 3] = summary.LineMatches;
             wks.Cells[row, 4] = summary.pctLineMatches;

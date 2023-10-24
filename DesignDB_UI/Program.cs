@@ -27,8 +27,8 @@ namespace DesignDB_UI
             {
                 GlobalConfig.SetDatabaseMode(DatabaseType.Sandbox);
             }
-            Application.Run(new frmLogin());                      
-            //Application.Run(new aTest());
+            //Application.Run(new frmLogin());                      
+            Application.Run(new aTest());
         }
     }
 }

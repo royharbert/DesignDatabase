@@ -32,15 +32,20 @@ namespace DesignDB_UI
             //dtp.Format = DateTimePickerFormat.Custom;
             //txtBox.Text = dtp.Value.ToShortDateString();
             //ReportOps.NumberOfWorkDays(new DateTime(2023, 1, 1), new DateTime(2023, 6, 12));
-            //Excel.Application xlApp = ExcelOps.makeExcelApp();
-            //xlApp.Workbooks.Add();
-            //xlApp.Visible = true;
-            //Workbook wkb = xlApp.ActiveWorkbook;
+            string name = "TEST";
+            string formula = "=HYPERLINK(" + "\"" + name + "\"" + ")";
+            Excel.Application xlApp = ExcelOps.makeExcelApp();
+            xlApp.Workbooks.Add();
+            xlApp.Visible = true;
+            Workbook wkb = xlApp.ActiveWorkbook;
             //Workbook wkb = xlApp.Workbooks.Open("C:\\Users\\rharbert\\OneDrive - CommScope\\Documents\\__xCopy of 091923-Backlog and Shipments - Copy.xlsx");
             //wkb = ExcelOps.SortSpreadsheetByColumn(wkb);
-            object obj = new object();
-            obj = "75%";
-            txtBox.Text = obj.ToString();
+            Excel.Worksheet wks = wkb.ActiveSheet;
+            wks.Name = name;
+            wkb.Sheets.Add();
+            wks = wkb.ActiveSheet;
+            wks.Cells[1, 1].Formula = formula;
+            ExcelOps.releaseObject(xlApp);
         }
 
         private void btnExcel_Click(object sender, EventArgs e)
