@@ -32,20 +32,43 @@ namespace DesignDB_UI
             //dtp.Format = DateTimePickerFormat.Custom;
             //txtBox.Text = dtp.Value.ToShortDateString();
             //ReportOps.NumberOfWorkDays(new DateTime(2023, 1, 1), new DateTime(2023, 6, 12));
-            string name = "TEST";
-            string formula = "=HYPERLINK(" + "\"" + name + "\"" + ")";
-            Excel.Application xlApp = ExcelOps.makeExcelApp();
-            xlApp.Workbooks.Add();
-            xlApp.Visible = true;
-            Workbook wkb = xlApp.ActiveWorkbook;
-            //Workbook wkb = xlApp.Workbooks.Open("C:\\Users\\rharbert\\OneDrive - CommScope\\Documents\\__xCopy of 091923-Backlog and Shipments - Copy.xlsx");
-            //wkb = ExcelOps.SortSpreadsheetByColumn(wkb);
-            Excel.Worksheet wks = wkb.ActiveSheet;
-            wks.Name = name;
-            wkb.Sheets.Add();
-            wks = wkb.ActiveSheet;
-            wks.Cells[1, 1].Formula = formula;
-            ExcelOps.releaseObject(xlApp);
+            string name = "TEST(A)";
+            //string formula = "=HYPERLINK(" + "\"" + name + "\"" + ")";
+            //Excel.Application xlApp = ExcelOps.makeExcelApp();
+            //xlApp.Workbooks.Add();
+            //xlApp.Visible = true;
+            //Workbook wkb = xlApp.ActiveWorkbook;
+            ////Workbook wkb = xlApp.Workbooks.Open("C:\\Users\\rharbert\\OneDrive - CommScope\\Documents\\__xCopy of 091923-Backlog and Shipments - Copy.xlsx");
+            ////wkb = ExcelOps.SortSpreadsheetByColumn(wkb);
+            //Excel.Worksheet wks = wkb.ActiveSheet;
+            //wks.Name = name;
+            //wkb.Sheets.Add();
+            //wks = wkb.ActiveSheet;
+            //wks.Cells[1, 1].Formula = formula;
+            //ExcelOps.releaseObject(xlApp);
+            string suffix = "";
+            string nameCheck = name.Substring(name.Length - 3, 1);
+            if (nameCheck == "(")
+            {
+                nameCheck = name.Substring(name.Length - 1, 1);
+                if (nameCheck == ")")
+                {
+                    suffix = name.Substring(name.Length - 2, 1);
+                    byte[] ascSuffix = Encoding.ASCII.GetBytes(suffix);
+                    byte b = ascSuffix[0];
+                    int inc = b + 1;
+                    ascSuffix = BitConverter.GetBytes(inc);
+                    suffix = Encoding.ASCII.GetString(ascSuffix)[0].ToString();
+                    char[] nameArray = name.ToCharArray();
+                    int pos = nameArray.Length - 2;
+                    nameArray[pos] = char.Parse(suffix);
+                    name = new string(nameArray);
+                }
+                {
+
+                }
+
+            }
         }
 
         private void btnExcel_Click(object sender, EventArgs e)

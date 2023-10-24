@@ -375,7 +375,7 @@ namespace DesignDB_Library.Operations
             wkb.Close();
             
             //Initialize list of BOM-Shipment matches and list of non-matches
-            string msg = "Analyzing Quote  " + BOM.PID;
+            string msg = "Analyzing Quote  " + BOM.DisplayText;
             sendMessage(msg);
             List<ShipmentLineModel> bomMatches = new List<ShipmentLineModel>();
             List<BOM_Model> bomNonMatches = new List<BOM_Model>();
@@ -450,7 +450,7 @@ namespace DesignDB_Library.Operations
 
             //Calculate and display pct matches
             int pctRow = 1;
-            summary.PID = quoteID;
+            summary.PID = BOM.DisplayText;
             summary.BOMLines = bomItems.Count;
             summary.LineMatches = distinctMatches;
             pctMatch = distinctMatches * 100 / bomItems.Count;
@@ -655,7 +655,11 @@ namespace DesignDB_Library.Operations
                 }
 
                 //Shipment city/state vs request city/state
-                string stateAbbreviation = GlobalConfig.Connection.GetStateAbbreviation(line.QuoteState);
+                string stateAbbreviation = "";
+                if (line.QuoteState != "")
+                {
+                     stateAbbreviation = GlobalConfig.Connection.GetStateAbbreviation(line.QuoteState); 
+                }
                 string soCity = line.City;
                 string soState = line.State;
                 string quoteCity = line.QuoteCity.ToUpper().ToString();
@@ -780,8 +784,40 @@ namespace DesignDB_Library.Operations
             //Format column headers
             wks.Rows[row].WrapText = true;
             wks.Rows[row].EntireRow.Font.Bold = true;
-
-            wks.Name = name;
+            string suffix = "";
+            try
+            {
+                wks.Name = name;
+            }
+            catch (Exception e)
+            {
+                if (e.Message == "That name is already taken. Try a different one.")
+                {
+                    string nameCheck = name.Substring(name.Length - 3, 1);
+                    if (nameCheck == "(")
+                    {
+                        nameCheck = name.Substring(name.Length - 1, 1);
+                        if (nameCheck == ")")
+                        {
+                            suffix = name.Substring(name.Length - 2, 1);
+                            byte[] ascSuffix = Encoding.ASCII.GetBytes(suffix);
+                            byte b = ascSuffix[0];
+                            int inc = b + 1;
+                            ascSuffix = BitConverter.GetBytes(inc);
+                            suffix = Encoding.ASCII.GetString(ascSuffix)[0].ToString();
+                            char[] nameArray = name.ToCharArray();
+                            int pos = nameArray.Length - 2;
+                            nameArray[pos] = char.Parse(suffix);
+                            name = new string(nameArray);
+                            wks.Name = name;
+                        }
+                    }
+                    else 
+                    {
+                        wks.Name = name + "(A)";
+                    }
+                }
+            }
         }
 
         private static void CenterTextInRange(Excel.Workbook wkbResults, Range range)
@@ -897,7 +933,7 @@ namespace DesignDB_Library.Operations
             Range range = wks.Range[wks.Cells[3, 1], wks.Cells[3 + rows, 7]];
             range.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             range.ColumnWidth = 15;
-            wks.Columns[1].ColumnWidth = 25;
+            wks.Columns[1].ColumnWidth = 65;
             wks.Rows[3].EntireRow.Font.Bold = true;
         }
 
@@ -917,7 +953,7 @@ namespace DesignDB_Library.Operations
         private static void WriteSummaryLine(Excel.Worksheet wks, int row, BOMSummaryModel summary)
         {
             wks.Cells[row, 1] = summary.PID;
-            wks.Cells[row, 1].Formula = $"=";
+            //wks.Cells[row, 1].Formula = $"=";
             wks.Cells[row, 2] = summary.BOMLines; 
             wks.Cells[row, 3] = summary.LineMatches;
             wks.Cells[row, 4] = summary.pctLineMatches;
