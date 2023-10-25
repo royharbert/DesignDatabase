@@ -17,6 +17,7 @@ using System.Configuration;
 using System.Drawing;
 using System.Windows.Forms;
 using NuGet;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DesignDB_Library.Operations
 {
@@ -741,6 +742,7 @@ namespace DesignDB_Library.Operations
         {
             (Excel.Workbook wkb, int row, string wksName) rtn;
             Excel.Worksheet wks = wkbResults.ActiveSheet;
+            wks.Hyperlinks.Add(wks.Cells[1, 1], "", "Summary!A1", "Summary Page","Go to Summary Page");
             int row = MakeHeader(wks, startRow, 15, "BOM Lines with Matches in Shipments");
             InsertText(wks, row, 1, "Shipment Row");
             InsertText(wks, row, 2, "Part Number");
