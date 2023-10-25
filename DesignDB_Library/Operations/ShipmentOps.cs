@@ -441,7 +441,7 @@ namespace DesignDB_Library.Operations
             //Create new worksheet to display this BOM's results
             //Make header at row 3 - pct match will be on row 1
             int row = 3;
-            (Excel.Workbook wkb, int row) rtn = MakeMatchXL(wkbResults, xlApp, row, quoteID);
+            (Excel.Workbook wkb, int row, string wksName) rtn = MakeMatchXL(wkbResults, xlApp, row, quoteID);
             wkbResults = rtn.wkb;
             //Populate worksheet with results
             row = rtn.row;
@@ -450,7 +450,7 @@ namespace DesignDB_Library.Operations
 
             //Calculate and display pct matches
             int pctRow = 1;
-            summary.PID = BOM.DisplayText;
+            summary.PID = rtn.wksName;
             summary.BOMLines = bomItems.Count;
             summary.LineMatches = distinctMatches;
             pctMatch = distinctMatches * 100 / bomItems.Count;
@@ -737,9 +737,9 @@ namespace DesignDB_Library.Operations
         /// <param name="xlApp"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        private static (Excel.Workbook wkb, int row) MakeMatchXL(Excel.Workbook wkbResults, Excel.Application xlApp, int startRow, string name)
+        private static (Excel.Workbook wkb, int row, string wksName) MakeMatchXL(Excel.Workbook wkbResults, Excel.Application xlApp, int startRow, string name)
         {
-            (Excel.Workbook wkb, int row) rtn;
+            (Excel.Workbook wkb, int row, string wksName) rtn;
             Excel.Worksheet wks = wkbResults.ActiveSheet;
             int row = MakeHeader(wks, startRow, 15, "BOM Lines with Matches in Shipments");
             InsertText(wks, row, 1, "Shipment Row");
@@ -758,7 +758,7 @@ namespace DesignDB_Library.Operations
             InsertText(wks, row, 14, "Date Quote Completed");
             InsertText(wks, row, 15, "SO Newer Tham BOM");
 
-            FormatXLSheet(wkbResults, name, row);
+            rtn.wksName = FormatXLSheet(wkbResults, name, row);
             rtn.wkb = wkbResults;
             rtn.row = row + 1;
             return rtn;
@@ -769,7 +769,7 @@ namespace DesignDB_Library.Operations
         /// </summary>
         /// <param name="wkbResults"></param>
         /// <param name="name"></param>
-        private static void FormatXLSheet(Excel.Workbook wkbResults, string name, int row)
+        private static string FormatXLSheet(Excel.Workbook wkbResults, string name, int row)
         {
             Excel.Worksheet wks = wkbResults.ActiveSheet;
             //               A   B   C   D   E   F   G   H   I   J   K   L   M   N     O
@@ -818,6 +818,7 @@ namespace DesignDB_Library.Operations
                     }
                 }
             }
+            return wks.Name;
         }
 
         private static void CenterTextInRange(Excel.Workbook wkbResults, Range range)
@@ -953,7 +954,8 @@ namespace DesignDB_Library.Operations
         private static void WriteSummaryLine(Excel.Worksheet wks, int row, BOMSummaryModel summary)
         {
             wks.Cells[row, 1] = summary.PID;
-            //wks.Cells[row, 1].Formula = $"=";
+            string subAddress = "'" + summary.PID + "'!A1";
+            wks.Hyperlinks.Add(wks.Cells[row, 1], "", subAddress, "Details");
             wks.Cells[row, 2] = summary.BOMLines; 
             wks.Cells[row, 3] = summary.LineMatches;
             wks.Cells[row, 4] = summary.pctLineMatches;
