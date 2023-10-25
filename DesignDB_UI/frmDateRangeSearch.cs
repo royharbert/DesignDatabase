@@ -59,8 +59,9 @@ namespace DesignDB_UI
             }
 
             //Remove this after BOM-Shipments is done------------------------------------------------------------------------------
-            //dtpStartDate.Value = new DateTime(2023, 6, 16);
-           
+            dtpStartDate.Value = new DateTime(2023, 1, 1);
+            dtpEndDate.Value = new DateTime(2023, 3, 31);
+
         }
         public frmDateRangeSearch()
         {
@@ -337,6 +338,21 @@ namespace DesignDB_UI
             clearCheckBoxes(ckRegions);
         }
 
+        private void btnSelectAll_Click(object sender, EventArgs e)
+        {
+            LbSelectItems(true);
+        }
+
+        private void LbSelectItems(bool select)
+        {
+            for (int i = 0; i < lbMSO.Items.Count; i++)
+                lbMSO.SetSelected(i, select);
+        }
+
+        private void btnDeselect_Click(object sender, EventArgs e)
+        {
+            LbSelectItems(false);
+        }
     }   
 }            
 

@@ -13,6 +13,7 @@ using DesignDB_Library.Models;
 using DesignDB_Library.Operations;
 using Excel = Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Interop.Excel;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DesignDB_UI
 {
@@ -32,18 +33,54 @@ namespace DesignDB_UI
             //dtp.Format = DateTimePickerFormat.Custom;
             //txtBox.Text = dtp.Value.ToShortDateString();
             //ReportOps.NumberOfWorkDays(new DateTime(2023, 1, 1), new DateTime(2023, 6, 12));
+            string name = "TEST";
+            //string formula = "=HYPERLINK(" + "\"" + name + "\"" + ")";
             Excel.Application xlApp = ExcelOps.makeExcelApp();
             xlApp.Workbooks.Add();
             xlApp.Visible = true;
-            //Workbook wkb = xlApp.ActiveWorkbook;
-            Workbook wkb = xlApp.Workbooks.Open("C:\\Users\\rharbert\\OneDrive - CommScope\\Documents\\__xCopy of 091923-Backlog and Shipments - Copy.xlsx");
-            //wkb = ExcelOps.SortSpreadsheetByColumn(wkb);
+            Workbook wkb = xlApp.ActiveWorkbook;
+            ////Workbook wkb = xlApp.Workbooks.Open("C:\\Users\\rharbert\\OneDrive - CommScope\\Documents\\__xCopy of 091923-Backlog and Shipments - Copy.xlsx");
+            ////wkb = ExcelOps.SortSpreadsheetByColumn(wkb);
+            Excel.Worksheet wks = wkb.ActiveSheet;
+            wks.Name = name;
+            wkb.Sheets.Add();
+            wks = wkb.ActiveSheet;
+            string wkbName = wkb.Name;
+            string tab = "'TEST'!A1";
+            //string tab = "\"TEST!A1\"";
+            //string tab = "#TEST";
+            wks.Hyperlinks.Add(wks.Cells[2,2],"", tab, "Link");
+            ExcelOps.releaseObject(xlApp);
+            //string suffix = "";
+            //string nameCheck = name.Substring(name.Length - 3, 1);
+            //if (nameCheck == "(")
+            //{
+            //    nameCheck = name.Substring(name.Length - 1, 1);
+            //    if (nameCheck == ")")
+            //    {
+            //        suffix = name.Substring(name.Length - 2, 1);
+            //        byte[] ascSuffix = Encoding.ASCII.GetBytes(suffix);
+            //        byte b = ascSuffix[0];
+            //        int inc = b + 1;
+            //        ascSuffix = BitConverter.GetBytes(inc);
+            //        suffix = Encoding.ASCII.GetString(ascSuffix)[0].ToString();
+            //        char[] nameArray = name.ToCharArray();
+            //        int pos = nameArray.Length - 2;
+            //        nameArray[pos] = char.Parse(suffix);
+            //        name = new string(nameArray);
+            //    }
+            //    {
+
+            //    }
+
+            //}
         }
 
         private void btnExcel_Click(object sender, EventArgs e)
         {
             Excel.Application xlApp = ExcelOps.makeExcelApp();
             xlApp.Workbooks.Add();
+            Excel.Worksheet wks = xlApp.ActiveSheet;
             xlApp.Visible = true;
             string[] columnNames = new string[] { "Project ID", "File Name", "Quote Type", "Original Quote", "Priority",
                 "Award Status", "Design Requestor", "BOM Value", "% Project Covered", "Project Value","MSO", "Region",
@@ -51,6 +88,8 @@ namespace DesignDB_UI
                 "Designer", "Assisted By", "Reviewed By", "Revision", "Category", "Architecture Details", "Comments",
                 "Total Hours" };
             makeReportSheet(xlApp, columnNames);
+            object obj = ExcelOps.GetCellValue(wks, 1, 5);
+            dynamic dynamic = (dynamic)obj;
         }
 
         private Excel.Worksheet makeReportSheet(Excel.Application xlApp, string[] headers)

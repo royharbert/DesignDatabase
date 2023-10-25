@@ -112,6 +112,7 @@
     <Compile Include="DataAccess\SqlConnector.cs" />
     <Compile Include="Models\AwardStatusModel.cs" />
     <Compile Include="Models\BOMLineModel.cs" />
+    <Compile Include="Models\BOMSummaryModel.cs" />
     <Compile Include="Models\BookingModel.cs" />
     <Compile Include="Models\OpenRequestsBySalesModel.cs" />
     <Compile Include="Models\ReportDesignsInProcessModel.cs" />

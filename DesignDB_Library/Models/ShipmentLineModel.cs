@@ -26,5 +26,6 @@ namespace DesignDB_Library.Models
         public bool StateMatch { get; set; }
         public bool SONewerThanBOM { get; set; }
         public double QShippedMinusQBOM { get; set; }
+        public int DateAndStateMatches { get; set; }
     }
 }

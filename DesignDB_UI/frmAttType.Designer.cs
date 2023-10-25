@@ -97,11 +97,11 @@ namespace DesignDB_UI
             this.rdoPerf.AutoSize = true;
             this.rdoPerf.Location = new System.Drawing.Point(34, 138);
             this.rdoPerf.Name = "rdoPerf";
-            this.rdoPerf.Size = new System.Drawing.Size(183, 28);
+            this.rdoPerf.Size = new System.Drawing.Size(139, 28);
             this.rdoPerf.TabIndex = 4;
             this.rdoPerf.TabStop = true;
-            this.rdoPerf.Tag = "Performance Calc.";
-            this.rdoPerf.Text = "Performance Calc.";
+            this.rdoPerf.Tag = "OMT-Review";
+            this.rdoPerf.Text = "OMT-Review";
             this.rdoPerf.UseVisualStyleBackColor = true;
             this.rdoPerf.CheckedChanged += new System.EventHandler(this.rdoPerf_CheckedChanged);
             // 
