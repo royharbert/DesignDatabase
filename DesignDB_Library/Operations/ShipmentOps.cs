@@ -284,6 +284,7 @@ namespace DesignDB_Library.Operations
                 //Open BOM file and get active worksheet
                 string bomFile = BOMFilePath + "\\" + BOM.PID + "\\" + BOM.DisplayText;
                 sendMessage("Opening " + BOM.DisplayText);
+                //TODO try catch
                 wkb = xlApp.Workbooks.Open(bomFile);
                 Excel.Worksheet wks = xlApp.ActiveSheet;
 

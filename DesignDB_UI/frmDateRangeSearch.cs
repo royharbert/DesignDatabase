@@ -174,11 +174,10 @@ namespace DesignDB_UI
                     MSO_Model msoModel = (MSO_Model)mso;
                     msoList.Add(msoModel);
                 }
-                int records = requestList.Count;
 
                 requestList = GlobalConfig.Connection.DateRangeSearch_Unfiltered
-                    (dtpStartDate.Value, dtpEndDate.Value, term, false, cboDesigner.Text, cboRequestor.Text);
-                records = requestList.Count;
+                    (dtpStartDate.Value, dtpEndDate.Value, term, false, "", cboDesigner.Text, cboRequestor.Text);
+                int records = requestList.Count;
 
                 List<RequestModel> filteredRequests = new List<RequestModel>();
                 if (records > 0)
