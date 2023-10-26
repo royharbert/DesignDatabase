@@ -900,6 +900,10 @@ namespace DesignDB_Library.Operations
             return col;
         }
 
+        /// <summary>
+        /// Applies filters to worksheet columns
+        /// </summary>
+        /// <param name="wkb"></param>
         private static void ApplyFilters(Excel.Workbook wkb)
         {
             Excel.Worksheet wks = wkb.ActiveSheet;
@@ -908,6 +912,11 @@ namespace DesignDB_Library.Operations
             filterRange.AutoFilter(15, "TRUE");
         }
 
+        /// <summary>
+        /// Create summary sheet for analyzing results
+        /// </summary>
+        /// <param name="wkb"></param>
+        /// <param name="summaryList"></param>
         private static void CreateSummarySheet(Excel.Workbook wkb, List<BOMSummaryModel> summaryList)
         { 
             Excel.Worksheet wks = wkb.Sheets["Sheet1"];
@@ -924,6 +933,11 @@ namespace DesignDB_Library.Operations
             }
         }
 
+        /// <summary>
+        /// Places row headers on summary sheet and formats text
+        /// </summary>
+        /// <param name="wks"></param>
+        /// <param name="rows"></param>
         private static void FormatSummarySheet(Excel.Worksheet wks, int rows)
         {
             wks.Cells[3, 1].Value = "Request ID";
@@ -943,6 +957,7 @@ namespace DesignDB_Library.Operations
 
         /// <summary>
         /// Writes line of summary data on summary sheet
+        /// Adds hyperlink back to detail sheet
         /// </summary>
         /// <param name="wks"></param>
         /// <param name="row"></param>
@@ -966,14 +981,5 @@ namespace DesignDB_Library.Operations
             wks.Cells[row, 6] = summary.StateMatches;
             wks.Cells[row, 7] = summary.ValidSO_DateMatches;
         }
-
-        private static string GetPercentage(Excel.Workbook wkb, int row, int col) 
-        {
-            Excel.Worksheet wks = wkb.ActiveSheet;
-            object pct = ExcelOps.GetCellValue(wks, row, col);
-            dynamic pctString = pct.ToString();
-            return pctString;
-        }
-
     }
 }
