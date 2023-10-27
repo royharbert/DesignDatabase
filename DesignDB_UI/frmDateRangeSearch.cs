@@ -177,7 +177,7 @@ namespace DesignDB_UI
                 int records = requestList.Count;
 
                 requestList = GlobalConfig.Connection.DateRangeSearch_Unfiltered
-                    (dtpStartDate.Value, dtpEndDate.Value, term, false, cboDesigner.Text, cboRequestor.Text);
+                    (dtpStartDate.Value, dtpEndDate.Value, term, false, "" , cboDesigner.Text, cboRequestor.Text);
                 records = requestList.Count;
 
                 List<RequestModel> filteredRequests = new List<RequestModel>();

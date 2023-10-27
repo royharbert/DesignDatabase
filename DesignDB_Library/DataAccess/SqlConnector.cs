@@ -707,10 +707,10 @@ namespace DesignDB_Library.DataAccess
 
                 p.Add("@StartDate", StartDate, DbType.DateTime, ParameterDirection.Input);
                 p.Add("@EndDate", EndDate, DbType.DateTime, ParameterDirection.Input);
-                p.Add("@SearchTerm", SearchTerm, DbType.String, ParameterDirection.Input);
                 p.Add("@PendingOnly", pendingOnly, DbType.Boolean, ParameterDirection.Input);
-                p.Add("Designer", designer, DbType.String, ParameterDirection.Input);
                 p.Add("@MSO", mso, DbType.String, ParameterDirection.Input);
+                p.Add("@SearchTerm", SearchTerm, DbType.String, ParameterDirection.Input);
+                p.Add("@Designer", designer, DbType.String, ParameterDirection.Input);
                 p.Add("@Requestor", requestor, DbType.String, ParameterDirection.Input);
                 List<RequestModel> output = null;
 
