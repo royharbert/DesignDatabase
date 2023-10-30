@@ -583,23 +583,30 @@ namespace DesignDB_UI
             return newList;
         }
 
+        /// <summary>
+        /// Was used to populate designer, assisted by and reviewers dropdowns with only active members
+        /// Was changed on 10/30/2023 to include all members
+        /// </summary>
         private void MakeActiveDependantLists()
         {
             if (GV.MODE != Mode.Search)
             {
-                List<DesignersReviewersModel> activeDesignerList = GlobalConfig.Connection.DesignersGetActive();
-                activeDesignerList.Insert(0, new DesignersReviewersModel());
-                cboDesigner.DataSource = activeDesignerList;
+                //List<DesignersReviewersModel> activeDesignerList = GlobalConfig.Connection.DesignersGetActive();
+                //activeDesignerList.Insert(0, new DesignersReviewersModel());
+                //cboDesigner.DataSource = activeDesignerList;
+                List<DesignersReviewersModel> designerList = GlobalConfig.Connection.GenericGetAll<DesignersReviewersModel>("tblDesigners", "Designer");
+                designerList.Insert(0, new DesignersReviewersModel());
+                cboDesigner.DataSource = designerList;
                 cboDesigner.DisplayMember = "Designer";
                 cboDesigner.SelectedIndex = -1;
 
 
-                List<DesignersReviewersModel> assistedList = cloneList(activeDesignerList);
+                List<DesignersReviewersModel> assistedList = cloneList(designerList);
                 cboAssisted.DataSource = assistedList;
                 cboAssisted.DisplayMember = "Designer";
                 cboAssisted.SelectedIndex = -1;
 
-                List<DesignersReviewersModel> reviewerList = GlobalConfig.Connection.Reviewers_GetActive();
+                List<DesignersReviewersModel> reviewerList = GlobalConfig.Connection.GenericGetAll<DesignersReviewersModel>("tblReviewers", "Designer");
                 reviewerList.Insert(0, new DesignersReviewersModel());
                 cboReviewedBy.DataSource = reviewerList;
                 cboReviewedBy.DisplayMember = "Designer";
