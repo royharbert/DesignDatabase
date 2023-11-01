@@ -159,11 +159,9 @@ namespace DesignDB_UI
             // 
             // cboMSO
             // 
-            this.cboMSO.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.cboMSO.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cboMSO.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboMSO.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cboMSO.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboMSO.FormattingEnabled = true;
             this.cboMSO.Location = new System.Drawing.Point(161, 4);
@@ -232,9 +230,7 @@ namespace DesignDB_UI
             // 
             // txtCust
             // 
-            this.txtCust.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCust.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtCust.Location = new System.Drawing.Point(161, 38);
             this.txtCust.Name = "txtCust";
             this.txtCust.Size = new System.Drawing.Size(258, 22);
@@ -1454,7 +1450,7 @@ namespace DesignDB_UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(1508, 965);
+            this.ClientSize = new System.Drawing.Size(1508, 982);
             this.Controls.Add(this.ckFilter);
             this.Controls.Add(this.label31);
             this.Controls.Add(this.label32);

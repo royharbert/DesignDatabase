@@ -29,6 +29,7 @@ namespace DesignDB_UI
             }
             Application.Run(new frmLogin());                      
             //Application.Run(new aTest());
+            //Application.Run(new frmDemo());
         }
     }
 }

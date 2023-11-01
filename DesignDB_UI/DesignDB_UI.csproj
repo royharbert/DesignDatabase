@@ -217,6 +217,12 @@
     <Compile Include="frmDateRangeSearch.Designer.cs">
       <DependentUpon>frmDateRangeSearch.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDemo.Designer.cs">
+      <DependentUpon>frmDemo.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmDesigner.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -378,6 +384,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmDateRangeSearch.resx">
       <DependentUpon>frmDateRangeSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDemo.resx">
+      <DependentUpon>frmDemo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmDesigner.resx">
       <DependentUpon>frmDesigner.cs</DependentUpon>
