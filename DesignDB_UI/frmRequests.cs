@@ -983,6 +983,7 @@ namespace DesignDB_UI
                 {
                     if (ex.Message.Contains("network path was not found"))
                     {
+                        MessageBox.Show("Cannot connect to server. Check VPN and network settings");
                     }
                 }
                 dgvAttachments.DataSource = null;
