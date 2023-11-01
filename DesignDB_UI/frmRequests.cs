@@ -166,6 +166,8 @@ namespace DesignDB_UI
 
                 case Mode.Add_Attachment:
                     break;
+                case Mode.Delete_Attachment:
+                    break;
 
                 default:
                     Rm = null;
@@ -740,7 +742,11 @@ namespace DesignDB_UI
         private void saveChanges()
         {
             int saved = 0;
-            loadModel();
+            if (Rm == null)
+            {
+                Rm = new RequestModel();
+            }
+            loadModel(); 
 
             Rm.DateLastUpdate = DateTime.Today;
             switch (GV.MODE)
@@ -978,24 +984,11 @@ namespace DesignDB_UI
                     if (ex.Message.Contains("network path was not found"))
                     {
                     }
-
-                    //else
-                    //{
-                    //    MessageBox.Show("Connection to Attachment Server lost. Check VPN and network status.");
-                    //}
                 }
-                if(newList.Count == 0)
-                {
-                    //MessageBox.Show("No row selected for deletion. \nPlease click left margin of desired row");
-                    MessageBox.Show("Attachment not deleted. Attachment server unreachable. Check VPN and network status");
-                }
-                else 
-                {
-                    dgvAttachments.DataSource = null;
-                    dgvAttachments.DataSource = newList;
-                    formatAttGrid();
-                    prepForButtonLogEntry(model.DisplayText);                
-                }
+                dgvAttachments.DataSource = null;
+                dgvAttachments.DataSource = newList;
+                formatAttGrid();
+                prepForButtonLogEntry(model.DisplayText);  
             }
             
         }
