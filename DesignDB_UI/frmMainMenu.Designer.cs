@@ -73,8 +73,8 @@ namespace DesignDB_UI
             this.ssMessage = new System.Windows.Forms.StatusStrip();
             this.ssLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ssProgress = new System.Windows.Forms.ToolStripProgressBar();
-            this.ofdMainMenu = new System.Windows.Forms.OpenFileDialog();
             this.ssBOMCount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ofdMainMenu = new System.Windows.Forms.OpenFileDialog();
             this.tlpMain.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.ssMessage.SuspendLayout();
@@ -780,14 +780,14 @@ namespace DesignDB_UI
             this.ssProgress.Size = new System.Drawing.Size(100, 16);
             this.ssProgress.Visible = false;
             // 
-            // ofdMainMenu
-            // 
-            this.ofdMainMenu.FileName = "openFileDialog1";
-            // 
             // ssBOMCount
             // 
             this.ssBOMCount.Name = "ssBOMCount";
             this.ssBOMCount.Size = new System.Drawing.Size(0, 17);
+            // 
+            // ofdMainMenu
+            // 
+            this.ofdMainMenu.FileName = "openFileDialog1";
             // 
             // frmMainMenu
             // 
