@@ -289,6 +289,7 @@ namespace DesignDB_UI
                 default:
                     break;
             }
+            GV.MODE = curMode;
         }
         private void clearCheckBoxes(CheckBox[] ckArray)
         {
