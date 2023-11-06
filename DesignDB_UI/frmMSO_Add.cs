@@ -70,7 +70,7 @@ namespace DesignDB_UI
                     MessageBox.Show("Please enter information in both boxes.");
                 }
             }
-
+            int id = -1;
             if (GV.MODE == Mode.EditMSO)
             {
                 MSO_Model deltaMSO = new MSO_Model();
@@ -79,7 +79,15 @@ namespace DesignDB_UI
                 deltaMSO.Tier = cboTier.SelectedIndex + 1;
                 deltaMSO.MSO = cboMSO.Text;
                 deltaMSO.ID = Convert.ToInt16(txtID.Text);
-                GlobalConfig.Connection.MSO_Update(deltaMSO);
+                id = GlobalConfig.Connection.MSO_Update(deltaMSO);
+            }
+            if (id > -1)
+            {
+                MessageBox.Show(cboMSO.Text + " Updated"); 
+            }
+            else 
+            {
+                MessageBox.Show(cboMSO.Text + " failed");
             }
 
             btnAdd.Enabled = true;
@@ -87,7 +95,6 @@ namespace DesignDB_UI
             btnSave.Enabled = false;
             cboMSO.Enabled = false;
             cboMSO.SelectedIndex = -1;
-            MessageBox.Show(cboMSO.Text + " Updated");
 
             txtTLA.Clear();
             cboTier.SelectedIndex = -1;

@@ -73,7 +73,7 @@ namespace DesignDB_Library.DataAccess
                 return output;
             }
         }
-        public void MSO_Update(MSO_Model model)
+        public int MSO_Update(MSO_Model model)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
@@ -84,8 +84,9 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@Active", model.Active, DbType.Boolean);
                 p.Add("@ID", model.ID, DbType.Int32);
 
-                connection.Execute("dbo.spMSO_Update", p,
+                object id = connection.ExecuteScalar("dbo.spMSO_Update", p,
                     commandType: CommandType.StoredProcedure);
+                return Convert.ToInt32(id);
             }
         }
         public List<RequestModel>GetRequestsDeleted()

@@ -23,7 +23,7 @@ namespace DesignDB_Library.DataAccess
         List<BOMLineModel> getBOMList(string PIDs);
         List<RollupRequestModel> GetRollupRequests(DateTime startDate, DateTime endDate);
         List<MSO_Model> MSO_GetByTier(int tier);
-        void MSO_Update(MSO_Model model);
+        int MSO_Update(MSO_Model model);
         List<RequestModel> DateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate);
         List<RequestModel> GetRequestsDeleted();
         List<RequestModelReport> ReportDateRangeSearch_Unfiltered_Pending_HasRevision(DateTime StartDate, DateTime EndDate,
