@@ -8,11 +8,42 @@ using System.Threading.Tasks;
 using DesignDB_Library.Models;
 using System.Data.SqlClient;
 using System.Runtime.InteropServices.ComTypes;
+using System.Security.Cryptography.X509Certificates;
+using System.Windows.Forms;
+using System.Diagnostics.Eventing.Reader;
 
 namespace DesignDB_Library.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
+        public bool FE_Update(FE_Model fe)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@ID", fe.ID, DbType.Int32);
+                p.Add("@FirstName", fe.FirstName, DbType.String);
+                p.Add("@LastName", fe.LastName, DbType.String);
+                p.Add("@ManagerID", fe.ManagerID, DbType.String);
+                p.Add("@Region", fe.Region, DbType.String);
+                p.Add("@Phone", fe.Phone, DbType.String);
+                p.Add("@EMail", fe.EMail, DbType.String);
+                p.Add("@Active", fe.Active, DbType.Boolean);
+                object success = null;
+                bool rtn;
+                try
+                {
+                    success = connection.ExecuteScalar<string>("dbo.spFE_Update", p, commandType: CommandType.StoredProcedure);
+                    rtn = true;
+                }
+                catch (Exception)
+                {
+                    rtn = false;   
+                }
+
+                return rtn;
+            }
+        }
         public string GetStateAbbreviation(string stateName)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
@@ -21,9 +52,9 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@State", stateName, DbType.String);
 
 
-                List<string> output = connection.Query<string>("dbo.spStateAbbreviationGet", p,
-                    commandType: CommandType.StoredProcedure).ToList();
-                string abbreviation = output[0];
+                string output = connection.ExecuteScalar<string>("dbo.spStateAbbreviationGet", p,
+                    commandType: CommandType.StoredProcedure);
+                string abbreviation = output;
                 return abbreviation;
             }
         }
@@ -73,7 +104,7 @@ namespace DesignDB_Library.DataAccess
                 return output;
             }
         }
-        public int MSO_Update(MSO_Model model)
+        public bool MSO_Update(MSO_Model model)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
@@ -83,10 +114,22 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@Tier", model.Tier, DbType.Int16);
                 p.Add("@Active", model.Active, DbType.Boolean);
                 p.Add("@ID", model.ID, DbType.Int32);
-
-                object id = connection.ExecuteScalar("dbo.spMSO_Update", p,
-                    commandType: CommandType.StoredProcedure);
-                return Convert.ToInt32(id);
+                bool rtn = true;
+                object success = new object();
+                try
+                {
+                    //throw new Exception();
+                    success = connection.ExecuteScalar("dbo.spMSO_Update", p,
+                                commandType: CommandType.StoredProcedure);
+                }
+                catch (Exception)
+                {
+                    if(success.ToString() != "True")
+                    {
+                        rtn = false;
+                    }
+                }
+                return rtn;
             }
         }
         public List<RequestModel>GetRequestsDeleted()
@@ -113,23 +156,33 @@ namespace DesignDB_Library.DataAccess
                 return output;
             }
         }
-        public void FE_CRUD(FE_Model model, char action)
+        public int FE_Add(FE_Model model)
         {
+            object success = new object();
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 var p = new DynamicParameters();
-                p.Add("@Action", action, DbType.String);
-                p.Add("@ID", model.ID, DbType.Int32);
+                p.Add("@ID", model.ID, DbType.Int32, ParameterDirection.Output);
                 p.Add("@FirstName", model.FirstName, DbType.String);
                 p.Add("@LastName", model.LastName, DbType.String);
                 p.Add("@ManagerID", model.ManagerID, DbType.String);
                 p.Add("@Region", model.Region, DbType.String);
                 p.Add("@Phone", model.Phone, DbType.String);
-                p.Add("@Email", model.EMail, DbType.String);
+                p.Add("@EMail", model.EMail, DbType.String);
                 p.Add("@Active", model.Active, DbType.Boolean);
 
-                connection.Execute("dbo.spFE_CRUD", p,
-                    commandType: CommandType.StoredProcedure);
+                int rtn = -1;
+                try
+                {
+                    success = connection.ExecuteScalar("dbo.spFE_Add", p,
+                                commandType: CommandType.StoredProcedure);
+                    rtn = Convert.ToInt32(success);
+                }
+                catch (Exception)
+                {
+                    rtn = -1;
+                }
+                return rtn;
             }
         }
         public List<T> GetItemByColumn<T>(string tableName, string columnName, string stringValue, int intValue = -1)
@@ -149,8 +202,10 @@ namespace DesignDB_Library.DataAccess
                 return list;
             }
         }
-        public void MSO_Add(string MSO_Name, string TLA, bool Active, int Tier)
+        public int MSO_Add(string MSO_Name, string TLA, bool Active, int Tier)
         {
+            object id = new object();
+            int dbID = -1;
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 var p = new DynamicParameters();
@@ -158,7 +213,17 @@ namespace DesignDB_Library.DataAccess
                 p.Add("@TLA", TLA, DbType.String);
                 p.Add("@Active", Active, DbType.Boolean);
                 p.Add("@Tier", Tier, DbType.Int16);
-                connection.Execute("dbo.spMSO_Add", p, commandType: CommandType.StoredProcedure);
+                try
+                {
+                    id = connection.ExecuteScalar("dbo.spMSO_Add", p, commandType: CommandType.StoredProcedure);
+                    dbID = Convert.ToInt32(id);
+                }
+                catch (Exception)
+                {
+                    dbID = -1;
+                }
+
+                return dbID;
             }
         }
         public List<T> GenericGetAll<T>(string tableName, string orderByField = "")
@@ -540,39 +605,48 @@ namespace DesignDB_Library.DataAccess
             }
         }
 
-        public int RequestUpdate(RequestModel model)
+        public bool RequestUpdate(RequestModel model)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 DynamicParameters p = makParams(model);
+                object rtnObj = new object();
+                bool updated = false;
                 try
                 {
-                    connection.Execute("[dbo].[spRequest_UpdateByPID]", p, commandType: CommandType.StoredProcedure);
-                    return 1;
+                    rtnObj = connection.ExecuteScalar("[dbo].[spRequest_UpdateByPID]", p, commandType: CommandType.StoredProcedure);
                 }
                 catch (Exception)
                 {
-                    return 0;
+                    updated = false;
                 }
+                string rtnString = rtnObj.ToString();
+                if (rtnString == "True")
+                {
+                    updated = true;
+                }
+                return updated;
             }
         }
 
         public int RequestInsert(RequestModel model)
         {
+            int id = -1;
+            object rtnObj = new object();
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
             {
                 DynamicParameters p = makParams(model);
                 try
                 {
-                    connection.Execute("[dbo].[spRequest_Insert]", p, commandType: CommandType.StoredProcedure);
-                    return 1;
+                    rtnObj = connection.ExecuteScalar("[dbo].[spRequest_Insert]", p, commandType: CommandType.StoredProcedure);
+                    id = Convert.ToInt32(rtnObj);
                 }
                 catch (Exception)
                 {
-                    System.Windows.Forms.MessageBox.Show("Record not saved.\nPossible duplicate Project ID");
-                    return 0;
+                    id = -1;
                 }
             }
+            return id;
         }
 
         public List<RequestModel> GetRequestsForDesignerUpdate(string designer)

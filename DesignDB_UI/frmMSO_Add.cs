@@ -58,19 +58,28 @@ namespace DesignDB_UI
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            int dbID = -1;
             if (GV.MODE == Mode.AddMSO)
             {
                 if (cboMSO.Text != "" & txtTLA.Text != "")
-                {                   
-                    GlobalConfig.Connection.MSO_Add(cboMSO.Text, txtTLA.Text, true, Convert.ToInt16(cboTier.Text));
-                    MessageBox.Show(cboMSO.Text + " Added");
+                {
+                    dbID = GlobalConfig.Connection.MSO_Add(cboMSO.Text, txtTLA.Text, true, Convert.ToInt16(cboTier.Text));
                 }
                 else
                 {
                     MessageBox.Show("Please enter information in both boxes.");
                 }
+                if (dbID != -1)
+                {
+                    txtID.Text = dbID.ToString();
+                    MessageBox.Show(cboMSO.Text + " has been added.");
+                }
+                else
+                {
+                    MessageBox.Show(cboMSO.Text + " has not been added.", "DB Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
-            int id = -1;
+            bool updated = false;
             if (GV.MODE == Mode.EditMSO)
             {
                 MSO_Model deltaMSO = new MSO_Model();
@@ -79,17 +88,17 @@ namespace DesignDB_UI
                 deltaMSO.Tier = cboTier.SelectedIndex + 1;
                 deltaMSO.MSO = cboMSO.Text;
                 deltaMSO.ID = Convert.ToInt16(txtID.Text);
-                id = GlobalConfig.Connection.MSO_Update(deltaMSO);
-            }
-            if (id > -1)
-            {
-                MessageBox.Show(cboMSO.Text + " Updated"); 
-            }
-            else 
-            {
-                MessageBox.Show(cboMSO.Text + " failed");
-            }
+                updated = GlobalConfig.Connection.MSO_Update(deltaMSO);
 
+                if (updated)
+                {
+                    MessageBox.Show(cboMSO.Text + " Updated");
+                }
+                else
+                {
+                    MessageBox.Show(cboMSO.Text + " update failed");
+                }
+            }
             btnAdd.Enabled = true;
             btnEdit.Enabled = true;
             btnSave.Enabled = false;
@@ -97,6 +106,8 @@ namespace DesignDB_UI
             cboMSO.SelectedIndex = -1;
 
             txtTLA.Clear();
+            txtID.Clear();
+            cboMSO.Text = "";
             cboTier.SelectedIndex = -1;
             ckActive.Checked = false;
         }

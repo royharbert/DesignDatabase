@@ -300,6 +300,7 @@ namespace DesignDB_UI
         /// <param name="rm"></param>
         private void insertData(RequestModel rm)
         {
+            txtID.Text = rm.ID.ToString();
             txtPID.Text = rm.ProjectID;
             cboMSO.Text = rm.MSO;
             txtCust.Text = rm.Cust;
@@ -741,7 +742,8 @@ namespace DesignDB_UI
 
         private void saveChanges()
         {
-            int saved = 0;
+            int saved = -1;
+            bool updated = false;
             if (Rm == null)
             {
                 Rm = new RequestModel();
@@ -754,18 +756,43 @@ namespace DesignDB_UI
                 case Mode.New:
                 case Mode.Revision:
                     saved = GlobalConfig.Connection.RequestInsert(Rm);
-                    logSuccessfulSave(saved);
-                    //GV.MODE = Mode.Edit;
-                    changeMode(Mode.Edit);
+                    if (saved > -1)
+                    {
+                        logSuccessfulSave(saved);
+                        changeMode(Mode.Edit);
+                        MessageBox.Show(Rm.ProjectID + " successfully saved.");
+                        txtID.Text = saved.ToString();
+                    }
+                    else 
+                    {
+                        MessageBox.Show(Rm.ProjectID + " Not saved", "DB Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
                     break;
                 case Mode.Edit:
-                    saved = GlobalConfig.Connection.RequestUpdate(Rm);
-                    logSuccessfulSave(saved);
+                    updated = GlobalConfig.Connection.RequestUpdate(Rm);
+                    if (updated)
+                    {
+                        logSuccessfulSave(saved);
+                        MessageBox.Show(Rm.ProjectID + " successfully saved.");
+                    }
+                    else
+                    {
+                        MessageBox.Show(Rm.ProjectID + " Not saved", "DB Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
                     break;
                 case Mode.Clone:
                     saved = RequestOps.InsertNewRequest(Rm);
-                    logSuccessfulSave(saved);
-                    //GV.MODE = Mode.Edit;
+                    if (saved > -1)
+                    {
+                        logSuccessfulSave(saved);
+                        MessageBox.Show(Rm.ProjectID + " successfully saved.");
+                        txtID.Text = saved.ToString();
+                    }
+                    else
+                    {
+                        MessageBox.Show(Rm.ProjectID + " Not saved", "DB Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        break;
+                    }
                     changeMode(Mode.Edit);
                     break;
                 case Mode.Delete:
@@ -776,10 +803,10 @@ namespace DesignDB_UI
                     break;
             }
 
-            if (saved == 1)
-            {
-                MessageBox.Show("Record " + Rm.ProjectID + " Saved.");
-            }
+            //if (saved == 1)
+            //{
+            //    MessageBox.Show("Record " + Rm.ProjectID + " Saved.");
+            //}
 
             formDirty = false;
         }

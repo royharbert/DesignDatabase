@@ -53,6 +53,7 @@ namespace DesignDB_UI
             this.btnFE_Add = new System.Windows.Forms.Button();
             this.txtFE_Active = new System.Windows.Forms.ComboBox();
             this.txtFE_Region = new System.Windows.Forms.ComboBox();
+            this.txtID = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // txtFE_FirstName
@@ -254,7 +255,6 @@ namespace DesignDB_UI
             // 
             // txtFE_Active
             // 
-            this.txtFE_Active.Enabled = false;
             this.txtFE_Active.FormattingEnabled = true;
             this.txtFE_Active.Items.AddRange(new object[] {
             "True",
@@ -274,11 +274,19 @@ namespace DesignDB_UI
             this.txtFE_Region.Size = new System.Drawing.Size(247, 21);
             this.txtFE_Region.TabIndex = 33;
             // 
+            // txtID
+            // 
+            this.txtID.Location = new System.Drawing.Point(391, 18);
+            this.txtID.Name = "txtID";
+            this.txtID.Size = new System.Drawing.Size(100, 20);
+            this.txtID.TabIndex = 34;
+            // 
             // frmFE
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(813, 370);
+            this.Controls.Add(this.txtID);
             this.Controls.Add(this.txtFE_Region);
             this.Controls.Add(this.txtFE_Active);
             this.Controls.Add(this.btnFE_Add);
@@ -336,6 +344,7 @@ namespace DesignDB_UI
         private System.Windows.Forms.Button btnFE_Add;
         private System.Windows.Forms.ComboBox txtFE_Active;
         private System.Windows.Forms.ComboBox txtFE_Region;
+        private System.Windows.Forms.TextBox txtID;
     }
 }
 

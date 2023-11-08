@@ -1,14 +1,17 @@
 ﻿using DesignDB_Library.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DesignDB_Library.DataAccess
 {
+
     public interface IDataConnection
     {
+        bool FE_Update(FE_Model fe);
         /// <summary>
         /// Returns 2 letter abbreviation for state
         /// </summary>
@@ -23,15 +26,15 @@ namespace DesignDB_Library.DataAccess
         List<BOMLineModel> getBOMList(string PIDs);
         List<RollupRequestModel> GetRollupRequests(DateTime startDate, DateTime endDate);
         List<MSO_Model> MSO_GetByTier(int tier);
-        int MSO_Update(MSO_Model model);
+        bool MSO_Update(MSO_Model model);
         List<RequestModel> DateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate);
         List<RequestModel> GetRequestsDeleted();
         List<RequestModelReport> ReportDateRangeSearch_Unfiltered_Pending_HasRevision(DateTime StartDate, DateTime EndDate,
             string SearchTerm, string mso, string designer = null);
         List<T> GenericConditionalGetAll<T>(string tableName, string conditionColumn, string condition, string orderByField = "");
-        void FE_CRUD(FE_Model model, char action);
+        int FE_Add(FE_Model model);
         List<T> GetItemByColumn<T>(string tableName, string columnName, string stringValue, int intValue = -1);
-        void MSO_Add(string MSO_Name, string TLA, bool Active, int tier);
+        int MSO_Add(string MSO_Name, string TLA, bool Active, int tier);
         void ToggleActiveStatus(string tableName, string activeColumnName, int Idx, string idxName);
         bool GetCurrentActivityStatus(string tableName, string activeColumnName, int Idx, string idxName);
         List<T> GenericGetAll<T>(string tableName, string OorderByField = "");
@@ -69,7 +72,7 @@ namespace DesignDB_Library.DataAccess
         List<RequestModel> GetRequestsForDesignerUpdate(string designer);
         int GetSequence();
         List<RequestModel> GetRequestByPID(string PID);
-        int RequestUpdate(RequestModel model);
+        bool RequestUpdate(RequestModel model);
         int RequestInsert(RequestModel model);
         void SetSequence(int seq);
         List<DesignersReviewersModel> DesignersGetActive();

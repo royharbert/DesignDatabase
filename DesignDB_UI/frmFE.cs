@@ -11,7 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DesignDB_Library.Operations;
+using DesignDB_Library.TableOps;
 using DesignDB_Library;
+using Microsoft.Office.Interop.Excel;
 
 namespace DesignDB_UI
 {
@@ -96,6 +98,7 @@ namespace DesignDB_UI
 
         private void fillTextBoxes()
         {
+            txtID.Text = model.ID.ToString();
             txtFE_FirstName.Text = model.FirstName;
             txtFE_LastName.Text = model.LastName;
             txtFE_ManagerID.Text = model.ManagerID;
@@ -128,7 +131,7 @@ namespace DesignDB_UI
         private void btnDelete_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Are you sure you want to delete this FE?");
-            GlobalConfig.Connection.FE_CRUD(model, 'D');
+            //GlobalConfig.Connection.FE_CRUD(model, 'D');
             lstFE_Refresh();
 
         }
@@ -137,7 +140,7 @@ namespace DesignDB_UI
         {
             foreach (Control ctl in this.Controls)
             {
-                if (ctl is TextBox)
+                if (ctl is System.Windows.Forms.TextBox)
                 {
                     ctl.Text = "";
                 }
@@ -148,23 +151,28 @@ namespace DesignDB_UI
 
         private void btnFE_Save_Click(object sender, EventArgs e)
       {
-        //    //FE_Model model = new FE_Model();
-            //model.FirstName = txtFE_FirstName.Text;
-            //model.LastName = txtFE_LastName.Text;
-            //model.ManagerID = txtFE_ManagerID.Text;
-            //model.Region = txtFE_Region.Text;
-            //model.Phone = txtFE_Phone.Text;
-            //model.EMail = txtFE_Email.Text;
-            //model.Active = bool.Parse(txtFE_Active.Text);
+            FE_Model model = new FE_Model();
+            int id = 0;
+            int.TryParse(txtID.Text, out id);
+            model.ID = id;
+            model.FirstName = txtFE_FirstName.Text;
+            model.LastName = txtFE_LastName.Text;
+            model.ManagerID = txtFE_ManagerID.Text;
+            model.Region = txtFE_Region.Text;
+            model.Phone = txtFE_Phone.Text;
+            model.EMail = txtFE_Email.Text;
+            model.Active = bool.Parse(txtFE_Active.Text);
+            
+            bool success = GlobalConfig.Connection.FE_Update(model);
 
-            //ScheduleDatabaseClassLibrary.TableOps.TableGenerator<FE_Model> dt =
-            //    new ScheduleDatabaseClassLibrary.TableOps.TableGenerator<FE_Model>();
-            //List<FE_Model> fieldengineers = new List<FE_Model>();
-            //fieldengineers.Add(model);
-            //dt.List = fieldengineers;
-            //GlobalConfig.Connection.FE_Update(dt.table);
-
-            //MessageBox.Show("Field Engineer has been updated");
+            if (success)
+            {
+                MessageBox.Show("Field Engineer has been updated"); 
+            }
+            else
+            {
+                MessageBox.Show("Field Engineer not updated");
+            }
 
         }
 
@@ -180,17 +188,17 @@ namespace DesignDB_UI
             model.Active = bool.Parse(txtFE_Active.Text);
 
             
-            GlobalConfig.Connection.FE_CRUD(model, 'C');
-            MessageBox.Show(model.FullName + " has been added");
+            int id = GlobalConfig.Connection.FE_Add(model);
+            txtID.Text = id.ToString();
+            if (txtID.Text != "-1")
+            {
+                MessageBox.Show(model.FullName + " has been added.");
+            }
+            else
+            {
+                MessageBox.Show(model.FullName + " was not added", "DB Error", MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
+            }
             lstFE_Refresh();
         }
-
-        //private void btnFE_Save_Click(object sender, EventArgs e)
-        //{
-        //    model = loadModel();
-
-        //    GlobalConfig.Connection.UpdateFE("Update", model.ID, model.FirstName, model.LastName, model.ManagerID,
-        //        model.Region, model.Phone, model.EMail, model.Active);
-        //}
     }
 }

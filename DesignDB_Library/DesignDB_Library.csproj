@@ -172,6 +172,7 @@
     <Compile Include="Operations\ShipmentOps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Holiday_Update.cs" />
+    <Compile Include="TableOps\TableGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UserControls\" />

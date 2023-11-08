@@ -230,11 +230,12 @@ namespace DesignDB_Library.Operations
 
         public static int InsertNewRequest(RequestModel request)
         {
-            int saveSuccess = 0;
             string db = GetConnectionString();
             List<RequestModel> requests = new List<RequestModel>();
             requests.Add(request);
             DataTable dt = MakeRequestDataTable(requests);
+            object rtnObj = new object();
+            int id = -1;
             using (SqlConnection con = new SqlConnection(db))
             {
                 SqlCommand cmd = new SqlCommand("spRequest_Insert_TableTypeParam", con);
@@ -246,11 +247,18 @@ namespace DesignDB_Library.Operations
                 cmd.Parameters.Add(param);
 
                 con.Open();
-                cmd.ExecuteNonQuery();
-                saveSuccess = 1;
+                try
+                {
+                    rtnObj = cmd.ExecuteScalar();
+                    id = Convert.ToInt32(rtnObj);
+                }
+                catch (Exception)
+                {
+                    id = -1;
+                }
                 con.Close();
             }
-            return saveSuccess;
+            return id;
         }
 
         //public static void InsertNewRequest(List<RequestModel> requests)

@@ -69,14 +69,14 @@
             this.txtTLA.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.txtTLA.Name = "txtTLA";
             this.txtTLA.Size = new System.Drawing.Size(826, 26);
-            this.txtTLA.TabIndex = 4;
+            this.txtTLA.TabIndex = 1;
             // 
             // btnAdd
             // 
             this.btnAdd.Location = new System.Drawing.Point(164, 329);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(184, 63);
-            this.btnAdd.TabIndex = 6;
+            this.btnAdd.TabIndex = 3;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -87,7 +87,7 @@
             this.btnCancel.Location = new System.Drawing.Point(935, 329);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(184, 63);
-            this.btnCancel.TabIndex = 7;
+            this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "Cancel/Close";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -112,7 +112,7 @@
             this.cboTier.Location = new System.Drawing.Point(347, 233);
             this.cboTier.Name = "cboTier";
             this.cboTier.Size = new System.Drawing.Size(52, 28);
-            this.cboTier.TabIndex = 10;
+            this.cboTier.TabIndex = 2;
             // 
             // ckActive
             // 
@@ -130,7 +130,7 @@
             this.cboMSO.Location = new System.Drawing.Point(346, 132);
             this.cboMSO.Name = "cboMSO";
             this.cboMSO.Size = new System.Drawing.Size(824, 28);
-            this.cboMSO.TabIndex = 12;
+            this.cboMSO.TabIndex = 0;
             this.cboMSO.SelectedIndexChanged += new System.EventHandler(this.cboMSO_SelectedIndexChanged);
             // 
             // btnEdit
@@ -138,7 +138,7 @@
             this.btnEdit.Location = new System.Drawing.Point(354, 329);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(184, 63);
-            this.btnEdit.TabIndex = 13;
+            this.btnEdit.TabIndex = 4;
             this.btnEdit.Text = "Edit";
             this.btnEdit.UseVisualStyleBackColor = true;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
@@ -159,7 +159,7 @@
             this.btnSave.Location = new System.Drawing.Point(544, 329);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(184, 63);
-            this.btnSave.TabIndex = 15;
+            this.btnSave.TabIndex = 5;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -170,6 +170,7 @@
             this.txtID.Name = "txtID";
             this.txtID.Size = new System.Drawing.Size(56, 26);
             this.txtID.TabIndex = 16;
+            this.txtID.Visible = false;
             // 
             // frmMSO_Add
             // 
