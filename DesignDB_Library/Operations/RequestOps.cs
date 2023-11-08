@@ -260,27 +260,6 @@ namespace DesignDB_Library.Operations
             }
             return id;
         }
-
-        //public static void InsertNewRequest(List<RequestModel> requests)
-        //{
-        //    string db = GetConnectionString();
-        //    DataTable dt = MakeRequestDataTable(requests);
-        //    using (SqlConnection con = new SqlConnection(db))
-        //    {
-        //        SqlCommand cmd = new SqlCommand("spRequest_Insert_TableTypeParam", con);
-        //        cmd.CommandType = CommandType.StoredProcedure;
-
-        //        SqlParameter param = new SqlParameter();
-        //        param.ParameterName = "@RequestTableType";
-        //        param.Value = dt;
-        //        cmd.Parameters.Add(param);
-
-        //        con.Open();
-        //        cmd.ExecuteNonQuery();
-        //        con.Close();
-        //    }
-        //}
-
         private static string GetConnectionString()
         {
             string db = "";
