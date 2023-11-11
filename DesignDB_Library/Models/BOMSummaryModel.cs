@@ -46,6 +46,7 @@ namespace DesignDB_Library.Models
         public int CityMatches { get; set; }
         public int StateMatches { get; set; }
         public int ValidSO_DateMatches { get; set; }
+        public string bomURL { get; set; }
 
         private static int getPct(int count, int total)
         {
