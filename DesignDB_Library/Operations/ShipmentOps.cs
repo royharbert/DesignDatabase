@@ -17,7 +17,9 @@ using System.Configuration;
 using System.Drawing;
 using System.Windows.Forms;
 using NuGet;
+using System.IO;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Diagnostics.Eventing.Reader;
 
 namespace DesignDB_Library.Operations
 {
@@ -291,18 +293,18 @@ namespace DesignDB_Library.Operations
         /// <param name="BOMList"></param>
         /// <param name="msoRequests"></param>
         /// <param name="lastRow"></param>
-        private static void ProcessBOMs(Excel.Application xlApp, Excel.Workbook wkb, List<ShipmentLineModel> shipments, 
-            List<RequestModel> msoRequests, int lastRow, List<BOMLineModel> BOMLineList, BOMProgressEventArgs 
-                bomArgs, List<BOM_Model> BOMList= null)
+        private static void ProcessBOMs(Excel.Application xlApp, Excel.Workbook wkb, List<ShipmentLineModel> shipments,
+            List<RequestModel> msoRequests, int lastRow, List<BOMLineModel> BOMLineList, BOMProgressEventArgs
+                bomArgs, List<BOM_Model> BOMList = null)
         {
             //Scope wkbResults
             Excel.Workbook wkbResults = null;
-            
+
             bomArgs.currentBOMCount = 0;
             //Iterate through list of BOMs
             List<BOMSummaryModel> summaryList = new List<BOMSummaryModel>();
             string bomFile = "";
-            foreach (var BOM in BOMLineList) 
+            foreach (var BOM in BOMLineList)
             {
                 bomArgs.currentBOMCount++;
                 bomArgs.IsVisible = true;
@@ -311,37 +313,47 @@ namespace DesignDB_Library.Operations
                 bomFile = BOMFilePath + "\\" + BOM.PID + "\\" + BOM.DisplayText;
                 sendMessage("Opening " + BOM.DisplayText);
                 //TODO try catch
-                wkb = xlApp.Workbooks.Open(bomFile);
-                Excel.Worksheet wks = xlApp.ActiveSheet;
-
-                //Load this BOM's lines into List
-                List<BOM_Model> BOMLines = LoadBOMtoList(wkb, lastRow, BOM.PID);                
-
-                //Load BOMLineModel data into BOM_Model
-                //Adds BOM file name to BOM_Model
-                foreach (var line in BOMLines)
+                if (File.Exists(bomFile))
                 {
-                    BOMLineModel lineModel = BOMLineList.Where(x => x.PID == line.Quote).FirstOrDefault();
-                    line.DisplayText = lineModel.DisplayText;
-                }
+                    wkb = xlApp.Workbooks.Open(bomFile);
 
-                //Create new workbook in xlApp
-                //Compare BOM to shipment
-                if (wkbResults == null)
-                {
-                    wkbResults = xlApp.Workbooks.Add(); 
+                    Excel.Worksheet wks = xlApp.ActiveSheet;
+
+                    //Load this BOM's lines into List
+                    List<BOM_Model> BOMLines = LoadBOMtoList(wkb, lastRow, BOM.PID);
+
+                    //Load BOMLineModel data into BOM_Model
+                    //Adds BOM file name to BOM_Model
+                    foreach (var line in BOMLines)
+                    {
+                        BOMLineModel lineModel = BOMLineList.Where(x => x.PID == line.Quote).FirstOrDefault();
+                        line.DisplayText = lineModel.DisplayText;
+                    }
+
+                    //Create new workbook in xlApp
+                    //Compare BOM to shipment
+                    if (wkbResults == null)
+                    {
+                        wkbResults = xlApp.Workbooks.Add();
+                    }
+                    BOMSummaryModel summary = CompareBOMtoShipmentsl(xlApp, wkbResults, wkb, lastRow, shipments, msoRequests,
+                        BOM, bomFile);
+                    summary.bomURL = bomFile;
+                    summaryList.Add(summary);
+                    ApplyFilters(wkbResults);
+
+                    sendMessage("");
                 }
-                BOMSummaryModel summary = CompareBOMtoShipmentsl(xlApp, wkbResults, wkb, lastRow, shipments, msoRequests, 
-                    BOM, bomFile);
-                summary.bomURL = bomFile;
-                summaryList.Add(summary);
-                ApplyFilters(wkbResults);
+                
+                else
+                {
+                    MessageBox.Show("BOM File not found");
+                }
             }
-            sendMessage("");
-            CreateSummarySheet(wkbResults, summaryList);
+                    CreateSummarySheet(wkbResults, summaryList);
         }
-
         /// <summary>
+
         /// Places BOM items into List<BOM_Model></BOM_Model>
         /// </summary>
         /// <param name="wks"></param>
