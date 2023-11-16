@@ -17,7 +17,9 @@ using System.Configuration;
 using System.Drawing;
 using System.Windows.Forms;
 using NuGet;
+using System.IO;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Diagnostics.Eventing.Reader;
 
 namespace DesignDB_Library.Operations
 {
@@ -139,7 +141,12 @@ namespace DesignDB_Library.Operations
             Excel.Application xlApp = ExcelOps.makeExcelApp();
             sendMessage("Opening Shipments File");
             Excel.Workbook wkb = xlApp.Workbooks.Open(fileName);
-            Excel.Worksheet wks = xlApp.ActiveSheet;
+            //Excel.Worksheet wks = xlApp.ActiveSheet;
+            Excel.Worksheet xRef = wkb.Sheets["Header X Reference"];
+            Dictionary<string, string> cols = GetColXRef(xRef);
+            string tabName = cols["Tab Name"];
+            Excel.Worksheet wks = wkb.Sheets[tabName];
+            wks.Activate();
             Range searchRange= wks.get_Range("A1:Z26");
             xlApp.Visible = true;
             int lastRow = FindLastSpreadsheetRow(wks);
@@ -153,14 +160,14 @@ namespace DesignDB_Library.Operations
             int CityCol = 0;
             int StateCol = 0;
             int SOCol = 0;
-            QuanCol = GetColumn(wks, "Shipped Sales Quantity", searchRange);
-            SODateCol = GetColumn(wks, "SO Item Create Date", searchRange);
-            SOCustCol = GetColumn(wks, "Sold To Cust Name", searchRange);
-            PartNumberCol = GetColumn(wks, "Material ID", searchRange);
-            DescCol = GetColumn(wks, "Material Description", searchRange);
-            CityCol = GetColumn(wks, "Ship To Cust City Name", searchRange);
-            StateCol = GetColumn(wks, "Ship To Cust State Code", searchRange);
-            SOCol = GetColumn(wks, "Sales Ord Id", searchRange);
+            QuanCol = GetColumn(wks, cols["Shipment Quantity"], searchRange);
+            SODateCol = GetColumn(wks, cols["Sales Order Date"], searchRange);
+            SOCustCol = GetColumn(wks, cols["Customer Name"], searchRange);
+            PartNumberCol = GetColumn(wks, cols["Part Number"], searchRange);
+            DescCol = GetColumn(wks, cols["Description"], searchRange);
+            CityCol = GetColumn(wks,cols[ "Shipment City"], searchRange);
+            StateCol = GetColumn(wks, cols["Shipment State"], searchRange);
+            SOCol = GetColumn(wks, cols["Sales Order ID"], searchRange);
             
             if(QuanCol == 0 || SODateCol == 0 || SOCustCol == 0 || PartNumberCol == 0 || DescCol == 0 ||
                 CityCol == 0 || StateCol == 0 || SOCol == 0)
@@ -258,6 +265,26 @@ namespace DesignDB_Library.Operations
             //release Excel instance
             ExcelOps.releaseObject(xlApp);
         }
+
+        //private static List<AttachmentModel> GetAttachments(string pid)
+        //{
+        //    List<AttachmentModel> att = GlobalConfig.Connection.GetAttachments(pid);
+        //    List<AttachmentModel> BOMs = att.Where(x => x.ItemType == "BOM").ToList();
+        //    return BOMs;
+        //}
+        private static Dictionary<string, string> GetColXRef(Excel.Worksheet wks)
+        {
+            wks.Activate();
+            Excel.Range usedRange= wks.UsedRange;
+            int bottomRow = FindLastSpreadsheetRow(wks);
+            Dictionary<string, string> cols = new Dictionary<string, string>();
+            for (int i = 2; i <= bottomRow; i++)
+            {
+                cols.Add(wks.Cells[i, 1].Value.ToString(), wks.Cells[i, 2].Value.ToString());
+            }
+            return cols;
+        }
+
         /// <summary>
         /// Opens BOM, loads items into List BOM_Model, populates BOM related items into ShipmentLineModel
         /// </summary>
@@ -266,54 +293,67 @@ namespace DesignDB_Library.Operations
         /// <param name="BOMList"></param>
         /// <param name="msoRequests"></param>
         /// <param name="lastRow"></param>
-        private static void ProcessBOMs(Excel.Application xlApp, Excel.Workbook wkb, List<ShipmentLineModel> shipments, 
-            List<RequestModel> msoRequests, int lastRow, List<BOMLineModel> BOMLineList, BOMProgressEventArgs 
-                bomArgs, List<BOM_Model> BOMList= null)
+        private static void ProcessBOMs(Excel.Application xlApp, Excel.Workbook wkb, List<ShipmentLineModel> shipments,
+            List<RequestModel> msoRequests, int lastRow, List<BOMLineModel> BOMLineList, BOMProgressEventArgs
+                bomArgs, List<BOM_Model> BOMList = null)
         {
             //Scope wkbResults
             Excel.Workbook wkbResults = null;
-            
+
             bomArgs.currentBOMCount = 0;
             //Iterate through list of BOMs
             List<BOMSummaryModel> summaryList = new List<BOMSummaryModel>();
-            foreach (var BOM in BOMLineList) 
+            string bomFile = "";
+            foreach (var BOM in BOMLineList)
             {
                 bomArgs.currentBOMCount++;
                 bomArgs.IsVisible = true;
                 BOMProgressEvent?.Invoke("ShipmentOps", bomArgs);
                 //Open BOM file and get active worksheet
-                string bomFile = BOMFilePath + "\\" + BOM.PID + "\\" + BOM.DisplayText;
+                bomFile = BOMFilePath + "\\" + BOM.PID + "\\" + BOM.DisplayText;
                 sendMessage("Opening " + BOM.DisplayText);
                 //TODO try catch
-                wkb = xlApp.Workbooks.Open(bomFile);
-                Excel.Worksheet wks = xlApp.ActiveSheet;
-
-                //Load this BOM's lines into List
-                List<BOM_Model> BOMLines = LoadBOMtoList(wkb, lastRow, BOM.PID);                
-
-                //Load BOMLineModel data into BOM_Model
-                //Adds BOM file name to BOM_Model
-                foreach (var line in BOMLines)
+                if (File.Exists(bomFile))
                 {
-                    BOMLineModel lineModel = BOMLineList.Where(x => x.PID == line.Quote).FirstOrDefault();
-                    line.DisplayText = lineModel.DisplayText;
-                }
+                    wkb = xlApp.Workbooks.Open(bomFile);
 
-                //Create new workbook in xlApp
-                //Compare BOM to shipment
-                if (wkbResults == null)
-                {
-                    wkbResults = xlApp.Workbooks.Add(); 
+                    Excel.Worksheet wks = xlApp.ActiveSheet;
+
+                    //Load this BOM's lines into List
+                    List<BOM_Model> BOMLines = LoadBOMtoList(wkb, lastRow, BOM.PID);
+
+                    //Load BOMLineModel data into BOM_Model
+                    //Adds BOM file name to BOM_Model
+                    foreach (var line in BOMLines)
+                    {
+                        BOMLineModel lineModel = BOMLineList.Where(x => x.PID == line.Quote).FirstOrDefault();
+                        line.DisplayText = lineModel.DisplayText;
+                    }
+
+                    //Create new workbook in xlApp
+                    //Compare BOM to shipment
+                    if (wkbResults == null)
+                    {
+                        wkbResults = xlApp.Workbooks.Add();
+                    }
+                    BOMSummaryModel summary = CompareBOMtoShipmentsl(xlApp, wkbResults, wkb, lastRow, shipments, msoRequests,
+                        BOM, bomFile);
+                    summary.bomURL = bomFile;
+                    summaryList.Add(summary);
+                    ApplyFilters(wkbResults);
+
+                    sendMessage("");
                 }
-                BOMSummaryModel summary = CompareBOMtoShipmentsl(xlApp, wkbResults, wkb, lastRow, shipments, msoRequests, BOM);
-                summaryList.Add(summary);
-                ApplyFilters(wkbResults);
+                
+                else
+                {
+                    MessageBox.Show("BOM File not found");
+                }
             }
-            sendMessage("");
-            CreateSummarySheet(wkbResults, summaryList);
+                    CreateSummarySheet(wkbResults, summaryList);
         }
-
         /// <summary>
+
         /// Places BOM items into List<BOM_Model></BOM_Model>
         /// </summary>
         /// <param name="wks"></param>
@@ -363,7 +403,7 @@ namespace DesignDB_Library.Operations
         /// <param name="msoRequests"></param>
         /// <param name="BOM"></param>
         private static BOMSummaryModel CompareBOMtoShipmentsl(Excel.Application xlApp, Excel.Workbook wkbResults, Excel.Workbook wkb, int lastRow, 
-            List<ShipmentLineModel> shipments, List<RequestModel> msoRequests, BOMLineModel BOM)
+            List<ShipmentLineModel> shipments, List<RequestModel> msoRequests, BOMLineModel BOM, string bomURL)
         {
 
             //Initialize procedure wide variables
@@ -443,7 +483,7 @@ namespace DesignDB_Library.Operations
             //Create new worksheet to display this BOM's results
             //Make header at row 3 - pct match will be on row 1
             int row = 3;
-            (Excel.Workbook wkb, int row, string wksName) rtn = MakeMatchXL(wkbResults, xlApp, row, quoteID);
+            (Excel.Workbook wkb, int row, string wksName) rtn = MakeMatchXL(wkbResults, xlApp, row, quoteID, bomURL);
             wkbResults = rtn.wkb;
             //Populate worksheet with results
             row = rtn.row;
@@ -739,11 +779,13 @@ namespace DesignDB_Library.Operations
         /// <param name="xlApp"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        private static (Excel.Workbook wkb, int row, string wksName) MakeMatchXL(Excel.Workbook wkbResults, Excel.Application xlApp, int startRow, string name)
+        private static (Excel.Workbook wkb, int row, string wksName) MakeMatchXL(Excel.Workbook wkbResults, 
+            Excel.Application xlApp, int startRow, string name, string bomURL)
         {
             (Excel.Workbook wkb, int row, string wksName) rtn;
             Excel.Worksheet wks = wkbResults.ActiveSheet;
             wks.Hyperlinks.Add(wks.Cells[1, 1], "", "Summary!A1", "Summary Page","Go to Summary Page");
+            wks.Hyperlinks.Add(wks.Cells[1, 6], bomURL, "Sheet1!A1", "View BOM", "View BOM");
             int row = MakeHeader(wks, startRow, 15, "BOM Lines with Matches in Shipments");
             InsertText(wks, row, 1, "Shipment Row");
             InsertText(wks, row, 2, "Part Number");
@@ -921,7 +963,7 @@ namespace DesignDB_Library.Operations
         { 
             Excel.Worksheet wks = wkb.Sheets["Sheet1"];
             Excel.Worksheet wksStudy = wkb.Sheets[1];
-            MakeHeader(wks,  1, 7, "Summary");
+            MakeHeader(wks,  1, 8, "Summary");
             wks.Name = "Summary";
 
             FormatSummarySheet(wks, summaryList.Count);
@@ -940,18 +982,18 @@ namespace DesignDB_Library.Operations
         /// <param name="rows"></param>
         private static void FormatSummarySheet(Excel.Worksheet wks, int rows)
         {
-            wks.Cells[3, 1].Value = "Request ID";
-            wks.Cells[3, 2].Value = "Number of BOM Line Items";
-            wks.Cells[3, 3].Value = "Number of Matched Items";
-            wks.Cells[3, 4].Value = "Percent BOM Line Matches";
-            wks.Cells[3, 5].Value = "Number of City Matches";
-            wks.Cells[3, 6].Value = "Number of State Matches";
-            wks.Cells[3, 7].Value = "Number of Valid Date and State Matches";
+            wks.Cells[3, 2].Value = "Request ID";
+            wks.Cells[3, 3].Value = "Number of BOM Line Items";
+            wks.Cells[3, 4].Value = "Number of Matched Items";
+            wks.Cells[3, 5].Value = "Percent BOM Line Matches";
+            wks.Cells[3, 6].Value = "Number of City Matches";
+            wks.Cells[3, 7].Value = "Number of State Matches";
+            wks.Cells[3, 8].Value = "Number of Valid Date and State Matches";
             wks.Rows[3].WrapText = true;
-            Range range = wks.Range[wks.Cells[3, 1], wks.Cells[3 + rows, 7]];
+            Range range = wks.Range[wks.Cells[3, 1], wks.Cells[3 + rows, 8]];
             range.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
             range.ColumnWidth = 15;
-            wks.Columns[1].ColumnWidth = 65;
+            wks.Columns[2].ColumnWidth = 45;
             wks.Rows[3].EntireRow.Font.Bold = true;
         }
 
@@ -971,15 +1013,17 @@ namespace DesignDB_Library.Operations
 
         private static void WriteSummaryLine(Excel.Worksheet wks, int row, BOMSummaryModel summary)
         {
-            wks.Cells[row, 1] = summary.PID;
+            wks.Cells[row, 2] = summary.PID;
             string subAddress = "'" + summary.PID + "'!A1";
-            wks.Hyperlinks.Add(wks.Cells[row, 1], "", subAddress, "Details");
-            wks.Cells[row, 2] = summary.BOMLines; 
-            wks.Cells[row, 3] = summary.LineMatches;
-            wks.Cells[row, 4] = summary.pctLineMatches;
-            wks.Cells[row, 5] = summary.CityMatches;
-            wks.Cells[row, 6] = summary.StateMatches;
-            wks.Cells[row, 7] = summary.ValidSO_DateMatches;
+            wks.Hyperlinks.Add(wks.Cells[row, 2], "", subAddress, "Details");
+            wks.Hyperlinks.Add(wks.Cells[row, 1], summary.bomURL, "Sheet1!A1", summary.bomURL,
+                "View BOM");
+            wks.Cells[row, 3] = summary.BOMLines; 
+            wks.Cells[row, 4] = summary.LineMatches;
+            wks.Cells[row, 5] = summary.pctLineMatches;
+            wks.Cells[row, 6] = summary.CityMatches;
+            wks.Cells[row, 7] = summary.StateMatches;
+            wks.Cells[row, 8] = summary.ValidSO_DateMatches;
         }
     }
 }
