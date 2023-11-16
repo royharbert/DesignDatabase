@@ -55,7 +55,7 @@ namespace DesignDB_UI
             {
                 cboDesigner.Visible = true;
                 cboRequestor.Visible = true;
-                lbMSO.SelectedItem = "Cable One";
+                btnSelectAll_Click(sender, e);
             }
 
             //Remove this after BOM-Shipments is done------------------------------------------------------------------------------
