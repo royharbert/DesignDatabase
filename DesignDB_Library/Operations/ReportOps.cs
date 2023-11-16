@@ -1253,7 +1253,7 @@ namespace DesignDB_Library.Operations
 
 
             int[] widths = { 140, 200, 140, 140, 140 };
-            SetDGV_ColumnWidths(dgv, widths);
+            //SetDGV_ColumnWidths(dgv, widths);
 
             dgv.Columns[3].Visible = true;
             dgv.Columns[4].Visible = false;

@@ -734,7 +734,7 @@ namespace DesignDB_UI
 
         private void logSuccessfulSave(int saveSuccessful)
         {
-            if (saveSuccessful == 1)
+            if (saveSuccessful > -1)
             {
                 makeLogEntry(logFieldList);
             }
