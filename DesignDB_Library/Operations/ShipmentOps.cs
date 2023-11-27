@@ -193,7 +193,7 @@ namespace DesignDB_Library.Operations
                     psArgs.CurrentCount = i;
                     psArgs.IsVisible = true;
                     UpdateProgressStrip?.Invoke("ShipmentOps", psArgs);
-                    updateThreshold = updateThreshold + updateIncrement;
+                    updateThreshold += updateIncrement;
                 }
                 ShipmentLineModel shipment = new ShipmentLineModel();
                 shipment.Desc = wks.Cells[i, DescCol].Value.ToString();
@@ -239,7 +239,7 @@ namespace DesignDB_Library.Operations
                 //use .Contains for instances where mso may have different versions of name (i.e. Cable One & Cable One Inc.)
                 foreach (var shipment in shipmentList)
                 {
-                    if (shipment.SOCust.Contains(mso.MSO));
+                    if (shipment.SOCust.Contains(mso.MSO))
                     {
                         msoShipmentList.Add(shipment);
                     }
