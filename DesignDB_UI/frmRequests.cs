@@ -976,7 +976,8 @@ namespace DesignDB_UI
 
             string fileName = dgvAttachments.CurrentRow.Cells[2].Value.ToString();
             fileName = GlobalConfig.AttachmentPath + "\\" + model.PID + "\\" + fileName;
-            ProcessStartInfo sinfo = new ProcessStartInfo(fileName);
+            ProcessStartInfo sinfo = new ProcessStartInfo(fileName)
+            {UseShellExecute = true};
             try
             {
                 Process.Start(sinfo);

@@ -48,7 +48,7 @@ namespace DesignDB_Library.Operations
         //Class wide scope variables
         public static event EventHandler<ProgressStripEventArgs> UpdateProgressStrip;
         public static event EventHandler<BOMProgressEventArgs> BOMProgressEvent;
-        const string BOMFilePath = "\\\\usca5pdbatdgs01\\Databases\\AttachmentsDesign";
+        const string BOMFilePath = @"\\rdcpstntapfil01\ANS_Design\AttachmentsDesign";
         static string quoteCity = "";
         static string quoteState = "";
 
