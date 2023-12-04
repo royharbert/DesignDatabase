@@ -162,8 +162,8 @@ namespace DesignDB_UI
         {
             if (GlobalConfig.DatabaseMode == DatabaseType.Live)
             {
-                using (var manager = new UpdateManager(@"\\USCA5PDBATDGS01\Databases\ProgramUpdates"))
-                //using (var manager = new UpdateManager(@"\\USCA5PDBATDGS01\Databases\ProgramUpdates"))
+                using (var manager = new UpdateManager(@"\\rdcpstntapfil01\ANS_Design\ProgramUpdates"))
+                //using (var manager = new UpdateManager(@"\\rdcpstntapfil01\ANS_Design\Databases\ProgramUpdates"))
                 {
                     await manager.UpdateApp();
                 }
@@ -171,7 +171,7 @@ namespace DesignDB_UI
             else
             {
                 //using (var manager = new UpdateManager(@"C:\Users\rharbert\OneDrive - CommScope\SQLDB\Squirrel"))
-                using (var manager = new UpdateManager(@"\\USCA5PDBATDGS01\Databases\ProgramUpdates"))
+                using (var manager = new UpdateManager(@"\\rdcpstntapfil01\ANS_Design\ProgramUpdates"))
                 {
                     await manager.UpdateApp();
                 }

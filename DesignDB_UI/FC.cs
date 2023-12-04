@@ -41,7 +41,7 @@ namespace DesignDB_UI
             if (isLive)
             {
                 GlobalConfig.SetDatabaseMode(DatabaseType.Live);
-                GlobalConfig.AttachmentPath = "\\" + "\\USCA5PDBATDGS01\\Databases\\AttachmentsDesign";
+                GlobalConfig.AttachmentPath = @"\\rdcpstntapfil01\ANS_Design\\AttachmentsDesign";
                 Properties.Settings.Default.DatabaseLive = true;
                 Properties.Settings.Default.Save();
                 callingForm.BackColor = Color.Silver;                
@@ -49,7 +49,7 @@ namespace DesignDB_UI
             else
             {
                 GlobalConfig.SetDatabaseMode(DatabaseType.Sandbox);
-                GlobalConfig.AttachmentPath = "\\" + "\\USCA5PDBATDGS01\\Databases\\Sandbox\\AttachmentsDesign";
+                GlobalConfig.AttachmentPath = @"\\rdcpstntapfil01\ANS_Design\\Sandbox\\AttachmentsDesign";
                 Properties.Settings.Default.DatabaseLive = false;
                 Properties.Settings.Default.Save();
                 callingForm.BackColor = Color.IndianRed;                
