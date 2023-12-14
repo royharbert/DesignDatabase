@@ -40,6 +40,7 @@ namespace DesignDB_UI
         EditMSO,
         Loading_lbMSOFormCheckBox,
         BOM_Shipments,
+        ShowDeletedRecords,
         None
     }
     

@@ -687,7 +687,7 @@ namespace DesignDB_UI
             this.btnDeletedRecords.Size = new System.Drawing.Size(266, 44);
             this.btnDeletedRecords.TabIndex = 43;
             this.btnDeletedRecords.Tag = "3";
-            this.btnDeletedRecords.Text = "Deleted Records";
+            this.btnDeletedRecords.Text = "Show Deleted Records";
             this.btnDeletedRecords.UseVisualStyleBackColor = false;
             this.btnDeletedRecords.Click += new System.EventHandler(this.btnDeletedRecords_Click);
             // 

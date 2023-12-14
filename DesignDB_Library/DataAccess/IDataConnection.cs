@@ -28,7 +28,7 @@ namespace DesignDB_Library.DataAccess
         List<MSO_Model> MSO_GetByTier(int tier);
         bool MSO_Update(MSO_Model model);
         List<RequestModel> DateRangeSearch_Unfiltered(DateTime StartDate, DateTime EndDate);
-        List<RequestModel> GetRequestsDeleted();
+        //List<RequestModel> GetRequestsDeleted();
         List<RequestModelReport> ReportDateRangeSearch_Unfiltered_Pending_HasRevision(DateTime StartDate, DateTime EndDate,
             string SearchTerm, string mso, string designer = null);
         List<T> GenericConditionalGetAll<T>(string tableName, string conditionColumn, string condition, string orderByField = "");

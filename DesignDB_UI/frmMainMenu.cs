@@ -648,9 +648,12 @@ namespace DesignDB_UI
 
         private void btnDeletedRecords_Click(object sender, EventArgs e)
         {
-            List<RequestModel> deletedRequests = GlobalConfig.Connection.GetRequestsDeleted();
+            Mode curMode = GV.MODE;
+            GV.MODE = Mode.ShowDeletedRecords;
+            List<RequestModel> deletedRequests = GlobalConfig.Connection.GenericGetAll<RequestModel>("tblDeletedRecords", "ID");
             frmMultiResult resultsForm = new frmMultiResult(deletedRequests);
             resultsForm.Show();
+            //GV.MODE = curMode;
         }
 
 
