@@ -46,7 +46,11 @@ namespace DesignDB_Library
                 DatabaseMode = DatabaseType.Sandbox;
             }
         }
-
+        /// <summary>
+        /// Retrieves connection string
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public static String ConnString(string name)
         {
             return ConfigurationManager.ConnectionStrings[name].ConnectionString;
