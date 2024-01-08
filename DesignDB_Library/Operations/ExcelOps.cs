@@ -78,17 +78,24 @@ namespace DesignDB_Library.Operations
         }
 
         public static event EventHandler<NewMessageEventArgs> NewMessageEvent;
-        
-        private static int PlaceMonthlyMSO_SummaryInExcelNoPct(Excel.Worksheet wks, DateTime startDate, DateTime endDate, 
-            List<Report_SalesProjectValuesModel> msoSummary, int[,] sectionArray, int row, int section)
+
+        private static int MakeMSOSummaryHeader(Excel.Worksheet wks, int row, DateTime startDate, DateTime endDate)
         {
-            row = row + 2;
-            sectionArray[section, 0] = row - 1;
+            row = 1;
+
             string weeklyHeader = "Current Week " + " " + startDate.ToShortDateString() + " " + endDate.ToShortDateString();
             string[] columnHeaders = new string[] {"MSO","Total $","Average $","Total Count","Jan","Feb","Mar","Apr","May",
                 "Jun","Jul","Aug","Sep","Oct","Nov","Dec",weeklyHeader };
             row = makeTitle(wks, row, 17, "Requests by MSO/Month", columnHeaders);
-
+            //row = row + 2;
+            return row;
+        }
+        
+        private static int PlaceMonthlyMSO_SummaryInExcelNoPct(Excel.Worksheet wks, DateTime startDate, DateTime endDate, 
+            List<Report_SalesProjectValuesModel> msoSummary, int[,] sectionArray, int row, int section)
+        {
+            row = MakeMSOSummaryHeader(wks, row, startDate, endDate);
+            sectionArray[section, 0] = row;
             foreach (var model in msoSummary)
             {
                 wks.Cells[row, 1] = model.SalesPerson;
@@ -112,7 +119,7 @@ namespace DesignDB_Library.Operations
             }
             sectionArray[section, 1] = row - 1;
 
-            setDollarDecimalPlaces(wks, 0, sectionArray[section, 0] + 3, sectionArray[section, 1], 2, 3);
+            setDollarDecimalPlaces(wks, 0, sectionArray[section, 0], sectionArray[section, 1], 2, 3);
             Range summaryRange = wks.Range[wks.Cells[row - 1, 1], wks.Cells[row - 1, 17]];
             summaryRange.Font.Bold = true;
 
@@ -254,7 +261,30 @@ namespace DesignDB_Library.Operations
             return row;
         }
 
+        private static Excel.Application CreateExcelApplicationAndReturnWorksheet(out Excel.Worksheet wks)
+        {
+            Excel.Application xlApp = makeExcelApp();
+            xlApp.Workbooks.Add();
+            wks = xlApp.ActiveSheet;
+            xlApp.ActiveWindow.Zoom = 80;
+            xlApp.Visible = true;
 
+            wks.Columns[1].ColumnWidth = 28;
+            wks.get_Range("B:C").ColumnWidth = 25;
+            wks.get_Range("D:Z").ColumnWidth = 15;
+
+            return xlApp;
+        }
+
+        public static void CreateNoRecordsFoundRollupReport(string mso, DateTime start, DateTime end)
+        {
+            Excel.Application xlApp;
+            Excel.Worksheet wks;
+            xlApp = CreateExcelApplicationAndReturnWorksheet(out wks);
+            MakeMSOSummaryHeader(wks, -1, start, end);
+            wks.Cells[5,1].Value = $"No requests made by {mso} in date range {start.ToShortDateString()} and {end.ToShortDateString()}.";
+            releaseObject(xlApp);
+        }
 
 
         //***********************************************************************************************************************************************************************
@@ -265,18 +295,12 @@ namespace DesignDB_Library.Operations
         {
             NewMessageEventArgs msgArgs = new NewMessageEventArgs();
             //ReportOps.sendMessage(msgArgs, "Creating Excel Instance");
-            Excel.Application xlApp = makeExcelApp();
-            xlApp.Workbooks.Add();
-            Excel.Worksheet wks = xlApp.ActiveSheet;
-            xlApp.ActiveWindow.Zoom = 80;
-            xlApp.Visible = true;
-
-            wks.Columns[1].ColumnWidth = 28;
-            wks.get_Range("B:C").ColumnWidth = 25;
-            wks.get_Range("D:Z").ColumnWidth = 15;
-
+            Excel.Worksheet wks;
+            Excel.Application xlApp;
+            xlApp = CreateExcelApplicationAndReturnWorksheet(out wks);
             int[,] sectionArray = new int[8, 2];
-            int row = -1;
+            //int row = -1;
+            int row = 1;
             int section;
 
             ReportOps.sendMessage("Placing Data in Spreadsheet");

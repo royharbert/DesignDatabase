@@ -71,45 +71,59 @@ namespace DesignDB_Library.Operations
 
             //Section 1
             sendMessage("Creating Monthly MSO Summary");
-            List<Report_SalesProjectValuesModel> monthlyMSO_Summary = MonthlyMSO_Summary(msoModels, allNonCanceledlRequests, startDate, endDate);
+            List<Report_SalesProjectValuesModel> monthlyMSO_Summary = MonthlyMSO_Summary(msoModels, allNonCanceledlRequests, startDate, 
+                endDate);
+            if (monthlyMSO_Summary.Count != 0)
+            {
+                //Section 2
+                sendMessage("Creating MSO Requests by Category Summary");
+                List<ReportCategoryMSOModel> mso_RequestsByCategory = MSO_RequestsByCategory(allNonCanceledlRequests, msoModels);
 
-            //Section 2
-            sendMessage("Creating MSO Requests by Category Summary");
-            List<ReportCategoryMSOModel> mso_RequestsByCategory = MSO_RequestsByCategory(allNonCanceledlRequests, msoModels);
+                //Section 4
+                sendMessage("Award Status Summary");
+                List<AwardStatusModel> awardStatusSummary = AwardStatusSummary(allNonCanceledlRequests, msoModels);
 
-            //Section 4
-            sendMessage("Award Status Summary");
-            List<AwardStatusModel> awardStatusSummary = AwardStatusSummary(allNonCanceledlRequests, msoModels);
+                //Section 7
+                sendMessage("Creating Requests by Salesperson Summary");
+                List<Report_SalesProjectValuesModel> salesProjects = DesignRequestsBySalespersonPerMonth(allNonCanceledlRequests,
+                    allSalesPersons, msoModels, startDate, endDate);
 
-            //Section 7
-            sendMessage("Creating Requests by Salesperson Summary");
-            List<Report_SalesProjectValuesModel> salesProjects = DesignRequestsBySalespersonPerMonth(allNonCanceledlRequests, 
-                allSalesPersons, msoModels, startDate, endDate);
+                //Section 5
+                sendMessage("Creating Open Requests by Salesperson Summary");
+                List<OpenRequestsBySalesModel> openRequestsBySales = new List<OpenRequestsBySalesModel>();
+                openRequestsBySales = OpenRequestsBySales(includedSalesPersons, msoModels);
 
-            //Section 5
-            sendMessage("Creating Open Requests by Salesperson Summary");
-            List<OpenRequestsBySalesModel> openRequestsBySales = new List<OpenRequestsBySalesModel>();
-            openRequestsBySales = OpenRequestsBySales(includedSalesPersons, msoModels);
+                //Section 6
+                //*
+                sendMessage("Creating Priority by Salaeperson Summary");
+                List<ReportSalesPriorityModel> priorityModelSummary = PriorityModelSummaryNoMS0(allNonCanceledlRequests, includedSalesPersons, msoModels);
+                /*/
+                List<ReportSalesPriorityModel> priorityModelSummary = PriorityModelSummary(allNonCanceledlRequests, includedSalesPersons, msoModels);
+                //*/
 
-            //Section 6
-            //*
-            sendMessage("Creating Priority by Salaeperson Summary");
-            List<ReportSalesPriorityModel> priorityModelSummary = PriorityModelSummaryNoMS0(allNonCanceledlRequests, includedSalesPersons, msoModels);
-            /*/
-            List<ReportSalesPriorityModel> priorityModelSummary = PriorityModelSummary(allNonCanceledlRequests, includedSalesPersons, msoModels);
-            //*/
+                //Section 3
+                sendMessage("Creating Completion Time Summary");
+                List<RollupCompletionTimeModel> CompletionTime = RollupCompletionTimeSummary(msoModels, allRequests);
 
-            //Section 3
-            sendMessage("Creating Completion Time Summary");
-            List<RollupCompletionTimeModel> CompletionTime = RollupCompletionTimeSummary(msoModels, allRequests);
+                sendMessage("Placing Data in Excel");
+                ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, mso_RequestsByCategory, salesProjects,
+                    priorityModelSummary, allNonCanceledlRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value),
+                    monthlyMSO_Summary, msoModels, awardStatusSummary, CompletionTime, CustomFormat);
 
-            sendMessage("Placing Data in Excel");
-            ExcelOps.PlaceRollupInExcel(startDate, endDate, openRequestsBySales, mso_RequestsByCategory, salesProjects, 
-                priorityModelSummary, allNonCanceledlRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value), 
-                monthlyMSO_Summary, msoModels, awardStatusSummary, CompletionTime, CustomFormat);
-        
-            sendMessage("");
-
+                sendMessage("");
+            }
+            else 
+            {
+                //MessageBox.Show("No requests found");
+                if (msoModels.Count > 0)
+                {
+                    ExcelOps.CreateNoRecordsFoundRollupReport(msoModels[0].MSO, startDate, endDate); 
+                }
+                else
+                {
+                    MessageBox.Show("No MSO selected");
+                }
+            }
         }
 
         public static void sendMessage(string msg)
@@ -231,8 +245,10 @@ namespace DesignDB_Library.Operations
                         }
                         individualSalesValue.CurrentYear_Count++;
                         individualSalesValue.CurrentYTD_Value = personRequestList.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
-                        individualSalesValue.AverageDollars = individualSalesValue.CurrentYTD_Value / individualSalesValue.CurrentYear_Count;
-                        individualSalesValue.PctTotalValue = individualSalesValue.CurrentYTD_Value / accumulatedRequestData.CurrentYTD_Value;
+                        //individualSalesValue.AverageDollars = individualSalesValue.CurrentYTD_Value / individualSalesValue.CurrentYear_Count;
+                        individualSalesValue.AverageDollars = AvoidDivideByZero(individualSalesValue.CurrentYTD_Value, individualSalesValue.CurrentYear_Count);
+                        //individualSalesValue.PctTotalValue = individualSalesValue.CurrentYTD_Value / accumulatedRequestData.CurrentYTD_Value;
+                        individualSalesValue.PctTotalValue = AvoidDivideByZero(individualSalesValue.CurrentYTD_Value, accumulatedRequestData.CurrentYTD_Value);
                     }
                 }
                 if (individualSalesValue.CurrentYear_Count > 0)
@@ -256,9 +272,16 @@ namespace DesignDB_Library.Operations
             accumulatedValues.SalesPerson = "Total";
             accumulatedValues.CurrentYTD_Value = requestList.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
             accumulatedValues.CurrentYear_Count = requestList.Count;
-            accumulatedValues.AverageDollars = accumulatedValues.CurrentYTD_Value / requestList.Where(x => x.AwardStatus != "Has Revision").ToList().Count;
-            accumulatedValues.PctTotalValue = 1;
             List<Report_SalesProjectValuesModel> monthlyMSO_Summary = new List<Report_SalesProjectValuesModel>();
+            if(requestList.Count == 0)
+            {
+                return monthlyMSO_Summary;
+            }
+            accumulatedValues.AverageDollars = AvoidDivideByZero(accumulatedValues.CurrentYTD_Value, 
+                requestList.Where(x => x.AwardStatus != "Has Revision").ToList().Count);
+            //accumulatedValues.AverageDollars = accumulatedValues.AverageDollars = accumulatedValues.CurrentYTD_Value / requestList.Where(x => x.AwardStatus != "Has Revision").ToList().Count; 
+            
+            accumulatedValues.PctTotalValue = 1;
             
             foreach (var mso in msoList)
             {
@@ -278,8 +301,14 @@ namespace DesignDB_Library.Operations
                         }
                         model.CurrentYear_Count = msoRequests.Count;
                         model.CurrentYTD_Value = msoRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
-                        model.AverageDollars = model.CurrentYTD_Value / model.CurrentYear_Count;
-                        model.PctTotalValue = model.CurrentYTD_Value / accumulatedValues.CurrentYTD_Value;
+                        if (model.CurrentYear_Count != 0)
+                        {
+                            model.AverageDollars = model.CurrentYTD_Value / model.CurrentYear_Count; 
+                        }
+                        if (model.CurrentYTD_Value != 0)
+                        {
+                            model.PctTotalValue = model.CurrentYTD_Value / accumulatedValues.CurrentYTD_Value; 
+                        }
 
                         monthlyRequests = msoRequests.Where(x => x.DateAssigned.Month == 1).ToList();
                         int month = request.DateAssigned.Month;
@@ -356,6 +385,21 @@ namespace DesignDB_Library.Operations
             return monthlyMSO_Summary;
         }
 
+        private static decimal AvoidDivideByZero(decimal dividend, decimal divisor, bool returnAsPercent = false)
+        {
+            decimal result = 0;
+            if(divisor != 0)
+            {
+                result = dividend / divisor;
+            }
+            if(returnAsPercent)
+            {
+                return result * 100;
+            }
+            return result;
+        }
+
+
         private static List<ReportCategoryMSOModel> MSO_RequestsByCategory(List<RollupRequestModel> requestList, List<MSO_Model> msoList)
         {
             //Create list for company totals
@@ -368,7 +412,9 @@ namespace DesignDB_Library.Operations
             List<RollupRequestModel> noRevisionRequests = requestList.Where(x => x.AwardStatus != "Has Revision").ToList();
             accumulatedCategorySummary.TotalDollars = noRevisionRequests.Sum(x => x.BOM_Value);
             accumulatedCategorySummary.TotalRequests = requestList.Count;
-            accumulatedCategorySummary.AverageDollarsPerRequest = accumulatedCategorySummary.TotalDollars / noRevisionRequests.Count;
+
+            accumulatedCategorySummary.AverageDollarsPerRequest = AvoidDivideByZero(accumulatedCategorySummary.TotalDollars, noRevisionRequests.Count);
+            //accumulatedCategorySummary.AverageDollarsPerRequest = accumulatedCategorySummary.TotalDollars / noRevisionRequests.Count;
             accumulatedCategorySummary.PctOfTotal = 1;
             foreach (var mso in msoList)
             {
@@ -381,7 +427,8 @@ namespace DesignDB_Library.Operations
                     individualLine.TotalRequests = msoRequests.Count;
                     individualLine.TotalDollars = msoRequests.Where(x => x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
                     individualLine.AverageDollarsPerRequest = individualLine.TotalDollars/individualLine.TotalRequests;
-                    individualLine.PctOfTotal = individualLine.TotalDollars / accumulatedCategorySummary.TotalDollars;
+                    //individualLine.PctOfTotal = individualLine.TotalDollars / accumulatedCategorySummary.TotalDollars;
+                    individualLine.PctOfTotal = AvoidDivideByZero(individualLine.TotalDollars, accumulatedCategorySummary.TotalDollars);
                     foreach (var request in msoRequests)
                     {
                         switch (request.Category)
