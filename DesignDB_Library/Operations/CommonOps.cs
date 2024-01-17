@@ -73,6 +73,21 @@ namespace DesignDB_Library.Operations
             return newModel;
         }
 
+        public static bool HolidayUpdateIsNeeded()
+        {
+            int currentYear = DateTime.Now.Year;
+            List<CompanyHolidaysModel> holidays = GlobalConfig.Connection.GenericGetAll<CompanyHolidaysModel>
+                ("tblHolidaysList", "HolidayDate");
+            CompanyHolidaysModel holidayCheck = holidays.Where(
+                x => x.Holiday == "Memorial Day").FirstOrDefault();
+            int holidayYear = holidayCheck.HolidayDate.Year;
+            if(holidayYear != currentYear) 
+            {
+                return true;
+            }
+            return false;
+        }
+
         public static DateTime CalculateDateDue(DateTime StartDate, string priority)
         {
             //get list of holidays

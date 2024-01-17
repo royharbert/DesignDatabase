@@ -32,7 +32,8 @@ namespace DesignDB_UI
 
         private List<CompanyHolidaysModel> getHolidays()
         {
-            HolidayList = GlobalConfig.Connection.GetAllHolidays();
+            HolidayList = GlobalConfig.Connection.GenericGetAll<CompanyHolidaysModel>
+                ("tblHolidaysList", "HolidayDate");
             return HolidayList;
         }    
 
