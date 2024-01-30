@@ -77,7 +77,7 @@ namespace DesignDB_UI
             // 
             this.dtpStartDate.Location = new System.Drawing.Point(401, 46);
             this.dtpStartDate.Name = "dtpStartDate";
-            this.dtpStartDate.Size = new System.Drawing.Size(379, 34);
+            this.dtpStartDate.Size = new System.Drawing.Size(379, 29);
             this.dtpStartDate.TabIndex = 0;
             // 
             // dtpStart
@@ -85,7 +85,7 @@ namespace DesignDB_UI
             this.dtpStart.AutoSize = true;
             this.dtpStart.Location = new System.Drawing.Point(277, 46);
             this.dtpStart.Name = "dtpStart";
-            this.dtpStart.Size = new System.Drawing.Size(118, 29);
+            this.dtpStart.Size = new System.Drawing.Size(89, 24);
             this.dtpStart.TabIndex = 1;
             this.dtpStart.Text = "Start Date";
             // 
@@ -94,7 +94,7 @@ namespace DesignDB_UI
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(277, 91);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 29);
+            this.label1.Size = new System.Drawing.Size(88, 24);
             this.label1.TabIndex = 3;
             this.label1.Text = "End Date";
             // 
@@ -102,12 +102,12 @@ namespace DesignDB_UI
             // 
             this.dtpEndDate.Location = new System.Drawing.Point(401, 91);
             this.dtpEndDate.Name = "dtpEndDate";
-            this.dtpEndDate.Size = new System.Drawing.Size(379, 34);
+            this.dtpEndDate.Size = new System.Drawing.Size(379, 29);
             this.dtpEndDate.TabIndex = 2;
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(351, 818);
+            this.btnSearch.Location = new System.Drawing.Point(681, 579);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(135, 45);
             this.btnSearch.TabIndex = 6;
@@ -118,7 +118,7 @@ namespace DesignDB_UI
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(629, 818);
+            this.btnCancel.Location = new System.Drawing.Point(684, 700);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(135, 45);
             this.btnCancel.TabIndex = 7;
@@ -143,7 +143,7 @@ namespace DesignDB_UI
             this.rdoDateCompleted.AutoSize = true;
             this.rdoDateCompleted.Location = new System.Drawing.Point(16, 98);
             this.rdoDateCompleted.Name = "rdoDateCompleted";
-            this.rdoDateCompleted.Size = new System.Drawing.Size(209, 33);
+            this.rdoDateCompleted.Size = new System.Drawing.Size(163, 28);
             this.rdoDateCompleted.TabIndex = 2;
             this.rdoDateCompleted.Text = "Date Completed";
             this.rdoDateCompleted.UseVisualStyleBackColor = true;
@@ -154,7 +154,7 @@ namespace DesignDB_UI
             this.rdoDateDue.AutoSize = true;
             this.rdoDateDue.Location = new System.Drawing.Point(16, 64);
             this.rdoDateDue.Name = "rdoDateDue";
-            this.rdoDateDue.Size = new System.Drawing.Size(134, 33);
+            this.rdoDateDue.Size = new System.Drawing.Size(106, 28);
             this.rdoDateDue.TabIndex = 1;
             this.rdoDateDue.Text = "Date Due";
             this.rdoDateDue.UseVisualStyleBackColor = true;
@@ -166,7 +166,7 @@ namespace DesignDB_UI
             this.rdoDate.Checked = true;
             this.rdoDate.Location = new System.Drawing.Point(16, 30);
             this.rdoDate.Name = "rdoDate";
-            this.rdoDate.Size = new System.Drawing.Size(190, 33);
+            this.rdoDate.Size = new System.Drawing.Size(150, 28);
             this.rdoDate.TabIndex = 0;
             this.rdoDate.TabStop = true;
             this.rdoDate.Text = "Date Assigned";
@@ -175,7 +175,7 @@ namespace DesignDB_UI
             // 
             // btnForecast
             // 
-            this.btnForecast.Location = new System.Drawing.Point(492, 818);
+            this.btnForecast.Location = new System.Drawing.Point(684, 639);
             this.btnForecast.Name = "btnForecast";
             this.btnForecast.Size = new System.Drawing.Size(131, 45);
             this.btnForecast.TabIndex = 9;
@@ -189,7 +189,7 @@ namespace DesignDB_UI
             this.lblDesigner.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDesigner.Location = new System.Drawing.Point(331, 217);
             this.lblDesigner.Name = "lblDesigner";
-            this.lblDesigner.Size = new System.Drawing.Size(90, 25);
+            this.lblDesigner.Size = new System.Drawing.Size(73, 20);
             this.lblDesigner.TabIndex = 11;
             this.lblDesigner.Text = "Designer";
             // 
@@ -201,7 +201,7 @@ namespace DesignDB_UI
             this.cboDesigner.FormattingEnabled = true;
             this.cboDesigner.Location = new System.Drawing.Point(431, 209);
             this.cboDesigner.Name = "cboDesigner";
-            this.cboDesigner.Size = new System.Drawing.Size(333, 33);
+            this.cboDesigner.Size = new System.Drawing.Size(333, 28);
             this.cboDesigner.TabIndex = 10;
             // 
             // lblRequestor
@@ -210,7 +210,7 @@ namespace DesignDB_UI
             this.lblRequestor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRequestor.Location = new System.Drawing.Point(320, 246);
             this.lblRequestor.Name = "lblRequestor";
-            this.lblRequestor.Size = new System.Drawing.Size(101, 25);
+            this.lblRequestor.Size = new System.Drawing.Size(84, 20);
             this.lblRequestor.TabIndex = 13;
             this.lblRequestor.Text = "Requestor";
             // 
@@ -222,7 +222,7 @@ namespace DesignDB_UI
             this.cboRequestor.FormattingEnabled = true;
             this.cboRequestor.Location = new System.Drawing.Point(431, 243);
             this.cboRequestor.Name = "cboRequestor";
-            this.cboRequestor.Size = new System.Drawing.Size(333, 33);
+            this.cboRequestor.Size = new System.Drawing.Size(333, 28);
             this.cboRequestor.TabIndex = 12;
             // 
             // btnClearTiers
@@ -242,7 +242,7 @@ namespace DesignDB_UI
             this.ckUnclassified.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ckUnclassified.Location = new System.Drawing.Point(351, 383);
             this.ckUnclassified.Name = "ckUnclassified";
-            this.ckUnclassified.Size = new System.Drawing.Size(139, 29);
+            this.ckUnclassified.Size = new System.Drawing.Size(114, 24);
             this.ckUnclassified.TabIndex = 65;
             this.ckUnclassified.Tag = "0";
             this.ckUnclassified.Text = "Unclassified";
@@ -255,7 +255,7 @@ namespace DesignDB_UI
             this.ckTier2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ckTier2.Location = new System.Drawing.Point(351, 351);
             this.ckTier2.Name = "ckTier2";
-            this.ckTier2.Size = new System.Drawing.Size(111, 29);
+            this.ckTier2.Size = new System.Drawing.Size(88, 24);
             this.ckTier2.TabIndex = 64;
             this.ckTier2.Tag = "2";
             this.ckTier2.Text = "Tiers 2/3";
@@ -268,7 +268,7 @@ namespace DesignDB_UI
             this.ckTier1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ckTier1.Location = new System.Drawing.Point(351, 321);
             this.ckTier1.Name = "ckTier1";
-            this.ckTier1.Size = new System.Drawing.Size(84, 29);
+            this.ckTier1.Size = new System.Drawing.Size(67, 24);
             this.ckTier1.TabIndex = 63;
             this.ckTier1.Tag = "1";
             this.ckTier1.Text = "Tier 1";
@@ -281,13 +281,13 @@ namespace DesignDB_UI
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(340, 293);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(146, 25);
+            this.label4.Size = new System.Drawing.Size(119, 20);
             this.label4.TabIndex = 62;
             this.label4.Text = "Tier Selection";
             // 
             // btnDeselect
             // 
-            this.btnDeselect.Location = new System.Drawing.Point(170, 818);
+            this.btnDeselect.Location = new System.Drawing.Point(355, 570);
             this.btnDeselect.Name = "btnDeselect";
             this.btnDeselect.Size = new System.Drawing.Size(110, 45);
             this.btnDeselect.TabIndex = 69;
@@ -297,7 +297,7 @@ namespace DesignDB_UI
             // 
             // btnSelectAll
             // 
-            this.btnSelectAll.Location = new System.Drawing.Point(32, 818);
+            this.btnSelectAll.Location = new System.Drawing.Point(355, 510);
             this.btnSelectAll.Name = "btnSelectAll";
             this.btnSelectAll.Size = new System.Drawing.Size(110, 45);
             this.btnSelectAll.TabIndex = 68;
@@ -308,11 +308,11 @@ namespace DesignDB_UI
             // lbMSO
             // 
             this.lbMSO.FormattingEnabled = true;
-            this.lbMSO.ItemHeight = 29;
+            this.lbMSO.ItemHeight = 24;
             this.lbMSO.Location = new System.Drawing.Point(12, 246);
             this.lbMSO.Name = "lbMSO";
             this.lbMSO.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.lbMSO.Size = new System.Drawing.Size(276, 555);
+            this.lbMSO.Size = new System.Drawing.Size(276, 532);
             this.lbMSO.TabIndex = 67;
             // 
             // label3
@@ -321,7 +321,7 @@ namespace DesignDB_UI
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(11, 179);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(185, 25);
+            this.label3.Size = new System.Drawing.Size(149, 20);
             this.label3.TabIndex = 70;
             this.label3.Text = "MSO Selection(s)";
             // 
@@ -331,7 +331,7 @@ namespace DesignDB_UI
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(322, 179);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(217, 25);
+            this.label5.Size = new System.Drawing.Size(179, 20);
             this.label5.TabIndex = 71;
             this.label5.Text = "Other Optional Fields";
             // 
@@ -352,7 +352,7 @@ namespace DesignDB_UI
             this.ckOther.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ckOther.Location = new System.Drawing.Point(549, 681);
             this.ckOther.Name = "ckOther";
-            this.ckOther.Size = new System.Drawing.Size(83, 29);
+            this.ckOther.Size = new System.Drawing.Size(68, 24);
             this.ckOther.TabIndex = 85;
             this.ckOther.Tag = "Other";
             this.ckOther.Text = "Other";
@@ -364,7 +364,7 @@ namespace DesignDB_UI
             this.ckUSWest.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ckUSWest.Location = new System.Drawing.Point(548, 651);
             this.ckUSWest.Name = "ckUSWest";
-            this.ckUSWest.Size = new System.Drawing.Size(113, 29);
+            this.ckUSWest.Size = new System.Drawing.Size(92, 24);
             this.ckUSWest.TabIndex = 84;
             this.ckUSWest.Tag = "US West";
             this.ckUSWest.Text = "US West";
@@ -376,7 +376,7 @@ namespace DesignDB_UI
             this.ckUSEast.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ckUSEast.Location = new System.Drawing.Point(548, 621);
             this.ckUSEast.Name = "ckUSEast";
-            this.ckUSEast.Size = new System.Drawing.Size(106, 29);
+            this.ckUSEast.Size = new System.Drawing.Size(88, 24);
             this.ckUSEast.TabIndex = 83;
             this.ckUSEast.Tag = "US East";
             this.ckUSEast.Text = "US East";
@@ -388,7 +388,7 @@ namespace DesignDB_UI
             this.ckRussia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ckRussia.Location = new System.Drawing.Point(548, 591);
             this.ckRussia.Name = "ckRussia";
-            this.ckRussia.Size = new System.Drawing.Size(93, 29);
+            this.ckRussia.Size = new System.Drawing.Size(77, 24);
             this.ckRussia.TabIndex = 82;
             this.ckRussia.Tag = "Russia";
             this.ckRussia.Text = "Russia";
@@ -400,7 +400,7 @@ namespace DesignDB_UI
             this.ckMiddleEast.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ckMiddleEast.Location = new System.Drawing.Point(548, 561);
             this.ckMiddleEast.Name = "ckMiddleEast";
-            this.ckMiddleEast.Size = new System.Drawing.Size(136, 29);
+            this.ckMiddleEast.Size = new System.Drawing.Size(111, 24);
             this.ckMiddleEast.TabIndex = 81;
             this.ckMiddleEast.Tag = "Middle East";
             this.ckMiddleEast.Text = "Middle East";
@@ -412,7 +412,7 @@ namespace DesignDB_UI
             this.ckLatinAmerica.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ckLatinAmerica.Location = new System.Drawing.Point(548, 531);
             this.ckLatinAmerica.Name = "ckLatinAmerica";
-            this.ckLatinAmerica.Size = new System.Drawing.Size(153, 29);
+            this.ckLatinAmerica.Size = new System.Drawing.Size(125, 24);
             this.ckLatinAmerica.TabIndex = 80;
             this.ckLatinAmerica.Tag = "Latin America";
             this.ckLatinAmerica.Text = "Latin America";
@@ -424,7 +424,7 @@ namespace DesignDB_UI
             this.ckIndia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ckIndia.Location = new System.Drawing.Point(548, 501);
             this.ckIndia.Name = "ckIndia";
-            this.ckIndia.Size = new System.Drawing.Size(76, 29);
+            this.ckIndia.Size = new System.Drawing.Size(63, 24);
             this.ckIndia.TabIndex = 79;
             this.ckIndia.Tag = "India";
             this.ckIndia.Text = "India";
@@ -436,7 +436,7 @@ namespace DesignDB_UI
             this.ckEurope.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ckEurope.Location = new System.Drawing.Point(548, 471);
             this.ckEurope.Name = "ckEurope";
-            this.ckEurope.Size = new System.Drawing.Size(97, 29);
+            this.ckEurope.Size = new System.Drawing.Size(80, 24);
             this.ckEurope.TabIndex = 78;
             this.ckEurope.Tag = "Europe";
             this.ckEurope.Text = "Europe";
@@ -448,7 +448,7 @@ namespace DesignDB_UI
             this.ckCaribbean.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ckCaribbean.Location = new System.Drawing.Point(548, 441);
             this.ckCaribbean.Name = "ckCaribbean";
-            this.ckCaribbean.Size = new System.Drawing.Size(125, 29);
+            this.ckCaribbean.Size = new System.Drawing.Size(101, 24);
             this.ckCaribbean.TabIndex = 77;
             this.ckCaribbean.Tag = "Caribbean";
             this.ckCaribbean.Text = "Caribbean";
@@ -460,7 +460,7 @@ namespace DesignDB_UI
             this.ckCanada.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ckCanada.Location = new System.Drawing.Point(548, 411);
             this.ckCanada.Name = "ckCanada";
-            this.ckCanada.Size = new System.Drawing.Size(104, 29);
+            this.ckCanada.Size = new System.Drawing.Size(84, 24);
             this.ckCanada.TabIndex = 76;
             this.ckCanada.Tag = "Canada";
             this.ckCanada.Text = "Canada";
@@ -472,7 +472,7 @@ namespace DesignDB_UI
             this.ckAustralia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ckAustralia.Location = new System.Drawing.Point(548, 381);
             this.ckAustralia.Name = "ckAustralia";
-            this.ckAustralia.Size = new System.Drawing.Size(110, 29);
+            this.ckAustralia.Size = new System.Drawing.Size(90, 24);
             this.ckAustralia.TabIndex = 75;
             this.ckAustralia.Tag = "Australia";
             this.ckAustralia.Text = "Australia";
@@ -484,7 +484,7 @@ namespace DesignDB_UI
             this.ckAsia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ckAsia.Location = new System.Drawing.Point(548, 351);
             this.ckAsia.Name = "ckAsia";
-            this.ckAsia.Size = new System.Drawing.Size(73, 29);
+            this.ckAsia.Size = new System.Drawing.Size(59, 24);
             this.ckAsia.TabIndex = 74;
             this.ckAsia.Tag = "Asia";
             this.ckAsia.Text = "Asia";
@@ -496,7 +496,7 @@ namespace DesignDB_UI
             this.ckAfrica.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ckAfrica.Location = new System.Drawing.Point(548, 321);
             this.ckAfrica.Name = "ckAfrica";
-            this.ckAfrica.Size = new System.Drawing.Size(84, 29);
+            this.ckAfrica.Size = new System.Drawing.Size(69, 24);
             this.ckAfrica.TabIndex = 73;
             this.ckAfrica.Tag = "Africa";
             this.ckAfrica.Text = "Africa";
@@ -508,7 +508,7 @@ namespace DesignDB_UI
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(551, 293);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(90, 25);
+            this.label6.Size = new System.Drawing.Size(75, 20);
             this.label6.TabIndex = 72;
             this.label6.Text = "Regions";
             // 
@@ -518,18 +518,18 @@ namespace DesignDB_UI
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.label2.Location = new System.Drawing.Point(12, 209);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(219, 31);
+            this.label2.Size = new System.Drawing.Size(144, 20);
             this.label2.TabIndex = 87;
             this.label2.Text = "Default all selected";
             // 
             // frmDateRangeSearch
             // 
             this.AcceptButton = this.btnSearch;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(792, 964);
+            this.ClientSize = new System.Drawing.Size(837, 810);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnClearRegions);
             this.Controls.Add(this.ckOther);

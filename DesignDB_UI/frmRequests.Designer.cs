@@ -1067,11 +1067,12 @@ namespace DesignDB_UI
             this.dgvAttachments.MultiSelect = false;
             this.dgvAttachments.Name = "dgvAttachments";
             this.dgvAttachments.ReadOnly = true;
+            this.dgvAttachments.RowHeadersVisible = false;
             this.dgvAttachments.RowHeadersWidth = 62;
             this.dgvAttachments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAttachments.Size = new System.Drawing.Size(646, 157);
             this.dgvAttachments.TabIndex = 68;
-            this.dgvAttachments.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAttachments_RowHeaderMouseClick);
+            this.dgvAttachments.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAttachments_CellDoubleClick);
             // 
             // txtDateAllInfo
             // 
@@ -1455,7 +1456,7 @@ namespace DesignDB_UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(1508, 982);
+            this.ClientSize = new System.Drawing.Size(1508, 999);
             this.Controls.Add(this.txtID);
             this.Controls.Add(this.ckFilter);
             this.Controls.Add(this.label31);

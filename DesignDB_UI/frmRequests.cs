@@ -285,6 +285,7 @@ namespace DesignDB_UI
 
             dgvAttachments.Columns[3].HeaderText = "Item Type";
             dgvAttachments.Columns[3].DefaultCellStyle.ForeColor = Color.Black;
+            dgvAttachments.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
 
         private List<AttachmentModel> getAttachments(string pid)
@@ -379,7 +380,6 @@ namespace DesignDB_UI
             Rm.ProjectID = txtPID.Text;
             Rm.msoModel = (MSO_Model)cboMSO.SelectedItem;
             Rm.MSO = Rm.msoModel.MSO;
-            //cboMSO.SelectedIndex = Rm.msoModel.ID;
             Rm.Cust = txtCust.Text;
             Rm.City = cboCities.Text;
             Rm.ST = cboState.Text;
@@ -1804,6 +1804,26 @@ namespace DesignDB_UI
         private void dtpEnd_ValueChanged(object sender, EventArgs e)
         {
             ckFilter.Checked = true;
+        }
+
+        private void dgvAttachments_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            List<AttachmentModel> aList = (List<AttachmentModel>)dgvAttachments.DataSource;
+            int selRow = dgvAttachments.CurrentRow.Index;
+            AttachmentModel model = aList[selRow];
+
+            string fileName = dgvAttachments.CurrentRow.Cells[2].Value.ToString();
+            fileName = GlobalConfig.AttachmentPath + "\\" + model.PID + "\\" + fileName;
+            ProcessStartInfo sinfo = new ProcessStartInfo(fileName)
+            { UseShellExecute = true };
+            try
+            {
+                Process.Start(sinfo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n" + fileName);
+            }
         }
     }   
 }
