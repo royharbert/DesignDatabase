@@ -30,8 +30,8 @@ namespace DesignDB_UI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtPID = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cboMSO = new System.Windows.Forms.ComboBox();
@@ -138,11 +138,11 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPID.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPID.Location = new System.Drawing.Point(252, 4);
+            this.txtPID.Location = new System.Drawing.Point(160, 4);
             this.txtPID.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtPID.Name = "txtPID";
             this.txtPID.ReadOnly = true;
-            this.txtPID.Size = new System.Drawing.Size(410, 40);
+            this.txtPID.Size = new System.Drawing.Size(343, 40);
             this.txtPID.TabIndex = 0;
             this.txtPID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtPID.TextChanged += new System.EventHandler(this.txtPID_TextChanged);
@@ -152,7 +152,7 @@ namespace DesignDB_UI
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(103, 8);
+            this.label1.Location = new System.Drawing.Point(11, 6);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(143, 33);
             this.label1.TabIndex = 1;
@@ -165,10 +165,10 @@ namespace DesignDB_UI
             this.cboMSO.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cboMSO.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboMSO.FormattingEnabled = true;
-            this.cboMSO.Location = new System.Drawing.Point(161, 4);
+            this.cboMSO.Location = new System.Drawing.Point(144, 4);
             this.cboMSO.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cboMSO.Name = "cboMSO";
-            this.cboMSO.Size = new System.Drawing.Size(258, 28);
+            this.cboMSO.Size = new System.Drawing.Size(231, 28);
             this.cboMSO.TabIndex = 0;
             this.cboMSO.Tag = "U|MSO|tblMSO|MSO|MSO";
             this.cboMSO.SelectedIndexChanged += new System.EventHandler(this.cboMSO_SelectedIndexChanged);
@@ -178,7 +178,7 @@ namespace DesignDB_UI
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(118, 9);
+            this.label2.Location = new System.Drawing.Point(101, 9);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(37, 16);
             this.label2.TabIndex = 3;
@@ -188,7 +188,7 @@ namespace DesignDB_UI
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(126, 79);
+            this.label3.Location = new System.Drawing.Point(109, 79);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(29, 16);
             this.label3.TabIndex = 5;
@@ -204,10 +204,10 @@ namespace DesignDB_UI
             this.cboCities.ContextMenuStrip = this.ddContextMenu;
             this.cboCities.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboCities.FormattingEnabled = true;
-            this.cboCities.Location = new System.Drawing.Point(161, 74);
+            this.cboCities.Location = new System.Drawing.Point(144, 74);
             this.cboCities.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cboCities.Name = "cboCities";
-            this.cboCities.Size = new System.Drawing.Size(258, 28);
+            this.cboCities.Size = new System.Drawing.Size(231, 28);
             this.cboCities.TabIndex = 2;
             this.cboCities.Tag = "L|City|tblCities|city|City";
             this.cboCities.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
@@ -231,10 +231,12 @@ namespace DesignDB_UI
             // 
             // txtCust
             // 
-            this.txtCust.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtCust.Location = new System.Drawing.Point(161, 38);
+            this.txtCust.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtCust.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.txtCust.Location = new System.Drawing.Point(144, 38);
+            this.txtCust.Multiline = true;
             this.txtCust.Name = "txtCust";
-            this.txtCust.Size = new System.Drawing.Size(258, 22);
+            this.txtCust.Size = new System.Drawing.Size(231, 29);
             this.txtCust.TabIndex = 1;
             this.txtCust.Tag = "L|Cust";
             this.txtCust.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
@@ -245,17 +247,17 @@ namespace DesignDB_UI
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(16, 44);
+            this.label4.Location = new System.Drawing.Point(8, 44);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(139, 16);
+            this.label4.Size = new System.Drawing.Size(130, 16);
             this.label4.TabIndex = 7;
-            this.label4.Text = "End Customer (if VAR)";
+            this.label4.Text = "End Customer (VAR)";
             // 
             // label5
             // 
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(77, 359);
+            this.label5.Location = new System.Drawing.Point(60, 359);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(78, 16);
             this.label5.TabIndex = 9;
@@ -272,10 +274,10 @@ namespace DesignDB_UI
             this.cboAssisted.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboAssisted.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboAssisted.FormattingEnabled = true;
-            this.cboAssisted.Location = new System.Drawing.Point(161, 354);
+            this.cboAssisted.Location = new System.Drawing.Point(144, 354);
             this.cboAssisted.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cboAssisted.Name = "cboAssisted";
-            this.cboAssisted.Size = new System.Drawing.Size(258, 28);
+            this.cboAssisted.Size = new System.Drawing.Size(231, 28);
             this.cboAssisted.TabIndex = 10;
             this.cboAssisted.Tag = "L|AssistedBy|tbReviewers|Designer|Assisted By";
             this.cboAssisted.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
@@ -286,7 +288,7 @@ namespace DesignDB_UI
             // 
             this.label6.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(93, 324);
+            this.label6.Location = new System.Drawing.Point(76, 324);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(62, 16);
             this.label6.TabIndex = 11;
@@ -303,10 +305,10 @@ namespace DesignDB_UI
             this.cboDesigner.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboDesigner.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboDesigner.FormattingEnabled = true;
-            this.cboDesigner.Location = new System.Drawing.Point(161, 319);
+            this.cboDesigner.Location = new System.Drawing.Point(144, 319);
             this.cboDesigner.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cboDesigner.Name = "cboDesigner";
-            this.cboDesigner.Size = new System.Drawing.Size(258, 28);
+            this.cboDesigner.Size = new System.Drawing.Size(231, 28);
             this.cboDesigner.TabIndex = 9;
             this.cboDesigner.Tag = "L|Designer|tblReviewers|Designer|Designer";
             this.cboDesigner.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
@@ -317,7 +319,7 @@ namespace DesignDB_UI
             // 
             this.label7.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(107, 289);
+            this.label7.Location = new System.Drawing.Point(90, 289);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(48, 16);
             this.label7.TabIndex = 13;
@@ -338,10 +340,10 @@ namespace DesignDB_UI
             "P1",
             "P2",
             "P3"});
-            this.cboPriority.Location = new System.Drawing.Point(161, 284);
+            this.cboPriority.Location = new System.Drawing.Point(144, 284);
             this.cboPriority.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cboPriority.Name = "cboPriority";
-            this.cboPriority.Size = new System.Drawing.Size(258, 28);
+            this.cboPriority.Size = new System.Drawing.Size(231, 28);
             this.cboPriority.TabIndex = 8;
             this.cboPriority.Tag = "L|Pty|||Priority";
             this.cboPriority.SelectedIndexChanged += new System.EventHandler(this.cboPriority_SelectedIndexChanged);
@@ -353,7 +355,7 @@ namespace DesignDB_UI
             // 
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(77, 254);
+            this.label8.Location = new System.Drawing.Point(60, 254);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(78, 16);
             this.label8.TabIndex = 15;
@@ -376,10 +378,10 @@ namespace DesignDB_UI
             "Playbook",
             "Project",
             "Study"});
-            this.cboQuoteType.Location = new System.Drawing.Point(161, 249);
+            this.cboQuoteType.Location = new System.Drawing.Point(144, 249);
             this.cboQuoteType.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cboQuoteType.Name = "cboQuoteType";
-            this.cboQuoteType.Size = new System.Drawing.Size(258, 28);
+            this.cboQuoteType.Size = new System.Drawing.Size(231, 28);
             this.cboQuoteType.TabIndex = 7;
             this.cboQuoteType.Tag = "L|QuoteType|||Quote Type";
             this.cboQuoteType.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
@@ -390,11 +392,11 @@ namespace DesignDB_UI
             // 
             this.label9.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(39, 219);
+            this.label9.Location = new System.Drawing.Point(68, 219);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(116, 16);
+            this.label9.Size = new System.Drawing.Size(70, 16);
             this.label9.TabIndex = 17;
-            this.label9.Text = "Design Requestor";
+            this.label9.Text = "Requestor";
             // 
             // cboRequestor
             // 
@@ -406,10 +408,10 @@ namespace DesignDB_UI
             this.cboRequestor.ContextMenuStrip = this.ddContextMenu;
             this.cboRequestor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboRequestor.FormattingEnabled = true;
-            this.cboRequestor.Location = new System.Drawing.Point(161, 214);
+            this.cboRequestor.Location = new System.Drawing.Point(144, 214);
             this.cboRequestor.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cboRequestor.Name = "cboRequestor";
-            this.cboRequestor.Size = new System.Drawing.Size(258, 28);
+            this.cboRequestor.Size = new System.Drawing.Size(231, 28);
             this.cboRequestor.TabIndex = 6;
             this.cboRequestor.Tag = "L|DesignRequestor|tblSalespersons|SalesPerson|Salesperson";
             this.cboRequestor.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
@@ -420,7 +422,7 @@ namespace DesignDB_UI
             // 
             this.label10.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(104, 184);
+            this.label10.Location = new System.Drawing.Point(87, 184);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(51, 16);
             this.label10.TabIndex = 19;
@@ -437,10 +439,10 @@ namespace DesignDB_UI
             this.cboRegion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboRegion.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboRegion.FormattingEnabled = true;
-            this.cboRegion.Location = new System.Drawing.Point(161, 179);
+            this.cboRegion.Location = new System.Drawing.Point(144, 179);
             this.cboRegion.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cboRegion.Name = "cboRegion";
-            this.cboRegion.Size = new System.Drawing.Size(258, 28);
+            this.cboRegion.Size = new System.Drawing.Size(231, 28);
             this.cboRegion.TabIndex = 5;
             this.cboRegion.Tag = "L|Region|tblRegions|Region|Region";
             this.cboRegion.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
@@ -451,7 +453,7 @@ namespace DesignDB_UI
             // 
             this.label11.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(103, 149);
+            this.label11.Location = new System.Drawing.Point(86, 149);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(52, 16);
             this.label11.TabIndex = 21;
@@ -467,10 +469,10 @@ namespace DesignDB_UI
             this.cboCountry.ContextMenuStrip = this.ddContextMenu;
             this.cboCountry.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboCountry.FormattingEnabled = true;
-            this.cboCountry.Location = new System.Drawing.Point(161, 144);
+            this.cboCountry.Location = new System.Drawing.Point(144, 144);
             this.cboCountry.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cboCountry.Name = "cboCountry";
-            this.cboCountry.Size = new System.Drawing.Size(258, 28);
+            this.cboCountry.Size = new System.Drawing.Size(231, 28);
             this.cboCountry.TabIndex = 4;
             this.cboCountry.Tag = "L|Country|tblCountries|Country|Country";
             this.cboCountry.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
@@ -481,7 +483,7 @@ namespace DesignDB_UI
             // 
             this.label12.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(117, 114);
+            this.label12.Location = new System.Drawing.Point(100, 114);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(38, 16);
             this.label12.TabIndex = 23;
@@ -497,10 +499,10 @@ namespace DesignDB_UI
             this.cboState.ContextMenuStrip = this.ddContextMenu;
             this.cboState.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboState.FormattingEnabled = true;
-            this.cboState.Location = new System.Drawing.Point(161, 109);
+            this.cboState.Location = new System.Drawing.Point(144, 109);
             this.cboState.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cboState.Name = "cboState";
-            this.cboState.Size = new System.Drawing.Size(258, 28);
+            this.cboState.Size = new System.Drawing.Size(231, 28);
             this.cboState.TabIndex = 3;
             this.cboState.Tag = "L|ST|tblStates|State|State";
             this.cboState.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
@@ -511,7 +513,7 @@ namespace DesignDB_UI
             // 
             this.label13.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(66, 394);
+            this.label13.Location = new System.Drawing.Point(49, 394);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(89, 16);
             this.label13.TabIndex = 25;
@@ -519,9 +521,12 @@ namespace DesignDB_UI
             // 
             // txtProjName
             // 
-            this.txtProjName.Location = new System.Drawing.Point(161, 388);
+            this.txtProjName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtProjName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.txtProjName.Location = new System.Drawing.Point(144, 388);
+            this.txtProjName.Multiline = true;
             this.txtProjName.Name = "txtProjName";
-            this.txtProjName.Size = new System.Drawing.Size(258, 22);
+            this.txtProjName.Size = new System.Drawing.Size(231, 29);
             this.txtProjName.TabIndex = 11;
             this.txtProjName.Tag = "L|ProjectName|tblRequests";
             this.txtProjName.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
@@ -532,7 +537,7 @@ namespace DesignDB_UI
             // 
             this.label14.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(43, 499);
+            this.label14.Location = new System.Drawing.Point(26, 499);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(112, 16);
             this.label14.TabIndex = 27;
@@ -568,10 +573,10 @@ namespace DesignDB_UI
             "Transport GigE/Data",
             "",
             "\t"});
-            this.cboArchType.Location = new System.Drawing.Point(161, 494);
+            this.cboArchType.Location = new System.Drawing.Point(144, 494);
             this.cboArchType.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cboArchType.Name = "cboArchType";
-            this.cboArchType.Size = new System.Drawing.Size(258, 28);
+            this.cboArchType.Size = new System.Drawing.Size(231, 28);
             this.cboArchType.TabIndex = 14;
             this.cboArchType.Tag = "L|ArchitectureType|||Architecture Type";
             this.cboArchType.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
@@ -582,7 +587,7 @@ namespace DesignDB_UI
             // 
             this.label15.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(93, 464);
+            this.label15.Location = new System.Drawing.Point(76, 464);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(62, 16);
             this.label15.TabIndex = 29;
@@ -608,10 +613,10 @@ namespace DesignDB_UI
             "Fiber Deep",
             "Data Transport",
             "Other"});
-            this.cboCategory.Location = new System.Drawing.Point(161, 459);
+            this.cboCategory.Location = new System.Drawing.Point(144, 459);
             this.cboCategory.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cboCategory.Name = "cboCategory";
-            this.cboCategory.Size = new System.Drawing.Size(258, 28);
+            this.cboCategory.Size = new System.Drawing.Size(231, 28);
             this.cboCategory.TabIndex = 13;
             this.cboCategory.Tag = "L|Category|||Category";
             this.cboCategory.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
@@ -622,7 +627,7 @@ namespace DesignDB_UI
             // 
             this.label17.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(63, 429);
+            this.label17.Location = new System.Drawing.Point(46, 429);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(92, 16);
             this.label17.TabIndex = 33;
@@ -638,10 +643,10 @@ namespace DesignDB_UI
             this.cboOrigQuote.ContextMenuStrip = this.ddContextMenu;
             this.cboOrigQuote.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboOrigQuote.FormattingEnabled = true;
-            this.cboOrigQuote.Location = new System.Drawing.Point(161, 424);
+            this.cboOrigQuote.Location = new System.Drawing.Point(144, 424);
             this.cboOrigQuote.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cboOrigQuote.Name = "cboOrigQuote";
-            this.cboOrigQuote.Size = new System.Drawing.Size(258, 28);
+            this.cboOrigQuote.Size = new System.Drawing.Size(231, 28);
             this.cboOrigQuote.TabIndex = 12;
             this.cboOrigQuote.Tag = "L|OriginalQuote|||Original Quote";
             this.cboOrigQuote.TextChanged += new System.EventHandler(this.cboMSO_TextChanged);
@@ -652,7 +657,7 @@ namespace DesignDB_UI
             // 
             this.label18.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(91, 607);
+            this.label18.Location = new System.Drawing.Point(74, 607);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(64, 16);
             this.label18.TabIndex = 35;
@@ -662,9 +667,9 @@ namespace DesignDB_UI
             // 
             this.label19.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(15, 569);
+            this.label19.Location = new System.Drawing.Point(57, 561);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(140, 16);
+            this.label19.Size = new System.Drawing.Size(81, 32);
             this.label19.TabIndex = 37;
             this.label19.Text = "Date All Info Received";
             // 
@@ -672,7 +677,7 @@ namespace DesignDB_UI
             // 
             this.label20.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(59, 534);
+            this.label20.Location = new System.Drawing.Point(42, 534);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(96, 16);
             this.label20.TabIndex = 39;
@@ -863,7 +868,7 @@ namespace DesignDB_UI
             // 
             this.rtbArchDetails.Location = new System.Drawing.Point(3, 23);
             this.rtbArchDetails.Name = "rtbArchDetails";
-            this.rtbArchDetails.Size = new System.Drawing.Size(371, 248);
+            this.rtbArchDetails.Size = new System.Drawing.Size(404, 297);
             this.rtbArchDetails.TabIndex = 26;
             this.rtbArchDetails.Tag = "L|ArchitectureDetails";
             this.rtbArchDetails.Text = "";
@@ -874,6 +879,7 @@ namespace DesignDB_UI
             // label28
             // 
             this.label28.AutoSize = true;
+            this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
             this.label28.Location = new System.Drawing.Point(3, 0);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(122, 16);
@@ -883,7 +889,7 @@ namespace DesignDB_UI
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(3, 315);
+            this.label29.Location = new System.Drawing.Point(3, 339);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(71, 16);
             this.label29.TabIndex = 59;
@@ -891,9 +897,9 @@ namespace DesignDB_UI
             // 
             // rtbComments
             // 
-            this.rtbComments.Location = new System.Drawing.Point(3, 338);
+            this.rtbComments.Location = new System.Drawing.Point(3, 362);
             this.rtbComments.Name = "rtbComments";
-            this.rtbComments.Size = new System.Drawing.Size(371, 248);
+            this.rtbComments.Size = new System.Drawing.Size(404, 294);
             this.rtbComments.TabIndex = 27;
             this.rtbComments.Tag = "L|Comments";
             this.rtbComments.Text = "";
@@ -908,9 +914,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDone.BackColor = System.Drawing.Color.Red;
             this.btnDone.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnDone.Location = new System.Drawing.Point(1313, 3);
+            this.btnDone.Location = new System.Drawing.Point(1228, 3);
             this.btnDone.Name = "btnDone";
-            this.btnDone.Size = new System.Drawing.Size(130, 51);
+            this.btnDone.Size = new System.Drawing.Size(130, 52);
             this.btnDone.TabIndex = 35;
             this.btnDone.Text = "Done";
             this.btnDone.UseVisualStyleBackColor = false;
@@ -919,9 +925,9 @@ namespace DesignDB_UI
             // btnAddAtt
             // 
             this.btnAddAtt.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnAddAtt.Location = new System.Drawing.Point(166, 166);
+            this.btnAddAtt.Location = new System.Drawing.Point(164, 166);
             this.btnAddAtt.Name = "btnAddAtt";
-            this.btnAddAtt.Size = new System.Drawing.Size(150, 54);
+            this.btnAddAtt.Size = new System.Drawing.Size(155, 54);
             this.btnAddAtt.TabIndex = 64;
             this.btnAddAtt.Text = "Add Attachment";
             this.btnAddAtt.UseVisualStyleBackColor = true;
@@ -930,9 +936,9 @@ namespace DesignDB_UI
             // btnRemoveAtt
             // 
             this.btnRemoveAtt.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnRemoveAtt.Location = new System.Drawing.Point(329, 166);
+            this.btnRemoveAtt.Location = new System.Drawing.Point(325, 166);
             this.btnRemoveAtt.Name = "btnRemoveAtt";
-            this.btnRemoveAtt.Size = new System.Drawing.Size(150, 54);
+            this.btnRemoveAtt.Size = new System.Drawing.Size(155, 54);
             this.btnRemoveAtt.TabIndex = 65;
             this.btnRemoveAtt.Text = "Remove Attachment";
             this.btnRemoveAtt.UseVisualStyleBackColor = true;
@@ -944,9 +950,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLoadRpt.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnLoadRpt.Location = new System.Drawing.Point(408, 3);
+            this.btnLoadRpt.Location = new System.Drawing.Point(423, 3);
             this.btnLoadRpt.Name = "btnLoadRpt";
-            this.btnLoadRpt.Size = new System.Drawing.Size(125, 51);
+            this.btnLoadRpt.Size = new System.Drawing.Size(129, 52);
             this.btnLoadRpt.TabIndex = 67;
             this.btnLoadRpt.Text = "Designer Load";
             this.btnLoadRpt.UseVisualStyleBackColor = true;
@@ -958,9 +964,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnSave.Location = new System.Drawing.Point(273, 3);
+            this.btnSave.Location = new System.Drawing.Point(283, 3);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(129, 51);
+            this.btnSave.Size = new System.Drawing.Size(134, 52);
             this.btnSave.TabIndex = 30;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -972,9 +978,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnUndo.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnUndo.Location = new System.Drawing.Point(138, 3);
+            this.btnUndo.Location = new System.Drawing.Point(143, 3);
             this.btnUndo.Name = "btnUndo";
-            this.btnUndo.Size = new System.Drawing.Size(129, 51);
+            this.btnUndo.Size = new System.Drawing.Size(134, 52);
             this.btnUndo.TabIndex = 29;
             this.btnUndo.Text = "Undo";
             this.btnUndo.UseVisualStyleBackColor = true;
@@ -988,7 +994,7 @@ namespace DesignDB_UI
             this.btnRev.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnRev.Location = new System.Drawing.Point(3, 3);
             this.btnRev.Name = "btnRev";
-            this.btnRev.Size = new System.Drawing.Size(129, 51);
+            this.btnRev.Size = new System.Drawing.Size(134, 52);
             this.btnRev.TabIndex = 28;
             this.btnRev.TabStop = false;
             this.btnRev.Text = "Create Revision";
@@ -1001,9 +1007,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClone.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnClone.Location = new System.Drawing.Point(668, 3);
+            this.btnClone.Location = new System.Drawing.Point(692, 3);
             this.btnClone.Name = "btnClone";
-            this.btnClone.Size = new System.Drawing.Size(123, 51);
+            this.btnClone.Size = new System.Drawing.Size(128, 52);
             this.btnClone.TabIndex = 32;
             this.btnClone.Text = "Clone";
             this.btnClone.UseVisualStyleBackColor = true;
@@ -1015,9 +1021,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDelete.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnDelete.Location = new System.Drawing.Point(797, 3);
+            this.btnDelete.Location = new System.Drawing.Point(826, 3);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(123, 51);
+            this.btnDelete.Size = new System.Drawing.Size(128, 52);
             this.btnDelete.TabIndex = 33;
             this.btnDelete.Tag = "4";
             this.btnDelete.Text = "Delete Request";
@@ -1030,9 +1036,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnNew.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnNew.Location = new System.Drawing.Point(539, 3);
+            this.btnNew.Location = new System.Drawing.Point(558, 3);
             this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(123, 51);
+            this.btnNew.Size = new System.Drawing.Size(128, 52);
             this.btnNew.TabIndex = 31;
             this.btnNew.Text = "Add New";
             this.btnNew.UseVisualStyleBackColor = true;
@@ -1040,50 +1046,47 @@ namespace DesignDB_UI
             // 
             // dgvAttachments
             // 
-            this.dgvAttachments.AllowUserToAddRows = false;
-            this.dgvAttachments.AllowUserToDeleteRows = false;
+            this.dgvAttachments.AllowUserToOrderColumns = true;
             this.dgvAttachments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvAttachments.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvAttachments.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
             this.dgvAttachments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tlpAttachment.SetColumnSpan(this.dgvAttachments, 4);
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvAttachments.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvAttachments.DefaultCellStyle = dataGridViewCellStyle12;
             this.dgvAttachments.Location = new System.Drawing.Point(3, 3);
             this.dgvAttachments.MultiSelect = false;
             this.dgvAttachments.Name = "dgvAttachments";
-            this.dgvAttachments.ReadOnly = true;
             this.dgvAttachments.RowHeadersWidth = 62;
             this.dgvAttachments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvAttachments.Size = new System.Drawing.Size(646, 157);
+            this.dgvAttachments.Size = new System.Drawing.Size(640, 157);
             this.dgvAttachments.TabIndex = 68;
             this.dgvAttachments.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAttachments_RowHeaderMouseClick);
             // 
             // txtDateAllInfo
             // 
-            this.txtDateAllInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDateAllInfo.ContextMenuStrip = this.dtpContextMenu;
             this.txtDateAllInfo.CustomFormat = "\" \"";
+            this.txtDateAllInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtDateAllInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.txtDateAllInfo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.txtDateAllInfo.Location = new System.Drawing.Point(161, 563);
+            this.txtDateAllInfo.Location = new System.Drawing.Point(144, 563);
             this.txtDateAllInfo.Name = "txtDateAllInfo";
-            this.txtDateAllInfo.Size = new System.Drawing.Size(258, 22);
+            this.txtDateAllInfo.Size = new System.Drawing.Size(231, 26);
             this.txtDateAllInfo.TabIndex = 16;
             this.txtDateAllInfo.Tag = "L|DateAllInfoReceived";
             this.txtDateAllInfo.ValueChanged += new System.EventHandler(this.txtDateAllInfo_ValueChanged);
@@ -1108,15 +1111,13 @@ namespace DesignDB_UI
             // 
             // txtDateAssigned
             // 
-            this.txtDateAssigned.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDateAssigned.ContextMenuStrip = this.dtpContextMenu;
             this.txtDateAssigned.CustomFormat = "\" \"";
+            this.txtDateAssigned.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.txtDateAssigned.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.txtDateAssigned.Location = new System.Drawing.Point(161, 528);
+            this.txtDateAssigned.Location = new System.Drawing.Point(144, 528);
             this.txtDateAssigned.Name = "txtDateAssigned";
-            this.txtDateAssigned.Size = new System.Drawing.Size(258, 22);
+            this.txtDateAssigned.Size = new System.Drawing.Size(231, 26);
             this.txtDateAssigned.TabIndex = 15;
             this.txtDateAssigned.Tag = "L|DateAssigned";
             this.txtDateAssigned.ValueChanged += new System.EventHandler(this.txtDateAssigned_ValueChanged);
@@ -1125,15 +1126,14 @@ namespace DesignDB_UI
             // 
             // txtDateDue
             // 
-            this.txtDateDue.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDateDue.ContextMenuStrip = this.dtpContextMenu;
             this.txtDateDue.CustomFormat = "\" \"";
+            this.txtDateDue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtDateDue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.txtDateDue.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.txtDateDue.Location = new System.Drawing.Point(161, 598);
+            this.txtDateDue.Location = new System.Drawing.Point(144, 598);
             this.txtDateDue.Name = "txtDateDue";
-            this.txtDateDue.Size = new System.Drawing.Size(258, 22);
+            this.txtDateDue.Size = new System.Drawing.Size(231, 26);
             this.txtDateDue.TabIndex = 17;
             this.txtDateDue.Tag = "L|DateDue";
             this.txtDateDue.ValueChanged += new System.EventHandler(this.txtDateDue_ValueChanged);
@@ -1187,7 +1187,6 @@ namespace DesignDB_UI
             this.tlpLeft.Controls.Add(this.txtDateDue, 1, 17);
             this.tlpLeft.Controls.Add(this.cboState, 1, 3);
             this.tlpLeft.Controls.Add(this.txtDateAllInfo, 1, 16);
-            this.tlpLeft.Controls.Add(this.txtDateAssigned, 1, 15);
             this.tlpLeft.Controls.Add(this.cboCountry, 1, 4);
             this.tlpLeft.Controls.Add(this.cboRegion, 1, 5);
             this.tlpLeft.Controls.Add(this.cboRequestor, 1, 6);
@@ -1195,12 +1194,10 @@ namespace DesignDB_UI
             this.tlpLeft.Controls.Add(this.cboPriority, 1, 8);
             this.tlpLeft.Controls.Add(this.cboDesigner, 1, 9);
             this.tlpLeft.Controls.Add(this.cboAssisted, 1, 10);
-            this.tlpLeft.Controls.Add(this.txtProjName, 1, 11);
             this.tlpLeft.Controls.Add(this.cboOrigQuote, 1, 12);
             this.tlpLeft.Controls.Add(this.cboCategory, 1, 13);
             this.tlpLeft.Controls.Add(this.cboArchType, 1, 14);
             this.tlpLeft.Controls.Add(this.label2, 0, 0);
-            this.tlpLeft.Controls.Add(this.label4, 0, 1);
             this.tlpLeft.Controls.Add(this.label3, 0, 2);
             this.tlpLeft.Controls.Add(this.label12, 0, 3);
             this.tlpLeft.Controls.Add(this.label11, 0, 4);
@@ -1217,8 +1214,11 @@ namespace DesignDB_UI
             this.tlpLeft.Controls.Add(this.label20, 0, 15);
             this.tlpLeft.Controls.Add(this.label19, 0, 16);
             this.tlpLeft.Controls.Add(this.label18, 0, 17);
+            this.tlpLeft.Controls.Add(this.txtProjName, 1, 11);
+            this.tlpLeft.Controls.Add(this.label4, 0, 1);
+            this.tlpLeft.Controls.Add(this.txtDateAssigned, 1, 15);
             this.tlpLeft.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tlpLeft.Location = new System.Drawing.Point(23, 122);
+            this.tlpLeft.Location = new System.Drawing.Point(30, 65);
             this.tlpLeft.Name = "tlpLeft";
             this.tlpLeft.RowCount = 18;
             this.tlpLeft.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.555554F));
@@ -1239,7 +1239,7 @@ namespace DesignDB_UI
             this.tlpLeft.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.555554F));
             this.tlpLeft.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.555554F));
             this.tlpLeft.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5.555554F));
-            this.tlpLeft.Size = new System.Drawing.Size(422, 635);
+            this.tlpLeft.Size = new System.Drawing.Size(378, 635);
             this.tlpLeft.TabIndex = 69;
             // 
             // tlpCenterTop
@@ -1252,7 +1252,6 @@ namespace DesignDB_UI
             this.tlpCenterTop.Controls.Add(this.cboReviewedBy, 1, 1);
             this.tlpCenterTop.Controls.Add(this.txtBOM_Val, 1, 2);
             this.tlpCenterTop.Controls.Add(this.txtPctCovered, 1, 3);
-            this.tlpCenterTop.Controls.Add(this.txtTotalVal, 1, 4);
             this.tlpCenterTop.Controls.Add(this.cboAwardStatus, 1, 5);
             this.tlpCenterTop.Controls.Add(this.txtTotalHours, 1, 6);
             this.tlpCenterTop.Controls.Add(this.label27, 0, 7);
@@ -1263,8 +1262,9 @@ namespace DesignDB_UI
             this.tlpCenterTop.Controls.Add(this.label22, 0, 2);
             this.tlpCenterTop.Controls.Add(this.label16, 0, 1);
             this.tlpCenterTop.Controls.Add(this.label25, 0, 0);
+            this.tlpCenterTop.Controls.Add(this.txtTotalVal, 1, 4);
             this.tlpCenterTop.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tlpCenterTop.Location = new System.Drawing.Point(567, 126);
+            this.tlpCenterTop.Location = new System.Drawing.Point(568, 94);
             this.tlpCenterTop.Name = "tlpCenterTop";
             this.tlpCenterTop.RowCount = 8;
             this.tlpCenterTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
@@ -1287,14 +1287,14 @@ namespace DesignDB_UI
             this.tlpRight.Controls.Add(this.label29, 0, 2);
             this.tlpRight.Controls.Add(this.rtbComments, 0, 3);
             this.tlpRight.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tlpRight.Location = new System.Drawing.Point(1163, 137);
+            this.tlpRight.Location = new System.Drawing.Point(1102, 22);
             this.tlpRight.Name = "tlpRight";
             this.tlpRight.RowCount = 4;
             this.tlpRight.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlpRight.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlpRight.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlpRight.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpRight.Size = new System.Drawing.Size(377, 630);
+            this.tlpRight.Size = new System.Drawing.Size(410, 678);
             this.tlpRight.TabIndex = 71;
             // 
             // tlpAttachment
@@ -1308,17 +1308,18 @@ namespace DesignDB_UI
             this.tlpAttachment.Controls.Add(this.btnRemoveAtt, 2, 1);
             this.tlpAttachment.Controls.Add(this.dgvAttachments, 0, 0);
             this.tlpAttachment.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tlpAttachment.Location = new System.Drawing.Point(477, 431);
+            this.tlpAttachment.Location = new System.Drawing.Point(433, 389);
             this.tlpAttachment.Name = "tlpAttachment";
             this.tlpAttachment.RowCount = 2;
             this.tlpAttachment.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpAttachment.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.tlpAttachment.Size = new System.Drawing.Size(652, 223);
+            this.tlpAttachment.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpAttachment.Size = new System.Drawing.Size(646, 223);
             this.tlpAttachment.TabIndex = 72;
             // 
             // tlpBottom
             // 
-            this.tlpBottom.ColumnCount = 11;
+            this.tlpBottom.ColumnCount = 10;
             this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.371105F));
             this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.371105F));
             this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.371105F));
@@ -1329,23 +1330,22 @@ namespace DesignDB_UI
             this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.97096F));
             this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.97096F));
             this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.97096F));
-            this.tlpBottom.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.97096F));
             this.tlpBottom.Controls.Add(this.btnSearchFields, 8, 0);
-            this.tlpBottom.Controls.Add(this.btnDelete, 6, 0);
-            this.tlpBottom.Controls.Add(this.btnClone, 5, 0);
             this.tlpBottom.Controls.Add(this.btnNew, 4, 0);
-            this.tlpBottom.Controls.Add(this.btnRev, 0, 0);
             this.tlpBottom.Controls.Add(this.btnLoadRpt, 3, 0);
             this.tlpBottom.Controls.Add(this.btnUndo, 1, 0);
             this.tlpBottom.Controls.Add(this.btnSave, 2, 0);
             this.tlpBottom.Controls.Add(this.btnRestore, 7, 0);
-            this.tlpBottom.Controls.Add(this.btnDone, 10, 0);
+            this.tlpBottom.Controls.Add(this.btnDone, 9, 0);
+            this.tlpBottom.Controls.Add(this.btnDelete, 6, 0);
+            this.tlpBottom.Controls.Add(this.btnClone, 5, 0);
+            this.tlpBottom.Controls.Add(this.btnRev, 0, 0);
             this.tlpBottom.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tlpBottom.Location = new System.Drawing.Point(128, 784);
+            this.tlpBottom.Location = new System.Drawing.Point(82, 706);
             this.tlpBottom.Name = "tlpBottom";
             this.tlpBottom.RowCount = 1;
             this.tlpBottom.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpBottom.Size = new System.Drawing.Size(1446, 57);
+            this.tlpBottom.Size = new System.Drawing.Size(1361, 58);
             this.tlpBottom.TabIndex = 73;
             // 
             // btnSearchFields
@@ -1354,9 +1354,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSearchFields.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnSearchFields.Location = new System.Drawing.Point(1055, 3);
+            this.btnSearchFields.Location = new System.Drawing.Point(1094, 3);
             this.btnSearchFields.Name = "btnSearchFields";
-            this.btnSearchFields.Size = new System.Drawing.Size(123, 51);
+            this.btnSearchFields.Size = new System.Drawing.Size(128, 52);
             this.btnSearchFields.TabIndex = 76;
             this.btnSearchFields.Text = "Search";
             this.btnSearchFields.UseVisualStyleBackColor = true;
@@ -1369,9 +1369,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRestore.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnRestore.Location = new System.Drawing.Point(926, 3);
+            this.btnRestore.Location = new System.Drawing.Point(960, 3);
             this.btnRestore.Name = "btnRestore";
-            this.btnRestore.Size = new System.Drawing.Size(123, 51);
+            this.btnRestore.Size = new System.Drawing.Size(128, 52);
             this.btnRestore.TabIndex = 68;
             this.btnRestore.Text = "Restore Request";
             this.btnRestore.UseVisualStyleBackColor = true;
@@ -1380,22 +1380,22 @@ namespace DesignDB_UI
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.5F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 62.5F));
-            this.tableLayoutPanel1.Controls.Add(this.txtPID, 1, 0);
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.02767F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.97234F));
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(420, 29);
+            this.tableLayoutPanel1.Controls.Add(this.txtPID, 1, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(507, 18);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(665, 50);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(506, 46);
             this.tableLayoutPanel1.TabIndex = 75;
             // 
             // ckFilter
             // 
             this.ckFilter.AutoSize = true;
             this.ckFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ckFilter.Location = new System.Drawing.Point(554, 697);
+            this.ckFilter.Location = new System.Drawing.Point(533, 633);
             this.ckFilter.Name = "ckFilter";
             this.ckFilter.Size = new System.Drawing.Size(83, 22);
             this.ckFilter.TabIndex = 80;
@@ -1406,7 +1406,7 @@ namespace DesignDB_UI
             // 
             this.label31.AutoSize = true;
             this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label31.Location = new System.Drawing.Point(641, 722);
+            this.label31.Location = new System.Drawing.Point(620, 658);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(69, 18);
             this.label31.TabIndex = 79;
@@ -1417,7 +1417,7 @@ namespace DesignDB_UI
             // 
             this.label32.AutoSize = true;
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label32.Location = new System.Drawing.Point(636, 688);
+            this.label32.Location = new System.Drawing.Point(615, 624);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(74, 18);
             this.label32.TabIndex = 78;
@@ -1427,7 +1427,7 @@ namespace DesignDB_UI
             // dtpEnd
             // 
             this.dtpEnd.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpEnd.Location = new System.Drawing.Point(714, 718);
+            this.dtpEnd.Location = new System.Drawing.Point(693, 654);
             this.dtpEnd.Name = "dtpEnd";
             this.dtpEnd.Size = new System.Drawing.Size(259, 24);
             this.dtpEnd.TabIndex = 77;
@@ -1436,7 +1436,7 @@ namespace DesignDB_UI
             // dtpStart
             // 
             this.dtpStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpStart.Location = new System.Drawing.Point(714, 688);
+            this.dtpStart.Location = new System.Drawing.Point(693, 624);
             this.dtpStart.Name = "dtpStart";
             this.dtpStart.Size = new System.Drawing.Size(259, 24);
             this.dtpStart.TabIndex = 76;
@@ -1444,7 +1444,7 @@ namespace DesignDB_UI
             // 
             // txtID
             // 
-            this.txtID.Location = new System.Drawing.Point(65, 33);
+            this.txtID.Location = new System.Drawing.Point(112, 18);
             this.txtID.Name = "txtID";
             this.txtID.Size = new System.Drawing.Size(93, 26);
             this.txtID.TabIndex = 81;
@@ -1455,7 +1455,7 @@ namespace DesignDB_UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(1508, 982);
+            this.ClientSize = new System.Drawing.Size(1540, 845);
             this.Controls.Add(this.txtID);
             this.Controls.Add(this.ckFilter);
             this.Controls.Add(this.label31);

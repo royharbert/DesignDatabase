@@ -1805,5 +1805,6 @@ namespace DesignDB_UI
         {
             ckFilter.Checked = true;
         }
+
     }   
 }
