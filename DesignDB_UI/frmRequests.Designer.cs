@@ -1449,6 +1449,7 @@ namespace DesignDB_UI
             this.txtID.Name = "txtID";
             this.txtID.Size = new System.Drawing.Size(93, 26);
             this.txtID.TabIndex = 81;
+            this.txtID.Visible = false;
             // 
             // frmRequests
             // 
