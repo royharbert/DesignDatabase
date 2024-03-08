@@ -371,6 +371,11 @@
     <Compile Include="IInputRequestor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings-DESKTOP-N41Q35G.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings-DESKTOP-N41Q35G.settings</DependentUpon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <EmbeddedResource Include="aTest.resx">
       <DependentUpon>aTest.cs</DependentUpon>
