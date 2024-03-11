@@ -27,6 +27,18 @@ namespace DesignDB_Library.Models
         /// <summary>
         /// Filename of file to save
         /// </summary>
+        public string MSO { get; set; }
+        /// <summary>
+        /// archive MSO
+        /// </summary>
+        public string Year { get; set; }
+        /// <summary>
+        /// archive year
+        /// </summary>
+        public string ProjectFolder { get; set; }
+        /// <summary>
+        /// archive project folder
+        /// </summary>
         public string FileToSave { get; set; }
 
 
