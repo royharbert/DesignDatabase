@@ -15,7 +15,6 @@ namespace DesignDB_Library
 
         public static string AttachmentPath = "";
         public static string ArchiveAttachmentPath = "";
-        public static string ArchiveSandboxAttachmentPath = "";
         public static DatabaseType DatabaseMode = DatabaseType.Sandbox;
         public static void InitializeConnection(DatabaseType db)
         { 
@@ -46,7 +45,7 @@ namespace DesignDB_Library
             { 
                 GlobalConfig.InitializeConnection(DatabaseType.Sandbox);
                 GlobalConfig.AttachmentPath = @"\\rdcpstntapfil01\ANS_Design\Sandbox\AttachmentsDesign";
-                GlobalConfig.ArchiveSandboxAttachmentPath = @"\\arrisi.com\arrisdfs\us-west-shares\Customer_Quotations\Sandbox_Archive";
+                GlobalConfig.ArchiveAttachmentPath = @"\\arrisi.com\arrisdfs\us-west-shares\Customer_Quotations\Sandbox_Archive";
                 DatabaseMode = DatabaseType.Sandbox;
             }
         }

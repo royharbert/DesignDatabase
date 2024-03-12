@@ -47,11 +47,11 @@ namespace DesignDB_Library.Models
 
         }
 
-        public AttachmentModel(string pID, string displayText, string itemType, string serverPath, string fileToSave)
-        {
-            PID = pID;
-            DisplayText = displayText;
-            ItemType = itemType;            
-        }
+        //public AttachmentModel(string pID, string displayText, string itemType, string serverPath, string fileToSave)
+        //{
+        //    PID = pID;
+        //    DisplayText = displayText;
+        //    ItemType = itemType;            
+        //}
     }
 }
