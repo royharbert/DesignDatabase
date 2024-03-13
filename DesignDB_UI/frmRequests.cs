@@ -951,10 +951,13 @@ namespace DesignDB_UI
 
         private void Frm_TypeReadyEvent(object sender, AttachmentModel e)
         {
-            string msoFullName = cboMSO.Text;
-            string year = txtDateAssigned.Value.Year.ToString();   
-            string fileName = GlobalConfig.AttachmentPath + "\\" + e.PID + "\\" + e.DisplayText;
-            string archiveFileName = GlobalConfig.ArchiveAttachmentPath + "\\" + e.PID + "\\" + e.DisplayText;
+            e.MSO = cboMSO.Text;
+            e.Year = txtDateAssigned.Value.Year.ToString();   
+            //string fileName = GlobalConfig.AttachmentPath + "\\" + e.PID + "\\" + e.DisplayText;
+            //e.FullSavePath = fileName;
+            //string archiveFileName = GlobalConfig.ArchiveAttachmentPath + "\\" + e.MSO + "\\" + e.Year + 
+            //    "\\" + e.PID + "\\" + e.DisplayText;
+            //e.ArchiveFullSavePath = archiveFileName;
             bool fileSaved = FileOps.SaveAttFile(e);
             if (fileSaved)
             {

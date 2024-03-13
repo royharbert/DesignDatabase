@@ -17,7 +17,7 @@ namespace DesignDB_Library.Models
         /// </summary>
         public string PID { get; set; }
         /// <summary>
-        /// Text to be displayed in listview
+        /// Text to be displayed in gridview
         /// </summary>
         public string DisplayText { get; set; }
         /// <summary>
@@ -27,19 +27,23 @@ namespace DesignDB_Library.Models
         /// <summary>
         /// Filename of file to save
         /// </summary>
-        public string MSO { get; set; }
+        public string FileToSave { get; set; }
         /// <summary>
         /// archive MSO
         /// </summary>
-        public string Year { get; set; }
+        public string MSO { get; set; }
         /// <summary>
         /// archive year
         /// </summary>
-        public string ProjectFolder { get; set; }
+        public string Year { get; set; }
         /// <summary>
-        /// archive project folder
+        /// SQL full file path
         /// </summary>
-        public string FileToSave { get; set; }
+        public string FullSavePath { get; set; }
+        /// <summary>
+        /// Full path to archive file
+        /// </summary>
+        public string ArchiveFullSavePath { get; set; }
 
 
         public AttachmentModel()

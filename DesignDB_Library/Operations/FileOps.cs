@@ -14,6 +14,7 @@ namespace DesignDB_Library.Operations
         public static bool SaveAttFile(AttachmentModel model)
         {
             string fullSavePath = GlobalConfig.AttachmentPath + "\\" + model.PID;
+            string archiveFullSavePath = GlobalConfig.ArchiveAttachmentPath + "\\" + model.PID;
             bool fileSaved = false;
 
             try
@@ -34,7 +35,32 @@ namespace DesignDB_Library.Operations
                 {
                     MessageBox.Show("Attachment server unreachable. Check VPN and network status" );
                     fileSaved = false;
-                }                
+                }    
+                
+
+            }
+
+            try
+            {
+                if (!Directory.Exists(archiveFullSavePath))
+                {
+                    Directory.CreateDirectory(archiveFullSavePath);
+                }
+                string archiveFullFileName = archiveFullSavePath + "\\" + model.DisplayText;
+                File.Copy(model.FileToSave, archiveFullFileName, true);
+                MessageBox.Show("Archive file copied");
+                fileSaved = true;
+
+            }
+            catch (Exception e)
+            {
+                if (e.Message.Contains("network path was not found"))
+                {
+                    MessageBox.Show("Archive attachment server unreachable. Check VPN and network status");
+                    fileSaved = false;
+                }
+
+
             }
             return fileSaved;
             
