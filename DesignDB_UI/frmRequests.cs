@@ -914,7 +914,7 @@ namespace DesignDB_UI
             openFD.InitialDirectory = myDox;
             openFD.RestoreDirectory = true;
             openFD.Multiselect = false;
-
+            
             model.ID = 0;
             model.PID = txtPID.Text;
 
@@ -943,12 +943,18 @@ namespace DesignDB_UI
             //logFieldList = logFields;
             GV.MODE = GV.PreviousMode;
         }
-
+        private string getMSO(MSO_Model mso)
+        {
+            return mso.MSO;
+        }
 
 
         private void Frm_TypeReadyEvent(object sender, AttachmentModel e)
         {
+            string msoFullName = cboMSO.Text;
+            string year = txtDateAssigned.Value.Year.ToString();   
             string fileName = GlobalConfig.AttachmentPath + "\\" + e.PID + "\\" + e.DisplayText;
+            string archiveFileName = GlobalConfig.ArchiveAttachmentPath + "\\" + e.PID + "\\" + e.DisplayText;
             bool fileSaved = FileOps.SaveAttFile(e);
             if (fileSaved)
             {
