@@ -598,7 +598,7 @@ namespace DesignDB_UI
                 //List<DesignersReviewersModel> activeDesignerList = GlobalConfig.Connection.DesignersGetActive();
                 //activeDesignerList.Insert(0, new DesignersReviewersModel());
                 //cboDesigner.DataSource = activeDesignerList;
-                List<DesignersReviewersModel> designerList = GlobalConfig.Connection.GenericGetAll<DesignersReviewersModel>("tblDesigners", "Designer");
+                List<DesignersReviewersModel> designerList = GlobalConfig.Connection.GenericGetAll<DesignersReviewersModel>("tblReviewers", "Designer");
                 designerList.Insert(0, new DesignersReviewersModel());
                 cboDesigner.DataSource = designerList;
                 cboDesigner.DisplayMember = "Designer";
