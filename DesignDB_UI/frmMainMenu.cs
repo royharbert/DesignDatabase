@@ -680,6 +680,12 @@ namespace DesignDB_UI
             }
             DateRangeSearchForm.Show();            
         }
+
+        private void btnWeeklySummary_Click(object sender, EventArgs e)
+        {
+            frmWeeklySummary summaryForm = new frmWeeklySummary();
+            summaryForm.Show();
+        }
     }
 }
 

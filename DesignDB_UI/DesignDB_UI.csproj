@@ -367,6 +367,12 @@
     <Compile Include="frmUtility.Designer.cs">
       <DependentUpon>frmUtility.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmWeeklySummary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWeeklySummary.Designer.cs">
+      <DependentUpon>frmWeeklySummary.cs</DependentUpon>
+    </Compile>
     <Compile Include="GV.cs" />
     <Compile Include="IInputRequestor.cs" />
     <Compile Include="Program.cs" />
@@ -470,6 +476,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmUtility.resx">
       <DependentUpon>frmUtility.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmWeeklySummary.resx">
+      <DependentUpon>frmWeeklySummary.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

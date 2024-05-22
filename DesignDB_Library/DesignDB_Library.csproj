@@ -131,6 +131,7 @@
     <Compile Include="Models\RollupCompletionTimeModel.cs" />
     <Compile Include="Models\ScreenModel.cs" />
     <Compile Include="Models\ShipmentLineModel.cs" />
+    <Compile Include="Models\SummaryModel.cs" />
     <Compile Include="Operations\DesignerUpdate.cs" />
     <Compile Include="Operations\FilePicker.cs" />
     <Compile Include="Operations\AttachmentOps.cs" />
