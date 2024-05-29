@@ -15,6 +15,7 @@ namespace DesignDB_UI
 {
     public partial class frmWeeklySummary : Form
     {
+        SummaryModel summary = new SummaryModel();
         public frmWeeklySummary()
         {
             InitializeComponent();
@@ -27,12 +28,31 @@ namespace DesignDB_UI
 
         private void btnCollectInfo_Click(object sender, EventArgs e)
         {
-            SummaryModel summary = ReportOps.DoWeeklySummary(dtpStart.Value, dtpEnd.Value);
+            summary = ReportOps.DoWeeklySummary(dtpStart.Value, dtpEnd.Value);
             txtBacklog.Text = summary.Backlog.ToString();
             txtCompletedForPeriod.Text = summary.RequestsCompleted.ToString();
             txtRequestsForPeriod.Text = summary.RequestsInPeriod.ToString();
             txtYTDtotal.Text = summary.YTDassigned.ToString();
             txtYTDvalue.Text = summary.YTDvalue.ToString("###,###,###,###");
+        }
+
+        private void frmWeeklySummary_Load(object sender, EventArgs e)
+        {
+            FC.SetFormPosition(this);
+            DateTime startDate = dtpEnd.Value.AddDays(-7);
+            dtpStart.Value = startDate;
+        }
+
+        private void btnClipboard_Click(object sender, EventArgs e)
+        {
+            //SummaryModel model = new SummaryModel();
+            //model.YTDassigned = 555;
+            //model.YTDvalue = 100000000;
+            //model.RequestsInPeriod = 45;
+            //model.RequestsCompleted = 30;
+            //model.Backlog = 20;
+
+            ReportOps.CopyWeeklySummaryToClipboard(summary);
         }
     }
 }

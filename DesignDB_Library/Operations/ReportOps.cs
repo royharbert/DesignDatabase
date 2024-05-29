@@ -29,6 +29,32 @@ namespace DesignDB_Library.Operations
         //create list of salespersons in this report
         static List<SalespersonModel> includedSalesPersons = new List<SalespersonModel>();
 
+        public static void CopyWeeklySummaryToClipboard(SummaryModel summary)
+        {
+            StringBuilder sb = new StringBuilder("YTD Total Designs Assigned:");
+            sb.Append("\t\t\t");
+            sb.Append(summary.YTDassigned.ToString());
+            sb.Append('\n');
+            sb.Append("YTD Total Designs Value:");
+            sb.Append("\t\t\t");
+            sb.Append(summary.YTDvalue.ToString("$###,###,###,###"));
+            sb.Append('\n');
+            sb.Append("Total Designs Requested for Reporting Period:");
+            sb.Append("\t");
+            sb.Append(summary.RequestsInPeriod.ToString());
+            sb.Append('\n');
+            sb.Append("Requests Completed in Reporting Period:");
+            sb.Append("\t\t");
+            sb.Append(summary.RequestsCompleted.ToString());
+            sb.Append('\n');
+            sb.Append("Backlog:");
+            sb.Append("\t\t\t\t\t");
+            sb.Append(summary.Backlog.ToString());
+            sb.Append('\n');
+
+            Clipboard.SetData(DataFormats.Text, sb.ToString());
+        }
+
         public static void RollupReport(DateTime startDate, DateTime endDate, List<MSO_Model> msoModels, List<string> regionQuery, 
             bool CustomFormat = false)
         {
@@ -1713,8 +1739,8 @@ namespace DesignDB_Library.Operations
             model.RequestsInPeriod = allRequests.Where(x => x.DateAssigned >= start.Date 
                 && x.DateAssigned <= endDate.Date).ToList().Count;
             List<DesignerLoadModel> load = GlobalConfig.Connection.DoLoadReport();
-            model.Backlog = load.Count;
-            //model.Backlog*/ List<RequestModel> backlog  = allRequests.Where(x => x.DateCompleted.Date == emptyDate.Date && x.AwardStatus == "Pending" /*|| x.AwardStatus == "Won")*/).ToList()/*.Count*/;
+            model.Backlog  = allRequests.Where(x => x.DateCompleted.Date == emptyDate.Date && 
+                x.AwardStatus != "Canceled").ToList().Count;
 
             return model;
         }

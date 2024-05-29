@@ -44,6 +44,7 @@
             this.txtYTDvalue = new System.Windows.Forms.TextBox();
             this.btnCollectInfo = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
+            this.btnClipboard = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // dtpStart
@@ -160,7 +161,7 @@
             // 
             // btnCollectInfo
             // 
-            this.btnCollectInfo.Location = new System.Drawing.Point(421, 233);
+            this.btnCollectInfo.Location = new System.Drawing.Point(304, 233);
             this.btnCollectInfo.Name = "btnCollectInfo";
             this.btnCollectInfo.Size = new System.Drawing.Size(113, 38);
             this.btnCollectInfo.TabIndex = 14;
@@ -170,13 +171,24 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(606, 233);
+            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnClose.Location = new System.Drawing.Point(651, 233);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(113, 38);
             this.btnClose.TabIndex = 15;
             this.btnClose.Text = "Close";
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // btnClipboard
+            // 
+            this.btnClipboard.Location = new System.Drawing.Point(460, 233);
+            this.btnClipboard.Name = "btnClipboard";
+            this.btnClipboard.Size = new System.Drawing.Size(145, 38);
+            this.btnClipboard.TabIndex = 16;
+            this.btnClipboard.Text = "Copy to Clipboard";
+            this.btnClipboard.UseVisualStyleBackColor = true;
+            this.btnClipboard.Click += new System.EventHandler(this.btnClipboard_Click);
             // 
             // frmWeeklySummary
             // 
@@ -185,6 +197,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(1200, 306);
+            this.Controls.Add(this.btnClipboard);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnCollectInfo);
             this.Controls.Add(this.txtYTDvalue);
@@ -202,9 +215,10 @@
             this.Controls.Add(this.dtpEnd);
             this.Controls.Add(this.dtpStart);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmWeeklySummary";
             this.Text = "Weekly Summary";
+            this.Load += new System.EventHandler(this.frmWeeklySummary_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -228,5 +242,6 @@
         private System.Windows.Forms.TextBox txtYTDvalue;
         private System.Windows.Forms.Button btnCollectInfo;
         private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Button btnClipboard;
     }
 }
