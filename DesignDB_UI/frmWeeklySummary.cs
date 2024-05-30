@@ -34,6 +34,8 @@ namespace DesignDB_UI
             txtRequestsForPeriod.Text = summary.RequestsInPeriod.ToString();
             txtYTDtotal.Text = summary.YTDassigned.ToString();
             txtYTDvalue.Text = summary.YTDvalue.ToString("###,###,###,###");
+            btnClipboard.Enabled = true;
+            this.AcceptButton = btnClipboard;
         }
 
         private void frmWeeklySummary_Load(object sender, EventArgs e)
@@ -41,18 +43,17 @@ namespace DesignDB_UI
             FC.SetFormPosition(this);
             DateTime startDate = dtpEnd.Value.AddDays(-7);
             dtpStart.Value = startDate;
+            btnClipboard.Enabled = false;
         }
 
         private void btnClipboard_Click(object sender, EventArgs e)
         {
-            //SummaryModel model = new SummaryModel();
-            //model.YTDassigned = 555;
-            //model.YTDvalue = 100000000;
-            //model.RequestsInPeriod = 45;
-            //model.RequestsCompleted = 30;
-            //model.Backlog = 20;
-
-            ReportOps.CopyWeeklySummaryToClipboard(summary);
+            bool complete = ReportOps.CopyWeeklySummaryToClipboard(summary);
+            if (complete)
+            {
+                MessageBox.Show("Data copied to clipboard.");
+            }
+            this.AcceptButton = btnCollectInfo;
         }
     }
 }

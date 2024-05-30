@@ -29,8 +29,9 @@ namespace DesignDB_Library.Operations
         //create list of salespersons in this report
         static List<SalespersonModel> includedSalesPersons = new List<SalespersonModel>();
 
-        public static void CopyWeeklySummaryToClipboard(SummaryModel summary)
+        public static bool CopyWeeklySummaryToClipboard(SummaryModel summary)
         {
+            bool complete = false;
             StringBuilder sb = new StringBuilder("YTD Total Designs Assigned:");
             sb.Append("\t\t\t");
             sb.Append(summary.YTDassigned.ToString());
@@ -53,6 +54,8 @@ namespace DesignDB_Library.Operations
             sb.Append('\n');
 
             Clipboard.SetData(DataFormats.Text, sb.ToString());
+            complete = true;
+            return complete;
         }
 
         public static void RollupReport(DateTime startDate, DateTime endDate, List<MSO_Model> msoModels, List<string> regionQuery, 
