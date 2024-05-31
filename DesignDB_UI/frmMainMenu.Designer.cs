@@ -75,6 +75,7 @@ namespace DesignDB_UI
             this.ssProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.ssBOMCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.ofdMainMenu = new System.Windows.Forms.OpenFileDialog();
+            this.btnWeeklySummary = new System.Windows.Forms.Button();
             this.tlpMain.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.ssMessage.SuspendLayout();
@@ -194,7 +195,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnUndelete.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnUndelete.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnUndelete.Location = new System.Drawing.Point(315, 360);
+            this.btnUndelete.Location = new System.Drawing.Point(315, 411);
             this.btnUndelete.Name = "btnUndelete";
             this.btnUndelete.Size = new System.Drawing.Size(266, 45);
             this.btnUndelete.TabIndex = 9;
@@ -484,10 +485,11 @@ namespace DesignDB_UI
             this.tlpMain.Controls.Add(this.btnCatMSO, 2, 2);
             this.tlpMain.Controls.Add(this.btnOpenReq, 2, 3);
             this.tlpMain.Controls.Add(this.btnAvgComp, 2, 4);
-            this.tlpMain.Controls.Add(this.btnUndelete, 2, 7);
-            this.tlpMain.Controls.Add(this.btnDeleteRecord, 2, 6);
             this.tlpMain.Controls.Add(this.btnDeletedRecords, 2, 5);
             this.tlpMain.Controls.Add(this.btnBOMShipments, 3, 7);
+            this.tlpMain.Controls.Add(this.btnUndelete, 2, 8);
+            this.tlpMain.Controls.Add(this.btnDeleteRecord, 2, 7);
+            this.tlpMain.Controls.Add(this.btnWeeklySummary, 2, 6);
             this.tlpMain.Location = new System.Drawing.Point(12, 150);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 10;
@@ -670,7 +672,7 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDeleteRecord.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnDeleteRecord.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnDeleteRecord.Location = new System.Drawing.Point(315, 309);
+            this.btnDeleteRecord.Location = new System.Drawing.Point(315, 360);
             this.btnDeleteRecord.Name = "btnDeleteRecord";
             this.btnDeleteRecord.Size = new System.Drawing.Size(266, 45);
             this.btnDeleteRecord.TabIndex = 15;
@@ -789,6 +791,22 @@ namespace DesignDB_UI
             // 
             this.ofdMainMenu.FileName = "openFileDialog1";
             // 
+            // btnWeeklySummary
+            // 
+            this.btnWeeklySummary.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnWeeklySummary.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnWeeklySummary.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnWeeklySummary.Location = new System.Drawing.Point(315, 309);
+            this.btnWeeklySummary.Name = "btnWeeklySummary";
+            this.btnWeeklySummary.Size = new System.Drawing.Size(266, 45);
+            this.btnWeeklySummary.TabIndex = 45;
+            this.btnWeeklySummary.Tag = "3";
+            this.btnWeeklySummary.Text = "Weekly Summary";
+            this.btnWeeklySummary.UseVisualStyleBackColor = false;
+            this.btnWeeklySummary.Click += new System.EventHandler(this.btnWeeklySummary_Click);
+            // 
             // frmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
@@ -867,5 +885,6 @@ namespace DesignDB_UI
         private System.Windows.Forms.OpenFileDialog ofdMainMenu;
         private System.Windows.Forms.ToolStripProgressBar ssProgress;
         private System.Windows.Forms.ToolStripStatusLabel ssBOMCount;
+        private System.Windows.Forms.Button btnWeeklySummary;
     }
 }

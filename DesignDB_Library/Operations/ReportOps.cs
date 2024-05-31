@@ -28,6 +28,36 @@ namespace DesignDB_Library.Operations
 
         //create list of salespersons in this report
         static List<SalespersonModel> includedSalesPersons = new List<SalespersonModel>();
+
+        public static bool CopyWeeklySummaryToClipboard(SummaryModel summary, string endDate)
+        {
+            bool complete = false;
+            StringBuilder sb = new StringBuilder("YTD Total Designs Assigned:");
+            sb.Append("\t\t\t");
+            sb.Append(summary.YTDassigned.ToString());
+            sb.Append('\n');
+            sb.Append("YTD Total Designs Value:");
+            sb.Append("\t\t\t");
+            sb.Append(summary.YTDvalue.ToString("$###,###,###,###"));
+            sb.Append('\n');
+            sb.Append("Total Designs Requested for Reporting Period Ending " + endDate + ":");
+            sb.Append("\t");
+            sb.Append(summary.RequestsInPeriod.ToString());
+            sb.Append('\n');
+            sb.Append("Requests Completed in Reporting Period:");
+            sb.Append("\t\t");
+            sb.Append(summary.RequestsCompleted.ToString());
+            sb.Append('\n');
+            sb.Append("Backlog:");
+            sb.Append("\t\t\t\t\t");
+            sb.Append(summary.Backlog.ToString());
+            sb.Append('\n');
+
+            Clipboard.SetData(DataFormats.Text, sb.ToString());
+            complete = true;
+            return complete;
+        }
+
         public static void RollupReport(DateTime startDate, DateTime endDate, List<MSO_Model> msoModels, List<string> regionQuery, 
             bool CustomFormat = false)
         {
@@ -124,7 +154,7 @@ namespace DesignDB_Library.Operations
                     MessageBox.Show("No MSO selected");
                 }
             }
-        }
+        }        
 
         public static void sendMessage(string msg)
         {
@@ -1693,6 +1723,29 @@ namespace DesignDB_Library.Operations
 
             int[] cols = { 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15 };
             CenterSpecificExcelColumns(wks, cols);
+        }
+
+        public static SummaryModel DoWeeklySummary(DateTime start, DateTime end)
+        {
+            SummaryModel model = new SummaryModel();
+            DateTime emptyDate = new DateTime(1900,1,1);
+            DateTime startDate = start.Date;
+            DateTime endDate = end.Date;
+            int currentYear = DateTime.Now.Year;
+            DateTime newYearsDay = new DateTime(currentYear, 1, 1);
+
+            List<RequestModel> allRequests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(newYearsDay, end);
+            model.YTDassigned = allRequests.Count;
+            model.YTDvalue = allRequests.Sum(x => x.BOM_Value);
+            model.RequestsCompleted = allRequests.Where(x => x.DateCompleted >= start.Date 
+                && x.DateCompleted <= endDate.Date).ToList().Count;  
+            model.RequestsInPeriod = allRequests.Where(x => x.DateAssigned >= start.Date 
+                && x.DateAssigned <= endDate.Date).ToList().Count;
+            List<DesignerLoadModel> load = GlobalConfig.Connection.DoLoadReport();
+            model.Backlog  = allRequests.Where(x => x.DateCompleted.Date == emptyDate.Date && 
+                x.AwardStatus != "Canceled").ToList().Count;
+
+            return model;
         }
     }
 }
