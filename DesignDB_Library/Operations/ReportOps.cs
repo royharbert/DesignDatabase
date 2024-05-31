@@ -29,7 +29,7 @@ namespace DesignDB_Library.Operations
         //create list of salespersons in this report
         static List<SalespersonModel> includedSalesPersons = new List<SalespersonModel>();
 
-        public static bool CopyWeeklySummaryToClipboard(SummaryModel summary)
+        public static bool CopyWeeklySummaryToClipboard(SummaryModel summary, string endDate)
         {
             bool complete = false;
             StringBuilder sb = new StringBuilder("YTD Total Designs Assigned:");
@@ -40,7 +40,7 @@ namespace DesignDB_Library.Operations
             sb.Append("\t\t\t");
             sb.Append(summary.YTDvalue.ToString("$###,###,###,###"));
             sb.Append('\n');
-            sb.Append("Total Designs Requested for Reporting Period:");
+            sb.Append("Total Designs Requested for Reporting Period Ending " + endDate + ":");
             sb.Append("\t");
             sb.Append(summary.RequestsInPeriod.ToString());
             sb.Append('\n');

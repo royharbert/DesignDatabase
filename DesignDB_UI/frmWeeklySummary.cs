@@ -48,7 +48,7 @@ namespace DesignDB_UI
 
         private void btnClipboard_Click(object sender, EventArgs e)
         {
-            bool complete = ReportOps.CopyWeeklySummaryToClipboard(summary);
+            bool complete = ReportOps.CopyWeeklySummaryToClipboard(summary, dtpEnd.Value.ToString());
             if (complete)
             {
                 MessageBox.Show("Data copied to clipboard.");
