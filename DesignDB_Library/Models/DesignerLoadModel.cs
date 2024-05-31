@@ -14,6 +14,8 @@ namespace DesignDB_Library.Models
         [ExcelExportPropertyAttribute]
         public string Pty { get; set; }
         [ExcelExportPropertyAttribute]
+        public DateTime DateAssigned { get; set; }
+        [ExcelExportPropertyAttribute]
         public DateTime DateDue { get; set; }
         [ExcelExportPropertyAttribute]
         public string ProjectID { get; set; }

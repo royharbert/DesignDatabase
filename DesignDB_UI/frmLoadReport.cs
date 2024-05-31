@@ -21,6 +21,7 @@ namespace DesignDB_UI
             load = GlobalConfig.Connection.DoLoadReport();
             InitializeComponent();
             dgvLoad.DataSource = load;
+            txtRecords.Text = load.Count.ToString();    
             ReportOps.FormatDesignerLoadDGV(dgvLoad);
         }
 

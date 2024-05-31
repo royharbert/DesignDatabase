@@ -28,7 +28,7 @@ namespace DesignDB_UI
 
         private void btnCollectInfo_Click(object sender, EventArgs e)
         {
-            summary = ReportOps.DoWeeklySummary(dtpStart.Value, dtpEnd.Value);
+            summary = ReportOps.DoWeeklySummary(dtpStart.Value.Date, dtpEnd.Value.Date);
             txtBacklog.Text = summary.Backlog.ToString();
             txtCompletedForPeriod.Text = summary.RequestsCompleted.ToString();
             txtRequestsForPeriod.Text = summary.RequestsInPeriod.ToString();
@@ -48,12 +48,18 @@ namespace DesignDB_UI
 
         private void btnClipboard_Click(object sender, EventArgs e)
         {
-            bool complete = ReportOps.CopyWeeklySummaryToClipboard(summary, dtpEnd.Value.ToString());
+            bool complete = ReportOps.CopyWeeklySummaryToClipboard(summary, dtpEnd.Value.Date.ToString());
             if (complete)
             {
                 MessageBox.Show("Data copied to clipboard.");
             }
             this.AcceptButton = btnCollectInfo;
+        }
+
+        private void dtpEnd_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime start = dtpEnd.Value.AddDays(-7).Date;
+            dtpStart.Value = start;
         }
     }
 }

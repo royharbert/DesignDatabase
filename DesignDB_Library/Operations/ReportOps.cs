@@ -40,8 +40,10 @@ namespace DesignDB_Library.Operations
             sb.Append("\t\t\t");
             sb.Append(summary.YTDvalue.ToString("$###,###,###,###"));
             sb.Append('\n');
-            sb.Append("Total Designs Requested for Reporting Period Ending " + endDate + ":");
-            sb.Append("\t");
+            sb.Append("Total Designs Requested for Reporting Period");
+            sb.Append("\n\t");
+            sb.Append("Ending " + endDate + ":");
+            sb.Append("\t\t");
             sb.Append(summary.RequestsInPeriod.ToString());
             sb.Append('\n');
             sb.Append("Requests Completed in Reporting Period:");
@@ -1338,7 +1340,7 @@ namespace DesignDB_Library.Operations
 
         public static void FormatDesignerLoadDGV(DataGridView dgv)
         {
-            string[] headers = { "Designer", "Priority", "Date Due", "Project ID", "Award Status" };
+            string[] headers = { "Designer", "Priority", "Date Assigned", "Date Due", "Project ID", "Award Status" };
             setDGV_HeaderText(dgv, headers);        
         }
 
@@ -1735,15 +1737,17 @@ namespace DesignDB_Library.Operations
             DateTime newYearsDay = new DateTime(currentYear, 1, 1);
 
             List<RequestModel> allRequests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(newYearsDay, end);
-            model.YTDassigned = allRequests.Count;
-            model.YTDvalue = allRequests.Sum(x => x.BOM_Value);
+            model.YTDassigned = allRequests.Where(x => x.AwardStatus != "Canceled").ToList().Count;
+            model.YTDvalue = allRequests.Where(x => x.AwardStatus != "Canceled"
+                && x.AwardStatus != "Has Revision").Sum(x => x.BOM_Value);
             model.RequestsCompleted = allRequests.Where(x => x.DateCompleted >= start.Date 
                 && x.DateCompleted <= endDate.Date).ToList().Count;  
             model.RequestsInPeriod = allRequests.Where(x => x.DateAssigned >= start.Date 
-                && x.DateAssigned <= endDate.Date).ToList().Count;
+                && x.DateAssigned <= endDate.Date && x.AwardStatus != "Canceled" && x.AwardStatus != 
+                "Has Revision").ToList().Count;
             List<DesignerLoadModel> load = GlobalConfig.Connection.DoLoadReport();
             model.Backlog  = allRequests.Where(x => x.DateCompleted.Date == emptyDate.Date && 
-                x.AwardStatus != "Canceled").ToList().Count;
+                x.AwardStatus != "Canceled" && x.DateAssigned <= endDate.Date).ToList().Count;
 
             return model;
         }
