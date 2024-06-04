@@ -58,7 +58,7 @@ namespace DesignDB_UI
 
         private void dtpEnd_ValueChanged(object sender, EventArgs e)
         {
-            DateTime start = dtpEnd.Value.AddDays(-7).Date;
+            DateTime start = dtpEnd.Value.AddDays(-6).Date;
             dtpStart.Value = start;
         }
     }
