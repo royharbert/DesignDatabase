@@ -1308,17 +1308,17 @@ namespace DesignDB_Library.Operations
 
         public static void FormatDesignerLoadDGV(DataGridView dgv)
         {
-            string[] headers = { "Designer", "Priority", "Date Due", "Project ID", "Award Status" };
+            string[] headers = { "Designer", "Priority", "Date Assigned", "Date Due", "Proj ID", "Project ID", "Award Status" };
             setDGV_HeaderText(dgv, headers);        
         }
 
         public static void FormatDesignerLoadExport(Excel.Worksheet wks)
         {
-            string[] headers = { "Designer", "Priority", "Date Due", "Project ID", "Award Status" };
+            string[] headers = { "Designer", "Priority", "Date Assigned", "Date Due", "Proj ID", "Project ID", "Award Status" };
             placeHeaderTextInExport(wks, headers);
             formatExcelHeaderRow(wks);            
 
-            int[] widths = { 25, 10, 15, 25,15 };
+            int[] widths = { 25, 10, 15, 15, 25, 25, 15 };
             setExcelExportColumnWidths(wks, widths);
 
             CenterAllExcelColumns(wks, widths);
