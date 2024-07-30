@@ -434,7 +434,8 @@ namespace DesignDB_UI
                     startDate = e.StartDate;
                     endDate = e.EndDate;
                     CustomFormat = e.CustomFormat;
-                    ReportOps.RollupReport(startDate, endDate, e.MSO_s, e.regionQuery, CustomFormat);
+                    //ReportOps.RollupReport(startDate, endDate, e.MSO_s, e.regionQuery, CustomFormat);
+                    ReportOps.DoRollUp(endDate);
                     break;
 
                 case Mode.Report_CatMSO:
@@ -646,7 +647,6 @@ namespace DesignDB_UI
         private void btnPrjBySales_Click(object sender, EventArgs e)
         {
             GV.MODE = Mode.Report_Rollup;
-            //frmDateMSO_Picker.Height = 175;
             frmDateMSO_Picker.Show();
             frmDateMSO_Picker.Text = "Design Rollup";
         }

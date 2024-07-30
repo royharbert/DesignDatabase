@@ -295,6 +295,45 @@ namespace DesignDB_Library.Operations
             return collectionIndividualRequests;
         }
 
+        public static void DoRollUp(DateTime endDate)
+        {
+            List<RequestModel> unFilteredRequests = GetAllRequestsThisYear(endDate);
+        }
+        private static List<RequestModel> GetAllRequestsThisYear(DateTime endDate)
+        {
+            List<RequestModel> allRequests = new List<RequestModel>();
+            string thisYear = DateTime.Now.Year.ToString();
+            string NYD = "Jan 1," + thisYear;
+            DateTime newYearsDay = DateTime.Parse(NYD);
+            allRequests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(newYearsDay, endDate);
+            List<RequestModel> allNonCanceledRequests = allRequests.Where(x => x.AwardStatus != "Canceled").OrderBy(x => x.MSO).ToList();
+            sortRequestsByMonth(allNonCanceledRequests);
+            return allRequests;
+        }
+
+        private static MonthlyRequestSorterModel sortRequestsByMonth(List<RequestModel> allNonCanceledRequests)
+        {
+            MonthlyRequestSorterModel monthlyRequestSorter = new MonthlyRequestSorterModel();
+            int i = 0;
+            string mso = allNonCanceledRequests[0].MSO.ToString();
+            monthlyRequestSorter.MSO = mso;
+            foreach (RequestModel request in allNonCanceledRequests)
+            {
+                if (mso == request.MSO)
+                {
+                    int month = request.DateAssigned.Month;
+                    monthlyRequestSorter.JanCount ++;
+                    if (request.AwardStatus != "Has Revision")
+                    {
+                        monthlyRequestSorter.JanDollars += request.BOM_Value;
+                    }
+                }
+
+            }
+
+            return monthlyRequestSorter;
+        }
+
         private static List<Report_SalesProjectValuesModel> MonthlyMSO_Summary(List<MSO_Model> msoList, List<RollupRequestModel> requestList, DateTime startDate,
             DateTime endDate)
         {
@@ -1735,13 +1774,14 @@ namespace DesignDB_Library.Operations
             DateTime newYearsDay = new DateTime(currentYear, 1, 1);
 
             List<RequestModel> allRequests = GlobalConfig.Connection.DateRangeSearch_Unfiltered(newYearsDay, end);
-            model.YTDassigned = allRequests.Count;
-            model.YTDvalue = allRequests.Sum(x => x.BOM_Value);
+            model.YTDassigned = allRequests.Where(x => x.AwardStatus != "Canceled").Count();
+            model.YTDvalue = allRequests.Where(x => x.AwardStatus != "Canceled" && x.AwardStatus != "Has Revision")
+                .Sum(x => x.BOM_Value);
             model.RequestsCompleted = allRequests.Where(x => x.DateCompleted >= start.Date 
                 && x.DateCompleted <= endDate.Date).ToList().Count;  
             model.RequestsInPeriod = allRequests.Where(x => x.DateAssigned >= start.Date 
                 && x.DateAssigned <= endDate.Date).ToList().Count;
-            List<DesignerLoadModel> load = GlobalConfig.Connection.DoLoadReport();
+            //List<DesignerLoadModel> load = GlobalConfig.Connection.DoLoadReport();
             model.Backlog  = allRequests.Where(x => x.DateCompleted.Date == emptyDate.Date && 
                 x.AwardStatus != "Canceled").ToList().Count;
 

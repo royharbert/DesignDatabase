@@ -64,9 +64,10 @@ namespace DesignDB_UI
             this.btnPrjBySales = new System.Windows.Forms.Button();
             this.btnSalespersonMaint = new System.Windows.Forms.Button();
             this.btnFE_Maintenance = new System.Windows.Forms.Button();
-            this.btnDeleteRecord = new System.Windows.Forms.Button();
             this.btnDeletedRecords = new System.Windows.Forms.Button();
             this.btnBOMShipments = new System.Windows.Forms.Button();
+            this.btnDeleteRecord = new System.Windows.Forms.Button();
+            this.btnWeeklySummary = new System.Windows.Forms.Button();
             this.rdoSandbox = new System.Windows.Forms.RadioButton();
             this.rdoLive = new System.Windows.Forms.RadioButton();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -75,7 +76,6 @@ namespace DesignDB_UI
             this.ssProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.ssBOMCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.ofdMainMenu = new System.Windows.Forms.OpenFileDialog();
-            this.btnWeeklySummary = new System.Windows.Forms.Button();
             this.tlpMain.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.ssMessage.SuspendLayout();
@@ -88,9 +88,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnHoliday.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnHoliday.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnHoliday.Location = new System.Drawing.Point(899, 3);
+            this.btnHoliday.Location = new System.Drawing.Point(650, 3);
             this.btnHoliday.Name = "btnHoliday";
-            this.btnHoliday.Size = new System.Drawing.Size(266, 45);
+            this.btnHoliday.Size = new System.Drawing.Size(183, 38);
             this.btnHoliday.TabIndex = 1;
             this.btnHoliday.Tag = "3";
             this.btnHoliday.Text = "Holiday Maintenance";
@@ -104,9 +104,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblAdministrator.AutoSize = true;
             this.lblAdministrator.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.lblAdministrator.Location = new System.Drawing.Point(896, 0);
+            this.lblAdministrator.Location = new System.Drawing.Point(658, 78);
             this.lblAdministrator.Name = "lblAdministrator";
-            this.lblAdministrator.Size = new System.Drawing.Size(266, 33);
+            this.lblAdministrator.Size = new System.Drawing.Size(173, 24);
             this.lblAdministrator.TabIndex = 2;
             this.lblAdministrator.Text = "Administrator Tasks";
             this.lblAdministrator.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -118,9 +118,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCountryMaint.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnCountryMaint.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnCountryMaint.Location = new System.Drawing.Point(899, 54);
+            this.btnCountryMaint.Location = new System.Drawing.Point(650, 47);
             this.btnCountryMaint.Name = "btnCountryMaint";
-            this.btnCountryMaint.Size = new System.Drawing.Size(266, 45);
+            this.btnCountryMaint.Size = new System.Drawing.Size(183, 38);
             this.btnCountryMaint.TabIndex = 3;
             this.btnCountryMaint.Tag = "3";
             this.btnCountryMaint.Text = "Country Maintenance";
@@ -135,9 +135,9 @@ namespace DesignDB_UI
             this.btnDesignerMaint.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnDesignerMaint.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDesignerMaint.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnDesignerMaint.Location = new System.Drawing.Point(899, 105);
+            this.btnDesignerMaint.Location = new System.Drawing.Point(650, 91);
             this.btnDesignerMaint.Name = "btnDesignerMaint";
-            this.btnDesignerMaint.Size = new System.Drawing.Size(266, 45);
+            this.btnDesignerMaint.Size = new System.Drawing.Size(183, 38);
             this.btnDesignerMaint.TabIndex = 4;
             this.btnDesignerMaint.Tag = "3";
             this.btnDesignerMaint.Text = "Designer Maintenance";
@@ -151,9 +151,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnFind.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnFind.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnFind.Location = new System.Drawing.Point(3, 156);
+            this.btnFind.Location = new System.Drawing.Point(3, 135);
             this.btnFind.Name = "btnFind";
-            this.btnFind.Size = new System.Drawing.Size(266, 45);
+            this.btnFind.Size = new System.Drawing.Size(183, 38);
             this.btnFind.TabIndex = 6;
             this.btnFind.Tag = "1";
             this.btnFind.Text = "Find By PID";
@@ -169,7 +169,7 @@ namespace DesignDB_UI
             this.label2.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(265, 33);
+            this.label2.Size = new System.Drawing.Size(181, 22);
             this.label2.TabIndex = 7;
             this.label2.Text = "Designer Tasks";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -181,9 +181,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblAdministrative.AutoSize = true;
             this.lblAdministrative.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.lblAdministrative.Location = new System.Drawing.Point(314, 0);
+            this.lblAdministrative.Location = new System.Drawing.Point(230, 0);
             this.lblAdministrative.Name = "lblAdministrative";
-            this.lblAdministrative.Size = new System.Drawing.Size(536, 33);
+            this.lblAdministrative.Size = new System.Drawing.Size(369, 22);
             this.lblAdministrative.TabIndex = 10;
             this.lblAdministrative.Text = "Administrative Tasks";
             this.lblAdministrative.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -195,9 +195,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnUndelete.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnUndelete.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnUndelete.Location = new System.Drawing.Point(315, 411);
+            this.btnUndelete.Location = new System.Drawing.Point(232, 355);
             this.btnUndelete.Name = "btnUndelete";
-            this.btnUndelete.Size = new System.Drawing.Size(266, 45);
+            this.btnUndelete.Size = new System.Drawing.Size(183, 38);
             this.btnUndelete.TabIndex = 9;
             this.btnUndelete.Tag = "4";
             this.btnUndelete.Text = "Un-Delete Record";
@@ -213,7 +213,7 @@ namespace DesignDB_UI
             this.btnLogin.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.btnLogin.Location = new System.Drawing.Point(3, 3);
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(266, 45);
+            this.btnLogin.Size = new System.Drawing.Size(183, 38);
             this.btnLogin.TabIndex = 14;
             this.btnLogin.Tag = "1";
             this.btnLogin.Text = "Login";
@@ -227,9 +227,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLogout.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnLogout.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnLogout.Location = new System.Drawing.Point(3, 54);
+            this.btnLogout.Location = new System.Drawing.Point(3, 47);
             this.btnLogout.Name = "btnLogout";
-            this.btnLogout.Size = new System.Drawing.Size(266, 45);
+            this.btnLogout.Size = new System.Drawing.Size(183, 38);
             this.btnLogout.TabIndex = 15;
             this.btnLogout.Tag = "1";
             this.btnLogout.Text = "Logout";
@@ -243,9 +243,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMyUpdates.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnMyUpdates.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnMyUpdates.Location = new System.Drawing.Point(3, 207);
+            this.btnMyUpdates.Location = new System.Drawing.Point(3, 179);
             this.btnMyUpdates.Name = "btnMyUpdates";
-            this.btnMyUpdates.Size = new System.Drawing.Size(266, 45);
+            this.btnMyUpdates.Size = new System.Drawing.Size(183, 38);
             this.btnMyUpdates.TabIndex = 16;
             this.btnMyUpdates.Tag = "1";
             this.btnMyUpdates.Text = "Update My Work";
@@ -259,9 +259,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPassword.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnPassword.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnPassword.Location = new System.Drawing.Point(3, 105);
+            this.btnPassword.Location = new System.Drawing.Point(3, 91);
             this.btnPassword.Name = "btnPassword";
-            this.btnPassword.Size = new System.Drawing.Size(266, 45);
+            this.btnPassword.Size = new System.Drawing.Size(183, 38);
             this.btnPassword.TabIndex = 17;
             this.btnPassword.Tag = "1";
             this.btnPassword.Text = "Change Password";
@@ -275,9 +275,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCatMSO.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnCatMSO.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnCatMSO.Location = new System.Drawing.Point(315, 105);
+            this.btnCatMSO.Location = new System.Drawing.Point(232, 91);
             this.btnCatMSO.Name = "btnCatMSO";
-            this.btnCatMSO.Size = new System.Drawing.Size(266, 45);
+            this.btnCatMSO.Size = new System.Drawing.Size(183, 38);
             this.btnCatMSO.TabIndex = 19;
             this.btnCatMSO.Tag = "2";
             this.btnCatMSO.Text = "Requests by Cat/MSO";
@@ -291,9 +291,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSnapshot.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnSnapshot.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnSnapshot.Location = new System.Drawing.Point(315, 54);
+            this.btnSnapshot.Location = new System.Drawing.Point(232, 47);
             this.btnSnapshot.Name = "btnSnapshot";
-            this.btnSnapshot.Size = new System.Drawing.Size(266, 45);
+            this.btnSnapshot.Size = new System.Drawing.Size(183, 38);
             this.btnSnapshot.TabIndex = 18;
             this.btnSnapshot.Tag = "2";
             this.btnSnapshot.Text = "Snapshot Report";
@@ -307,9 +307,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnReqPriority.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnReqPriority.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnReqPriority.Location = new System.Drawing.Point(587, 3);
+            this.btnReqPriority.Location = new System.Drawing.Point(421, 3);
             this.btnReqPriority.Name = "btnReqPriority";
-            this.btnReqPriority.Size = new System.Drawing.Size(266, 45);
+            this.btnReqPriority.Size = new System.Drawing.Size(183, 38);
             this.btnReqPriority.TabIndex = 23;
             this.btnReqPriority.Tag = "2";
             this.btnReqPriority.Text = "Req. By Priority";
@@ -323,9 +323,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAvgComp.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnAvgComp.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnAvgComp.Location = new System.Drawing.Point(315, 207);
+            this.btnAvgComp.Location = new System.Drawing.Point(232, 179);
             this.btnAvgComp.Name = "btnAvgComp";
-            this.btnAvgComp.Size = new System.Drawing.Size(266, 45);
+            this.btnAvgComp.Size = new System.Drawing.Size(183, 38);
             this.btnAvgComp.TabIndex = 21;
             this.btnAvgComp.Tag = "2";
             this.btnAvgComp.Text = "Avg. Completion Time";
@@ -339,9 +339,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOpenReq.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnOpenReq.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnOpenReq.Location = new System.Drawing.Point(315, 156);
+            this.btnOpenReq.Location = new System.Drawing.Point(232, 135);
             this.btnOpenReq.Name = "btnOpenReq";
-            this.btnOpenReq.Size = new System.Drawing.Size(266, 45);
+            this.btnOpenReq.Size = new System.Drawing.Size(183, 38);
             this.btnOpenReq.TabIndex = 20;
             this.btnOpenReq.Tag = "2";
             this.btnOpenReq.Text = "Open Requests";
@@ -355,9 +355,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOverdue.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnOverdue.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnOverdue.Location = new System.Drawing.Point(587, 105);
+            this.btnOverdue.Location = new System.Drawing.Point(421, 91);
             this.btnOverdue.Name = "btnOverdue";
-            this.btnOverdue.Size = new System.Drawing.Size(266, 45);
+            this.btnOverdue.Size = new System.Drawing.Size(183, 38);
             this.btnOverdue.TabIndex = 26;
             this.btnOverdue.Tag = "2";
             this.btnOverdue.Text = "Overdue Report";
@@ -371,9 +371,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLoadRpt.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnLoadRpt.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnLoadRpt.Location = new System.Drawing.Point(587, 54);
+            this.btnLoadRpt.Location = new System.Drawing.Point(421, 47);
             this.btnLoadRpt.Name = "btnLoadRpt";
-            this.btnLoadRpt.Size = new System.Drawing.Size(266, 45);
+            this.btnLoadRpt.Size = new System.Drawing.Size(183, 38);
             this.btnLoadRpt.TabIndex = 25;
             this.btnLoadRpt.Tag = "2";
             this.btnLoadRpt.Text = "Designer Load Report";
@@ -387,9 +387,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnForecast.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnForecast.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnForecast.Location = new System.Drawing.Point(587, 156);
+            this.btnForecast.Location = new System.Drawing.Point(421, 135);
             this.btnForecast.Name = "btnForecast";
-            this.btnForecast.Size = new System.Drawing.Size(266, 45);
+            this.btnForecast.Size = new System.Drawing.Size(183, 38);
             this.btnForecast.TabIndex = 29;
             this.btnForecast.Tag = "3";
             this.btnForecast.Text = "Forecast";
@@ -403,9 +403,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDateRange.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnDateRange.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnDateRange.Location = new System.Drawing.Point(3, 309);
+            this.btnDateRange.Location = new System.Drawing.Point(3, 267);
             this.btnDateRange.Name = "btnDateRange";
-            this.btnDateRange.Size = new System.Drawing.Size(266, 45);
+            this.btnDateRange.Size = new System.Drawing.Size(183, 38);
             this.btnDateRange.TabIndex = 28;
             this.btnDateRange.Tag = "1";
             this.btnDateRange.Text = "Search Date Range";
@@ -419,9 +419,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSearch.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnSearch.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnSearch.Location = new System.Drawing.Point(3, 258);
+            this.btnSearch.Location = new System.Drawing.Point(3, 223);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(266, 45);
+            this.btnSearch.Size = new System.Drawing.Size(183, 38);
             this.btnSearch.TabIndex = 27;
             this.btnSearch.Tag = "1";
             this.btnSearch.Text = "Search";
@@ -435,9 +435,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExit.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnExit.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnExit.Location = new System.Drawing.Point(899, 462);
+            this.btnExit.Location = new System.Drawing.Point(650, 399);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(266, 51);
+            this.btnExit.Size = new System.Drawing.Size(183, 41);
             this.btnExit.TabIndex = 30;
             this.btnExit.Tag = "1";
             this.btnExit.Text = "Exit App";
@@ -446,8 +446,6 @@ namespace DesignDB_UI
             // 
             // tlpMain
             // 
-            this.tlpMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.tlpMain.ColumnCount = 6;
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
@@ -503,7 +501,7 @@ namespace DesignDB_UI
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tlpMain.Size = new System.Drawing.Size(1168, 516);
+            this.tlpMain.Size = new System.Drawing.Size(836, 443);
             this.tlpMain.TabIndex = 31;
             // 
             // btnNewReq
@@ -513,9 +511,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnNewReq.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnNewReq.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnNewReq.Location = new System.Drawing.Point(315, 3);
+            this.btnNewReq.Location = new System.Drawing.Point(232, 3);
             this.btnNewReq.Name = "btnNewReq";
-            this.btnNewReq.Size = new System.Drawing.Size(266, 45);
+            this.btnNewReq.Size = new System.Drawing.Size(183, 38);
             this.btnNewReq.TabIndex = 14;
             this.btnNewReq.Tag = "2";
             this.btnNewReq.Text = "New Request";
@@ -529,9 +527,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnScreens.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnScreens.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnScreens.Location = new System.Drawing.Point(3, 360);
+            this.btnScreens.Location = new System.Drawing.Point(3, 311);
             this.btnScreens.Name = "btnScreens";
-            this.btnScreens.Size = new System.Drawing.Size(266, 45);
+            this.btnScreens.Size = new System.Drawing.Size(183, 38);
             this.btnScreens.TabIndex = 35;
             this.btnScreens.Tag = "1";
             this.btnScreens.Text = "Configure Screens";
@@ -545,9 +543,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLogSearch.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnLogSearch.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnLogSearch.Location = new System.Drawing.Point(587, 207);
+            this.btnLogSearch.Location = new System.Drawing.Point(421, 179);
             this.btnLogSearch.Name = "btnLogSearch";
-            this.btnLogSearch.Size = new System.Drawing.Size(266, 45);
+            this.btnLogSearch.Size = new System.Drawing.Size(183, 38);
             this.btnLogSearch.TabIndex = 36;
             this.btnLogSearch.Tag = "3";
             this.btnLogSearch.Text = "Log Search";
@@ -557,9 +555,9 @@ namespace DesignDB_UI
             // btnListCollector
             // 
             this.btnListCollector.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btnListCollector.Location = new System.Drawing.Point(587, 258);
+            this.btnListCollector.Location = new System.Drawing.Point(421, 223);
             this.btnListCollector.Name = "btnListCollector";
-            this.btnListCollector.Size = new System.Drawing.Size(266, 45);
+            this.btnListCollector.Size = new System.Drawing.Size(183, 38);
             this.btnListCollector.TabIndex = 37;
             this.btnListCollector.Tag = "3";
             this.btnListCollector.Text = "List Collector";
@@ -570,9 +568,9 @@ namespace DesignDB_UI
             // 
             this.btnMSO.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnMSO.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnMSO.Location = new System.Drawing.Point(899, 207);
+            this.btnMSO.Location = new System.Drawing.Point(650, 179);
             this.btnMSO.Name = "btnMSO";
-            this.btnMSO.Size = new System.Drawing.Size(263, 45);
+            this.btnMSO.Size = new System.Drawing.Size(183, 38);
             this.btnMSO.TabIndex = 38;
             this.btnMSO.Tag = "3";
             this.btnMSO.Text = "MSO Maintenance";
@@ -587,9 +585,9 @@ namespace DesignDB_UI
             this.btnUtility.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnUtility.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnUtility.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnUtility.Location = new System.Drawing.Point(899, 411);
+            this.btnUtility.Location = new System.Drawing.Point(650, 355);
             this.btnUtility.Name = "btnUtility";
-            this.btnUtility.Size = new System.Drawing.Size(266, 45);
+            this.btnUtility.Size = new System.Drawing.Size(183, 38);
             this.btnUtility.TabIndex = 40;
             this.btnUtility.Tag = "3";
             this.btnUtility.Text = "Utility Menu";
@@ -599,9 +597,9 @@ namespace DesignDB_UI
             // 
             this.btnReviewMaint.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnReviewMaint.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReviewMaint.Location = new System.Drawing.Point(899, 156);
+            this.btnReviewMaint.Location = new System.Drawing.Point(650, 135);
             this.btnReviewMaint.Name = "btnReviewMaint";
-            this.btnReviewMaint.Size = new System.Drawing.Size(266, 45);
+            this.btnReviewMaint.Size = new System.Drawing.Size(183, 38);
             this.btnReviewMaint.TabIndex = 41;
             this.btnReviewMaint.Tag = "3";
             this.btnReviewMaint.Text = "Reviewer Maintenance";
@@ -612,9 +610,9 @@ namespace DesignDB_UI
             // 
             this.txtMode.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMode.Location = new System.Drawing.Point(3, 462);
+            this.txtMode.Location = new System.Drawing.Point(3, 399);
             this.txtMode.Name = "txtMode";
-            this.txtMode.Size = new System.Drawing.Size(234, 15);
+            this.txtMode.Size = new System.Drawing.Size(183, 15);
             this.txtMode.TabIndex = 33;
             // 
             // btnPrjBySales
@@ -624,9 +622,9 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPrjBySales.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnPrjBySales.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnPrjBySales.Location = new System.Drawing.Point(587, 309);
+            this.btnPrjBySales.Location = new System.Drawing.Point(421, 267);
             this.btnPrjBySales.Name = "btnPrjBySales";
-            this.btnPrjBySales.Size = new System.Drawing.Size(266, 45);
+            this.btnPrjBySales.Size = new System.Drawing.Size(183, 38);
             this.btnPrjBySales.TabIndex = 42;
             this.btnPrjBySales.Tag = "3";
             this.btnPrjBySales.Text = "Rollup";
@@ -641,9 +639,9 @@ namespace DesignDB_UI
             this.btnSalespersonMaint.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnSalespersonMaint.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSalespersonMaint.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnSalespersonMaint.Location = new System.Drawing.Point(899, 258);
+            this.btnSalespersonMaint.Location = new System.Drawing.Point(650, 223);
             this.btnSalespersonMaint.Name = "btnSalespersonMaint";
-            this.btnSalespersonMaint.Size = new System.Drawing.Size(266, 45);
+            this.btnSalespersonMaint.Size = new System.Drawing.Size(183, 38);
             this.btnSalespersonMaint.TabIndex = 31;
             this.btnSalespersonMaint.Tag = "3";
             this.btnSalespersonMaint.Text = "Salesperson Maintenance";
@@ -654,9 +652,9 @@ namespace DesignDB_UI
             // 
             this.btnFE_Maintenance.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnFE_Maintenance.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnFE_Maintenance.Location = new System.Drawing.Point(899, 309);
+            this.btnFE_Maintenance.Location = new System.Drawing.Point(650, 267);
             this.btnFE_Maintenance.Name = "btnFE_Maintenance";
-            this.btnFE_Maintenance.Size = new System.Drawing.Size(266, 45);
+            this.btnFE_Maintenance.Size = new System.Drawing.Size(183, 38);
             this.btnFE_Maintenance.TabIndex = 39;
             this.btnFE_Maintenance.TabStop = false;
             this.btnFE_Maintenance.Tag = "3";
@@ -665,28 +663,12 @@ namespace DesignDB_UI
             this.btnFE_Maintenance.Visible = false;
             this.btnFE_Maintenance.Click += new System.EventHandler(this.btnFE_Maintenance_Click);
             // 
-            // btnDeleteRecord
-            // 
-            this.btnDeleteRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDeleteRecord.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btnDeleteRecord.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnDeleteRecord.Location = new System.Drawing.Point(315, 360);
-            this.btnDeleteRecord.Name = "btnDeleteRecord";
-            this.btnDeleteRecord.Size = new System.Drawing.Size(266, 45);
-            this.btnDeleteRecord.TabIndex = 15;
-            this.btnDeleteRecord.Tag = "4";
-            this.btnDeleteRecord.Text = "Delete Record";
-            this.btnDeleteRecord.UseVisualStyleBackColor = false;
-            this.btnDeleteRecord.Click += new System.EventHandler(this.btnDeleteRecord_Click);
-            // 
             // btnDeletedRecords
             // 
             this.btnDeletedRecords.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btnDeletedRecords.Location = new System.Drawing.Point(315, 258);
+            this.btnDeletedRecords.Location = new System.Drawing.Point(232, 223);
             this.btnDeletedRecords.Name = "btnDeletedRecords";
-            this.btnDeletedRecords.Size = new System.Drawing.Size(266, 44);
+            this.btnDeletedRecords.Size = new System.Drawing.Size(183, 38);
             this.btnDeletedRecords.TabIndex = 43;
             this.btnDeletedRecords.Tag = "3";
             this.btnDeletedRecords.Text = "Show Deleted Records";
@@ -700,14 +682,46 @@ namespace DesignDB_UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBOMShipments.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnBOMShipments.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnBOMShipments.Location = new System.Drawing.Point(587, 360);
+            this.btnBOMShipments.Location = new System.Drawing.Point(421, 311);
             this.btnBOMShipments.Name = "btnBOMShipments";
-            this.btnBOMShipments.Size = new System.Drawing.Size(266, 45);
+            this.btnBOMShipments.Size = new System.Drawing.Size(183, 38);
             this.btnBOMShipments.TabIndex = 44;
             this.btnBOMShipments.Tag = "3";
             this.btnBOMShipments.Text = "BOM-Shipments";
             this.btnBOMShipments.UseVisualStyleBackColor = false;
             this.btnBOMShipments.Click += new System.EventHandler(this.btnBOMShipments_Click);
+            // 
+            // btnDeleteRecord
+            // 
+            this.btnDeleteRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDeleteRecord.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnDeleteRecord.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnDeleteRecord.Location = new System.Drawing.Point(232, 311);
+            this.btnDeleteRecord.Name = "btnDeleteRecord";
+            this.btnDeleteRecord.Size = new System.Drawing.Size(183, 38);
+            this.btnDeleteRecord.TabIndex = 15;
+            this.btnDeleteRecord.Tag = "4";
+            this.btnDeleteRecord.Text = "Delete Record";
+            this.btnDeleteRecord.UseVisualStyleBackColor = false;
+            this.btnDeleteRecord.Click += new System.EventHandler(this.btnDeleteRecord_Click);
+            // 
+            // btnWeeklySummary
+            // 
+            this.btnWeeklySummary.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnWeeklySummary.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnWeeklySummary.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnWeeklySummary.Location = new System.Drawing.Point(232, 267);
+            this.btnWeeklySummary.Name = "btnWeeklySummary";
+            this.btnWeeklySummary.Size = new System.Drawing.Size(183, 38);
+            this.btnWeeklySummary.TabIndex = 45;
+            this.btnWeeklySummary.Tag = "3";
+            this.btnWeeklySummary.Text = "Weekly Summary";
+            this.btnWeeklySummary.UseVisualStyleBackColor = false;
+            this.btnWeeklySummary.Click += new System.EventHandler(this.btnWeeklySummary_Click);
             // 
             // rdoSandbox
             // 
@@ -748,14 +762,13 @@ namespace DesignDB_UI
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel2.Controls.Add(this.label2, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.lblAdministrator, 4, 0);
             this.tableLayoutPanel2.Controls.Add(this.lblAdministrative, 2, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(12, 91);
+            this.tableLayoutPanel2.Controls.Add(this.label2, 0, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(15, 78);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1165, 33);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(830, 22);
             this.tableLayoutPanel2.TabIndex = 32;
             // 
             // ssMessage
@@ -766,9 +779,9 @@ namespace DesignDB_UI
             this.ssLabel,
             this.ssProgress,
             this.ssBOMCount});
-            this.ssMessage.Location = new System.Drawing.Point(0, 739);
+            this.ssMessage.Location = new System.Drawing.Point(0, 641);
             this.ssMessage.Name = "ssMessage";
-            this.ssMessage.Size = new System.Drawing.Size(1192, 22);
+            this.ssMessage.Size = new System.Drawing.Size(860, 22);
             this.ssMessage.TabIndex = 34;
             // 
             // ssLabel
@@ -791,31 +804,16 @@ namespace DesignDB_UI
             // 
             this.ofdMainMenu.FileName = "openFileDialog1";
             // 
-            // btnWeeklySummary
-            // 
-            this.btnWeeklySummary.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnWeeklySummary.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btnWeeklySummary.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnWeeklySummary.Location = new System.Drawing.Point(315, 309);
-            this.btnWeeklySummary.Name = "btnWeeklySummary";
-            this.btnWeeklySummary.Size = new System.Drawing.Size(266, 45);
-            this.btnWeeklySummary.TabIndex = 45;
-            this.btnWeeklySummary.Tag = "3";
-            this.btnWeeklySummary.Text = "Weekly Summary";
-            this.btnWeeklySummary.UseVisualStyleBackColor = false;
-            this.btnWeeklySummary.Click += new System.EventHandler(this.btnWeeklySummary_Click);
-            // 
             // frmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(1192, 761);
-            this.Controls.Add(this.ssMessage);
+            this.ClientSize = new System.Drawing.Size(860, 663);
+            this.Controls.Add(this.lblAdministrator);
             this.Controls.Add(this.tableLayoutPanel2);
+            this.Controls.Add(this.ssMessage);
             this.Controls.Add(this.tlpMain);
             this.Controls.Add(this.rdoLive);
             this.Controls.Add(this.rdoSandbox);

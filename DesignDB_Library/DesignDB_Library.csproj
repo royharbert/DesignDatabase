@@ -118,6 +118,7 @@
     <Compile Include="Models\BOMLineModel.cs" />
     <Compile Include="Models\BOMSummaryModel.cs" />
     <Compile Include="Models\BookingModel.cs" />
+    <Compile Include="Models\MonthlyRequestSorter.cs" />
     <Compile Include="Models\OpenRequestsBySalesModel.cs" />
     <Compile Include="Models\ReportDesignsInProcessModel.cs" />
     <Compile Include="Models\FE_Model.cs" />
