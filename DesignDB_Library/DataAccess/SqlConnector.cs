@@ -760,7 +760,8 @@ namespace DesignDB_Library.DataAccess
 
                     p.Add("Designer", designer, DbType.String, ParameterDirection.Input);
                     List<DesignerLoadModel> output = connection.
-                        Query<DesignerLoadModel>("spDesigner_LoadReport", p, commandType: CommandType.StoredProcedure).ToList();
+                        Query<DesignerLoadModel>("spDesigner_LoadReport", p, 
+                        commandType: CommandType.StoredProcedure).ToList();
 
                     //add to loadList
                     foreach (DesignerLoadModel project in output)

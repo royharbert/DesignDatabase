@@ -8,7 +8,6 @@ namespace DesignDB_Library.Models
 {
     public class MonthlyRequestSorterModel
     {
-        public string MSO { get; set; }
         public int JanCount { get; set; }
         public decimal JanDollars { get; set; }
         public int FebCount { get; set; }

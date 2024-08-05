@@ -22,6 +22,7 @@ namespace DesignDB_UI
             InitializeComponent();
             dgvLoad.DataSource = load;
             ReportOps.FormatDesignerLoadDGV(dgvLoad);
+            txtRecords.Text =load.Count.ToString();
         }
 
         private void btnClosr_Click(object sender, EventArgs e)
