@@ -434,8 +434,8 @@ namespace DesignDB_UI
                     startDate = e.StartDate;
                     endDate = e.EndDate;
                     CustomFormat = e.CustomFormat;
-                    //ReportOps.RollupReport(startDate, endDate, e.MSO_s, e.regionQuery, CustomFormat);
-                    ReportOps.DoRollUp(endDate);
+                    ReportOps.RollupReport(startDate, endDate, e.MSO_s, e.regionQuery, CustomFormat);
+                    //ReportOps.DoRollUp(endDate);
                     break;
 
                 case Mode.Report_CatMSO:
