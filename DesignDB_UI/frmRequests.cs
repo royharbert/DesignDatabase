@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using GalaSoft.MvvmLight.Messaging;
+using System.Media;
 using System.IO;
 using System.Diagnostics;
 using DesignDB_Library;
@@ -759,7 +759,7 @@ namespace DesignDB_UI
                     saved = GlobalConfig.Connection.RequestInsert(Rm);
                     if (saved > -1)
                     {
-                        Console.Beep(2000, 500);  
+                        SystemSounds.Exclamation.Play();
                         logSuccessfulSave(saved);
                         changeMode(Mode.Edit);
                         MessageBox.Show(Rm.ProjectID + " successfully saved.");
@@ -775,7 +775,7 @@ namespace DesignDB_UI
                     if (updated)
                     {
                         logSuccessfulSave(saved);
-                        Console.Beep(2000, 500);
+                        SystemSounds.Exclamation.Play();
                         MessageBox.Show(Rm.ProjectID + " successfully saved.");
                     }
                     else
