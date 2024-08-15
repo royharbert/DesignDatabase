@@ -101,6 +101,7 @@ namespace DesignDB_UI
                 
                 formLoading = false;
                 formDirty = false;
+                btnDone.BackColor = Color.Green;
                 addHandlers();
             }
         }
@@ -498,6 +499,7 @@ namespace DesignDB_UI
             this.Request = Rm;
             formLoading = false;
             formDirty = false;
+            btnDone.BackColor = Color.Green;
         }
 
 
@@ -506,6 +508,7 @@ namespace DesignDB_UI
         /// </summary>
         public void resetForm()
         {
+            btnDone.BackColor = Color.Red;
             switch (GV.MODE)
             {
                 case Mode.New:
@@ -528,6 +531,7 @@ namespace DesignDB_UI
                     txtPID.Text = Rm.ProjectID;
                     getAttachments(Rm.ProjectID);
                     formDirty = false;
+                    btnDone.BackColor = Color.Green;
                     break;
                 case Mode.Delete:
                     break;
@@ -759,6 +763,7 @@ namespace DesignDB_UI
                     saved = GlobalConfig.Connection.RequestInsert(Rm);
                     if (saved > -1)
                     {
+                        btnDone.BackColor = Color.Green;
                         SystemSounds.Exclamation.Play();
                         logSuccessfulSave(saved);
                         changeMode(Mode.Edit);
@@ -812,6 +817,7 @@ namespace DesignDB_UI
             //}
 
             formDirty = false;
+            btnDone.BackColor = Color.Green;
         }
 
         private void btnClone_Click(object sender, EventArgs e)
@@ -1085,6 +1091,7 @@ namespace DesignDB_UI
             {
                 dtp.Format = DateTimePickerFormat.Short;
                 formDirty = true;
+                btnDone.BackColor = Color.Red;
             }
         }
 
@@ -1096,6 +1103,7 @@ namespace DesignDB_UI
                 txtDateDue.Value = CommonOps.CalculateDateDue(txtDateAssigned.Value, cboPriority.Text);
             }
             formDirty = true;
+            btnDone.BackColor = Color.Red;
         }
 
         private void btnLoadRpt_Click(object sender, EventArgs e)
@@ -1177,6 +1185,7 @@ namespace DesignDB_UI
         protected void OnContentChanged(object sender, EventArgs e)
         {
             formDirty = true;
+            btnDone.BackColor = Color.Red;
 
         }
 
@@ -1234,7 +1243,7 @@ namespace DesignDB_UI
                 GV.MultiResult.dataList = requests;
                 GV.MultiResult.Show();
                 formDirty = false;
-
+                btnDone.BackColor = Color.Green;
                 btnSearchFields.Text = "New Search"; 
             }
             else
@@ -1762,7 +1771,8 @@ namespace DesignDB_UI
             dtpResetForced(txtDateAssigned);
             unlockTLP(true);
             dgvAttachments.DataSource = "";
-            formDirty = false;            
+            formDirty = false;
+            btnDone.BackColor = Color.Green;
         }
 
         public void setDateRangeControls()
@@ -1781,7 +1791,7 @@ namespace DesignDB_UI
 
         private void cboMSO_TextChanged(object sender, EventArgs e)
         {
-            if (!formLoading && GV.MODE != Mode.New &&GV.MODE != Mode.Revision)
+            if (!formLoading && GV.MODE != Mode.New && GV.MODE != Mode.Revision)
             {
                 //GV.MODE = Mode.Edit;
                 if (GV.MODE != Mode.Clone)
@@ -1789,6 +1799,7 @@ namespace DesignDB_UI
                     changeMode(Mode.Edit); 
                 }
                 formDirty = true;
+                btnDone.BackColor = Color.Red;
             }
         }
 
