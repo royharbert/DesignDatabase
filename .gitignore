@@ -24,3 +24,4 @@
 *.nupkg
 /DesignDB_Library/obj/Debug/DesignDB_Library.csproj.AssemblyReference.cache
 /DesignDB_Library/obj/Debug/DesignDB_Library.csproj.AssemblyReference.cache
+/DesignDB_UI
