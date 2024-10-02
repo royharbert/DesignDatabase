@@ -973,6 +973,7 @@ namespace DesignDB_UI
             if (txtPID.Text != "")
             {
                 getAttachments(txtPID.Text);
+                saveChanges();  
             }
 
         }
