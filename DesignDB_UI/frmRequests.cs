@@ -379,8 +379,11 @@ namespace DesignDB_UI
         private void loadModel()
         {
             Rm.ProjectID = txtPID.Text;
-            Rm.msoModel = (MSO_Model)cboMSO.SelectedItem;
+            
+            Rm.msoModel = (MSO_Model)cboMSO.SelectedItem; 
             Rm.MSO = Rm.msoModel.MSO;
+            
+            
             Rm.Cust = txtCust.Text;
             Rm.City = cboCities.Text;
             Rm.ST = cboState.Text;
@@ -697,7 +700,6 @@ namespace DesignDB_UI
             cboRegion.DataSource = regionList;
             cboRegion.DisplayMember = "Region";
             cboRegion.SelectedIndex = -1;
-
         }
 
         private void cboMSO_SelectedIndexChanged(object sender, EventArgs e)
@@ -712,6 +714,11 @@ namespace DesignDB_UI
                     txtPID.Text = PID;
                     unlockTLP(true);
                     addToLogAffectedFields("MSO", cboMSO.Text);
+                    
+                    int id = -1;
+                    id = GlobalConfig.Connection.SaveNew(txtPID.Text, cboMSO.Text);
+                        
+                    
                 }
             }
         }
@@ -749,10 +756,10 @@ namespace DesignDB_UI
         {
             int saved = -1;
             bool updated = false;
-            if (Rm == null)
-            {
-                Rm = new RequestModel();
-            }
+            //if (Rm == null)
+            //{
+            //    Rm = new RequestModel();
+            //}
             loadModel(); 
 
             Rm.DateLastUpdate = DateTime.Today;
@@ -766,7 +773,7 @@ namespace DesignDB_UI
                         btnDone.BackColor = Color.Green;
                         SystemSounds.Exclamation.Play();
                         logSuccessfulSave(saved);
-                        changeMode(Mode.Edit);
+                        //changeMode(Mode.Edit);
                         MessageBox.Show(Rm.ProjectID + " successfully saved.");
                         txtID.Text = saved.ToString();
                     }
@@ -968,15 +975,26 @@ namespace DesignDB_UI
             }
         }
 
-        private void txtPID_TextChanged(object sender, EventArgs e)
+        private int saveNew(string pid)
         {
-            if (txtPID.Text != "")
+            int id = -1;
+            id = GlobalConfig.Connection.SaveNew(txtPID.Text, cboMSO.Text);
+            if (id < 0)
             {
-                getAttachments(txtPID.Text);
-                saveChanges();  
+                MessageBox.Show("Save failed");
             }
 
+            return id;
         }
+
+        //private void txtPID_TextChanged(object sender, EventArgs e)
+        //{
+        //    if(GV.MODE == Mode.New)
+        //    {
+        //        int id = -1;
+        //        id = GlobalConfig.Connection.SaveNew(txtPID.Text);                
+        //    }
+        //}
 
         private void dgvAttachments_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -1185,8 +1203,12 @@ namespace DesignDB_UI
 
         protected void OnContentChanged(object sender, EventArgs e)
         {
-            formDirty = true;
-            btnDone.BackColor = Color.Red;
+            if (GV.MODE != Mode.New)
+            {
+                formDirty = true;
+                btnDone.BackColor = Color.Red;
+            }
+            changeMode(Mode.Edit);
 
         }
 

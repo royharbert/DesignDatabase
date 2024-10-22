@@ -16,6 +16,28 @@ namespace DesignDB_Library.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
+        public int SaveNew(string PID, string MSO)
+        { 
+            object id = null;
+            int dbID = -1;
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@PID", PID, DbType.String);
+                p.Add("@MSO", MSO, DbType.String);
+                try
+                {
+                    id = connection.ExecuteScalar("dbo.spSaveNew", p, commandType: CommandType.StoredProcedure);
+                    dbID = Convert.ToInt32(id);
+                }
+                catch (Exception)
+                {
+                    dbID = -1;
+                }
+
+                return dbID;
+            }
+        }
         public bool FE_Update(FE_Model fe)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.ConnString(db)))

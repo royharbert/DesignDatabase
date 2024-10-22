@@ -11,6 +11,12 @@ namespace DesignDB_Library.DataAccess
 
     public interface IDataConnection
     {
+        /// <summary>
+        /// Saves ProjectID only when new record is created
+        /// </summary>
+        /// <param name="PID"></param>
+        /// <returns></returns>
+        int SaveNew(string PID, string MSO);
         bool FE_Update(FE_Model fe);
         /// <summary>
         /// Returns 2 letter abbreviation for state
