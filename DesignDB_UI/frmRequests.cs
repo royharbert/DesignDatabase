@@ -707,7 +707,7 @@ namespace DesignDB_UI
 
             if (!formLoading)
             {
-                if (cboMSO.SelectedIndex > -1 && GV.MODE == Mode.New)
+                if (cboMSO.SelectedIndex > -1)
                 {
                     MSO_Model mso = (MSO_Model)cboMSO.SelectedItem;
                     string PID = PID_Generator.MakePID(mso);
@@ -1859,6 +1859,14 @@ namespace DesignDB_UI
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "\n" + fileName);
+            }
+        }
+
+        private void txtPID_TextChanged(object sender, EventArgs e)
+        {
+            if (GV.MODE == Mode.Revision)
+            {
+                saveChanges();
             }
         }
     }   
