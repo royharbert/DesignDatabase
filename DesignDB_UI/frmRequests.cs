@@ -1864,9 +1864,22 @@ namespace DesignDB_UI
 
         private void txtPID_TextChanged(object sender, EventArgs e)
         {
+            int saved = -1;
             if (GV.MODE == Mode.Revision)
             {
                 saveChanges();
+            }
+            if (GV.MODE == Mode.Clone)
+            {
+                saved = GlobalConfig.Connection.RequestInsert(Rm);
+                if (saved > -1)
+                {
+                    MessageBox.Show(txtPID.Text+" successfully saved");
+                }
+                else
+                {
+                    MessageBox.Show(txtPID.Text + " save unsuccessful");
+                }
             }
         }
     }   
