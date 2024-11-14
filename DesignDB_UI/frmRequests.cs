@@ -85,20 +85,20 @@ namespace DesignDB_UI
                 Application.DoEvents();
                 Rm = value;
                 prepFormForTask();
-               
+
                 insertData(Rm);
                 if (Rm.ProjectID != null && GV.MODE != Mode.New && GV.MODE != Mode.Delete && GV.MODE != Mode.Restore)
                 {
                     GV.MODE = Mode.Edit;
-                    setButtonDisplay(RequestEditButtons); 
+                    setButtonDisplay(RequestEditButtons);
                 }
-                
+
                 getAttachments(txtPID.Text);
                 if (GV.MODE == Mode.New)
                 {
                     cboCountry.SelectedIndex = 188;
                 }
-                
+
                 formLoading = false;
                 formDirty = false;
                 btnDone.BackColor = Color.Green;
@@ -379,11 +379,11 @@ namespace DesignDB_UI
         private void loadModel()
         {
             Rm.ProjectID = txtPID.Text;
-            
-            Rm.msoModel = (MSO_Model)cboMSO.SelectedItem; 
+
+            Rm.msoModel = (MSO_Model)cboMSO.SelectedItem;
             Rm.MSO = Rm.msoModel.MSO;
-            
-            
+
+
             Rm.Cust = txtCust.Text;
             Rm.City = cboCities.Text;
             Rm.ST = cboState.Text;
@@ -623,13 +623,13 @@ namespace DesignDB_UI
                 cboReviewedBy.DisplayMember = "Designer";
                 cboReviewedBy.SelectedIndex = -1;
 
-                if (formLoading )
+                if (formLoading)
                 {
                     //List<MSO_Model> msoList = GlobalConfig.Connection.GetAllActiveMSO();
                     List<MSO_Model> msoList = GlobalConfig.Connection.GenericGetAll<MSO_Model>("tblMSO", "MSO");
                     cboMSO.DataSource = msoList;
                     cboMSO.DisplayMember = "MSO";
-                    cboMSO.SelectedIndex = -1; 
+                    cboMSO.SelectedIndex = -1;
                 }
 
                 //List<SalespersonModel> salesList = GlobalConfig.Connection.SalesGetActive();
@@ -675,8 +675,8 @@ namespace DesignDB_UI
         private void makeLists()
         {
             MakeActiveDependantLists();
-            
-            
+
+
 
             List<CityModel> cityList = GlobalConfig.Connection.GetAllCities();
             cboCities.DataSource = cityList;
@@ -714,11 +714,11 @@ namespace DesignDB_UI
                     txtPID.Text = PID;
                     unlockTLP(true);
                     addToLogAffectedFields("MSO", cboMSO.Text);
-                    
+
                     int id = -1;
                     id = GlobalConfig.Connection.SaveNew(txtPID.Text, cboMSO.Text);
-                        
-                    
+
+
                 }
             }
         }
@@ -760,7 +760,7 @@ namespace DesignDB_UI
             //{
             //    Rm = new RequestModel();
             //}
-            loadModel(); 
+            loadModel();
 
             Rm.DateLastUpdate = DateTime.Today;
             switch (GV.MODE)
@@ -777,9 +777,9 @@ namespace DesignDB_UI
                         MessageBox.Show(Rm.ProjectID + " successfully saved.");
                         txtID.Text = saved.ToString();
                     }
-                    else 
+                    else
                     {
-                        MessageBox.Show(Rm.ProjectID + " Not saved", "DB Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        //MessageBox.Show(Rm.ProjectID + " Not saved", "DB Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
                     break;
                 case Mode.Edit:
@@ -792,7 +792,7 @@ namespace DesignDB_UI
                     }
                     else
                     {
-                        MessageBox.Show(Rm.ProjectID + " Not saved", "DB Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        //MessageBox.Show(Rm.ProjectID + " Not saved", "DB Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
                     break;
                 case Mode.Clone:
@@ -805,7 +805,7 @@ namespace DesignDB_UI
                     }
                     else
                     {
-                        MessageBox.Show(Rm.ProjectID + " Not saved", "DB Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        //MessageBox.Show(Rm.ProjectID + " Not saved", "DB Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         break;
                     }
                     changeMode(Mode.Edit);
@@ -827,6 +827,15 @@ namespace DesignDB_UI
             btnDone.BackColor = Color.Green;
         }
 
+        private int SaveRetry()
+        {
+            int retry = 0;
+
+            //message box abort/retry
+            //if retry do save procedure based on mode; avoid closing form until successful
+            //if abort, clear and close form
+            return retry;
+        }
         private void btnClone_Click(object sender, EventArgs e)
         {
             saveChanges();
