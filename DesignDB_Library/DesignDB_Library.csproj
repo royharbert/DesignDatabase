@@ -176,6 +176,7 @@
     <Compile Include="Operations\SearchOps.cs" />
     <Compile Include="Operations\Serialization.cs" />
     <Compile Include="Operations\ShipmentOps.cs" />
+    <Compile Include="Operations\VPNCheck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Holiday_Update.cs" />
     <Compile Include="TableOps\TableGenerator.cs" />

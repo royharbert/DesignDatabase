@@ -891,16 +891,22 @@ namespace DesignDB_UI
             {
                 this.Request = RequestOps.CreateRevision(Rm);
             }
-            changeMode(Mode.Revision);
+            //changeMode(Mode.Revision);
             //set combo boxes to ""
             resetCombo(cboReviewedBy);
             resetCombo(cboPriority);
             resetCombo(cboArchType);
             resetCombo(cboCategory);
             resetCombo(cboAssisted);
+            resetCombo(cboDesigner);
+
             dtpResetForced(txtDateDue);
             dtpResetForced(txtDateAllInfo);
             dtpResetForced(txtLastUpdate);
+            txtDateAssigned.Value = DateTime.Now.Date;
+
+            txtBOM_Val.Text = "";
+            txtPctCovered.Text = "";
             loadModel();
             unlockTLP(true);
         }
@@ -1874,16 +1880,17 @@ namespace DesignDB_UI
         private void txtPID_TextChanged(object sender, EventArgs e)
         {
             int saved = -1;
-            if (GV.MODE == Mode.Revision)
-            {
-                saveChanges();
-            }
+            //if (GV.MODE == Mode.Revision)
+            //{
+            //    saveChanges();
+            //}
             if (GV.MODE == Mode.Clone)
             {
                 saved = GlobalConfig.Connection.RequestInsert(Rm);
                 if (saved > -1)
                 {
                     MessageBox.Show(txtPID.Text+" successfully saved");
+                    btnSave.BackColor = Color.Green;
                 }
                 else
                 {

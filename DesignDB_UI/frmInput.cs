@@ -37,6 +37,7 @@ namespace DesignDB_UI
         private void frmInput_Activated(object sender, EventArgs e)
         {
             txtInput.Clear();
+            txtInput.Focus();   
         }
     }
 

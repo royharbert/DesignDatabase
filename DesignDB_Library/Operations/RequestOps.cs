@@ -13,6 +13,12 @@ namespace DesignDB_Library.Operations
 {
     public static class RequestOps
     { 
+        /// <summary>
+        /// Creates new PID, Removes selected data from request model, inserts modified model into DB
+        /// Returns modified model
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public static RequestModel CreateRevision(RequestModel request)
         {
             //save original with has revision status
@@ -59,7 +65,16 @@ namespace DesignDB_Library.Operations
             request.Comments = "";
             //request.Designer = "";
             //Save record
-            //InsertNewRequest(request);
+            int saved = -1;
+            saved = InsertNewRequest(request);
+            if(saved > -1)
+            {
+                System.Windows.Forms.MessageBox.Show(request.ProjectID + " has been saved.");
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("Save was unsuccessful");
+            }
             return request;
         }
 
@@ -256,7 +271,10 @@ namespace DesignDB_Library.Operations
                 {
                     id = -1;
                 }
-                con.Close();
+                finally
+                {
+                    con.Close();
+                }
             }
             return id;
         }
